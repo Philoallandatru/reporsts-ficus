@@ -1,0 +1,305 @@
+--- p5/docs/development/file-expert-store.md
++++ p6/docs/development/file-expert-store.md
+@@ -73,7 +73,9 @@
+ 
+ `llama_perf_context_print` also prints file-session counters and RAM/GPU residency at an explicit checkpoint. The `routed decode experts` label in the experimental log includes all routes seen by the GPU cache lookup, including small-batch prefill; it excludes general-path prompt scans. Its count is cumulative, while GPU residency and shared RAM/GPU role bytes are current snapshots. These diagnostics run outside the probe's per-token decode timer and remain included in request wall time.
+ 
+-The RAM budget includes entry metadata and payload storage. Slot payload capacity is the largest registered expert-role size, or the remaining RAM budget if that is smaller. Entries larger than a slot bypass the cache and stream through staging. Fixed slots can waste capacity for mixed-size experts; allocation and useful payload occupancy are reported separately. If every usable entry is leased, the pipeline waits for a consumer before eviction. Control objects and the two request descriptors are fixed-size and reported separately; normal call stacks, allocator and driver overhead are not a total-process RAM guarantee.
++The expert RAM cache groups registered sources by exact expert-role byte size. Each group has fixed-size slots and its own LRU. At session creation, the allocator repeatedly gives one slot to the affordable group with the lowest cached fraction of its registered units, breaking ties by smaller size. This gives similar coverage across size populations instead of equal byte shares to rare and common sizes. It stops when all units fit or no remaining slot fits. Group descriptors, entry metadata and exact payload storage all share the RAM budget; group discovery uses no temporary heap allocation. Startup logs list each size, population and slot count.
++
++Group allocations remain fixed for the session. A cold group's capacity is not lent to another group, so skewed workloads can still underuse RAM. Zero-budget sessions stream all units; groups without a complete slot also bypass through staging. Partial requests are not admitted, but can hit an already complete resident. If every usable entry in a group is leased, the pipeline waits for a consumer before eviction. Addressing is derived from immutable group ranges, so invalidating a partial entry does not lose its storage location. PLE uses the existing fixed-slot, four-way path and its separate budget. Control objects and the two request descriptors are fixed-size and reported separately; normal call stacks, allocator and driver overhead are not a total-process RAM guarantee.
+ 
+ ## Verification
+ 
+@@ -88,6 +90,8 @@
+ 
+ Row tests cover quantized byte identity, duplicate/local ID remapping, the final table row, invalid IDs, hits without reads, hundreds of small-cache evictions, and cancellation. A prompt-admission test ensures a scan does not evict a decode entry. Model probes compare identical token trajectories at 1/32/33/512-token entries and across EOS/history boundaries.
+ 
++Mixed-size tests use 4 KiB, 64 KiB and 1 MiB units with zero, sub-unit, constrained and all-resident budgets. They verify payload and metadata accounting, useful capacity above 90% in the constrained fixture, oversized bypass without cross-group eviction, resident hits, delayed asynchronous consumption and cancellation followed by retry.
++
+ For MSVC with a localized installation, ensure CMake's `msvc_deps_prefix` matches `/showIncludes` output. Use a consistent console encoding during configure and build, and check `ninja -t deps` after header changes. A mismatched prefix can silently produce stale objects.
+ 
+ ## Measured scope and remaining work
+@@ -100,4 +104,10 @@
+ 
+ The workspace evidence is in the sibling `research/ooc-p5-20261110` directory: protocol, report, per-run commands and counters, complete comparisons, and build/model identity manifest. Large logits and ETW artifacts are stored separately as recorded there.
+ 
+-Expert and PLE mappings remain virtual address metadata, while runtime reads use bounded file sessions. RSS alone does not account for all process commit, pinned memory, or OS mappings/cache. The measured limits do not guarantee total system memory on another workload or machine. P6 remains measurement-driven I/O/cache optimization; multi-GPU, additional model layouts and dense-model streaming remain later work. CPU/GPU fallback equivalence and wider default-path performance coverage need separate validation.
++P6 measured exact-size grouping against the preserved P5 file binary in six alternating pairs per model. With the same 16 GiB expert RAM budget, Q5 median decode throughput rose from 2.242 to 2.449 tokens/s (+9.26%), below the predeclared 10% performance gate. Logical reads after prefill and the first 32 outputs fell from 464.107 to 385.392 MiB per actual decode. End-of-request useful payload/allocation increased from 76.717% to 99.997%; 12875 slots, their entries and three group descriptors used 17178870320 bytes within the 17179869184-byte budget. IQ2 had no RAM evictions in this short trajectory; its +1.07% timing difference has a descriptive paired interval crossing no change.
++
++All 31 P6 comparison/validation runs passed the recorded cache and graph budgets on the same RTX 5080 with actual microbatch 512. Strict float32 bit-pattern checks passed for every paired run, fixed-text PPL, the actual context boundary, zero-RAM and synchronous controls. The 8 GiB RAM long replay completed all 7680 outputs over 130.72 minutes, including 70.18 minutes after the first 4096, and matched 1,907,097,600 native-reference logits bitwise. Sampled peak working set/private commit were 13.46/21.44 GiB. Its retained steady ETW records show ongoing expert reads and no target-process pagefile hard-fault bytes. The 1 GiB circular log retains DiskIO events only from about seconds 108-182 of that capture; zero lost-event counters do not exclude intentional ring overwrite or prove absence of paging in unretained intervals.
++
++Intermittent read-completion waits slowed parts of the long replay and remain in all reported timings. Their root cause is unresolved; there is no fresh paired P5 long-run timing to establish a causal regression or speedup. The full P6 report, individual rounds, diagnostic evidence and identities are in the sibling `research/ooc-p6-20261110` directory. Static group allocation does not lend cold-group capacity, and this stage does not establish benefits for other workloads. The P5 limitations above still apply.
++
++Expert and PLE mappings remain virtual address metadata, while runtime reads use bounded file sessions. RSS alone does not account for all process commit, pinned memory, or OS mappings/cache. The measured limits do not guarantee total system memory on another workload or machine. Further P6 work remains measurement-driven I/O/cache optimization; multi-GPU, additional model layouts and dense-model streaming remain later work. CPU/GPU fallback equivalence and wider default-path performance coverage need separate validation.
+--- p5/src/llama-expert-store.cpp
++++ p6/src/llama-expert-store.cpp
+@@ -208,6 +208,14 @@
+         uint64_t age = 0;
+         unsigned refs = 0;
+         bool valid = false;
++    };
++
++    struct size_group {
++        size_t bytes = 0;
++        size_t units = 0;
++        size_t first = 0;
++        size_t count = 0;
++        size_t offset = 0;
+     };
+ 
+     enum class state { free, reading, ready, uploading };
+@@ -241,6 +249,8 @@
+     std::unique_ptr<uint8_t[]> pageable;
+     std::unique_ptr<uint8_t[]> ram;
+     std::unique_ptr<entry[]> entries;
++    std::unique_ptr<size_group[]> groups;
++    size_t n_groups = 0;
+     size_t n_entries = 0;
+     size_t entry_bytes = 0;
+     size_t capacity = 0;
+@@ -305,19 +315,93 @@
+             }
+ #endif
+         }
+-        if (opts.ram_bytes > sizeof(entry)) {
++        if (!opts.cache_ways) {
++            init_groups();
++        } else if (opts.ram_bytes > sizeof(entry)) {
+             entry_bytes = std::min(store.max_expert_bytes, opts.ram_bytes - sizeof(entry));
+             n_entries = std::min(store.expert_count, opts.ram_bytes/(entry_bytes + sizeof(entry)));
+             entries.reset(new entry[n_entries]);
+             ram.reset(new uint8_t[n_entries*entry_bytes]);
+-        }
+-        st.ram_bytes = n_entries*(entry_bytes + sizeof(entry));
++            st.ram_bytes = n_entries*(entry_bytes + sizeof(entry));
++        }
+         st.ram_slots = n_entries;
+         st.staging_bytes = opts.staging_bytes;
+         st.control_bytes = sizeof(impl) + sizeof(llama_expert_session);
+-        LLAMA_LOG_INFO("llama_%s_session: RAM = %.3f MiB (%zu slots x %zu B), staging = %.3f MiB, depth = %u, control = %zu B\n",
+-                      opts.label, st.ram_bytes/1048576.0, n_entries, entry_bytes, st.staging_bytes/1048576.0, opts.io_depth, st.control_bytes);
++        LLAMA_LOG_INFO("llama_%s_session: RAM = %.3f MiB (%zu slots, %zu size groups, fixed slot = %zu B), staging = %.3f MiB, depth = %u, control = %zu B\n",
++                      opts.label, st.ram_bytes/1048576.0, n_entries, n_groups, entry_bytes, st.staging_bytes/1048576.0, opts.io_depth, st.control_bytes);
+         store.active = true;
++    }
++
++    void init_groups() {
++        // Find distinct sizes without temporary allocations outside the RAM budget.
++        size_t previous = 0;
++        size_t count = 0;
++        for (;;) {
++            size_t next = 0;
++            for (const auto & item : store.sources) {
++                if (item.second.expert_bytes > previous && (!next || item.second.expert_bytes < next)) {
++                    next = item.second.expert_bytes;
++                }
++            }
++            if (!next) {
++                break;
++            }
++            ++count;
++            previous = next;
++        }
++        if (!count || count > opts.ram_bytes/sizeof(size_group)) {
++            return;
++        }
++        groups.reset(new size_group[count]);
++        n_groups = count;
++        size_t remaining = opts.ram_bytes - count*sizeof(size_group);
++        previous = 0;
++        for (size_t i = 0; i < count; ++i) {
++            auto & g = groups[i];
++            g.bytes = std::numeric_limits<size_t>::max();
++            for (const auto & item : store.sources) {
++                if (item.second.expert_bytes > previous) {
++                    g.bytes = std::min(g.bytes, item.second.expert_bytes);
++                }
++            }
++            for (const auto & item : store.sources) {
++                if (item.second.expert_bytes == g.bytes) {
++                    g.units += item.second.bytes/g.bytes;
++                }
++            }
++            previous = g.bytes;
++        }
++        // Equalize the cached fraction of each size population, not its byte budget.
++        for (;;) {
++            size_group * next = nullptr;
++            for (size_t i = 0; i < count; ++i) {
++                auto & g = groups[i];
++                if (g.count < g.units && remaining >= sizeof(entry) && g.bytes <= remaining - sizeof(entry) &&
++                    (!next || (double) g.count/g.units < (double) next->count/next->units)) {
++                    next = &g;
++                }
++            }
++            if (!next) {
++                break;
++            }
++            ++next->count;
++            remaining -= next->bytes + sizeof(entry);
++        }
++        size_t payload = 0;
++        for (size_t i = 0; i < count; ++i) {
++            auto & g = groups[i];
++            g.first = n_entries;
++            g.offset = payload;
++            n_entries += g.count;
++            payload += g.count*g.bytes;
++            LLAMA_LOG_INFO("llama_%s_session: size group = %zu B, units = %zu, slots = %zu, payload = %zu B\n",
++                           opts.label, g.bytes, g.units, g.count, g.count*g.bytes);
++        }
++        if (n_entries) {
++            entries.reset(new entry[n_entries]);
++            ram.reset(new uint8_t[payload]);
++        }
++        st.ram_bytes = opts.ram_bytes - remaining;
+     }
+ 
+     ~impl() {
+@@ -348,7 +432,15 @@
+     }
+ 
+     uint8_t * address(entry * e) {
+-        return ram.get() + (e - entries.get())*entry_bytes;
++        const size_t index = e - entries.get();
++        for (size_t i = 0; i < n_groups; ++i) {
++            const auto & g = groups[i];
++            if (index >= g.first && index - g.first < g.count) {
++                return ram.get() + g.offset + (index - g.first)*g.bytes;
++            }
++        }
++        GGML_ASSERT(opts.cache_ways);
++        return ram.get() + index*entry_bytes;
+     }
+ 
+     void start_read(slot & s, uint64_t pos) {
+@@ -506,7 +598,19 @@
+                      consumer & sink, ggml_abort_callback abort, void * abort_data) {
+         size_t first = 0;
+         size_t last = n_entries;
+-        if (opts.cache_ways && n_entries > opts.cache_ways) {
++        bool fits = src.expert_bytes <= entry_bytes;
++        if (!opts.cache_ways) {
++            last = 0;
++            for (size_t i = 0; i < n_groups; ++i) {
++                const auto & g = groups[i];
++                if (g.bytes == src.expert_bytes) {
++                    first = g.first;
++                    last = first + g.count;
++                    break;
++                }
++            }
++            fits = first != last;
++        } else if (n_entries > opts.cache_ways) {
+             const size_t sets = n_entries/opts.cache_ways;
+             const uint64_t hash = (expert ^ ((uintptr_t) &src >> 4))*UINT64_C(11400714819323198485);
+             first = (hash % sets)*opts.cache_ways;
+@@ -536,14 +640,14 @@
+                     victim = &e;
+                 }
+             }
+-            if (loading || (full && src.expert_bytes <= entry_bytes && n_entries && !victim)) {
++            if (loading || (full && fits && first != last && !victim)) {
+                 ++st.cache_waits;
+                 reap(sink, abort, abort_data);
+                 continue;
+             }
+             ++st.ram_misses;
+             hit = false;
+-            if (!full || src.expert_bytes > entry_bytes || !n_entries) {
++            if (!full || !fits || first == last) {
+                 ++st.bypasses;
+                 return nullptr;
+             }
+--- p5/tests/test-expert-store.cpp
++++ p6/tests/test-expert-store.cpp
+@@ -366,6 +366,80 @@
+     printf("quantized rows, duplicate remapping, hits, 400+ evictions and cancellation PASSED\n");
+ }
+ 
++static void test_size_groups(const std::filesystem::path & path, const std::vector<uint8_t> & reference) {
++    ggml_context_ptr ctx(ggml_init({ggml_tensor_overhead()*8, nullptr, true}));
++    std::array<ggml_tensor *, 3> tensors {
++        ggml_new_tensor_3d(ctx.get(), GGML_TYPE_I8, 4096, 1, 64),
++        ggml_new_tensor_3d(ctx.get(), GGML_TYPE_I8, 65536, 1, 16),
++        ggml_new_tensor_3d(ctx.get(), GGML_TYPE_I8, 1048576, 1, 2),
++    };
++    llama_expert_store index;
++    for (auto * t : tensors) {
++        index.add(t, path.u8string(), 37, reference.size());
++    }
++    for (const size_t budget : {size_t(0), size_t(32), size_t(4096), size_t(300*1024), size_t(2*1024*1024), size_t(8*1024*1024)}) {
++        llama_expert_session session(index, nullptr, {budget, 1024*1024, 2});
++        for (auto * t : tensors) {
++            compare(session, t, 0, ggml_nbytes(t), reference, 37);
++        }
++        const auto filled = session.snapshot();
++        size_t live = 0;
++        std::vector<std::pair<const ggml_tensor *, size_t>> resident;
++        session.visit_resident([&](const ggml_tensor * t, size_t expert, size_t bytes) {
++            require(bytes == t->nb[2] && expert < (size_t) t->ne[2], "invalid grouped resident");
++            live += bytes;
++            resident.emplace_back(t, expert);
++        });
++        require(live == filled.ram_live && resident.size() == filled.ram_slots, "group payload ledger mismatch");
++        for (const auto & item : resident) {
++            compare(session, item.first, item.second*item.first->nb[2], item.first->nb[2], reference, 37);
++        }
++        require(session.snapshot().reads == filled.reads, "group resident hit read the file");
++        if (budget == 300*1024) {
++            require(live > budget*9/10 && filled.ram_slots > 4, "mixed sizes did not improve usable capacity");
++            require(filled.bypasses == 2, "oversized group did not bypass");
++            const auto evictions = session.snapshot().evictions;
++            compare(session, tensors[2], 0, ggml_nbytes(tensors[2]), reference, 37);
++            require(session.snapshot().evictions == evictions, "oversized bypass evicted another group");
++        }
++        size_t ledger = 0;
++        for (const auto & item : session.memory_breakdown()) {
++            ledger += item.second;
++        }
++        require(ledger == filled.ram_bytes + filled.control_bytes + filled.staging_bytes, "group metadata missing from ledger");
++        delayed_consumer sink(reference, 37);
++        size_t request = 0;
++        auto next = [&](llama_expert_session::request & req) {
++            if (request == 256) {
++                return false;
++            }
++            auto * t = tensors[request % tensors.size()];
++            req = {t, nullptr, (request % (size_t) t->ne[2])*t->nb[2], 0, t->nb[2]};
++            ++request;
++            return true;
++        };
++        session.transfer(next, sink);
++        require(sink.correct && sink.pending == 0, "mixed group asynchronous corruption");
++        require_idle(session, budget);
++        if (budget == 2*1024*1024) {
++            unsigned chunks = 0;
++            session.test_observer = [&](llama_expert_session::test_event event, const llama_expert_session::stats &) {
++                if (event == llama_expert_session::test_event::read_submitted && ++chunks == 2) {
++                    throw llama_expert_store_cancelled();
++                }
++            };
++            rejects([&] { compare(session, tensors[2], 0, ggml_nbytes(tensors[2]), reference, 37); });
++            require_idle(session, budget);
++            session.test_observer = {};
++            for (auto * t : tensors) {
++                compare(session, t, 0, ggml_nbytes(t), reference, 37);
++            }
++            require_idle(session, budget);
++        }
++    }
++    printf("mixed size capacity, budgets, bypass, leases, cancellation and retry PASSED\n");
++}
++
+ int main() {
+     ggml_time_init();
+     const llama_expert_session::options sync_opts {0, 1024*1024, 1};
+@@ -453,6 +527,7 @@
+             require(GetProcessHandleCount(GetCurrentProcess(), &after) != 0 && after == before, "session leaked event handles");
+             test_gpu(index, t, reference);
+         }
++        test_size_groups(shard, reference);
+         std::filesystem::resize_file(path, reference.size() - 1);
+         {
+             auto * table = ggml_new_tensor_2d(ctx.get(), GGML_TYPE_Q5_K, 256, 64);

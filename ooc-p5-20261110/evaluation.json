@@ -1,0 +1,18 @@
+{
+  "ctx": 32768,
+  "batch": 512,
+  "ubatch": 512,
+  "gpu_mib": 4096,
+  "requests": [
+    {
+      "name": "science",
+      "prompt": "The following passage explains a topic clearly.\n",
+      "continuation": "Water moves through the environment by evaporation, condensation, and precipitation. Sunlight supplies energy to evaporate liquid water. When moist air rises and cools, droplets form clouds. Rain and snow return water to the surface. Some water flows into rivers, while some infiltrates the soil and replenishes groundwater. The amount stored in each part changes with the season and local climate. Measurements of rainfall and river flow help researchers estimate a regional water balance."
+    },
+    {
+      "name": "software",
+      "prompt": "The following passage explains a topic clearly.\n",
+      "continuation": "A reliable program separates representation from behavior. A parser reads input and creates a structured representation. Validation checks that the input satisfies explicit constraints before later operations use it. Tests should cover boundaries as well as ordinary values. When a failure occurs, a small reproducible example helps isolate its cause. Performance measurements require comparable inputs, repeated runs, and a record of resource use. These practices make changes easier to understand and maintain."
+    }
+  ]
+}

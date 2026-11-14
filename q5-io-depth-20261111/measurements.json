@@ -1,0 +1,899 @@
+{
+  "rows": [
+    {
+      "name": "frozen-d2",
+      "depth": 2,
+      "frozen": true,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.3050554110194024,
+      "ttft_s": 27.331819534301758,
+      "latency_ms_p50_p95_p99": [
+        384.0367794036865,
+        775.7555484771727,
+        1075.04518508911
+      ],
+      "longest_token_s": 1.3159797191619873,
+      "peak_rss_gib": 21.518260955810547,
+      "peak_private_gib": 29.528541564941406,
+      "min_commit_headroom_gib": 8.487674713134766,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 83419,
+        "peak_slots": 2,
+        "read_wait_ms": 34407.152,
+        "upload_wait_ms": 17477.367
+      },
+      "qd_p50_p95": [
+        0.0,
+        1.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.693,
+        1.113,
+        1.358
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 15.854,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.3159797191619873,
+          "expert_disk_busy_s": 1.1215314865112305,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 4.85
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.148233413696289,
+          "expert_disk_busy_s": 1.0103585720062256,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 12.97
+        },
+        {
+          "output_token": 3,
+          "gap_s": 0.8667402267456055,
+          "expert_disk_busy_s": 0.7063193321228027,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 15.854
+        },
+        {
+          "output_token": 7,
+          "gap_s": 0.8029212951660156,
+          "expert_disk_busy_s": 0.5119929313659668,
+          "overlapping_expert_reads": 667,
+          "max_overlapping_expert_disk_read_ms": 2.281
+        },
+        {
+          "output_token": 121,
+          "gap_s": 0.7844541072845459,
+          "expert_disk_busy_s": 0.6147992610931396,
+          "overlapping_expert_reads": 814,
+          "max_overlapping_expert_disk_read_ms": 1.789
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.0380518701092745,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r1-d2",
+      "depth": 2,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.2754046955274867,
+      "ttft_s": 29.292431354522705,
+      "latency_ms_p50_p95_p99": [
+        391.58058166503906,
+        782.4659109115598,
+        1320.4211187362655
+      ],
+      "longest_token_s": 1.4442393779754639,
+      "peak_rss_gib": 21.518001556396484,
+      "peak_private_gib": 29.56856918334961,
+      "min_commit_headroom_gib": 9.795112609863281,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 83419,
+        "peak_slots": 2,
+        "read_wait_ms": 35947.547,
+        "upload_wait_ms": 19850.159
+      },
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.714,
+        1.2300999999999986,
+        1.492
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 2.537,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.4442393779754639,
+          "expert_disk_busy_s": 1.0531539916992188,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 1.625
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.400108814239502,
+          "expert_disk_busy_s": 0.9273209571838379,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 1.791
+        },
+        {
+          "output_token": 3,
+          "gap_s": 1.0936176776885986,
+          "expert_disk_busy_s": 0.6690876483917236,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 2.056
+        },
+        {
+          "output_token": 63,
+          "gap_s": 1.0826454162597656,
+          "expert_disk_busy_s": 0.8963298797607422,
+          "overlapping_expert_reads": 795,
+          "max_overlapping_expert_disk_read_ms": 2.46
+        },
+        {
+          "output_token": 65,
+          "gap_s": 0.8208296298980713,
+          "expert_disk_busy_s": 0.6127960681915283,
+          "overlapping_expert_reads": 544,
+          "max_overlapping_expert_disk_read_ms": 1.814
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.0246990541555576,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r1-d4",
+      "depth": 4,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.4383640287728423,
+      "ttft_s": 23.245779991149902,
+      "latency_ms_p50_p95_p99": [
+        356.53185844421387,
+        786.2482070922852,
+        1128.2977437973004
+      ],
+      "longest_token_s": 1.249225378036499,
+      "peak_rss_gib": 21.518600463867188,
+      "peak_private_gib": 29.568695068359375,
+      "min_commit_headroom_gib": 9.314712524414062,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 108645,
+        "peak_slots": 4,
+        "read_wait_ms": 29776.621,
+        "upload_wait_ms": 17778.36
+      },
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.749,
+        1.289,
+        1.5792200000000012
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 8.544,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.249225378036499,
+          "expert_disk_busy_s": 1.053027629852295,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 1.666
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.225914716720581,
+          "expert_disk_busy_s": 1.0021042823791504,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 1.794
+        },
+        {
+          "output_token": 3,
+          "gap_s": 0.8504648208618164,
+          "expert_disk_busy_s": 0.6899962425231934,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 2.038
+        },
+        {
+          "output_token": 5,
+          "gap_s": 0.8496193885803223,
+          "expert_disk_busy_s": 0.5188658237457275,
+          "overlapping_expert_reads": 695,
+          "max_overlapping_expert_disk_read_ms": 1.676
+        },
+        {
+          "output_token": 17,
+          "gap_s": 0.8268766403198242,
+          "expert_disk_busy_s": 0.7025902271270752,
+          "overlapping_expert_reads": 632,
+          "max_overlapping_expert_disk_read_ms": 2.535
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.0980856807062362,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r1-d1",
+      "depth": 1,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.0119893466623555,
+      "ttft_s": 35.66750621795654,
+      "latency_ms_p50_p95_p99": [
+        421.8564033508301,
+        877.577519416809,
+        2073.950500488277
+      ],
+      "longest_token_s": 2.5827414989471436,
+      "peak_rss_gib": 21.517333984375,
+      "peak_private_gib": 29.56838607788086,
+      "min_commit_headroom_gib": 9.45864486694336,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 0,
+        "peak_slots": 1,
+        "read_wait_ms": 49677.542,
+        "upload_wait_ms": 20402.843
+      },
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.668,
+        1.072,
+        1.288
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 2.697,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 2.5827414989471436,
+          "expert_disk_busy_s": 1.0042500495910645,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 2.173
+        },
+        {
+          "output_token": 4,
+          "gap_s": 2.2885751724243164,
+          "expert_disk_busy_s": 0.9266617298126221,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 1.68
+        },
+        {
+          "output_token": 3,
+          "gap_s": 1.4630956649780273,
+          "expert_disk_busy_s": 0.6373641490936279,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 1.568
+        },
+        {
+          "output_token": 5,
+          "gap_s": 1.3115324974060059,
+          "expert_disk_busy_s": 0.5014078617095947,
+          "overlapping_expert_reads": 695,
+          "max_overlapping_expert_disk_read_ms": 1.58
+        },
+        {
+          "output_token": 13,
+          "gap_s": 0.9237914085388184,
+          "expert_disk_busy_s": 0.57570481300354,
+          "overlapping_expert_reads": 816,
+          "max_overlapping_expert_disk_read_ms": 1.766
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 0.9060733611688501,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r1-d8",
+      "depth": 8,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.511561768249193,
+      "ttft_s": 25.02641224861145,
+      "latency_ms_p50_p95_p99": [
+        338.52672576904297,
+        861.9448900222766,
+        1314.270997047423
+      ],
+      "longest_token_s": 1.4955449104309082,
+      "peak_rss_gib": 21.517642974853516,
+      "peak_private_gib": 29.568439483642578,
+      "min_commit_headroom_gib": 8.775070190429688,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 118120,
+        "peak_slots": 8,
+        "read_wait_ms": 29789.417,
+        "upload_wait_ms": 18399.047
+      },
+      "qd_p50_p95": [
+        0.0,
+        1.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.739,
+        1.281,
+        1.5502200000000013
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 3.771,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.4955449104309082,
+          "expert_disk_busy_s": 1.07393479347229,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 1.731
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.3891606330871582,
+          "expert_disk_busy_s": 0.999798059463501,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 2.026
+        },
+        {
+          "output_token": 3,
+          "gap_s": 1.101123571395874,
+          "expert_disk_busy_s": 0.7013363838195801,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 1.825
+        },
+        {
+          "output_token": 120,
+          "gap_s": 1.0968890190124512,
+          "expert_disk_busy_s": 0.9671204090118408,
+          "overlapping_expert_reads": 859,
+          "max_overlapping_expert_disk_read_ms": 2.384
+        },
+        {
+          "output_token": 121,
+          "gap_s": 1.0646214485168457,
+          "expert_disk_busy_s": 0.9307096004486084,
+          "overlapping_expert_reads": 814,
+          "max_overlapping_expert_disk_read_ms": 2.374
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.1310493352838908,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r2-d8",
+      "depth": 8,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.685917525439572,
+      "ttft_s": 23.387792825698853,
+      "latency_ms_p50_p95_p99": [
+        317.6400661468506,
+        727.3521900176999,
+        1069.7364711761456
+      ],
+      "longest_token_s": 1.2864668369293213,
+      "peak_rss_gib": 21.517566680908203,
+      "peak_private_gib": 29.568553924560547,
+      "min_commit_headroom_gib": 8.858806610107422,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 118120,
+        "peak_slots": 8,
+        "read_wait_ms": 26600.22,
+        "upload_wait_ms": 17370.667
+      },
+      "qd_p50_p95": [
+        0.0,
+        1.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.706,
+        1.131,
+        1.356
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 7.075,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.2864668369293213,
+          "expert_disk_busy_s": 1.049461841583252,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 3.589
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.1653978824615479,
+          "expert_disk_busy_s": 0.9833223819732666,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 1.819
+        },
+        {
+          "output_token": 3,
+          "gap_s": 0.7974693775177002,
+          "expert_disk_busy_s": 0.6487452983856201,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 1.565
+        },
+        {
+          "output_token": 120,
+          "gap_s": 0.7884092330932617,
+          "expert_disk_busy_s": 0.6662461757659912,
+          "overlapping_expert_reads": 859,
+          "max_overlapping_expert_disk_read_ms": 1.877
+        },
+        {
+          "output_token": 121,
+          "gap_s": 0.7695152759552002,
+          "expert_disk_busy_s": 0.6416540145874023,
+          "overlapping_expert_reads": 814,
+          "max_overlapping_expert_disk_read_ms": 1.795
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.2095681938547351,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r2-d4",
+      "depth": 4,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.529324587592301,
+      "ttft_s": 23.780821561813354,
+      "latency_ms_p50_p95_p99": [
+        330.54590225219727,
+        728.0368328094482,
+        1455.290656089781
+      ],
+      "longest_token_s": 1.851471185684204,
+      "peak_rss_gib": 21.517444610595703,
+      "peak_private_gib": 29.568992614746094,
+      "min_commit_headroom_gib": 8.698177337646484,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 108645,
+        "peak_slots": 4,
+        "read_wait_ms": 27222.27,
+        "upload_wait_ms": 18353.519
+      },
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.716,
+        1.158,
+        1.4342200000000012
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 9.999,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.851471185684204,
+          "expert_disk_busy_s": 1.6350739002227783,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 9.999
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.549875259399414,
+          "expert_disk_busy_s": 0.929741382598877,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 1.912
+        },
+        {
+          "output_token": 3,
+          "gap_s": 1.1860883235931396,
+          "expert_disk_busy_s": 0.7974865436553955,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 3.596
+        },
+        {
+          "output_token": 120,
+          "gap_s": 0.7977705001831055,
+          "expert_disk_busy_s": 0.6554796695709229,
+          "overlapping_expert_reads": 859,
+          "max_overlapping_expert_disk_read_ms": 2.4
+        },
+        {
+          "output_token": 121,
+          "gap_s": 0.7839701175689697,
+          "expert_disk_busy_s": 0.6541798114776611,
+          "overlapping_expert_reads": 814,
+          "max_overlapping_expert_disk_read_ms": 1.789
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.1390485910715735,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r2-d2",
+      "depth": 2,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 2.304558599350036,
+      "ttft_s": 29.174774408340454,
+      "latency_ms_p50_p95_p99": [
+        367.4960136413574,
+        825.6389379501342,
+        1259.3482017517078
+      ],
+      "longest_token_s": 1.4513347148895264,
+      "peak_rss_gib": 21.517147064208984,
+      "peak_private_gib": 29.568344116210938,
+      "min_commit_headroom_gib": 10.320693969726562,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 83419,
+        "peak_slots": 2,
+        "read_wait_ms": 36111.907,
+        "upload_wait_ms": 20217.924
+      },
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.707,
+        1.128,
+        1.3472200000000012
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 2.936,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 2,
+          "gap_s": 1.4513347148895264,
+          "expert_disk_busy_s": 1.0439002513885498,
+          "overlapping_expert_reads": 1429,
+          "max_overlapping_expert_disk_read_ms": 1.652
+        },
+        {
+          "output_token": 4,
+          "gap_s": 1.3159892559051514,
+          "expert_disk_busy_s": 0.9440453052520752,
+          "overlapping_expert_reads": 1306,
+          "max_overlapping_expert_disk_read_ms": 1.822
+        },
+        {
+          "output_token": 7,
+          "gap_s": 1.0981390476226807,
+          "expert_disk_busy_s": 0.47854018211364746,
+          "overlapping_expert_reads": 667,
+          "max_overlapping_expert_disk_read_ms": 1.49
+        },
+        {
+          "output_token": 3,
+          "gap_s": 1.0465495586395264,
+          "expert_disk_busy_s": 0.6363260746002197,
+          "overlapping_expert_reads": 899,
+          "max_overlapping_expert_disk_read_ms": 1.569
+        },
+        {
+          "output_token": 5,
+          "gap_s": 1.014500617980957,
+          "expert_disk_busy_s": 0.5011024475097656,
+          "overlapping_expert_reads": 695,
+          "max_overlapping_expert_disk_read_ms": 1.679
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 1.0378281374041896,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    },
+    {
+      "name": "r2-d1-retry",
+      "depth": 1,
+      "frozen": false,
+      "logits_sha256": "e7aa001252b17064b11aceee8b99ecdaa994dd76a04b86e2710eb49774073f98",
+      "decode_tps": 0.666465700563089,
+      "ttft_s": 35.61545205116272,
+      "latency_ms_p50_p95_p99": [
+        516.122579574585,
+        7865.24226665496,
+        11374.490723609913
+      ],
+      "longest_token_s": 13.415159702301025,
+      "peak_rss_gib": 21.517620086669922,
+      "peak_private_gib": 29.569156646728516,
+      "min_commit_headroom_gib": 10.47805404663086,
+      "session": {
+        "reads": 86217,
+        "pending": 86217,
+        "logical_mib": 89736.563,
+        "direct_mib": 90071.672,
+        "uploads": 140412,
+        "overlap": 0,
+        "peak_slots": 1,
+        "read_wait_ms": 164037.458,
+        "upload_wait_ms": 26532.778
+      },
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "size_kib_p50": 1104.0,
+      "io_ms_p50_p95_p99": [
+        0.757,
+        18.64209999999998,
+        27.30722
+      ],
+      "expert_reads_per_step": 362.03937007874015,
+      "expert_disk_read_max_ms": 35.58,
+      "expert_disk_reads_ge_100ms": 0,
+      "slowest_output_steps": [
+        {
+          "output_token": 35,
+          "gap_s": 13.415159702301025,
+          "expert_disk_busy_s": 12.254257917404175,
+          "overlapping_expert_reads": 578,
+          "max_overlapping_expert_disk_read_ms": 34.437
+        },
+        {
+          "output_token": 39,
+          "gap_s": 11.935274600982666,
+          "expert_disk_busy_s": 10.887897968292236,
+          "overlapping_expert_reads": 519,
+          "max_overlapping_expert_disk_read_ms": 33.029
+        },
+        {
+          "output_token": 42,
+          "gap_s": 9.778413534164429,
+          "expert_disk_busy_s": 8.858163833618164,
+          "overlapping_expert_reads": 421,
+          "max_overlapping_expert_disk_read_ms": 33.559
+        },
+        {
+          "output_token": 38,
+          "gap_s": 8.777745485305786,
+          "expert_disk_busy_s": 7.828369379043579,
+          "overlapping_expert_reads": 371,
+          "max_overlapping_expert_disk_read_ms": 35.58
+        },
+        {
+          "output_token": 46,
+          "gap_s": 8.745116233825684,
+          "expert_disk_busy_s": 7.777252674102783,
+          "overlapping_expert_reads": 367,
+          "max_overlapping_expert_disk_read_ms": 34.095
+        }
+      ],
+      "q5_mib_per_step": 461.1451464074803,
+      "q5_gib_s": 0.3001342022087203,
+      "expert_disk_extent_multiset_sha256": "8f1ed2dd8f24b4e8e31564936ec5399fd0345fbbfe6080755701858455b5b277"
+    }
+  ],
+  "incomplete": [],
+  "decisions": {
+    "1": {
+      "decode_tps_median": 1.3392275236127222,
+      "ttft_s_median": 35.64147913455963,
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "io_p95_ms_median": 9.85704999999999,
+      "q5_gib_s_median": 0.6031037816887852,
+      "q5_mib_per_step_median": 461.1451464074803,
+      "paired_decode_ratios": [
+        0.8842336269311135,
+        0.2891945124550337
+      ],
+      "paired_p99_ratios": [
+        1.5706735306333115,
+        9.032045869274604
+      ],
+      "paired_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_logical_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_aligned_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "matched_expert_disk_extents": [
+        true,
+        true
+      ],
+      "gain_over_d2_median_pct": -41.51798006282774,
+      "screen_pass": false
+    },
+    "2": {
+      "decode_tps_median": 2.2899816474387613,
+      "ttft_s_median": 29.23360288143158,
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "io_p95_ms_median": 1.1790499999999993,
+      "q5_gib_s_median": 1.0312635957798735,
+      "q5_mib_per_step_median": 461.1451464074803,
+      "paired_decode_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_p99_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_logical_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_aligned_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "matched_expert_disk_extents": [
+        true,
+        true
+      ],
+      "gain_over_d2_median_pct": 0.0,
+      "screen_pass": false
+    },
+    "4": {
+      "decode_tps_median": 2.4838443081825714,
+      "ttft_s_median": 23.51330077648163,
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "io_p95_ms_median": 1.2235,
+      "q5_gib_s_median": 1.1185671358889049,
+      "q5_mib_per_step_median": 461.1451464074803,
+      "paired_decode_ratios": [
+        1.0716177362056372,
+        1.0975310362277864
+      ],
+      "paired_p99_ratios": [
+        0.8544984079603025,
+        1.1555903713250428
+      ],
+      "paired_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_logical_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_aligned_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "matched_expert_disk_extents": [
+        true,
+        true
+      ],
+      "gain_over_d2_median_pct": 8.465686218954493,
+      "screen_pass": false
+    },
+    "8": {
+      "decode_tps_median": 2.5987396468443826,
+      "ttft_s_median": 24.20710253715515,
+      "qd_p50_p95": [
+        0.0,
+        1.0
+      ],
+      "io_p95_ms_median": 1.206,
+      "q5_gib_s_median": 1.170308764569313,
+      "q5_mib_per_step_median": 461.1451464074803,
+      "paired_decode_ratios": [
+        1.1037868442417713,
+        1.1654802469319254
+      ],
+      "paired_p99_ratios": [
+        0.9953423028444678,
+        0.849436613073478
+      ],
+      "paired_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_logical_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "paired_aligned_read_ratios": [
+        1.0,
+        1.0
+      ],
+      "matched_expert_disk_extents": [
+        true,
+        true
+      ],
+      "gain_over_d2_median_pct": 13.482990125748518,
+      "screen_pass": true
+    }
+  },
+  "retained_timing_only": [
+    {
+      "name": "r2-d1",
+      "depth": 1,
+      "decode_tps": 0.7178021330084099,
+      "latency_ms_p50_p95_p99": [
+        427.95300483703613,
+        1078.0624389648433,
+        26966.6775655746
+      ],
+      "longest_token_s": 31.9237539768219,
+      "trace_cap_mib": 1536,
+      "reason": "sequential ETW file hit cap, STOP 0x1069, missing full ETW and written logits"
+    }
+  ]
+}

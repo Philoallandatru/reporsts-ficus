@@ -1,0 +1,961 @@
+{
+  "rows": [
+    {
+      "name": "r1-native-np",
+      "mode": "native_np",
+      "decode_tps": 1.747032263012456,
+      "decode_s": 72.6947078704834,
+      "ttft_s": 53.620779514312744,
+      "request_s": 126.31548738479614,
+      "peak_rss_gib": 24.000003814697266,
+      "peak_private_gib": 13.323368072509766,
+      "peak_gpu_used_mib": 11984.0,
+      "min_available_gib": 30.978946685791016,
+      "min_commit_headroom_gib": 25.27163314819336,
+      "expert_cache_actual": {
+        "gpu_mib": 4091.94
+      },
+      "q5_mib_per_decode": 117.70792322834646,
+      "expert_mib_per_decode": 117.65028297244095,
+      "physical_q5_gib_s": 0.2008198627852681,
+      "decode_disk_mib_s": 208.7948518723144,
+      "drive_mib_per_decode": 119.51402174581693,
+      "expert_reads_per_decode": 955.8110236220473,
+      "prefill_q5_gib": 24.034423828125,
+      "startup_s_from_first_sample": 4.126829385757446,
+      "token_gap_ms_p50_p95_p99": [
+        480.41558265686035,
+        1173.7731456756592,
+        1712.5118017196648
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.06787109375,
+      "expert_request_kib_mean": 126.0436286947639,
+      "expert_request_kib_p50": 64.0,
+      "expert_io_ms_p50_p95_p99": [
+        0.168,
+        0.39,
+        0.599
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 13,
+          "wall_s": 1.9009432792663574,
+          "bytes": 744579072,
+          "reads": 5302,
+          "max_io_ms": 1.56
+        },
+        {
+          "output_index": 32,
+          "wall_s": 1.74440598487854,
+          "bytes": 650616832,
+          "reads": 5023,
+          "max_io_ms": 1.025
+        },
+        {
+          "output_index": 2,
+          "wall_s": 1.6217360496520996,
+          "bytes": 326975488,
+          "reads": 2328,
+          "max_io_ms": 1.319
+        },
+        {
+          "output_index": 14,
+          "wall_s": 1.5221326351165771,
+          "bytes": 413433856,
+          "reads": 2959,
+          "max_io_ms": 0.962
+        },
+        {
+          "output_index": 42,
+          "wall_s": 1.224104404449463,
+          "bytes": 435843072,
+          "reads": 3564,
+          "max_io_ms": 2.118
+        }
+      ]
+    },
+    {
+      "name": "r1-p6",
+      "mode": "p6",
+      "decode_tps": 2.3195467245547374,
+      "decode_s": 54.752076625823975,
+      "ttft_s": 27.577813386917114,
+      "request_s": 82.32989001274109,
+      "peak_rss_gib": 21.400638580322266,
+      "peak_private_gib": 29.44995880126953,
+      "peak_gpu_used_mib": 12072.0,
+      "min_available_gib": 34.7630615234375,
+      "min_commit_headroom_gib": 8.563972473144531,
+      "expert_cache_actual": {
+        "gpu_mib": 4091.94,
+        "ram_mib": 16383.047
+      },
+      "q5_mib_per_decode": 461.1515132874016,
+      "expert_mib_per_decode": 461.09387303149606,
+      "physical_q5_gib_s": 1.044592267743411,
+      "decode_disk_mib_s": 1070.1441187955486,
+      "drive_mib_per_decode": 461.35915585014766,
+      "expert_reads_per_decode": 362.1417322834646,
+      "prefill_q5_gib": 30.777183532714844,
+      "startup_s_from_first_sample": 2.544121026992798,
+      "token_gap_ms_p50_p95_p99": [
+        377.43353843688965,
+        774.2551326751708,
+        1120.564885139464
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.0703125,
+      "expert_request_kib_mean": 1303.7992694381633,
+      "expert_request_kib_p50": 1104.0,
+      "expert_io_ms_p50_p95_p99": [
+        0.706,
+        1.116,
+        1.330179999999993
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 2,
+          "wall_s": 1.300138235092163,
+          "bytes": 1907146752,
+          "reads": 1429,
+          "max_io_ms": 2.686
+        },
+        {
+          "output_index": 4,
+          "wall_s": 1.1892421245574951,
+          "bytes": 1741164544,
+          "reads": 1306,
+          "max_io_ms": 1.856
+        },
+        {
+          "output_index": 3,
+          "wall_s": 0.9250988960266113,
+          "bytes": 1199067136,
+          "reads": 899,
+          "max_io_ms": 1.805
+        },
+        {
+          "output_index": 120,
+          "wall_s": 0.8226613998413086,
+          "bytes": 1144725504,
+          "reads": 859,
+          "max_io_ms": 1.885
+        },
+        {
+          "output_index": 13,
+          "wall_s": 0.8212776184082031,
+          "bytes": 1087766528,
+          "reads": 816,
+          "max_io_ms": 2.254
+        }
+      ]
+    },
+    {
+      "name": "r1-strata-matched",
+      "mode": "strata",
+      "decode_tps": 2.542848802759699,
+      "decode_s": 49.943984031677246,
+      "ttft_s": 11.26563286781311,
+      "request_s": 61.209616899490356,
+      "peak_rss_gib": 20.80335235595703,
+      "peak_private_gib": 32.80069351196289,
+      "peak_gpu_used_mib": 10650.0,
+      "min_available_gib": 34.7418098449707,
+      "min_commit_headroom_gib": 5.9458160400390625,
+      "expert_cache_actual": {
+        "ram_gib": 16.0,
+        "gpu_slots": 1067,
+        "gpu_gib": 3.97
+      },
+      "q5_mib_per_decode": 577.0202694389764,
+      "expert_mib_per_decode": 576.9504183070866,
+      "physical_q5_gib_s": 1.432886036436504,
+      "decode_disk_mib_s": 1467.4083898657902,
+      "drive_mib_per_decode": 577.0726078063484,
+      "expert_reads_per_decode": 449.8976377952756,
+      "prefill_q5_gib": 23.899036407470703,
+      "startup_s_from_first_sample": 22.316166162490845,
+      "token_gap_ms_p50_p95_p99": [
+        350.59118270874023,
+        802.2333621978753,
+        893.7188482284545
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.059895833333333336,
+      "expert_request_kib_mean": 1313.1814410977124,
+      "expert_request_kib_p50": 1104.0,
+      "expert_io_ms_p50_p95_p99": [
+        3.736,
+        9.740199999999998,
+        12.23864
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        5.0,
+        18.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 21,
+          "wall_s": 0.9108145236968994,
+          "bytes": 1498517504,
+          "reads": 1115,
+          "max_io_ms": 15.946
+        },
+        {
+          "output_index": 25,
+          "wall_s": 0.8971822261810303,
+          "bytes": 1364578304,
+          "reads": 1013,
+          "max_io_ms": 14.768
+        },
+        {
+          "output_index": 7,
+          "wall_s": 0.8838615417480469,
+          "bytes": 1508364288,
+          "reads": 1124,
+          "max_io_ms": 16.267
+        },
+        {
+          "output_index": 5,
+          "wall_s": 0.8560395240783691,
+          "bytes": 1393934336,
+          "reads": 1039,
+          "max_io_ms": 15.106
+        },
+        {
+          "output_index": 20,
+          "wall_s": 0.846705436706543,
+          "bytes": 1410351104,
+          "reads": 1040,
+          "max_io_ms": 16.499
+        }
+      ]
+    },
+    {
+      "name": "r2-native-np",
+      "mode": "native_np",
+      "decode_tps": 1.7191391213705038,
+      "decode_s": 73.87418413162231,
+      "ttft_s": 81.83560061454773,
+      "request_s": 155.70978474617004,
+      "peak_rss_gib": 24.000003814697266,
+      "peak_private_gib": 13.279407501220703,
+      "peak_gpu_used_mib": 11985.0,
+      "min_available_gib": 33.516334533691406,
+      "min_commit_headroom_gib": 25.035675048828125,
+      "expert_cache_actual": {
+        "gpu_mib": 4091.94
+      },
+      "q5_mib_per_decode": 133.45813853346456,
+      "expert_mib_per_decode": 133.40049827755905,
+      "physical_q5_gib_s": 0.22405576857242504,
+      "decode_disk_mib_s": 232.22779867984585,
+      "drive_mib_per_decode": 135.08377291461613,
+      "expert_reads_per_decode": 1077.763779527559,
+      "prefill_q5_gib": 36.10786819458008,
+      "startup_s_from_first_sample": 5.858615159988403,
+      "token_gap_ms_p50_p95_p99": [
+        482.5470447540283,
+        1251.2940645217896,
+        2104.547171592712
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.00146484375,
+      "expert_request_kib_mean": 126.74587217627634,
+      "expert_request_kib_p50": 64.0,
+      "expert_io_ms_p50_p95_p99": [
+        0.168,
+        0.404,
+        0.605
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 32,
+          "wall_s": 2.1369235515594482,
+          "bytes": 681779200,
+          "reads": 4903,
+          "max_io_ms": 1.139
+        },
+        {
+          "output_index": 13,
+          "wall_s": 2.133239507675171,
+          "bytes": 831889408,
+          "reads": 5915,
+          "max_io_ms": 1.146
+        },
+        {
+          "output_index": 2,
+          "wall_s": 2.0228843688964844,
+          "bytes": 426561536,
+          "reads": 3039,
+          "max_io_ms": 0.938
+        },
+        {
+          "output_index": 14,
+          "wall_s": 1.7821407318115234,
+          "bytes": 518705152,
+          "reads": 3673,
+          "max_io_ms": 0.934
+        },
+        {
+          "output_index": 33,
+          "wall_s": 1.3342926502227783,
+          "bytes": 300249088,
+          "reads": 2263,
+          "max_io_ms": 1.605
+        }
+      ]
+    },
+    {
+      "name": "r2-p6",
+      "mode": "p6",
+      "decode_tps": 2.4356937990941656,
+      "decode_s": 52.14120101928711,
+      "ttft_s": 28.96841526031494,
+      "request_s": 81.10961627960205,
+      "peak_rss_gib": 21.39876937866211,
+      "peak_private_gib": 29.44943618774414,
+      "peak_gpu_used_mib": 11896.0,
+      "min_available_gib": 36.25843811035156,
+      "min_commit_headroom_gib": 9.731399536132812,
+      "expert_cache_actual": {
+        "gpu_mib": 4091.94,
+        "ram_mib": 16383.047
+      },
+      "q5_mib_per_decode": 461.1701218011811,
+      "expert_mib_per_decode": 461.1124815452756,
+      "physical_q5_gib_s": 1.096942583983045,
+      "decode_disk_mib_s": 1123.3122269497983,
+      "drive_mib_per_decode": 461.18778451033467,
+      "expert_reads_per_decode": 362.4409448818898,
+      "prefill_q5_gib": 30.778797149658203,
+      "startup_s_from_first_sample": 5.218199729919434,
+      "token_gap_ms_p50_p95_p99": [
+        370.6955909729004,
+        754.4011831283566,
+        1043.4674358367904
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.015787760416666668,
+      "expert_request_kib_mean": 1302.775494242885,
+      "expert_request_kib_p50": 1104.0,
+      "expert_io_ms_p50_p95_p99": [
+        0.697,
+        1.11,
+        1.3307099999999992
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 2,
+          "wall_s": 1.2942888736724854,
+          "bytes": 1907146752,
+          "reads": 1429,
+          "max_io_ms": 1.623
+        },
+        {
+          "output_index": 4,
+          "wall_s": 1.1222388744354248,
+          "bytes": 1741164544,
+          "reads": 1306,
+          "max_io_ms": 1.81
+        },
+        {
+          "output_index": 3,
+          "wall_s": 0.8192718029022217,
+          "bytes": 1199067136,
+          "reads": 899,
+          "max_io_ms": 1.66
+        },
+        {
+          "output_index": 121,
+          "wall_s": 0.8008484840393066,
+          "bytes": 1088270336,
+          "reads": 815,
+          "max_io_ms": 1.655
+        },
+        {
+          "output_index": 120,
+          "wall_s": 0.7909536361694336,
+          "bytes": 1144725504,
+          "reads": 859,
+          "max_io_ms": 1.917
+        }
+      ]
+    },
+    {
+      "name": "r2-strata",
+      "mode": "strata",
+      "decode_tps": 0.7613522958943505,
+      "decode_s": 166.80845475196838,
+      "ttft_s": 11.275290966033936,
+      "request_s": 178.08374571800232,
+      "peak_rss_gib": 20.810195922851562,
+      "peak_private_gib": 32.75532913208008,
+      "peak_gpu_used_mib": 10504.0,
+      "min_available_gib": 35.281951904296875,
+      "min_commit_headroom_gib": 6.336757659912109,
+      "expert_cache_actual": {
+        "ram_gib": 16.0,
+        "gpu_slots": 1067,
+        "gpu_gib": 3.97
+      },
+      "q5_mib_per_decode": 574.3907787893701,
+      "expert_mib_per_decode": 574.2997354822835,
+      "physical_q5_gib_s": 0.4270641974334286,
+      "decode_disk_mib_s": 437.68971616819204,
+      "drive_mib_per_decode": 574.8846079908957,
+      "expert_reads_per_decode": 447.73228346456693,
+      "prefill_q5_gib": 23.876731872558594,
+      "startup_s_from_first_sample": 20.640302419662476,
+      "token_gap_ms_p50_p95_p99": [
+        354.550838470459,
+        7379.134464263915,
+        10670.566921234125
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.03662109375,
+      "expert_request_kib_mean": 1313.4700151243362,
+      "expert_request_kib_p50": 1104.0,
+      "expert_io_ms_p50_p95_p99": [
+        4.4,
+        129.07619999999994,
+        304.80209
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        5.0,
+        18.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 62,
+          "wall_s": 12.838075399398804,
+          "bytes": 786849792,
+          "reads": 579,
+          "max_io_ms": 587.509
+        },
+        {
+          "output_index": 48,
+          "wall_s": 10.907984018325806,
+          "bytes": 663150592,
+          "reads": 495,
+          "max_io_ms": 582.7
+        },
+        {
+          "output_index": 55,
+          "wall_s": 9.99484133720398,
+          "bytes": 587472896,
+          "reads": 439,
+          "max_io_ms": 531.892
+        },
+        {
+          "output_index": 50,
+          "wall_s": 9.62040376663208,
+          "bytes": 582119424,
+          "reads": 426,
+          "max_io_ms": 519.508
+        },
+        {
+          "output_index": 52,
+          "wall_s": 9.594263315200806,
+          "bytes": 583462912,
+          "reads": 438,
+          "max_io_ms": 422.853
+        }
+      ]
+    },
+    {
+      "name": "r3-native-np",
+      "mode": "native_np",
+      "decode_tps": 1.790589728841917,
+      "decode_s": 70.92635345458984,
+      "ttft_s": 76.95940613746643,
+      "request_s": 147.88575959205627,
+      "peak_rss_gib": 24.000003814697266,
+      "peak_private_gib": 13.279315948486328,
+      "peak_gpu_used_mib": 11903.0,
+      "min_available_gib": 34.342376708984375,
+      "min_commit_headroom_gib": 25.680618286132812,
+      "expert_cache_actual": {
+        "gpu_mib": 4091.94
+      },
+      "q5_mib_per_decode": 129.94026820866142,
+      "expert_mib_per_decode": 129.8826279527559,
+      "physical_q5_gib_s": 0.2272165132982354,
+      "decode_disk_mib_s": 233.19216230609956,
+      "drive_mib_per_decode": 130.23204509104332,
+      "expert_reads_per_decode": 985.4645669291339,
+      "prefill_q5_gib": 36.032955169677734,
+      "startup_s_from_first_sample": 6.018020868301392,
+      "token_gap_ms_p50_p95_p99": [
+        447.310209274292,
+        1216.5295839309686,
+        2043.181867599487
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.0027669270833333335,
+      "expert_request_kib_mean": 134.9615353884015,
+      "expert_request_kib_p50": 64.0,
+      "expert_io_ms_p50_p95_p99": [
+        0.174,
+        0.425,
+        0.6594700000000012
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 2,
+          "wall_s": 2.2492871284484863,
+          "bytes": 422821888,
+          "reads": 2893,
+          "max_io_ms": 3.305
+        },
+        {
+          "output_index": 13,
+          "wall_s": 2.0538322925567627,
+          "bytes": 812609536,
+          "reads": 5835,
+          "max_io_ms": 1.144
+        },
+        {
+          "output_index": 32,
+          "wall_s": 2.012869119644165,
+          "bytes": 684937216,
+          "reads": 4836,
+          "max_io_ms": 0.989
+        },
+        {
+          "output_index": 14,
+          "wall_s": 1.5627024173736572,
+          "bytes": 510193664,
+          "reads": 3440,
+          "max_io_ms": 0.965
+        },
+        {
+          "output_index": 33,
+          "wall_s": 1.32415771484375,
+          "bytes": 303960064,
+          "reads": 2201,
+          "max_io_ms": 1.019
+        }
+      ]
+    },
+    {
+      "name": "r3-p6",
+      "mode": "p6",
+      "decode_tps": 2.359491233965607,
+      "decode_s": 53.82516288757324,
+      "ttft_s": 29.370773315429688,
+      "request_s": 83.19593620300293,
+      "peak_rss_gib": 21.39916229248047,
+      "peak_private_gib": 29.450435638427734,
+      "peak_gpu_used_mib": 11846.0,
+      "min_available_gib": 37.92277908325195,
+      "min_commit_headroom_gib": 10.05941390991211,
+      "expert_cache_actual": {
+        "gpu_mib": 4091.94,
+        "ram_mib": 16383.047
+      },
+      "q5_mib_per_decode": 461.1490526574803,
+      "expert_mib_per_decode": 461.0914124015748,
+      "physical_q5_gib_s": 1.0625753391570987,
+      "decode_disk_mib_s": 1088.2970977169398,
+      "drive_mib_per_decode": 461.24227208415357,
+      "expert_reads_per_decode": 362.1023622047244,
+      "prefill_q5_gib": 30.777183532714844,
+      "startup_s_from_first_sample": 2.627078056335449,
+      "token_gap_ms_p50_p95_p99": [
+        363.12270164489746,
+        785.3088378906245,
+        1290.0439023971542
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.02880859375,
+      "expert_request_kib_mean": 1303.9340683236567,
+      "expert_request_kib_p50": 1104.0,
+      "expert_io_ms_p50_p95_p99": [
+        0.697,
+        1.109,
+        1.33
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 2,
+          "wall_s": 1.4578523635864258,
+          "bytes": 1907146752,
+          "reads": 1429,
+          "max_io_ms": 1.679
+        },
+        {
+          "output_index": 4,
+          "wall_s": 1.3702447414398193,
+          "bytes": 1741164544,
+          "reads": 1306,
+          "max_io_ms": 1.802
+        },
+        {
+          "output_index": 3,
+          "wall_s": 1.0617799758911133,
+          "bytes": 1199067136,
+          "reads": 899,
+          "max_io_ms": 1.619
+        },
+        {
+          "output_index": 5,
+          "wall_s": 1.0217292308807373,
+          "bytes": 926666752,
+          "reads": 695,
+          "max_io_ms": 1.522
+        },
+        {
+          "output_index": 120,
+          "wall_s": 0.8379459381103516,
+          "bytes": 1144725504,
+          "reads": 859,
+          "max_io_ms": 2.11
+        }
+      ]
+    },
+    {
+      "name": "r3-strata",
+      "mode": "strata",
+      "decode_tps": 2.2071940581367544,
+      "decode_s": 57.53911828994751,
+      "ttft_s": 11.872073411941528,
+      "request_s": 69.41119170188904,
+      "peak_rss_gib": 20.805843353271484,
+      "peak_private_gib": 32.75389099121094,
+      "peak_gpu_used_mib": 10602.0,
+      "min_available_gib": 36.747989654541016,
+      "min_commit_headroom_gib": 6.060832977294922,
+      "expert_cache_actual": {
+        "ram_gib": 16.0,
+        "gpu_slots": 1067,
+        "gpu_gib": 3.97
+      },
+      "q5_mib_per_decode": 572.7465551181102,
+      "expert_mib_per_decode": 572.6745509350394,
+      "physical_q5_gib_s": 1.2345339778076057,
+      "decode_disk_mib_s": 1265.839336116484,
+      "drive_mib_per_decode": 573.5061361958661,
+      "expert_reads_per_decode": 446.23622047244095,
+      "prefill_q5_gib": 23.891590118408203,
+      "startup_s_from_first_sample": 25.883829593658447,
+      "token_gap_ms_p50_p95_p99": [
+        409.818172454834,
+        822.7246522903442,
+        1006.4305496215818
+      ],
+      "unattributed_q5_mib": 0.0,
+      "target_unknown_path_mib": 0.0,
+      "idle_mib_per_s": 0.72412109375,
+      "expert_request_kib_mean": 1314.1441981931112,
+      "expert_request_kib_p50": 1104.0,
+      "expert_io_ms_p50_p95_p99": [
+        3.813,
+        9.962,
+        12.461580000000001
+      ],
+      "drive_outstanding_at_start_p50_p95": [
+        5.0,
+        18.0
+      ],
+      "slow_token_gaps": [
+        {
+          "output_index": 7,
+          "wall_s": 1.0214240550994873,
+          "bytes": 1496780800,
+          "reads": 1115,
+          "max_io_ms": 16.095
+        },
+        {
+          "output_index": 5,
+          "wall_s": 1.0185978412628174,
+          "bytes": 1393934336,
+          "reads": 1039,
+          "max_io_ms": 17.514
+        },
+        {
+          "output_index": 21,
+          "wall_s": 0.9718005657196045,
+          "bytes": 1478488064,
+          "reads": 1099,
+          "max_io_ms": 15.659
+        },
+        {
+          "output_index": 4,
+          "wall_s": 0.959343433380127,
+          "bytes": 1396187136,
+          "reads": 1039,
+          "max_io_ms": 15.73
+        },
+        {
+          "output_index": 25,
+          "wall_s": 0.9339447021484375,
+          "bytes": 1344548864,
+          "reads": 998,
+          "max_io_ms": 15.524
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "name": "r1-native",
+      "mode": "native",
+      "error": "RuntimeError(\"['runtime resource reserve breached']\")",
+      "monitor_errors": [
+        "runtime resource reserve breached"
+      ],
+      "peak_rss_gib": 0.3809623718261719,
+      "peak_private_gib": 0.869140625,
+      "min_commit_headroom_gib": 3.2929229736328125
+    },
+    {
+      "name": "r1-strata",
+      "mode": "strata",
+      "error": "AssertionError({'ram_gib': 16.0, 'gpu_slots': 1185, 'gpu_gib': 4.41})",
+      "monitor_errors": [],
+      "peak_rss_gib": 20.807498931884766,
+      "peak_private_gib": 33.17952346801758,
+      "min_commit_headroom_gib": 6.436798095703125
+    }
+  ],
+  "summary": {
+    "native_np": {
+      "n": 3,
+      "decode_tps": {
+        "median": 1.747032263012456,
+        "min": 1.7191391213705038,
+        "max": 1.790589728841917
+      },
+      "ttft_s": {
+        "median": 76.95940613746643,
+        "min": 53.620779514312744,
+        "max": 81.83560061454773
+      },
+      "request_s": {
+        "median": 147.88575959205627,
+        "min": 126.31548738479614,
+        "max": 155.70978474617004
+      },
+      "peak_rss_gib": {
+        "median": 24.000003814697266,
+        "min": 24.000003814697266,
+        "max": 24.000003814697266
+      },
+      "peak_private_gib": {
+        "median": 13.279407501220703,
+        "min": 13.279315948486328,
+        "max": 13.323368072509766
+      },
+      "peak_gpu_used_mib": {
+        "median": 11984.0,
+        "min": 11903.0,
+        "max": 11985.0
+      },
+      "q5_mib_per_decode": {
+        "median": 129.94026820866142,
+        "min": 117.70792322834646,
+        "max": 133.45813853346456
+      },
+      "expert_mib_per_decode": {
+        "median": 129.8826279527559,
+        "min": 117.65028297244095,
+        "max": 133.40049827755905
+      },
+      "physical_q5_gib_s": {
+        "median": 0.22405576857242504,
+        "min": 0.2008198627852681,
+        "max": 0.2272165132982354
+      },
+      "expert_reads_per_decode": {
+        "median": 985.4645669291339,
+        "min": 955.8110236220473,
+        "max": 1077.763779527559
+      },
+      "prefill_q5_gib": {
+        "median": 36.032955169677734,
+        "min": 24.034423828125,
+        "max": 36.10786819458008
+      },
+      "startup_s_from_first_sample": {
+        "median": 5.858615159988403,
+        "min": 4.126829385757446,
+        "max": 6.018020868301392
+      },
+      "expert_request_kib_p50": {
+        "median": 64.0,
+        "min": 64.0,
+        "max": 64.0
+      }
+    },
+    "p6": {
+      "n": 3,
+      "decode_tps": {
+        "median": 2.359491233965607,
+        "min": 2.3195467245547374,
+        "max": 2.4356937990941656
+      },
+      "ttft_s": {
+        "median": 28.96841526031494,
+        "min": 27.577813386917114,
+        "max": 29.370773315429688
+      },
+      "request_s": {
+        "median": 82.32989001274109,
+        "min": 81.10961627960205,
+        "max": 83.19593620300293
+      },
+      "peak_rss_gib": {
+        "median": 21.39916229248047,
+        "min": 21.39876937866211,
+        "max": 21.400638580322266
+      },
+      "peak_private_gib": {
+        "median": 29.44995880126953,
+        "min": 29.44943618774414,
+        "max": 29.450435638427734
+      },
+      "peak_gpu_used_mib": {
+        "median": 11896.0,
+        "min": 11846.0,
+        "max": 12072.0
+      },
+      "q5_mib_per_decode": {
+        "median": 461.1515132874016,
+        "min": 461.1490526574803,
+        "max": 461.1701218011811
+      },
+      "expert_mib_per_decode": {
+        "median": 461.09387303149606,
+        "min": 461.0914124015748,
+        "max": 461.1124815452756
+      },
+      "physical_q5_gib_s": {
+        "median": 1.0625753391570987,
+        "min": 1.044592267743411,
+        "max": 1.096942583983045
+      },
+      "expert_reads_per_decode": {
+        "median": 362.1417322834646,
+        "min": 362.1023622047244,
+        "max": 362.4409448818898
+      },
+      "prefill_q5_gib": {
+        "median": 30.777183532714844,
+        "min": 30.777183532714844,
+        "max": 30.778797149658203
+      },
+      "startup_s_from_first_sample": {
+        "median": 2.627078056335449,
+        "min": 2.544121026992798,
+        "max": 5.218199729919434
+      },
+      "expert_request_kib_p50": {
+        "median": 1104.0,
+        "min": 1104.0,
+        "max": 1104.0
+      }
+    },
+    "strata": {
+      "n": 3,
+      "decode_tps": {
+        "median": 2.2071940581367544,
+        "min": 0.7613522958943505,
+        "max": 2.542848802759699
+      },
+      "ttft_s": {
+        "median": 11.275290966033936,
+        "min": 11.26563286781311,
+        "max": 11.872073411941528
+      },
+      "request_s": {
+        "median": 69.41119170188904,
+        "min": 61.209616899490356,
+        "max": 178.08374571800232
+      },
+      "peak_rss_gib": {
+        "median": 20.805843353271484,
+        "min": 20.80335235595703,
+        "max": 20.810195922851562
+      },
+      "peak_private_gib": {
+        "median": 32.75532913208008,
+        "min": 32.75389099121094,
+        "max": 32.80069351196289
+      },
+      "peak_gpu_used_mib": {
+        "median": 10602.0,
+        "min": 10504.0,
+        "max": 10650.0
+      },
+      "q5_mib_per_decode": {
+        "median": 574.3907787893701,
+        "min": 572.7465551181102,
+        "max": 577.0202694389764
+      },
+      "expert_mib_per_decode": {
+        "median": 574.2997354822835,
+        "min": 572.6745509350394,
+        "max": 576.9504183070866
+      },
+      "physical_q5_gib_s": {
+        "median": 1.2345339778076057,
+        "min": 0.4270641974334286,
+        "max": 1.432886036436504
+      },
+      "expert_reads_per_decode": {
+        "median": 447.73228346456693,
+        "min": 446.23622047244095,
+        "max": 449.8976377952756
+      },
+      "prefill_q5_gib": {
+        "median": 23.891590118408203,
+        "min": 23.876731872558594,
+        "max": 23.899036407470703
+      },
+      "startup_s_from_first_sample": {
+        "median": 22.316166162490845,
+        "min": 20.640302419662476,
+        "max": 25.883829593658447
+      },
+      "expert_request_kib_p50": {
+        "median": 1104.0,
+        "min": 1104.0,
+        "max": 1104.0
+      }
+    }
+  }
+}

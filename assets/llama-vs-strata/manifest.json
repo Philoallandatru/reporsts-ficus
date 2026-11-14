@@ -1,0 +1,647 @@
+{
+  "date": "2026-11-14",
+  "figure_count": 42,
+  "exported_document_figures": [
+    {
+      "id": "visual-guide-01",
+      "title": "四层对照，P 接入专家供给",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-01.png",
+      "png_sha256": "3a67227ac6222df288f0e564e43612c29d44c8400d04e1fb19ace70ddfefbf9e",
+      "png_dimensions": [
+        1208,
+        1105
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-01.svg",
+      "svg_sha256": "74ec0c8f699d6d788347ed875a56500f6860997bf741efe7fc3114d4d2b84db0"
+    },
+    {
+      "id": "visual-guide-02",
+      "title": "预填充后进入解码",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-02.png",
+      "png_sha256": "9c07fc106a7bab868c22438a26aafea434220a60cf18e993f25fbe9fab7500ce",
+      "png_dimensions": [
+        1872,
+        159
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-02.svg",
+      "svg_sha256": "82335cf1c5662889457eb0ecb53b230932c230f26d26c6d45a49d3c2202b6275"
+    },
+    {
+      "id": "visual-guide-03",
+      "title": "请求时间轴",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/visual-guide/figure-03.png",
+      "png_sha256": "8751dcb4c53b3a7ba582248276e16ead8be90d5fbea6b48882e13642c3506156",
+      "png_dimensions": [
+        692,
+        347
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-03.svg",
+      "svg_sha256": "a7407962aa9ebe626715406f4d0e1464a2ca995a7835636fe20ef249b8c2b075"
+    },
+    {
+      "id": "visual-guide-04",
+      "title": "保留注意力状态",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-04.png",
+      "png_sha256": "3c6ad5c276b9e7757d2ea05c5c7bddbc920bbdeb447a100f7df406aef1782910",
+      "png_dimensions": [
+        1488,
+        293
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-04.svg",
+      "svg_sha256": "f880af314a9529b3e85173b83db80e7f2a742d056cd518db0eeab59afcad2ccd"
+    },
+    {
+      "id": "visual-guide-05",
+      "title": "实测规模与存储阶梯",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/visual-guide/figure-05.png",
+      "png_sha256": "eccd63728411fcd5ae7eaa44bca8db34d4d7a51739fb71e148ee419559658748",
+      "png_dimensions": [
+        692,
+        597
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-05.svg",
+      "svg_sha256": "4822c092b29f6de30220d791171fe6db59bab6341e83ae5a60715ceaf6369cd0"
+    },
+    {
+      "id": "visual-guide-06",
+      "title": "路由选专家并合并",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-06.png",
+      "png_sha256": "41eb24f4b71001e6fc515a3de0bf4d25eff33a84de5cf9103285a5aba3b96de7",
+      "png_dimensions": [
+        1644,
+        293
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-06.svg",
+      "svg_sha256": "9965584c82bc7cc3eb5a888679eab3d267c5996487c867249cc8af08ac28c725"
+    },
+    {
+      "id": "visual-guide-07",
+      "title": "底层复制与引擎分支",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-07.png",
+      "png_sha256": "a45d9753d66a8a901f54a78effde6b817b40d3e46fed8c715ff6b7b2a7f4f9e4",
+      "png_dimensions": [
+        722,
+        835
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-07.svg",
+      "svg_sha256": "68a3abc4dcf251538630156b4675166cbcbe227c1d839245ed9bb9f9eb7eb6cf"
+    },
+    {
+      "id": "visual-guide-08",
+      "title": "菜谱式计算依赖",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-08.png",
+      "png_sha256": "4e3463abef6f1c2bb7f0e87f918bef6ef46913270c0fe59a5375e25fb63db5ae",
+      "png_dimensions": [
+        1488,
+        293
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-08.svg",
+      "svg_sha256": "1ca8efc120fc7beb81e6e27496704f4f7435b26aed3180abe361f88db60c0829"
+    },
+    {
+      "id": "visual-guide-09",
+      "title": "专用流程录图与重放",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-09.png",
+      "png_sha256": "497796cbbc74d529c68b80a5a632f25eb3ba676d4a8286352fb93f3430edb2a2",
+      "png_dimensions": [
+        1488,
+        123
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-09.svg",
+      "svg_sha256": "09399d8e130a669026cb0720f376f3a3c95adc2d9d5af986f71975c1585e5e94"
+    },
+    {
+      "id": "visual-guide-10",
+      "title": "功能修改落点",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/visual-guide/figure-10.png",
+      "png_sha256": "f86a22e6764b6e4de60c0ca438328a484cd37a9fcf26410ab6e3425efb30c971",
+      "png_dimensions": [
+        576,
+        397
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-10.svg",
+      "svg_sha256": "c2651038d1d7d8d429aade5707fd0d1332f01dbe76cb21f1fc93cd05e8362d75"
+    },
+    {
+      "id": "visual-guide-11",
+      "title": "上游 decode 调用链",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/visual-guide/figure-11.png",
+      "png_sha256": "4b1da081e997dc75a3df63fca8f7a0a1db56f8ab10753edb85a78af97109e9c4",
+      "png_dimensions": [
+        1096,
+        497
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-11.svg",
+      "svg_sha256": "c584491f9d6059499b1152747bfc557c84a59ccff9a37062e102bd43bb8747c6"
+    },
+    {
+      "id": "visual-guide-12",
+      "title": "窗口录图与状态提交",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-12.png",
+      "png_sha256": "e857315e31ca69fd7688ed180cd3502de95e197effb305472d12b53e8c728180",
+      "png_dimensions": [
+        1872,
+        123
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-12.svg",
+      "svg_sha256": "047965840510ac4af03ffcf889260e96f1f85ce5cc4e212f3d41576b48ef73f2"
+    },
+    {
+      "id": "visual-guide-13",
+      "title": "图复用与前缀复用",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-13.png",
+      "png_sha256": "34f8f26bad34b0d6544d660efaa4b4794d52cf84360e5e3b94a089fe8573b45b",
+      "png_dimensions": [
+        720,
+        535
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-13.svg",
+      "svg_sha256": "df46273d69a980e90aa3321b472cfac4e36dc388b8e4b09ad3445265efbe3161"
+    },
+    {
+      "id": "visual-guide-14",
+      "title": "GPU 专家命中与补入",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-14.png",
+      "png_sha256": "d2d40580ed313c4066674c0e9480715ff7fe782a8998eccd4e062d9ff70c8f2a",
+      "png_dimensions": [
+        1644,
+        187
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-14.svg",
+      "svg_sha256": "5165d0ff1e8721c9119c92a79a0468f97452671657f4c5fb3c5752b601ca51ed"
+    },
+    {
+      "id": "visual-guide-15",
+      "title": "S 的存放与计算分工",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/visual-guide/figure-15.png",
+      "png_sha256": "dd886f51ad85adeac6a22dd9943026fd1115fc8b9e6b42daa14123a2d5c0eb02",
+      "png_dimensions": [
+        500,
+        497
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-15.svg",
+      "svg_sha256": "86cff6db949f51dd60f3cd382b30feaa36fccf6b00d2990f59a7882ac6e81859"
+    },
+    {
+      "id": "visual-guide-16",
+      "title": "P 主线与 RAM 旁路",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-16.png",
+      "png_sha256": "55133364a5f2a2ef9b055889b02cd82b9735a301ff8587a7c5c21dea14a2cd34",
+      "png_dimensions": [
+        3098,
+        253
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-16.svg",
+      "svg_sha256": "ab50304766b39de4a38989875f039396521dbb2a3ba8dd5b7a9140b6c44cd71f"
+    },
+    {
+      "id": "visual-guide-17",
+      "title": "两槽的读与上传",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-17.png",
+      "png_sha256": "5a00feaf1789687d4174ffdb3f2790fd87a9315dfbcbee185d1a68e8aaa4b051",
+      "png_dimensions": [
+        720,
+        365
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-17.svg",
+      "svg_sha256": "ddd3d67403cc4edddbe8e307f8d276a00cf1d5da3a3b6fd1c9a65e2d70ee4d0d"
+    },
+    {
+      "id": "visual-guide-18",
+      "title": "读量相同，请求等待不同",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-18.png",
+      "png_sha256": "d11f640f982606e2dbc3345cb554d608f823ae68236da7034c43213f1d6f5656",
+      "png_dimensions": [
+        720,
+        365
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-18.svg",
+      "svg_sha256": "700a2d6a3e101c052cb3798204d1b505db1f75880356f194228308551f9c687b"
+    },
+    {
+      "id": "visual-guide-19",
+      "title": "S 预填充供给流",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-19.png",
+      "png_sha256": "099b77731782bbd19af978d6075f2d8559f7a123dbf42878b22ca9c77ae61d84",
+      "png_dimensions": [
+        2434,
+        137
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-19.svg",
+      "svg_sha256": "a4d1a56cb5751af42a5bf477f1feca5f7ce4b2f98c97cbdabf1133847b6fbe24"
+    },
+    {
+      "id": "visual-guide-20",
+      "title": "同一请求可能同时命中五种不同对象",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-20.png",
+      "png_sha256": "6808314b99b3452e4cf70020948d9680e6d0a01ca623d8e2817c6fd38b6a3836",
+      "png_dimensions": [
+        1872,
+        439
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-20.svg",
+      "svg_sha256": "fcc7b0918cbf90f17e313217719291f8d2497a4627b4d5a60224618e0c2ac399"
+    },
+    {
+      "id": "visual-guide-21",
+      "title": "词元相同长度与可恢复长度不是一回事",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-21.png",
+      "png_sha256": "121f470557cf23a08d51d32a05ebcd91313f36a2faea614cafcb2d2251a1b8f2",
+      "png_dimensions": [
+        1488,
+        365
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-21.svg",
+      "svg_sha256": "c78350f890643a764dd4632bec823a578dfce9585a0d170d1b99670084565214"
+    },
+    {
+      "id": "visual-guide-22",
+      "title": "状态位置、完整镜像和准入管理的职责关系",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-22.png",
+      "png_sha256": "01d32486b45f28a199c4fed699a8986c5ed05b87bd6867251942bee4a59632df",
+      "png_dimensions": [
+        1444,
+        535
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-22.svg",
+      "svg_sha256": "f1ff8a82e0372fc200e5960014b1d8915b168eccafe1e8ee91bfa4719d42a862"
+    },
+    {
+      "id": "visual-guide-23",
+      "title": "候选接受与状态回滚提交必须配套",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-23.png",
+      "png_sha256": "3350c452e1134e8b199e935cbea005e280bb9fd144b3975255d2dbe20cbb4a7f",
+      "png_dimensions": [
+        1872,
+        329
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-23.svg",
+      "svg_sha256": "db71832ddc0dfa3d09c6ee9fc1a87126f7e1d756faa21f02de6a2732aa0aa3ea"
+    },
+    {
+      "id": "visual-guide-24",
+      "title": "草稿验证与改变主模型计算的边界",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-24.png",
+      "png_sha256": "4076f9b3aa0c952f6010750cc9bce1201bfd2537745a4aac4461f7303be575cc",
+      "png_dimensions": [
+        720,
+        569
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-24.svg",
+      "svg_sha256": "6c8ec2fc541b3bffb541292c6d00d5cf5018270201c89f4ea1da47c63cf45983"
+    },
+    {
+      "id": "visual-guide-25",
+      "title": "单模型服务中的进程与协议边界",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-25.png",
+      "png_sha256": "a315d49560ffe308fd11c119cec1df04e34cf9edb879259ebce9a33732807458",
+      "png_dimensions": [
+        1212,
+        673
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-25.svg",
+      "svg_sha256": "86f5a9af90caa63181f7a3adce828eacc1d881394d9aa570c7364267ad302b61"
+    },
+    {
+      "id": "visual-guide-26",
+      "title": "建议分别记录的等待与内容交付边界",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-26.png",
+      "png_sha256": "ae7447c3629dc758a744708fa5a971ea796791103cdd2c6181d94d89641a926c",
+      "png_dimensions": [
+        2256,
+        159
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-26.svg",
+      "svg_sha256": "a406fd3522b6329367f07c4604727ad2c59d3059e82d08c2935883ac660e9e15"
+    },
+    {
+      "id": "visual-guide-27",
+      "title": "多设备方案按拆分对象分类",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-27.png",
+      "png_sha256": "1a78506aa088c3cc90b6f55d5984618ee1a173a398f41ca410fce40f97afe797",
+      "png_dimensions": [
+        1872,
+        405
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-27.svg",
+      "svg_sha256": "fb9453fe4b77368920788ae823259436ebdaa4efbab5bc31257be5edd8d23b54"
+    },
+    {
+      "id": "visual-guide-28",
+      "title": "从文件名走到实际可执行与已验证的组合",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-28.png",
+      "png_sha256": "f441b31da9d0a31bf5f5d2f93795d8575b2b113ddb3a2817d8ab099fb1989d6e",
+      "png_dimensions": [
+        1872,
+        159
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-28.svg",
+      "svg_sha256": "571bc3b0d56d02a1be3eeab6fc989649956d6a54c05e8d7881298965838fd457"
+    },
+    {
+      "id": "visual-guide-29",
+      "title": "P 文件缺失路径的数据与寿命顺序",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-29.png",
+      "png_sha256": "d860d97e43fe13239f14bf4fb8a9ac6e4b13b28d983bc14060e1dafa801aab41",
+      "png_dimensions": [
+        2256,
+        159
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-29.svg",
+      "svg_sha256": "f4f7bfb7994b91425c6c5a1c59d7ff43e5f9738c72cae8f1cfa4586f16990ccc"
+    },
+    {
+      "id": "visual-guide-30",
+      "title": "未处理与失败必须成为不同结果",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-30.png",
+      "png_sha256": "f294b30aefbb22d02e777ed2c5348f40a9f2a25a5b33fcdf3270cf629681147f",
+      "png_dimensions": [
+        1104,
+        495
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-30.svg",
+      "svg_sha256": "09a8a7f7a44f1d7becb1f50224b2462ba6ba004c2af82ab1a03eecacc958c691"
+    },
+    {
+      "id": "visual-guide-31",
+      "title": "逻辑工作、应用等待、设备读与端到端时间分开",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-31.png",
+      "png_sha256": "25ec695876b45ea35872a218a34cb398b01f74c3e258cda60a3a1f46cce21b4b",
+      "png_dimensions": [
+        1488,
+        405
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-31.svg",
+      "svg_sha256": "18383bc2cd6a1c96612afce5a669896fb5851bba5562cdcfa5569b0a12aec563"
+    },
+    {
+      "id": "visual-guide-32",
+      "title": "读取规划、批量提交、深度与消费约束分层",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-32.png",
+      "png_sha256": "9377c36fbfd0449d6e776d1bf4dc185ab3334651fa41a44f01b8b133248c75d4",
+      "png_dimensions": [
+        2256,
+        159
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-32.svg",
+      "svg_sha256": "375eefb4f6bc5b79001a34f2b5adb089233d217688d264bc33b6d912b03d0fb7"
+    },
+    {
+      "id": "visual-guide-33",
+      "title": "合并覆盖全部有效字节，同时增加间隙读取的教学算例",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/visual-guide/figure-33.png",
+      "png_sha256": "549a05db34d5e1467bfb1499835bb18017349872defa2e7307d2a1fd15974e47",
+      "png_dimensions": [
+        980,
+        547
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-33.svg",
+      "svg_sha256": "1173f2cd6d80cc94bf115385ce838aa29b9f8c45bad885e5ae2274dacb81687d"
+    },
+    {
+      "id": "visual-guide-34",
+      "title": "四种目标对应不同证据与改造入口",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-34.png",
+      "png_sha256": "1efae476d8d13df24823ea31771755f57500fe7645fb4a46392b33b42bd93844",
+      "png_dimensions": [
+        1488,
+        609
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-34.svg",
+      "svg_sha256": "2a6d3d1b09010f6b9dfafd5034cfd4ec695f0a36d188f00dc32c6a80f1dca549"
+    },
+    {
+      "id": "visual-guide-35",
+      "title": "按完整阶段追踪两边执行，专家供给是其中一条支路",
+      "source": "research/strata-vs-llamacpp-visual-guide.zh-CN.md",
+      "source_sha256": "ddbdbe97b593848ec7f0facc5382b01a3defe77fae2a7d7c3755043493f55545",
+      "document": "llama-vs-strata-visual-guide.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/visual-guide/figure-35.png",
+      "png_sha256": "e469a9d58625b0feac29fc6f9f99b799a5597a3c5cfdefc8a84b9d718b66a8e1",
+      "png_dimensions": [
+        1560,
+        1105
+      ],
+      "svg": "assets/llama-vs-strata/visual-guide/figure-35.svg",
+      "svg_sha256": "3bf07f847b7b962e4fd61a29adcc4118da8123bc5ed6406c7062f5bd6ee355bf"
+    },
+    {
+      "id": "source-analysis-01",
+      "title": "3.1 不是以 llama.cpp 引擎主体为底的普通功能分支",
+      "source": "research/strata-vs-llamacpp-source-analysis-20261112.zh-CN.md",
+      "source_sha256": "90115b5aa22748807093403eca4e8e9040d5fafd6cb6ae0f47478d5523d89ed5",
+      "document": "llama-vs-strata-source-analysis.md",
+      "source_format": "mermaid",
+      "png": "assets/llama-vs-strata/source-analysis/figure-01.png",
+      "png_sha256": "d96365ba7432eb8f7dc1b8fa5d1642a8c3a5f6fd39a4662e1bbf627262650da5",
+      "png_dimensions": [
+        720,
+        881
+      ],
+      "svg": "assets/llama-vs-strata/source-analysis/figure-01.svg",
+      "svg_sha256": "648f742c1ad05e1781f337cef5b3ed7cc0fbfc4c432619a7d4cab42e38698c64"
+    },
+    {
+      "id": "source-analysis-02",
+      "title": "5.1 llama.cpp：用通用 DAG 表达模型",
+      "source": "research/strata-vs-llamacpp-source-analysis-20261112.zh-CN.md",
+      "source_sha256": "90115b5aa22748807093403eca4e8e9040d5fafd6cb6ae0f47478d5523d89ed5",
+      "document": "llama-vs-strata-source-analysis.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/source-analysis/figure-02.png",
+      "png_sha256": "4c51c6255567d857d5b4b6883be4001b3395f23c395d924052b13140909189bf",
+      "png_dimensions": [
+        1422,
+        897
+      ],
+      "svg": "assets/llama-vs-strata/source-analysis/figure-02.svg",
+      "svg_sha256": "a3b3976c9f3231791e4aa90f3e2af8a773abcc3f3fa724d62f7be1590d1511dc"
+    },
+    {
+      "id": "source-analysis-03",
+      "title": "5.2 Strata Flash-Next：显式模型流水线捕获为设备图",
+      "source": "research/strata-vs-llamacpp-source-analysis-20261112.zh-CN.md",
+      "source_sha256": "90115b5aa22748807093403eca4e8e9040d5fafd6cb6ae0f47478d5523d89ed5",
+      "document": "llama-vs-strata-source-analysis.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/source-analysis/figure-03.png",
+      "png_sha256": "0e792dd71416bcb3f152bed224072187d0c0b6162610e4e12ed590da5826b326",
+      "png_dimensions": [
+        1326,
+        597
+      ],
+      "svg": "assets/llama-vs-strata/source-analysis/figure-03.svg",
+      "svg_sha256": "4a01b7ffcb582b521bf6e813e35424bd2c2c0dd3461ec7b960a101413a557852"
+    },
+    {
+      "id": "source-analysis-04",
+      "title": "5.2 Strata Flash-Next：显式模型流水线捕获为设备图",
+      "source": "research/strata-vs-llamacpp-source-analysis-20261112.zh-CN.md",
+      "source_sha256": "90115b5aa22748807093403eca4e8e9040d5fafd6cb6ae0f47478d5523d89ed5",
+      "document": "llama-vs-strata-source-analysis.md",
+      "source_format": "text",
+      "png": "assets/llama-vs-strata/source-analysis/figure-04.png",
+      "png_sha256": "281f716e733b1649e9408210e4f396cf53a35c66056cc49d59a3c07b89ff8a84",
+      "png_dimensions": [
+        1114,
+        347
+      ],
+      "svg": "assets/llama-vs-strata/source-analysis/figure-04.svg",
+      "svg_sha256": "4299c04bfc04cd29fabe0dd91aa58c0da9fc292557fc5c8e4229420a1a776cc1"
+    }
+  ],
+  "existing_curves": [
+    {
+      "title": "Q5 文件供给路径：内存曲线",
+      "svg": "ooc-p5-20261110/q5-long-file-memory.svg",
+      "sha256": "25c7bed1a92f9809bd19b46c72ecfa2bd7cb21f1250d940cf786805232f06756"
+    },
+    {
+      "title": "Q5 原生路径：内存曲线",
+      "svg": "ooc-p5-20261110/q5-long-native-memory.svg",
+      "sha256": "ba151f84158b4fbb6a66343bd80a53d37b12bb85a177e04c5cd1c673eba0f7d2"
+    },
+    {
+      "title": "Q5 原生路径（48 GiB 工作集上限）：内存曲线",
+      "svg": "ooc-p5-20261110/q5-long-native-ws48-memory.svg",
+      "sha256": "0a468eef14010e775134f9fec35c5cd33cb8ffc9c3d1f13a8f5c625915f2158a"
+    }
+  ]
+}

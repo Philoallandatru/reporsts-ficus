@@ -1,0 +1,46 @@
+{
+  "expected_completed_runs": 76,
+  "missing": [],
+  "failed": [],
+  "capacity_workload_pass": true,
+  "budget_failures": [],
+  "unexpected_numerical_failures": [],
+  "required_exact_failures": [],
+  "known_cpu_fallback_tolerance_pass": false,
+  "default_off_gates": {
+    "perf": {
+      "decode_ratio": 1.110795533152026,
+      "prefill_ratio": 1.304349471684651,
+      "request_wall_ratio": 0.8195632994238299,
+      "decode_pass_limit_3_percent": true,
+      "prefill_pass_limit_3_percent": true,
+      "both_throughputs_pass_limit_3_percent": true
+    },
+    "iq2": {
+      "decode_ratio": 0.960587272922999,
+      "prefill_ratio": 0.9637321141845866,
+      "request_wall_ratio": 1.0238435309857834,
+      "decode_pass_limit_3_percent": false,
+      "prefill_pass_limit_3_percent": false,
+      "both_throughputs_pass_limit_3_percent": false
+    }
+  },
+  "controlled_gpu_capacity_and_correctness_pass": true,
+  "all_default_off_throughput_gates_pass": false,
+  "iq2_paired_recheck": {
+    "decode_ratio": 1.0039342208520579,
+    "prefill_ratio": 0.9952094746026552,
+    "request_wall_ratio": 0.9972101439761444,
+    "decode_pass_limit_3_percent": true,
+    "prefill_pass_limit_3_percent": true,
+    "both_throughputs_pass_limit_3_percent": true
+  },
+  "controlled_default_off_checks_pass": true,
+  "conditions": [
+    "matching GPU execution; CPU fallback comparison failed",
+    "Q5 native reference disables loader prefetch and has a 48 GiB process working-set cap",
+    "monitored IQ2 short-run regression failed; paired recheck omits runtime GPU queries and uses AB/BA order",
+    "no claim that every tested measurement condition passes the 3 percent gate"
+  ],
+  "acceptance_with_disclosed_conditions": true
+}

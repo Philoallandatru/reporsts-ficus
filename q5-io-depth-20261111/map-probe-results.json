@@ -1,0 +1,92 @@
+{
+  "shard": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf",
+  "slots": 8,
+  "staging_mib": 32,
+  "records": [
+    {
+      "pid": 61224,
+      "mapped": 0,
+      "requests": 1536,
+      "bytes": 2051014656,
+      "pending": 1536,
+      "elapsed_s": 1.3571146,
+      "submit_total_ms": 42.7138,
+      "submit_p50_ms": 0.0234,
+      "submit_p95_ms": 0.0431,
+      "run": 1,
+      "etw_reads": 1543,
+      "physical_mib": 1956.0,
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "gib_s": 1.407512858530886,
+      "physical_extent_hash": "dc482ea150390784f0625b75772ad49169088b19d3cad851ed641a8d4b5a347b"
+    },
+    {
+      "pid": 19904,
+      "mapped": 1,
+      "requests": 1536,
+      "bytes": 2051014656,
+      "pending": 1536,
+      "elapsed_s": 1.3166571,
+      "submit_total_ms": 45.446,
+      "submit_p50_ms": 0.0238,
+      "submit_p95_ms": 0.053,
+      "run": 2,
+      "etw_reads": 1543,
+      "physical_mib": 1956.0,
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "gib_s": 1.4507621232589716,
+      "physical_extent_hash": "dc482ea150390784f0625b75772ad49169088b19d3cad851ed641a8d4b5a347b"
+    },
+    {
+      "pid": 38220,
+      "mapped": 1,
+      "requests": 1536,
+      "bytes": 2051014656,
+      "pending": 1536,
+      "elapsed_s": 1.3333269,
+      "submit_total_ms": 43.3444,
+      "submit_p50_ms": 0.0233,
+      "submit_p95_ms": 0.0404,
+      "run": 3,
+      "etw_reads": 1543,
+      "physical_mib": 1956.0,
+      "qd_p50_p95": [
+        0.0,
+        0.0
+      ],
+      "gib_s": 1.432624099911282,
+      "physical_extent_hash": "dc482ea150390784f0625b75772ad49169088b19d3cad851ed641a8d4b5a347b"
+    },
+    {
+      "pid": 66900,
+      "mapped": 0,
+      "requests": 1536,
+      "bytes": 2051014656,
+      "pending": 1536,
+      "elapsed_s": 1.2563562,
+      "submit_total_ms": 42.0214,
+      "submit_p50_ms": 0.0232,
+      "submit_p95_ms": 0.0449,
+      "run": 4,
+      "etw_reads": 1543,
+      "physical_mib": 1956.0,
+      "qd_p50_p95": [
+        0.0,
+        1.0
+      ],
+      "gib_s": 1.5203938580475824,
+      "physical_extent_hash": "dc482ea150390784f0625b75772ad49169088b19d3cad851ed641a8d4b5a347b"
+    }
+  ],
+  "paired_unmapped_over_mapped": [
+    0.9701885898213753,
+    1.0612650297741995
+  ],
+  "scope": "isolated same-shard aligned reads, no GPU, same held normal handle, only mapping presence changes"
+}

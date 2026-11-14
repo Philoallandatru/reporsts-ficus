@@ -1,5 +1,7 @@
 # Strata 与 llama.cpp 源码区别图解（新手向）
 
+> 图片已随文档同步；每张图下方保留原始图代码和 SVG。见[完整图片索引](llama-vs-strata-image-gallery.md)。
+
 日期：2026-11-13。定位：从问答看懂计算、权重与状态。
 
 ## 与证据底座的关系
@@ -54,6 +56,13 @@
 
 ### 看图
 
+![四层对照，P 接入专家供给](assets/llama-vs-strata/visual-guide/figure-01.png)
+
+图 1：四层对照，P 接入专家供给 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-01.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 subgraph LL["llama.cpp"]
@@ -67,6 +76,8 @@ SW["专家权重：多来源"]-->SC
 SC-->SK["KV 状态"]
 end
 ```
+
+</details>
 <!-- 图 1：四层对照，P 接入专家供给 -->
 
 ### 想深挖
@@ -101,13 +112,29 @@ L0 是活动 KV，L1 是近引擎状态缓存，L2 是后备存储，不能机�
 
 ### 看图
 
+![预填充后进入解码](assets/llama-vs-strata/visual-guide/figure-02.png)
+
+图 2：预填充后进入解码 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-02.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["输入词元"]-->B["预填充：处理提示"]-->C["首词元"]
 C-->D["解码：继续生成"]-->E["后续词元"]
 E-->D
 ```
+
+</details>
 <!-- 图 2：预填充后进入解码 -->
+
+![请求时间轴](assets/llama-vs-strata/visual-guide/figure-03.png)
+
+图 3：请求时间轴 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-03.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```text
 ┌─────────────────────────────┐
@@ -116,7 +143,16 @@ E-->D
 │ 预填充           解码       │
 └─────────────────────────────┘
 ```
+
+</details>
 <!-- 图 3：请求时间轴 -->
+
+![保留注意力状态](assets/llama-vs-strata/visual-guide/figure-04.png)
+
+图 4：保留注意力状态 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-04.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
@@ -124,7 +160,16 @@ A["已处理词元"]-->B["计算本层键和值"]-->C["KV 缓存"]
 C-->D["后续位置读取历史状态"]
 E["当前词元"]-->D
 ```
+
+</details>
 <!-- 图 4：保留注意力状态 -->
+
+![实测规模与存储阶梯](assets/llama-vs-strata/visual-guide/figure-05.png)
+
+图 5：实测规模与存储阶梯 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-05.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```text
 ┌─────────────────────┐
@@ -138,7 +183,16 @@ E["当前词元"]-->D
       └───────────────────────┘
 取用快 ↑          承载规模 ↓
 ```
+
+</details>
 <!-- 图 5：实测规模与存储阶梯 -->
+
+![路由选专家并合并](assets/llama-vs-strata/visual-guide/figure-06.png)
+
+图 6：路由选专家并合并 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-06.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
@@ -148,6 +202,8 @@ B-->|"选择"| D["专家乙权重"]
 C-->E["计算并合并结果"]
 D-->E
 ```
+
+</details>
 <!-- 图 6：路由选专家并合并 -->
 
 ### 想深挖
@@ -170,6 +226,13 @@ D-->E
 
 ### 看图
 
+![底层复制与引擎分支](assets/llama-vs-strata/visual-guide/figure-07.png)
+
+图 7：底层复制与引擎分支 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-07.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart TD
 U["llama.cpp 较早固定提交"]-->|"复制部分底层"| G["G：ggml 副本"]
@@ -177,6 +240,8 @@ G-->S["S：专用引擎与产品链"]
 U-->|"上游继续演进"| L["L：本次上游基线"]
 L-->|"工作区增加补丁"| P["P：文件专家源"]
 ```
+
+</details>
 <!-- 图 7：底层复制与引擎分支 -->
 
 ### 想深挖
@@ -199,19 +264,44 @@ L-->|"工作区增加补丁"| P["P：文件专家源"]
 
 ### 看图
 
+![菜谱式计算依赖](assets/llama-vs-strata/visual-guide/figure-08.png)
+
+图 8：菜谱式计算依赖 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-08.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["输入"]-->B["投影"]-->D["合并"]-->E["输出"]
 A-->C["保留支路"]-->D
 ```
+
+</details>
 <!-- 图 8：菜谱式计算依赖 -->
+
+![专用流程录图与重放](assets/llama-vs-strata/visual-guide/figure-09.png)
+
+图 9：专用流程录图与重放 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-09.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
 A["专用流程"]-->B["录制设备图"]-->C["放入本次输入"]
 C-->D["重放执行"]-->C
 ```
+
+</details>
 <!-- 图 9：专用流程录图与重放 -->
+
+![功能修改落点](assets/llama-vs-strata/visual-guide/figure-10.png)
+
+图 10：功能修改落点 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-10.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```text
 ┌───────────┬───────────┐
@@ -221,6 +311,8 @@ C-->D["重放执行"]-->C
 │ 调度设备  │ 协调供给  │
 └───────────┴───────────┘
 ```
+
+</details>
 <!-- 图 10：功能修改落点 -->
 
 ### 想深挖
@@ -245,6 +337,13 @@ C-->D["重放执行"]-->C
 
 ### 看图
 
+![上游 decode 调用链](assets/llama-vs-strata/visual-guide/figure-11.png)
+
+图 11：上游 decode 调用链 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-11.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```text
 ┌──────────────────────────────────────────────────┐
 │ llama_decode HEAD:src/llama-context.cpp:4905     │
@@ -255,20 +354,40 @@ C-->D["重放执行"]-->C
 │ → 构图或复用 → 填输入 → 调度器 → 设备执行        │
 └──────────────────────────────────────────────────┘
 ```
+
+</details>
 <!-- 图 11：上游 decode 调用链 -->
+
+![窗口录图与状态提交](assets/llama-vs-strata/visual-guide/figure-12.png)
+
+图 12：窗口录图与状态提交 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-12.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
 A["运行窗口 T"]-->B["首次使用时录图"]-->C["准备当前输入"]
 C-->D["重放对应设备图"]-->E["保留接受的状态"]
 ```
+
+</details>
 <!-- 图 12：窗口录图与状态提交 -->
+
+![图复用与前缀复用](assets/llama-vs-strata/visual-guide/figure-13.png)
+
+图 13：图复用与前缀复用 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-13.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart TD
 A["可复用什么"]-->B["图：复用计算安排"]-->C["仍计算本次输入"]
 A-->D["前缀状态：复用已算数值"]-->E["条件满足才跳过旧前缀"]
 ```
+
+</details>
 <!-- 图 13：图复用与前缀复用 -->
 
 ### 想深挖
@@ -299,13 +418,29 @@ A-->D["前缀状态：复用已算数值"]-->E["条件满足才跳过旧前缀"]
 
 ### 看图
 
+![GPU 专家命中与补入](assets/llama-vs-strata/visual-guide/figure-14.png)
+
+图 14：GPU 专家命中与补入 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-14.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["路由选中专家"]-->B["查询 GPU 专家缓存"]
 B-->|"命中"| C["GPU 计算"]
 B-->|"缺失"| D["规划替换并补入"]-->C
 ```
+
+</details>
 <!-- 图 14：GPU 专家命中与补入 -->
+
+![S 的存放与计算分工](assets/llama-vs-strata/visual-guide/figure-15.png)
+
+图 15：S 的存放与计算分工 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-15.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```text
 ┌───────────────────┐
@@ -317,7 +452,16 @@ B-->|"缺失"| D["规划替换并补入"]-->C
 │ → 结果汇合        │
 └───────────────────┘
 ```
+
+</details>
 <!-- 图 15：S 的存放与计算分工 -->
+
+![P 主线与 RAM 旁路](assets/llama-vs-strata/visual-guide/figure-16.png)
+
+图 16：P 主线与 RAM 旁路 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-16.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
@@ -327,22 +471,42 @@ T-->|"提供读入数据"| U["消费者持有有效数据与租约"]
 R-->|"命中后提供受保护的数据"| U
 U-->|"上传并等待完成"| G["GPU 权重目标"]
 ```
+
+</details>
 <!-- 图 16：P 主线与 RAM 旁路 -->
 
 沿文件支路看，RAM 准入是可选的；沿命中支路看，可以省去文件读。两条支路都必须保护消费者仍在使用的数据，不能把“取得地址”当成“已经用完”。
+
+![两槽的读与上传](assets/llama-vs-strata/visual-guide/figure-17.png)
+
+图 17：两槽的读与上传 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-17.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
 A["槽甲：读完后上传"]-->C["上传完成才释放甲"]
 B["槽乙：同时读下一份"]-->D["等轮到乙再上传"]
 ```
+
+</details>
 <!-- 图 17：两槽的读与上传 -->
+
+![读量相同，请求等待不同](assets/llama-vs-strata/visual-guide/figure-18.png)
+
+图 18：读量相同，请求等待不同 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-18.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
 A["深度 2：解码 461.15 MiB 每步"]-->B["整次请求读等待约 36.0 秒"]
 C["深度 8：解码 461.15 MiB 每步"]-->D["整次请求读等待约 28.2 秒"]
 ```
+
+</details>
 <!-- 图 18：读量相同，请求等待不同 -->
 
 ### 想深挖
@@ -363,12 +527,21 @@ C["深度 8：解码 461.15 MiB 每步"]-->D["整次请求读等待约 28.2 秒"
 
 ### 看图
 
+![S 预填充供给流](assets/llama-vs-strata/visual-guide/figure-19.png)
+
+图 19：S 预填充供给流 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-19.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["专家源"]-->B["Stager 备料"]-->C["主机环形缓冲"]
 C-->|"独立复制流"| D["GPU 环形缓冲"]-->E["分块与逐层计算"]
 E-->|"完成后允许复用"| D
 ```
+
+</details>
 <!-- 图 19：S 预填充供给流 -->
 
 ### 想深挖
@@ -403,6 +576,13 @@ E-->|"完成后允许复用"| D
 
 ### 看图
 
+![同一请求可能同时命中五种不同对象](assets/llama-vs-strata/visual-guide/figure-20.png)
+
+图 20：同一请求可能同时命中五种不同对象 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-20.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart TD
 Q["第二次询问同一长文档"] --> W["专家权重：少取固定权重"]
@@ -411,6 +591,8 @@ Q --> K["前缀状态：少算已处理前缀"]
 Q --> G["图计划：少做构图与分配"]
 Q --> O["系统页：可能少访问物理存储"]
 ```
+
+</details>
 <!-- 图 20：同一请求可能同时命中五种不同对象 -->
 
 第 20 张图从请求分叉，不是五层串行缓存。沿任一支路追问“没有它会重做什么”，就能分辨本次节省的是计算、搬运还是准备工作；其他支路命中不能代替这一支路。
@@ -452,6 +634,13 @@ S 的某些活动 KV 配置以主机池为权威副本，显存只放当前驻�
 
 ### 看图
 
+![词元相同长度与可恢复长度不是一回事](assets/llama-vs-strata/visual-guide/figure-21.png)
+
+图 21：词元相同长度与可恢复长度不是一回事 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-21.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["请求甲：文档词元加问题甲"] --> C["逐项比较得到 LCP"]
@@ -460,9 +649,18 @@ C --> D["寻找此前保存且条件有效的状态"]
 D --> E["从可恢复位置继续预填充"]
 D --> F["没有可恢复状态则重新计算"]
 ```
+
+</details>
 <!-- 图 21：词元相同长度与可恢复长度不是一回事 -->
 
 第 21 张图中，LCP 只回答“内容从哪开始不同”。后半段还要核对检查点、KV、循环状态与执行条件；匹配长度不能直接当作本次实际少算的长度。
+
+![状态位置、完整镜像和准入管理的职责关系](assets/llama-vs-strata/visual-guide/figure-22.png)
+
+图 22：状态位置、完整镜像和准入管理的职责关系 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-22.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart TD
@@ -472,6 +670,8 @@ S["S：活动会话与检查点"] --> SS["完整会话镜像"] --> SF["会话文
 SM["S：内存遥测与准入"] --> SS
 SM --> SF
 ```
+
+</details>
 <!-- 图 22：状态位置、完整镜像和准入管理的职责关系 -->
 
 第 22 张图的箭头表示可用的保存或管理关系，不宣称每次请求都走完它们。尤其注意：S 的内存管理模块决定“能不能存”，本身不是另一个会话容器。
@@ -506,6 +706,13 @@ SM --> SF
 
 ### 看图
 
+![候选接受与状态回滚提交必须配套](assets/llama-vs-strata/visual-guide/figure-23.png)
+
+图 23：候选接受与状态回滚提交必须配套 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-23.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["草稿：甲乙丙"] --> B["目标模型验证"] --> C["接受前缀：甲乙"]
@@ -514,9 +721,18 @@ C --> E["保留正确状态"]
 D --> E
 E --> F["接上目标选择并继续"]
 ```
+
+</details>
 <!-- 图 23：候选接受与状态回滚提交必须配套 -->
 
 第 23 张图中，接受的是从开头连续成立的前缀，不能绕过中间错误只保留后面的某个词元。两条支路汇合，表示输出与内部状态必须重新一致，才能进入下一轮。
+
+![草稿验证与改变主模型计算的边界](assets/llama-vs-strata/visual-guide/figure-24.png)
+
+图 24：草稿验证与改变主模型计算的边界 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-24.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart TD
@@ -525,6 +741,8 @@ A --> C["跳过专家或近似预填充"]
 B --> D["核对接受规则与状态契约"]
 C --> E["主模型计算改变，单列质量档位"]
 ```
+
+</details>
 <!-- 图 24：草稿验证与改变主模型计算的边界 -->
 
 第 24 张图教你先分类，再谈数字。左支也需要验证具体算法与配置，右支则必须同时说明计算改了什么、质量如何评估，不能把两者混成同一条“无损加速”。
@@ -566,6 +784,13 @@ S 已核查的主服务路径使用提示引导与生成后验证，原生引擎
 
 ### 看图
 
+![单模型服务中的进程与协议边界](assets/llama-vs-strata/visual-guide/figure-25.png)
+
+图 25：单模型服务中的进程与协议边界 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-25.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 subgraph LP["L 单模型进程"]
@@ -577,15 +802,26 @@ SH["Python 协议服务"] -->|"管道请求"| SE["原生引擎子进程"]
 SE -->|"词元与完成消息"| SH
 end
 ```
+
+</details>
 <!-- 图 25：单模型服务中的进程与协议边界 -->
 
 第 25 张图看的是控制与交付边界，不能从多一条管道推算慢多少。两边的排队、预填充、状态复用与缓冲行为，仍须在同样的客户端口径下测量。
+
+![建议分别记录的等待与内容交付边界](assets/llama-vs-strata/visual-guide/figure-26.png)
+
+图 26：建议分别记录的等待与内容交付边界 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-26.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart LR
 A["客户端提交"] --> B["排队与准入"] --> C["预填充"]
 C --> D["引擎首词元"] --> E["首个可见内容"] --> F["完整 JSON 可交付"]
 ```
+
+</details>
 <!-- 图 26：建议分别记录的等待与内容交付边界 -->
 
 第 26 张图中，普通流式回答与结构化回答的间隔可能很不同；某些缓冲模式下后两个时刻接近重合。这是测量设计示意，不是把所有区间都归因于模型计算。
@@ -618,6 +854,13 @@ C --> D["引擎首词元"] --> E["首个可见内容"] --> F["完整 JSON 可交
 
 ### 看图
 
+![多设备方案按拆分对象分类](assets/llama-vs-strata/visual-guide/figure-27.png)
+
+图 27：多设备方案按拆分对象分类 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-27.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart TD
 A["加入第二张卡或另一台主机"] --> L["拆层：接下一段层"]
@@ -626,6 +869,8 @@ A --> E["分专家：辅助处理部分专家"]
 A --> R["复制引擎：分别接不同请求"]
 A --> D["远端设备：跨主机执行算子"]
 ```
+
+</details>
 <!-- 图 27：多设备方案按拆分对象分类 -->
 
 第 27 张图不是五种可互换开关。先选中与你的需求相符的那条支路，再追踪状态归属和传输对象，就能避免把“扩专家容量”误解为“复制整个服务”。
@@ -660,6 +905,13 @@ S 的 trellis 是另一组编码与内核扩展，不能因为都带 TQ 字样�
 
 ### 看图
 
+![从文件名走到实际可执行与已验证的组合](assets/llama-vs-strata/visual-guide/figure-28.png)
+
+图 28：从文件名走到实际可执行与已验证的组合 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-28.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["模型包名称"] --> B["逐张量核对类型与角色"]
@@ -667,6 +919,8 @@ B --> C["核对布局与缩放参数"]
 C --> D["匹配模型族和设备内核"]
 D --> E["再核对目标组合的验证记录"]
 ```
+
+</details>
 <!-- 图 28：从文件名走到实际可执行与已验证的组合 -->
 
 第 28 张图是一条核对路线，不是加载器必定按此顺序执行的调用链。只通过前两格，仍不足以承诺后面的设备能正确执行，更不足以引用其他设备上的性能。
@@ -717,15 +971,31 @@ D --> E["再核对目标组合的验证记录"]
 
 ### 看图
 
+![P 文件缺失路径的数据与寿命顺序](assets/llama-vs-strata/visual-guide/figure-29.png)
+
+图 29：P 文件缺失路径的数据与寿命顺序 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-29.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["文件角色范围"] --> B["读入 staging"] --> C["可选 RAM 准入"]
 C --> D["H2D 使用有效源指针"] --> E["等待源数据消费完成"]
 E --> F["释放槽与租约"]
 ```
+
+</details>
 <!-- 图 29：P 文件缺失路径的数据与寿命顺序 -->
 
 第 29 张图的“可选 RAM 准入”允许直接跳过缓存保存；上传仍要拿到有效数据。沿主线看，能够提交 H2D 并不等于源缓冲可立即覆盖，事件等待正是这条寿命界线。
+
+![未处理与失败必须成为不同结果](assets/llama-vs-strata/visual-guide/figure-30.png)
+
+图 30：未处理与失败必须成为不同结果 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-30.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart TD
@@ -733,6 +1003,8 @@ A["文件复制回调返回"] -->|"成功且已处理"| B["使用本次供给"]
 A -->|"成功但未处理"| C["允许普通复制路径"]
 A -->|"失败或取消"| D["阻断依赖图并排空资源"]
 ```
+
+</details>
 <!-- 图 30：未处理与失败必须成为不同结果 -->
 
 第 30 张图把“我不负责”与“我负责但失败了”分成两条边。错误若流向中间那条边，后续计算可能继续使用错误的数据来源；这是接口语义问题，不是换一种读取容器就能解决的。
@@ -784,6 +1056,13 @@ A -->|"失败或取消"| D["阻断依赖图并排空资源"]
 
 ### 看图
 
+![逻辑工作、应用等待、设备读与端到端时间分开](assets/llama-vs-strata/visual-guide/figure-31.png)
+
+图 31：逻辑工作、应用等待、设备读与端到端时间分开 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-31.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart TD
 A["同一次请求的不同记录"] --> B["应用：提交笔数与逻辑字节"]
@@ -791,6 +1070,8 @@ A --> C["应用：读取等待与上传等待"]
 A --> D["设备：物理字节与观察在途数"]
 A --> E["客户端或探针：TTFT 与词元间隔"]
 ```
+
+</details>
 <!-- 图 31：逻辑工作、应用等待、设备读与端到端时间分开 -->
 
 第 31 张图中的支路是不同观察口，不是可直接相加的耗时分解。比如应用等待可能与设备活动重叠，逻辑字节也可能因对齐、合并或页缓存而不同于物理字节。
@@ -849,15 +1130,31 @@ A --> E["客户端或探针：TTFT 与词元间隔"]
 
 ### 看图
 
+![读取规划、批量提交、深度与消费约束分层](assets/llama-vs-strata/visual-guide/figure-32.png)
+
+图 32：读取规划、批量提交、深度与消费约束分层 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-32.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 A["原始有效范围列表"] --> B["可选排序与区间合并"]
 B --> C["形成待提交请求批次"] --> D["受深度与字节预算限制提交"]
 D --> E["等待完成并分发有效字节"] --> F["上传与消费寿命管理"]
 ```
+
+</details>
 <!-- 图 32：读取规划、批量提交、深度与消费约束分层 -->
 
 第 32 张图是候选机制的拆分示意，不表示 P 已实现全部方框。合并改变请求集合，批次改变提交安排，深度与字节预算限制可同时持有多少工作；尾部消费又会反过来限制空槽。
+
+![合并覆盖全部有效字节，同时增加间隙读取的教学算例](assets/llama-vs-strata/visual-guide/figure-33.png)
+
+图 33：合并覆盖全部有效字节，同时增加间隙读取的教学算例 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-33.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```text
 ┌────────────────────────────────────────────┐
@@ -870,9 +1167,18 @@ D --> E["等待完成并分发有效字节"] --> F["上传与消费寿命管理"
 │ 有效 24 KiB，读取 36 KiB，请求 3 笔变 1 笔 │
 └────────────────────────────────────────────┘
 ```
+
+</details>
 <!-- 图 33：合并覆盖全部有效字节，同时增加间隙读取的教学算例 -->
 
 第 33 张图先看前三个有效区间，再看包住它们的整段；原区间一个也不能丢。请求数下降与读量上升可以同时发生，不能把“大读”直接写成“少读”。
+
+![四种目标对应不同证据与改造入口](assets/llama-vs-strata/visual-guide/figure-34.png)
+
+图 34：四种目标对应不同证据与改造入口 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-34.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```mermaid
 flowchart TD
@@ -881,6 +1187,8 @@ A --> C["交互 TTFT"] --> C1["测排队、恢复、预填充与可见内容"]
 A --> D["KV 的 L1 与 L2"] --> D1["完整状态语义与越过 RAM 的工作集"]
 A --> E["接入 LMCache"] --> E1["先选字节包或有类型张量协议"]
 ```
+
+</details>
 <!-- 图 34：四种目标对应不同证据与改造入口 -->
 
 第 34 张图从目标走向下一份证据，而不是走向某个必然更快的实现。同样访问 SSD，权重慢读与 KV 容量实验仍需要不同工作集与验收条件。
@@ -933,6 +1241,13 @@ git -C llama.cpp diff -- src/llama-context.cpp src/llama-moe-cache.cpp ggml/src/
 
 ### 看图
 
+![按完整阶段追踪两边执行，专家供给是其中一条支路](assets/llama-vs-strata/visual-guide/figure-35.png)
+
+图 35：按完整阶段追踪两边执行，专家供给是其中一条支路 · [SVG 原图](assets/llama-vs-strata/visual-guide/figure-35.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart LR
 subgraph LRUN["L 与 P：一次生成的逻辑阶段"]
@@ -946,6 +1261,8 @@ SX["路由后的专家供给与计算分派"] --> SC
 SC --> SD["接受、提交并交付"]
 end
 ```
+
+</details>
 <!-- 图 35：按完整阶段追踪两边执行，专家供给是其中一条支路 -->
 
 第 35 张图把供给放在侧面，提醒你数据准备会参与计算依赖，却不等于整个引擎。读到某个 CUDA 内核以后，仍应回到上层确认其输入、状态、设备分派和结果提交，才算追完一个词元的生成链。
@@ -1028,7 +1345,7 @@ end
 
 ## 引用索引
 
-[R-BASE]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/strata-vs-llamacpp-source-analysis-20261112.zh-CN.md:1
+[R-BASE]: llama-vs-strata-source-analysis.md
 [S-AGENTS]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/strata/AGENTS.md:1
 [S-UPSTREAM]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/strata/third_party/strata-ggml/UPSTREAM.md:1
 [L-TENSOR]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/ggml/include/ggml.h:690
@@ -1037,7 +1354,7 @@ end
 [L-HTTP]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/tools/server/server-http.cpp:150
 [S-PIPE]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/strata/serve/server.py:1101
 [L-KV-BUFFERS]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-kv-cache.cpp:214
-[R-Q5-REPORT]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/q5-strata-compare-20261111/REPORT.zh-CN.md:1
+[R-Q5-REPORT]: q5-strata-compare-20261111/REPORT.zh-CN.md
 [R-CONTEXT]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/CONTEXT.md:1
 [L-MOE-BANK]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-moe-cache.cpp:291
 [L-MODEL-EXAMPLE]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/models/llama.cpp:94
@@ -1051,7 +1368,7 @@ end
 [P-START-READ]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-expert-store.cpp:446
 [P-REAP]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-expert-store.cpp:516
 [P-RAM-HIT]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-expert-store.cpp:705
-[R-Q5-DEPTH]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/q5-io-depth-20261111/REPORT.zh-CN.md:1
+[R-Q5-DEPTH]: q5-io-depth-20261111/REPORT.zh-CN.md
 [S-PREFILL-STAGER]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/strata/src/prefill/prefill.cpp:711
 [S-KVA]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/strata/include/strata/prefill/kva.hpp:1
 [P-WEIGHT-ROWS]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-weight-rows.cpp:5

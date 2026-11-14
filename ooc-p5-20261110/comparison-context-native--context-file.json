@@ -1,0 +1,38 @@
+{
+  "reference": "context-native",
+  "candidate": "context-file",
+  "requests": [
+    {
+      "request": 0,
+      "name": "fill-to-last-position",
+      "floats": 496640,
+      "exact": true,
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "nmse": 0.0,
+      "argmax_matches": 2,
+      "outputs": 2,
+      "reference_ppl": 4.282894390457749,
+      "candidate_ppl": 4.282894390457749,
+      "ppl_relative": 0.0,
+      "fixed_text": false
+    },
+    {
+      "request": 1,
+      "name": "clear-and-refill",
+      "floats": 496640,
+      "exact": true,
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "nmse": 0.0,
+      "argmax_matches": 2,
+      "outputs": 2,
+      "reference_ppl": 4.282894390457749,
+      "candidate_ppl": 4.282894390457749,
+      "ppl_relative": 0.0,
+      "fixed_text": false
+    }
+  ],
+  "exact": true,
+  "tolerance_pass": true
+}

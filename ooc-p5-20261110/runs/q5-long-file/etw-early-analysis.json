@@ -1,0 +1,110 @@
+{
+  "name": "q5-long-file",
+  "pid": 69272,
+  "start_time": 1794275270.768089,
+  "end_time": 1794275454.723412,
+  "seconds": 183.95532298088074,
+  "lost_buffers": 0,
+  "lost_events": 0,
+  "disks": {
+    "2": {
+      "target_read_bytes": 263685562368,
+      "other_read_bytes": 265680896,
+      "target_write_bytes": 0,
+      "other_write_bytes": 108107776
+    },
+    "3": {
+      "target_read_bytes": 0,
+      "other_read_bytes": 5120,
+      "target_write_bytes": 0,
+      "other_write_bytes": 560095232
+    }
+  },
+  "target_files": {
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf": {
+      "read_count": 107225,
+      "read_bytes": 138911027200,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf": {
+      "read_count": 91961,
+      "read_bytes": 116239499264,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf": {
+      "read_count": 6963,
+      "read_bytes": 8534982656,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf": {
+      "read_count": 13,
+      "read_bytes": 53248,
+      "write_count": 0,
+      "write_bytes": 0
+    }
+  },
+  "first_disk_completion_us": 5528,
+  "last_disk_completion_us": 183947601,
+  "gguf_reads_by_process": {
+    "model_probe.exe (69272)": {
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf": {
+        "read_count": 107225,
+        "read_bytes": 138911027200
+      },
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf": {
+        "read_count": 91961,
+        "read_bytes": 116239499264
+      },
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf": {
+        "read_count": 6963,
+        "read_bytes": 8534982656
+      },
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf": {
+        "read_count": 13,
+        "read_bytes": 53248
+      }
+    }
+  },
+  "target_gguf": {
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf": {
+      "read_count": 107225,
+      "read_bytes": 138911027200,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf": {
+      "read_count": 91961,
+      "read_bytes": 116239499264,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf": {
+      "read_count": 6963,
+      "read_bytes": 8534982656,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf": {
+      "read_count": 13,
+      "read_bytes": 53248,
+      "write_count": 0,
+      "write_bytes": 0
+    }
+  },
+  "target_expert_read_bytes": 263685509120,
+  "target_hard_faults": {
+    "\"\\Device\\HarddiskVolume12\\llama-ooc-p5-20261110\\runs\\q5-long-file\\result.json\"": {
+      "faults": 22,
+      "bytes": 1441792
+    },
+    "\"\\Device\\HarddiskVolume12\\$Extend\\$UsnJrnl:$J\"": {
+      "faults": 1,
+      "bytes": 4096
+    }
+  },
+  "target_pagefile_fault_bytes": 0,
+  "scope": "host DiskIO completion events attributed by initiating process; not NAND-internal bytes; Q5 expert shards 4/5/6"
+}

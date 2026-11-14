@@ -1,0 +1,441 @@
+{
+  "perf": {
+    "native": {
+      "rounds": 6,
+      "decode_tps": 5.122077917077657,
+      "prefill_tps": 6.343168414144552,
+      "request_wall_s": 46.23434935,
+      "startup_ready_s": 2.46314695,
+      "first_ttft_s": 21.21082725,
+      "pooled_decode_p50_p95_p99_ms": [
+        171.6009000000014,
+        358.6137349999994,
+        481.4414929999958
+      ],
+      "decode_tps_range": [
+        4.13961888849688,
+        6.33404972266938
+      ],
+      "prefill_tps_range": [
+        4.059235188652337,
+        8.906913140993833
+      ],
+      "request_wall_s_range": [
+        34.9552817,
+        62.347218
+      ],
+      "peak_rss_gib": 48.000003814697266,
+      "peak_private_gib": 17.331558227539062,
+      "min_available_ram_gib": 13.933837890625,
+      "min_commit_headroom_gib": 24.254100799560547,
+      "run_names": [
+        "perf-native-r1",
+        "perf-native-r2",
+        "perf-native-r3",
+        "perf-native-r4",
+        "perf-native-r5",
+        "perf-native-r6"
+      ]
+    },
+    "off": {
+      "rounds": 6,
+      "decode_tps": 5.689581270746496,
+      "prefill_tps": 8.273708369796212,
+      "request_wall_s": 37.891975900000006,
+      "startup_ready_s": 2.4185997500000003,
+      "first_ttft_s": 15.4711076,
+      "pooled_decode_p50_p95_p99_ms": [
+        159.83049999999997,
+        330.4470550000005,
+        467.4356419999993
+      ],
+      "decode_tps_range": [
+        5.13576911134938,
+        5.923574130524138
+      ],
+      "prefill_tps_range": [
+        5.2423009949846335,
+        8.781303830292906
+      ],
+      "request_wall_s_range": [
+        36.8697677,
+        48.9393655
+      ],
+      "peak_rss_gib": 48.000003814697266,
+      "peak_private_gib": 17.33167266845703,
+      "min_available_ram_gib": 13.82217025756836,
+      "min_commit_headroom_gib": 23.363971710205078,
+      "run_names": [
+        "perf-off-r1",
+        "perf-off-r2",
+        "perf-off-r3",
+        "perf-off-r4",
+        "perf-off-r5",
+        "perf-off-r6"
+      ]
+    },
+    "file": {
+      "rounds": 6,
+      "decode_tps": 2.2537524044965096,
+      "prefill_tps": 5.017254577208709,
+      "request_wall_s": 82.1105079,
+      "startup_ready_s": 2.4544707,
+      "first_ttft_s": 25.5123687,
+      "pooled_decode_p50_p95_p99_ms": [
+        390.0056499999955,
+        777.5211699999976,
+        1147.3169640000006
+      ],
+      "decode_tps_range": [
+        2.1759011437190887,
+        2.3117213874357643
+      ],
+      "prefill_tps_range": [
+        4.554857041737283,
+        5.202006004057792
+      ],
+      "request_wall_s_range": [
+        79.7156903,
+        86.604719
+      ],
+      "peak_rss_gib": 20.787097930908203,
+      "peak_private_gib": 29.450397491455078,
+      "min_available_ram_gib": 41.596073150634766,
+      "min_commit_headroom_gib": 13.46657943725586,
+      "run_names": [
+        "perf-file-r1",
+        "perf-file-r2",
+        "perf-file-r3",
+        "perf-file-r4",
+        "perf-file-r5",
+        "perf-file-r6"
+      ]
+    },
+    "default_off_regression": {
+      "decode_ratio": 1.110795533152026,
+      "prefill_ratio": 1.304349471684651,
+      "request_wall_ratio": 0.8195632994238299,
+      "decode_pass_limit_3_percent": true,
+      "prefill_pass_limit_3_percent": true,
+      "both_throughputs_pass_limit_3_percent": true
+    }
+  },
+  "matched": {
+    "native": {
+      "rounds": 6,
+      "decode_tps": 4.441733909186361,
+      "prefill_tps": 5.707351113103219,
+      "request_wall_s": 51.203136900000004,
+      "startup_ready_s": 2.3453695999999997,
+      "first_ttft_s": 22.4331467,
+      "pooled_decode_p50_p95_p99_ms": [
+        205.11219999999852,
+        405.5957049999987,
+        567.1742569999972
+      ],
+      "decode_tps_range": [
+        3.526072079587852,
+        5.161073990075138
+      ],
+      "prefill_tps_range": [
+        4.989329111342251,
+        8.466494143768994
+      ],
+      "request_wall_s_range": [
+        39.8901287,
+        61.84673539999999
+      ],
+      "peak_rss_gib": 48.000003814697266,
+      "peak_private_gib": 13.323772430419922,
+      "min_available_ram_gib": 12.40884780883789,
+      "min_commit_headroom_gib": 25.908794403076172,
+      "run_names": [
+        "matched-native-r1",
+        "matched-native-r2",
+        "matched-native-r3",
+        "matched-native-r4",
+        "matched-native-r5",
+        "matched-native-r6"
+      ]
+    },
+    "file": {
+      "rounds": 6,
+      "decode_tps": 2.2590574879763947,
+      "prefill_tps": 5.152021746776466,
+      "request_wall_s": 82.35216855,
+      "startup_ready_s": 2.38417215,
+      "first_ttft_s": 24.845053550000003,
+      "pooled_decode_p50_p95_p99_ms": [
+        397.11019999999667,
+        762.1395700000025,
+        1097.985839000001
+      ],
+      "decode_tps_range": [
+        2.1790626885725666,
+        2.3208534925195665
+      ],
+      "prefill_tps_range": [
+        4.643114292880954,
+        5.1976279455404235
+      ],
+      "request_wall_s_range": [
+        80.1927208,
+        83.18634709999999
+      ],
+      "peak_rss_gib": 20.780399322509766,
+      "peak_private_gib": 29.450237274169922,
+      "min_available_ram_gib": 40.873897552490234,
+      "min_commit_headroom_gib": 11.565746307373047,
+      "run_names": [
+        "matched-file-r1",
+        "matched-file-r2",
+        "matched-file-r3",
+        "matched-file-r4",
+        "matched-file-r5",
+        "matched-file-r6"
+      ]
+    },
+    "sync": {
+      "rounds": 6,
+      "decode_tps": 2.001177248525943,
+      "prefill_tps": 4.643891168216549,
+      "request_wall_s": 91.4109986,
+      "startup_ready_s": 2.3705385999999997,
+      "first_ttft_s": 27.5638073,
+      "pooled_decode_p50_p95_p99_ms": [
+        435.3560500000029,
+        884.1036399999962,
+        1504.2636470000004
+      ],
+      "decode_tps_range": [
+        1.9165764523818256,
+        2.0412131642170124
+      ],
+      "prefill_tps_range": [
+        4.4452736268906605,
+        4.714764449152595
+      ],
+      "request_wall_s_range": [
+        89.8627752,
+        95.2377798
+      ],
+      "peak_rss_gib": 20.786087036132812,
+      "peak_private_gib": 29.450340270996094,
+      "min_available_ram_gib": 40.143638610839844,
+      "min_commit_headroom_gib": 11.772266387939453,
+      "run_names": [
+        "matched-sync-r1",
+        "matched-sync-r2",
+        "matched-sync-r3",
+        "matched-sync-r4",
+        "matched-sync-r5",
+        "matched-sync-r6"
+      ]
+    }
+  },
+  "iq2": {
+    "native": {
+      "rounds": 6,
+      "decode_tps": 18.64258298124911,
+      "prefill_tps": 25.764277979234173,
+      "request_wall_s": 11.97425835,
+      "startup_ready_s": 4.8417416,
+      "first_ttft_s": 4.96917455,
+      "pooled_decode_p50_p95_p99_ms": [
+        48.468850000000785,
+        102.12617000000088,
+        154.1753940000004
+      ],
+      "decode_tps_range": [
+        15.238110961860253,
+        19.19500211719365
+      ],
+      "prefill_tps_range": [
+        22.209452558162827,
+        26.382353387954833
+      ],
+      "request_wall_s_range": [
+        11.640295,
+        14.2817271
+      ],
+      "peak_rss_gib": 19.970687866210938,
+      "peak_private_gib": 10.687259674072266,
+      "min_available_ram_gib": 24.989280700683594,
+      "min_commit_headroom_gib": 5.567325592041016,
+      "run_names": [
+        "iq2-native-r1",
+        "iq2-native-r2",
+        "iq2-native-r3",
+        "iq2-native-r4",
+        "iq2-native-r5",
+        "iq2-native-r6"
+      ]
+    },
+    "off": {
+      "rounds": 6,
+      "decode_tps": 17.907827946198793,
+      "prefill_tps": 24.829862087366738,
+      "request_wall_s": 12.259766950000001,
+      "startup_ready_s": 4.8152151,
+      "first_ttft_s": 5.155587250000001,
+      "pooled_decode_p50_p95_p99_ms": [
+        50.80404999999999,
+        113.167754999999,
+        168.46172999999962
+      ],
+      "decode_tps_range": [
+        14.051706429270876,
+        18.572621773588263
+      ],
+      "prefill_tps_range": [
+        21.089726256836062,
+        26.352274696440837
+      ],
+      "request_wall_s_range": [
+        12.066970400000002,
+        15.295196699999998
+      ],
+      "peak_rss_gib": 19.970661163330078,
+      "peak_private_gib": 10.687206268310547,
+      "min_available_ram_gib": 39.96217727661133,
+      "min_commit_headroom_gib": 27.799861907958984,
+      "run_names": [
+        "iq2-off-r1",
+        "iq2-off-r2",
+        "iq2-off-r3",
+        "iq2-off-r4",
+        "iq2-off-r5",
+        "iq2-off-r6"
+      ]
+    },
+    "file": {
+      "rounds": 6,
+      "decode_tps": 6.125387996530476,
+      "prefill_tps": 9.439138002242593,
+      "request_wall_s": 34.379606700000004,
+      "startup_ready_s": 1.9605294,
+      "first_ttft_s": 13.567696950000002,
+      "pooled_decode_p50_p95_p99_ms": [
+        125.93374999999973,
+        360.8706450000001,
+        804.6544049999995
+      ],
+      "decode_tps_range": [
+        5.862924962113033,
+        6.281971991338172
+      ],
+      "prefill_tps_range": [
+        8.973943929452236,
+        10.005380080470145
+      ],
+      "request_wall_s_range": [
+        33.857405,
+        35.487961000000006
+      ],
+      "peak_rss_gib": 17.11248016357422,
+      "peak_private_gib": 26.812679290771484,
+      "min_available_ram_gib": 42.02772903442383,
+      "min_commit_headroom_gib": 10.35616683959961,
+      "run_names": [
+        "iq2-file-r1",
+        "iq2-file-r2",
+        "iq2-file-r3",
+        "iq2-file-r4",
+        "iq2-file-r5",
+        "iq2-file-r6"
+      ]
+    },
+    "default_off_regression": {
+      "decode_ratio": 0.960587272922999,
+      "prefill_ratio": 0.9637321141845866,
+      "request_wall_ratio": 1.0238435309857834,
+      "decode_pass_limit_3_percent": false,
+      "prefill_pass_limit_3_percent": false,
+      "both_throughputs_pass_limit_3_percent": false
+    }
+  },
+  "quiet": {
+    "native": {
+      "rounds": 6,
+      "decode_tps": 18.478432754254076,
+      "prefill_tps": 25.80015737856168,
+      "request_wall_s": 12.028523949999999,
+      "startup_ready_s": 4.72223725,
+      "first_ttft_s": 4.96167255,
+      "pooled_decode_p50_p95_p99_ms": [
+        48.28855000000054,
+        101.70370000000116,
+        143.61780999999962
+      ],
+      "decode_tps_range": [
+        16.93019199264309,
+        18.767637700300615
+      ],
+      "prefill_tps_range": [
+        23.323927959383706,
+        25.860000583466263
+      ],
+      "request_wall_s_range": [
+        11.900999200000001,
+        13.169320800000001
+      ],
+      "peak_rss_gib": 19.922775268554688,
+      "peak_private_gib": 10.687450408935547,
+      "min_available_ram_gib": 39.980926513671875,
+      "min_commit_headroom_gib": 27.45181655883789,
+      "run_names": [
+        "quiet-native-r1",
+        "quiet-native-r2",
+        "quiet-native-r3",
+        "quiet-native-r4",
+        "quiet-native-r5",
+        "quiet-native-r6"
+      ]
+    },
+    "off": {
+      "rounds": 6,
+      "decode_tps": 18.55113098970921,
+      "prefill_tps": 25.676561069384185,
+      "request_wall_s": 11.9949661,
+      "startup_ready_s": 4.7662071,
+      "first_ttft_s": 4.98554485,
+      "pooled_decode_p50_p95_p99_ms": [
+        48.39309999999841,
+        100.80173500000063,
+        144.73764500000058
+      ],
+      "decode_tps_range": [
+        17.089603631134388,
+        18.96120883051268
+      ],
+      "prefill_tps_range": [
+        24.584640104589205,
+        25.81709439776514
+      ],
+      "request_wall_s_range": [
+        11.853637,
+        12.816377099999999
+      ],
+      "peak_rss_gib": 19.933509826660156,
+      "peak_private_gib": 10.687568664550781,
+      "min_available_ram_gib": 40.096458435058594,
+      "min_commit_headroom_gib": 28.68267822265625,
+      "run_names": [
+        "quiet-off-r1",
+        "quiet-off-r2",
+        "quiet-off-r3",
+        "quiet-off-r4",
+        "quiet-off-r5",
+        "quiet-off-r6"
+      ]
+    },
+    "default_off_regression": {
+      "decode_ratio": 1.0039342208520579,
+      "prefill_ratio": 0.9952094746026552,
+      "request_wall_ratio": 0.9972101439761444,
+      "decode_pass_limit_3_percent": true,
+      "prefill_pass_limit_3_percent": true,
+      "both_throughputs_pass_limit_3_percent": true
+    }
+  }
+}

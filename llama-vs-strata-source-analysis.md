@@ -1,5 +1,7 @@
 # Strata 与 llama.cpp 综合源码区别分析
 
+> 图片已随文档同步；每张图下方保留原始图代码和 SVG。见[完整图片索引](llama-vs-strata-image-gallery.md)。
+
 分析日期：2026-11-12。本文面向需要阅读、修改推理引擎和评估分层缓存的开发者。范围包括模型加载、执行图、MoE 权重、prefill、KV/会话状态、投机解码、服务调度、后端和本工作区的实验补丁。
 
 本文的源码事实来自本地固定快照；设计收益属于静态推断；性能数字只引用已有本机实验。本次没有运行模型、重新编译引擎或新增性能测量。
@@ -52,6 +54,13 @@ Strata 的 `third_party/strata-ggml/UPSTREAM.md` 明确列出从 llama.cpp 固�
 
 因此更准确的关系是：
 
+![3.1 不是以 llama.cpp 引擎主体为底的普通功能分支](assets/llama-vs-strata/source-analysis/figure-01.png)
+
+图 1：3.1 不是以 llama.cpp 引擎主体为底的普通功能分支 · [SVG 原图](assets/llama-vs-strata/source-analysis/figure-01.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```mermaid
 flowchart TD
     U["llama.cpp / ggml 固定上游"] --> G["Strata vendored ggml-base / ggml-cpu / 部分 MMQ"]
@@ -60,6 +69,8 @@ flowchart TD
     S --> SS["Python serve / Control / App"]
     L --> LS["C++ llama-server / UI / 嵌入式 API"]
 ```
+
+</details>
 
 这里不能简化成“Strata 只改了 llama.cpp 的缓存参数”，也不能简化成“Strata 没有使用 llama.cpp 代码”。图片编码和部分 pack 工具还有其他 llama.cpp 依赖；vendored 清单本身就注明 mtmd、gguf-py 等没有全部迁入。[S-UPSTREAM]
 
@@ -111,6 +122,13 @@ S 使用的 G 比 L 早。比较 MMQ、CPU 点积和量化数值行为时，应�
 
 HEAD 上的一次 decode 主链如下。这里的 `HEAD:` 行号来自上游快照；P 的插入会使当前工作树对应行后移：
 
+![5.1 llama.cpp：用通用 DAG 表达模型](assets/llama-vs-strata/source-analysis/figure-02.png)
+
+图 2：5.1 llama.cpp：用通用 DAG 表达模型 · [SVG 原图](assets/llama-vs-strata/source-analysis/figure-02.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```text
 llama_decode                          HEAD:src/llama-context.cpp:4905
   -> llama_context::decode(batch)     HEAD:src/llama-context.cpp:4887
@@ -130,6 +148,8 @@ llama_decode                          HEAD:src/llama-context.cpp:4905
   -> CPU / CUDA / 其他 backend 的算子和 kernel
 ```
 
+</details>
+
 注意以下实现区别：
 
 - **同一 decode API 也处理 prompt。** 由 batch/ubatch 大小和状态决定执行方式；多序列 decode 也可能有多行，不能以 `n_tokens > 1` 简单定义为语义上的 prefill。
@@ -147,6 +167,13 @@ S 也有轻量权重描述符 `WeightRef`，保存地址、二维尺寸、格式
 
 Flash-Next native pack 的当前 decode 主链：
 
+![5.2 Strata Flash-Next：显式模型流水线捕获为设备图](assets/llama-vs-strata/source-analysis/figure-03.png)
+
+图 3：5.2 Strata Flash-Next：显式模型流水线捕获为设备图 · [SVG 原图](assets/llama-vs-strata/source-analysis/figure-03.svg)
+
+<details>
+<summary>查看原始图代码</summary>
+
 ```text
 generate.cpp 的 main / serve 引擎循环
   -> Verifier::run(T, ...)
@@ -160,9 +187,18 @@ generate.cpp 的 main / serve 引擎循环
   -> commit(实际接受的行数)
 ```
 
+</details>
+
 `T` 是验证窗口的计算行数；没有草稿时也可以运行单 token 验证路径。native pack 不应再按旧循环概括成 `session_run_token -> block_layer_pre/post`：CLI 明确转入 verifier，serve 路径也直接调用 `ver.run`。[S-GEN-DECODE][S-VERIFY-RUN][S-VERIFY-COMMIT]
 
 一个可跟到 kernel 的例子是：
+
+![5.2 Strata Flash-Next：显式模型流水线捕获为设备图](assets/llama-vs-strata/source-analysis/figure-04.png)
+
+图 4：5.2 Strata Flash-Next：显式模型流水线捕获为设备图 · [SVG 原图](assets/llama-vs-strata/source-analysis/figure-04.svg)
+
+<details>
+<summary>查看原始图代码</summary>
 
 ```text
 Verifier dense projection
@@ -171,6 +207,8 @@ Verifier dense projection
   -> 按权重格式分派
   -> native_q4_k_mmvq_kernel（仅在对应格式/形状分支）
 ```
+
+</details>
 
 这说明选择 kernel 的职责更直接地出现在模型专用执行器中。它仍会使用 cuBLAS、ggml 点积/MMQ 和其他库；不能称为所有计算全部重新实现。[S-VERIFY-DENSE][S-NATIVE-MMVQ]
 
@@ -659,7 +697,7 @@ git -C llama.cpp show HEAD:src/llama-moe-cache.cpp
 [L-MEMORY]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/src/llama-memory.h:82
 [L-SCHEDULER]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/ggml/src/ggml-backend.cpp:1304
 [L-CUDA-DISPATCH]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/llama.cpp/ggml/src/ggml-cuda/ggml-cuda.cu:2263
-[R-Q5-REPORT]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/q5-strata-compare-20261111/REPORT.zh-CN.md:1
+[R-Q5-REPORT]: q5-strata-compare-20261111/REPORT.zh-CN.md
 [R-TIER-EVAL]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/llamacpp-tiered-cache-evaluation-and-implementation.md:5
 [R-LMCACHE]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/lmcache-llamacpp-kv-cache.md:75
 [R-OOC-PLAN]: C:/Users/Administrator/Documents/Code/my-code/lm-llama/research/llamacpp-strata-out-of-core-plan-20261109.zh-CN.md:1

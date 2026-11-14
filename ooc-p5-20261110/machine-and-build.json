@@ -1,0 +1,275 @@
+{
+  "branch": "feature/file-expert-store-p0-p2",
+  "head": "7d7f0287530bc8981690f361d8c1627dbae1c99a",
+  "source_sha256": {
+    "docs/development/file-expert-store.md": "5984fd25b15406bd75427e494d1d8f7093f865c1ce49ceeca52cd9fce011a6ee",
+    "ggml/include/ggml-backend.h": "d17a122013b7f70b99e84de51336f3126accfdd61a83fbbb5668a949e4515177",
+    "ggml/src/ggml-backend.cpp": "dbe3a461df0031ef7bf57437e15661b5340a0743b5941b6e8519459bf6ef1fe1",
+    "src/CMakeLists.txt": "831b49c61d5a8397cab8c8fa5781782a2403518aa0e1f900d82f51ddba83a441",
+    "src/llama-context.cpp": "6c7bd83cf8aee69a85a6e90900920d6392f62408592a08902c3cda599bee2ce9",
+    "src/llama-context.h": "5c67ce18c702a50a1c84433f11035c2fd1b4e3540501e45764809d3f3aced0cd",
+    "src/llama-expert-store.cpp": "5b04ff77e5f188e2487ead5aa113d45cceb1c5a2a282524bb4b45e3df1da577d",
+    "src/llama-expert-store.h": "6e2dd7253fc663dfa73d8a5f886b5a990cac6584d9c22b8eeb2a2fe6f95ec79d",
+    "src/llama-graph.cpp": "5dcb21e5e899ffa0995e4a3ab0cda4ea102ccb4874f2c87e8c469a32d3919fe8",
+    "src/llama-graph.h": "cedd161900a0096b0b0ea7b5f568e333bbeb680cafb2928c12aeaf98d305d5a3",
+    "src/llama-model-loader.cpp": "401beaac443d6927d8abd28cd157e123769ff2fbc3cf36129d873888f3a5d592",
+    "src/llama-model-loader.h": "d58857f007f8cefc8bd50cc58ba838d1ae57ed4fbba33b37ae3e712bef808ff4",
+    "src/llama-model.cpp": "1c9bf21039a856ab877ba581adcf3100d5a0566254b93d3e6f4bf6865ba64acb",
+    "src/llama-model.h": "a337f1d4763ae1064f83a4351802d9e05908abf55c1e6faee159fc9ad2aa5d1f",
+    "src/llama-moe-cache.cpp": "09a7faf70b8897fe9c521f138cf897f6ca7459361f2accef1d45b370c725a96e",
+    "src/llama-moe-cache.h": "e4e33a0d1fb8bb8764975efa8f7bd346cf427c94e35661fb402536b9e54614f8",
+    "src/llama-weight-rows.cpp": "2e102dfb337f26e066e82d2b715a69abc0c71ffd51ea9e1b9ade029a40a170d6",
+    "src/llama-weight-rows.h": "b0e713d5ba0d989ddff1c189669796241a12b9f321fce43f122eb94afd991e92",
+    "src/models/qwen4exp.cpp": "edd6f142d41166cb18b37dfa351b3654763cf719dc3ce365132c4d4846d23450",
+    "tests/CMakeLists.txt": "288a9f75dccdc9cf20fa3472548f4084721086800210936e760dd2078acc3b83",
+    "tests/test-backend-tensor.cpp": "2c0797e5d5c6ec5b6610d5f03c4be870c577b43fb943ff2dc20f3561e824a6c4",
+    "tests/test-expert-store.cpp": "05c11dd27a36682d3ab6aa4b8b1946bb8cf4c529f2780a630867c08d8ea844d9"
+  },
+  "binaries": {
+    "native-bin": {
+      "ggml-base.dll": "e16e386c41a5e9f54f775358c8b84029065e34d95a7d1d529cb8e06acf931d94",
+      "ggml-cpu.dll": "07abc1c53077ffaefa119bf53f6ae7ecac2fbf468d20cdba3d1b9fe12f1b6d9e",
+      "ggml-cuda.dll": "d92932751842af760e2be356cd5acf35a4aa5065586e26101c8285cdb94f4eb1",
+      "ggml.dll": "ca6af84b09bb256081f57ce3a1027489d924459eed34323fffc977341d5295e7",
+      "llama-cli-impl.dll": "fb41bc01d7f7bac202a38b938d326ecdc19b336671f6bb7e78f337dba9261ea9",
+      "llama-common.dll": "ee40a69691b9d4dc0dd985d0bd2b86833f90fc6b7c58b20c2471470280498a1f",
+      "llama-server-impl.dll": "7e0add2688a21149dbfc81ec9b750819b492964227b34703eaa160c1ff153286",
+      "llama.dll": "90aa0cc3d89391ccaa9cc06d86b52199e9e821912b1cc78a924fe8b1d7c52f06",
+      "model_probe.exe": "2a7fd9e9b71abb57c014e37b310a2c723f554c68b1e5933f5516857a7d3b3c70",
+      "mtmd.dll": "c441d604d7786d2e1321af777c2d3a188bc5f6f3b6f768ab859b8ee1b0ac3718"
+    },
+    "native-noprefetch-bin": {
+      "context_boundary_probe.exe": "985b533f642fbc7662d9b49220be9ba2dda66a56718eca834cda52f915f5250c",
+      "ggml-base.dll": "e16e386c41a5e9f54f775358c8b84029065e34d95a7d1d529cb8e06acf931d94",
+      "ggml-cpu.dll": "07abc1c53077ffaefa119bf53f6ae7ecac2fbf468d20cdba3d1b9fe12f1b6d9e",
+      "ggml-cuda.dll": "d92932751842af760e2be356cd5acf35a4aa5065586e26101c8285cdb94f4eb1",
+      "ggml.dll": "ca6af84b09bb256081f57ce3a1027489d924459eed34323fffc977341d5295e7",
+      "llama-cli-impl.dll": "fb41bc01d7f7bac202a38b938d326ecdc19b336671f6bb7e78f337dba9261ea9",
+      "llama-common.dll": "ee40a69691b9d4dc0dd985d0bd2b86833f90fc6b7c58b20c2471470280498a1f",
+      "llama-server-impl.dll": "7e0add2688a21149dbfc81ec9b750819b492964227b34703eaa160c1ff153286",
+      "llama.dll": "dc46536f4dd28dfc5a1e53b93461e43c738bacd23f4c9fdf5a543afcc3ded788",
+      "model_probe.exe": "2a7fd9e9b71abb57c014e37b310a2c723f554c68b1e5933f5516857a7d3b3c70",
+      "mtmd.dll": "c441d604d7786d2e1321af777c2d3a188bc5f6f3b6f768ab859b8ee1b0ac3718"
+    },
+    "file-bin": {
+      "context_boundary_probe.exe": "985b533f642fbc7662d9b49220be9ba2dda66a56718eca834cda52f915f5250c",
+      "ggml-base.dll": "931a829955a683baee03beb15a3306d2a037cb1ad699718eeb279e9c33ed5210",
+      "ggml-cpu.dll": "89a4a43a1117301a0a2d7f822420eba46fedef431e1d92e61453d50145132dcc",
+      "ggml-cuda.dll": "d7064c6870298fdbfe54ed4a1dfbe20044a889c4bc41c93f488e5b1a4f45066a",
+      "ggml.dll": "1eb3b4c17891624f0dedec3abcf69c0bc1d67d5df04d3dc22bf6967e02aba6f9",
+      "llama-cli-impl.dll": "8b40ccbd8e474e222ade5b9f3f8c77a1023d5efdc15078bd5ea9e4c43e4de946",
+      "llama-common.dll": "4c54552d6cea13a331fe25d534f198507fcfc3a1d3e980b904d0f1fdeffc1adb",
+      "llama-server-impl.dll": "a6f53acc4fcce6cbe046dd01fd0dbe6261456022693d0c2c5235cc4d5f767410",
+      "llama.dll": "708520ec331cd5981985c1bd6cb972c72e7f117c937aa7c0ce6e3789f350ef56",
+      "model_probe.exe": "2a7fd9e9b71abb57c014e37b310a2c723f554c68b1e5933f5516857a7d3b3c70",
+      "mtmd.dll": "4c073e000d029dcf8a023e9815c3f2bdaa4c6cd0d7e5e048b94dca5ba94cdcc9"
+    }
+  },
+  "models": {
+    "iq2": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\IQ2_XS\\Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00001-of-00002.gguf",
+        "bytes": 39225954592,
+        "mtime_ns": 1794191363557608800,
+        "sha256": "92cee27ae5bbadcd732416a0f7a7f0acc092399dbbe8f5a5efa707c2ec0a49d7"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\IQ2_XS\\Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00002-of-00002.gguf",
+        "bytes": 28800138432,
+        "mtime_ns": 1794191665273017200,
+        "sha256": "316b46f3a2dbd68c900f43136ab9449f9dcc3725dfd8c794847c204bc161e113"
+      }
+    ],
+    "q5": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00001-of-00006.gguf",
+        "bytes": 10946618,
+        "mtime_ns": 1794183865589166800,
+        "sha256": "610922cdb1afe1094e95d7a3e86b12ee33317ebbf7320ac9344e21b6ae4bb69f"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00002-of-00006.gguf",
+        "bytes": 682434912,
+        "mtime_ns": 1794183873593296200,
+        "sha256": "494ca4ed3dbf97bc28da88af3890b8877b9032f909812d00c0526a9ca5e91d2e"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf",
+        "bytes": 54400261312,
+        "mtime_ns": 1794184378215886400,
+        "sha256": "34efd79a80a1ce540a517a5d56171924b66ce1c38b04c904f17ad6d8ef17cf20"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf",
+        "bytes": 49990245824,
+        "mtime_ns": 1794184923189653300,
+        "sha256": "9ee6bbe462e6830864382d629101490625b1c95afa15492b7ad550c7bed2dd13"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf",
+        "bytes": 49882416192,
+        "mtime_ns": 1794185489272484100,
+        "sha256": "0b2437f661f584030cb5aeb8fb1bb70f6422518a6746bfcc0304167c7b6b8beb"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf",
+        "bytes": 3320101792,
+        "mtime_ns": 1794185560368960500,
+        "sha256": "55dd96c5ad0863b06b6393151b9ad0ac727b8d58a62e02a296ca5d5ddbfee4a3"
+      }
+    ]
+  },
+  "native_noprefetch_reference": {
+    "source_sha256": {
+      "src/llama-model.cpp": "13551c107b64e7ff92f9eb67472c622af827a68edbc96d39bf4e0a75bf5d9723",
+      "CMakeLists.txt": "6f7a18bca8b1aca9f4b32557bc724a33c554e438562cd57f3672f7cd07132d46"
+    },
+    "ggml_binary_identical": true,
+    "inference_source_commit": "7d7f0287530bc8981690f361d8c1627dbae1c99a",
+    "changes": "loader prefetch option; root CMake build plumbing",
+    "source_check": {
+      "checked_files": 248,
+      "crlf_only_files": 247,
+      "substantive_differences": [
+        {
+          "path": "src/llama-model.cpp",
+          "git_blob": "7e845bc30c9caa15cc378ec1d2144066256c50bc",
+          "reference_normalized_blob": "b28faad7ba0868b123095177bd82ff52df4a3486"
+        }
+      ]
+    }
+  },
+  "hardware": {
+    "captured": "2026-11-10T09:46:08.5553999+08:00",
+    "os": {
+      "Caption": "Microsoft Windows 11 \u4e13\u4e1a\u5de5\u4f5c\u7ad9\u7248",
+      "Version": "10.0.26200",
+      "BuildNumber": "26200",
+      "TotalVisibleMemorySize": 91594584,
+      "TotalVirtualMemorySize": 125149016
+    },
+    "cpu": {
+      "Name": "Intel(R) Core(TM) Ultra 7 270K Plus",
+      "NumberOfCores": 24,
+      "NumberOfLogicalProcessors": 24
+    },
+    "disks": [
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE1",
+        "Model": "WDC WDS960G2G0C-00AJM0",
+        "Size": 960194511360
+      },
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE3",
+        "Model": "Seagate ZP1000GV30012",
+        "Size": 1000202273280
+      },
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE2",
+        "Model": "ZHITAI Ti600 1TB",
+        "Size": 1000202273280
+      },
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE0",
+        "Model": "BIWIN X570 1TB",
+        "Size": 1024203640320
+      }
+    ],
+    "pagefile": {
+      "Name": "C:\\pagefile.sys",
+      "AllocatedBaseSize": 32768
+    },
+    "gpu": [
+      "0, GPU-bf0ccb9a-491e-34cc-aab1-6d5e96272e4b, NVIDIA GeForce RTX 5080, 616.64, 16303 MiB, 00000000:02:00.0",
+      "1, GPU-6845fa38-d19c-4045-912e-fcd88ffbaca5, NVIDIA GeForce RTX 5060 Ti, 616.64, 16311 MiB, 00000000:86:00.0"
+    ]
+  },
+  "build_cache_sha256": {
+    "build-CMakeCache.txt": "06daf451437c98d000d852bc22b8523d516c7dfd7192fed30e86327138f6a9a6",
+    "native-CMakeCache.txt": "44c7b6fad2761668a358d4158e5165f71bfe92b7418bbf9811f126f5884aecca"
+  },
+  "research_sha256": {
+    "analyze.py": "28aedccf43d4b907efc589471d2b641114bca4c7e91a0233668efae8de24f756",
+    "analyze_etw.py": "72bf7ff5f6d688d923b59aa5b5ef0f2da534ff499d4a5d1d443396dbea07f089",
+    "analyze_routes.py": "bd34026ae1cda7b70924ed8a2081ab912e01332d9d81471e72ec9cc6e326440a",
+    "archive.py": "738182596dddf3c7a60bce179298d9935821e09815c77c690bc0fbce8b5e987b",
+    "audit_acceptance.py": "37a834aaa9b441f0165d8f39ad9b3444261b6db8fdcb991ac1f16f159f1b3680",
+    "build-context-probe.ps1": "14a9892b6d0890c3a554f651e97a773f131990638d5e003fa6aabca1c3d5a56f",
+    "build-native-noprefetch.ps1": "c671320c67f04cfc1b29ba7ecc652c1ce4443f0a315174dfa0454665a53a687d",
+    "build-probes.ps1": "c5132b8df407e966565011c8722c4f3e6b56a3bab59d92599654509da26ad3a9",
+    "compare_logits.py": "c9a28f4913bed3eda2581b0299093d34c6d6ddf9cfd1f89bc1c803f988a7947b",
+    "context_boundary_probe.cpp": "56e60c8fef6fbb370279146dac4d7d197df74ddc08c240f865c769d2e3311396",
+    "DIAGNOSIS.md": "2b1da90bea74160045eab1a84330f975fb4c903c5c3f154dc87d58ab6a0ee8f1",
+    "EVIDENCE.md": "f55b9f5ef9c2d2076a63c4b9eef4695f2f0e3a587c5b02115161f2436590aa22",
+    "inspect_binary_identity.py": "f0ff36cf4d47b64592732c3b0fc590fa29c1e4f01a1d1203d6611fcfcf8abdf0",
+    "make_workloads.py": "7bfe7e945ac51c3fce13c0de071b1d20fd7e8ab04714b1ef2f323ebbb61e6158",
+    "model_probe.cpp": "4c00c917731ade82eee9902dd9a9cdabf1e26fc7953c2fbebd189ed102a9eab4",
+    "observe_long.py": "351d27493aa48b7b0f43c5373358d9cbc766aae90aa02574e0dcac3681dec46e",
+    "prepare_context_probe.py": "3761c1f5bf1a515ee397cae530076c3ce1e8fbc507cd7cb8bad75269fc007dde",
+    "PROTOCOL.zh-CN.md": "7025e0c668b10accf9c9046be07f599e78fd00e7e4e2011c80fb44bbe5bd18bf",
+    "recover_long_utf8.py": "848205846e8b1c4439c940275b6f85b3afd710a18692def2ccc4b72c7dcc5d90",
+    "render_evidence.py": "1a8f7983d9047dd93adb4c39687167f02adeea60b84e8b5e8dd9d7097e56cfee",
+    "RESULTS.zh-CN.md": "4de0a4cc0899fe91323342ccac7877c6564868b052a3ab471a6c40944ec1017f",
+    "REVIEW.md": "6fe911291a61008e5d0092f56366137d80ff2efee5ca28bad38db9d57a0ab7b9",
+    "run_acceptance.py": "b5c2f43e146a77329b9af1eb0f38c81250bd67b23915e59b59bb809a72694dc5",
+    "run_boundary.py": "3e03e8257711c831d1e0a66b52af02e29ba9db18aef08afbbeb16fbd2f2c3b65",
+    "run_context_boundary.py": "aa0521d5e846c7d222b3ccd107c16d9056ea57277ce6e1db8294589ab21d372b",
+    "run_iq2_extended.py": "98a39dc44c091056e0680bad793d6c19649ec1cc8b7a7653d72af693804a5a73",
+    "run_iq2_quiet.py": "cac028677eb999e68337edfc86a3cac4e16f183c7367d96526c88499131b8f5f",
+    "run_native_np_scan.py": "2d006bb4c531c7e0684389ae137c1b442a6c1beac706681bdaffd20063e287ea",
+    "run_probe.py": "abc3bcfeb87a85468a8f1352c98f2383a4ecb878e87e5f9aff730e179784d7ca",
+    "run_scan.py": "e8fa373369cf49f12f934d10af1d3e3e6c24e7dfea292ef0bdd5c6bfe923800c",
+    "STATUS.md": "26a13be8edc36e10198056ae25580b6865e4fa1af1b2b3906c465cb731b77b71",
+    "status.py": "58ca751b9301dafdd9a57637a0022141d70f488e3efc987e78d54d123b39f7e1",
+    "working_set.py": "e4e7b279ddab1458668a830e1bc88d38a24f7b3711ec735a7feefbf7a2574450"
+  },
+  "archived_at": "2026-11-10T13:00:17.271139+08:00",
+  "source_snapshot": "D:\\llama-ooc-p5-20261110\\p5-source",
+  "acceptance_audit": {
+    "expected_completed_runs": 76,
+    "missing": [],
+    "failed": [],
+    "capacity_workload_pass": true,
+    "budget_failures": [],
+    "unexpected_numerical_failures": [],
+    "required_exact_failures": [],
+    "known_cpu_fallback_tolerance_pass": false,
+    "default_off_gates": {
+      "perf": {
+        "decode_ratio": 1.110795533152026,
+        "prefill_ratio": 1.304349471684651,
+        "request_wall_ratio": 0.8195632994238299,
+        "decode_pass_limit_3_percent": true,
+        "prefill_pass_limit_3_percent": true,
+        "both_throughputs_pass_limit_3_percent": true
+      },
+      "iq2": {
+        "decode_ratio": 0.960587272922999,
+        "prefill_ratio": 0.9637321141845866,
+        "request_wall_ratio": 1.0238435309857834,
+        "decode_pass_limit_3_percent": false,
+        "prefill_pass_limit_3_percent": false,
+        "both_throughputs_pass_limit_3_percent": false
+      }
+    },
+    "controlled_gpu_capacity_and_correctness_pass": true,
+    "all_default_off_throughput_gates_pass": false,
+    "iq2_paired_recheck": {
+      "decode_ratio": 1.0039342208520579,
+      "prefill_ratio": 0.9952094746026552,
+      "request_wall_ratio": 0.9972101439761444,
+      "decode_pass_limit_3_percent": true,
+      "prefill_pass_limit_3_percent": true,
+      "both_throughputs_pass_limit_3_percent": true
+    },
+    "controlled_default_off_checks_pass": true,
+    "conditions": [
+      "matching GPU execution; CPU fallback comparison failed",
+      "Q5 native reference disables loader prefetch and has a 48 GiB process working-set cap",
+      "monitored IQ2 short-run regression failed; paired recheck omits runtime GPU queries and uses AB/BA order",
+      "no claim that every tested measurement condition passes the 3 percent gate"
+    ],
+    "acceptance_with_disclosed_conditions": true
+  },
+  "research_finalized_at": "2026-11-10T13:01:42.131581+08:00"
+}

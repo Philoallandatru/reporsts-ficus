@@ -1,0 +1,1089 @@
+{
+  "q5": {
+    "modes": {
+      "p5": {
+        "decode_tps": 2.241763071183823,
+        "prefill_tps": 5.09410820220838,
+        "wall_s": 86.46100000001024,
+        "load_s": 2.379854,
+        "ready_s": 2.5058419499999998,
+        "ttft_s": [
+          25.127963
+        ],
+        "request_wall_s": [
+          82.1175481
+        ],
+        "decode_p50_p95_p99_ms": [
+          391.14464999999757,
+          789.458475000004,
+          1119.9340689999995
+        ],
+        "first_token_from_process_start_s": 27.6198817,
+        "decode_counters": {
+          "logical_mib_per_decode": 464.1074736842106,
+          "direct_mib_per_decode": 465.53101052631575,
+          "ram_request_hit_ratio": 0.5280220304554688,
+          "h2d_payload_mib_per_decode": 983.301305263158
+        },
+        "final_payload_fraction": 0.7671673056092128,
+        "final_evictions": [
+          43824.0,
+          43824.0,
+          43824.0,
+          43824.0,
+          43824.0,
+          43824.0
+        ],
+        "shared_ram_gpu_bytes": [
+          3599385600,
+          3599385600,
+          3599385600,
+          3599385600,
+          3599385600,
+          3599385600
+        ],
+        "peak_rss_gib": 20.787364959716797,
+        "peak_private_gib": 29.45125961303711,
+        "min_ram_available_gib": 38.72549819946289,
+        "min_commit_headroom_gib": 9.865009307861328
+      },
+      "p6": {
+        "decode_tps": 2.4494591548546767,
+        "prefill_tps": 5.058936151202331,
+        "wall_s": 82.21100000001024,
+        "load_s": 2.33298535,
+        "ready_s": 2.4598119499999997,
+        "ttft_s": [
+          25.3022127
+        ],
+        "request_wall_s": [
+          77.82818415
+        ],
+        "decode_p50_p95_p99_ms": [
+          362.05975000000024,
+          717.0939800000001,
+          1034.3412129999983
+        ],
+        "first_token_from_process_start_s": 27.81569095,
+        "decode_counters": {
+          "logical_mib_per_decode": 385.3924210526315,
+          "direct_mib_per_decode": 386.574305263158,
+          "ram_request_hit_ratio": 0.6082096165119354,
+          "h2d_payload_mib_per_decode": 983.3012842105262
+        },
+        "final_payload_fraction": 0.9999700299950308,
+        "final_evictions": [
+          32995.0,
+          32995.0,
+          32995.0,
+          32995.0,
+          32995.0,
+          32995.0
+        ],
+        "shared_ram_gpu_bytes": [
+          3687244800,
+          3687244800,
+          3687244800,
+          3687244800,
+          3687244800,
+          3687244800
+        ],
+        "peak_rss_gib": 21.400794982910156,
+        "peak_private_gib": 29.450881958007812,
+        "min_ram_available_gib": 37.491973876953125,
+        "min_commit_headroom_gib": 10.238075256347656
+      }
+    },
+    "pairs": [
+      {
+        "round": 1,
+        "baseline": "q5-p5-r1",
+        "candidate": "q5-p6-r1",
+        "decode_ratio": 1.1343360068958543,
+        "prefill_ratio": 1.0981210465198001,
+        "request_wall_ratio": 0.8912655675020311,
+        "ttft_ratio": 0.9106469005058986,
+        "latency_ratios": [
+          0.877592591219319,
+          0.8793242200590573,
+          0.7423540031611244
+        ]
+      },
+      {
+        "round": 2,
+        "baseline": "q5-p5-r2",
+        "candidate": "q5-p6-r2",
+        "decode_ratio": 1.1032346939873037,
+        "prefill_ratio": 1.0140535306528164,
+        "request_wall_ratio": 0.931031283735461,
+        "ttft_ratio": 0.9861400572456172,
+        "latency_ratios": [
+          0.9228542999418137,
+          0.9186380780871991,
+          0.9824251539236162
+        ]
+      },
+      {
+        "round": 3,
+        "baseline": "q5-p5-r3",
+        "candidate": "q5-p6-r3",
+        "decode_ratio": 1.1000023881279146,
+        "prefill_ratio": 0.9833699306743701,
+        "request_wall_ratio": 0.9418025173631024,
+        "ttft_ratio": 1.0169104039671353,
+        "latency_ratios": [
+          0.946975259030207,
+          0.8582406439692113,
+          0.8279871117450195
+        ]
+      },
+      {
+        "round": 4,
+        "baseline": "q5-p5-r4",
+        "candidate": "q5-p6-r4",
+        "decode_ratio": 1.0138140283573367,
+        "prefill_ratio": 0.9661881595875504,
+        "request_wall_ratio": 1.0008031081836213,
+        "ttft_ratio": 1.0349949347470118,
+        "latency_ratios": [
+          0.9680328036702033,
+          0.992218519905203,
+          1.090950405635193
+        ]
+      },
+      {
+        "round": 5,
+        "baseline": "q5-p5-r5",
+        "candidate": "q5-p6-r5",
+        "decode_ratio": 1.0741336727181396,
+        "prefill_ratio": 0.8698176164290174,
+        "request_wall_ratio": 0.9988208672046567,
+        "ttft_ratio": 1.1496622881544012,
+        "latency_ratios": [
+          0.9147337726107924,
+          0.9504269809541183,
+          1.1299326132280305
+        ]
+      },
+      {
+        "round": 6,
+        "baseline": "q5-p5-r6",
+        "candidate": "q5-p6-r6",
+        "decode_ratio": 1.082126638430818,
+        "prefill_ratio": 1.004199097780554,
+        "request_wall_ratio": 0.9464903236453673,
+        "ttft_ratio": 0.995821802182018,
+        "latency_ratios": [
+          0.9442399581250659,
+          0.8946851820413602,
+          0.8476363497486873
+        ]
+      }
+    ],
+    "paired_intervals": {
+      "decode_ratio": {
+        "median": 1.0910645132793664,
+        "bootstrap_95_percentile": [
+          1.0439738505377383,
+          1.118785350441579
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      },
+      "prefill_ratio": {
+        "median": 0.993784514227462,
+        "bootstrap_95_percentile": [
+          0.918002888008284,
+          1.0560872885863084
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      },
+      "request_wall_ratio": {
+        "median": 0.9441464205042349,
+        "bootstrap_95_percentile": [
+          0.9111484256187461,
+          0.9998119876941389
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      },
+      "ttft_ratio": {
+        "median": 1.0063661030745767,
+        "bootstrap_95_percentile": [
+          0.9483934788757579,
+          1.0923286114507065
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      }
+    },
+    "median_decode_speed_ratio": 1.0926485436131188
+  },
+  "iq2": {
+    "modes": {
+      "p5": {
+        "decode_tps": 6.376868551401072,
+        "prefill_tps": 8.698011318832204,
+        "wall_s": 38.10150000010617,
+        "load_s": 1.57543625,
+        "ready_s": 1.6841226,
+        "ttft_s": [
+          14.717105199999999
+        ],
+        "request_wall_s": [
+          34.8674279
+        ],
+        "decode_p50_p95_p99_ms": [
+          116.22854999999888,
+          361.6233500000007,
+          680.0661709999997
+        ],
+        "first_token_from_process_start_s": 16.4961567,
+        "decode_counters": {
+          "logical_mib_per_decode": 53.15044210526313,
+          "direct_mib_per_decode": 53.60362105263159,
+          "ram_request_hit_ratio": 0.7234058514628657,
+          "h2d_payload_mib_per_decode": 193.05766315789472
+        },
+        "final_payload_fraction": 0.7862726270180689,
+        "final_evictions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shared_ram_gpu_bytes": [
+          4289382400,
+          4289382400,
+          4289382400,
+          4289382400,
+          4289382400,
+          4289382400
+        ],
+        "peak_rss_gib": 17.08682632446289,
+        "peak_private_gib": 26.813514709472656,
+        "min_ram_available_gib": 42.933658599853516,
+        "min_commit_headroom_gib": 14.386741638183594
+      },
+      "p6": {
+        "decode_tps": 6.445020859957276,
+        "prefill_tps": 8.680616758002074,
+        "wall_s": 37.84399999992456,
+        "load_s": 1.5620481499999999,
+        "ready_s": 1.6756351999999999,
+        "ttft_s": [
+          14.7460043
+        ],
+        "request_wall_s": [
+          34.6901876
+        ],
+        "decode_p50_p95_p99_ms": [
+          113.30914999999742,
+          344.6104650000002,
+          675.2765869999997
+        ],
+        "first_token_from_process_start_s": 16.440257250000002,
+        "decode_counters": {
+          "logical_mib_per_decode": 53.15044210526313,
+          "direct_mib_per_decode": 53.60362105263159,
+          "ram_request_hit_ratio": 0.7234058514628657,
+          "h2d_payload_mib_per_decode": 193.05766315789472
+        },
+        "final_payload_fraction": 0.786271283270751,
+        "final_evictions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shared_ram_gpu_bytes": [
+          4289382400,
+          4289382400,
+          4289382400,
+          4289382400,
+          4289382400,
+          4289382400
+        ],
+        "peak_rss_gib": 16.65343475341797,
+        "peak_private_gib": 26.813610076904297,
+        "min_ram_available_gib": 43.353538513183594,
+        "min_commit_headroom_gib": 13.495586395263672
+      }
+    },
+    "pairs": [
+      {
+        "round": 1,
+        "baseline": "iq2-p5-r1",
+        "candidate": "iq2-p6-r1",
+        "decode_ratio": 0.9774722100580581,
+        "prefill_ratio": 0.8784072921025166,
+        "request_wall_ratio": 1.0723528887813707,
+        "ttft_ratio": 1.1384123245374558,
+        "latency_ratios": [
+          0.9756268894383651,
+          1.1155277068963056,
+          1.035546935838221
+        ]
+      },
+      {
+        "round": 2,
+        "baseline": "iq2-p5-r2",
+        "candidate": "iq2-p6-r2",
+        "decode_ratio": 1.011838172509658,
+        "prefill_ratio": 1.0178761325831245,
+        "request_wall_ratio": 0.9859241669776694,
+        "ttft_ratio": 0.9824742789636952,
+        "latency_ratios": [
+          0.9799062954239115,
+          0.9434149745063086,
+          0.8476396613970263
+        ]
+      },
+      {
+        "round": 3,
+        "baseline": "iq2-p5-r3",
+        "candidate": "iq2-p6-r3",
+        "decode_ratio": 1.0223466797070782,
+        "prefill_ratio": 1.0023027683216403,
+        "request_wall_ratio": 0.9866274692676519,
+        "ttft_ratio": 0.9977033609904279,
+        "latency_ratios": [
+          1.0122409762721993,
+          0.9000430322731382,
+          0.9425397425164284
+        ]
+      },
+      {
+        "round": 4,
+        "baseline": "iq2-p5-r4",
+        "candidate": "iq2-p6-r4",
+        "decode_ratio": 1.0465759293833674,
+        "prefill_ratio": 1.1038377882924277,
+        "request_wall_ratio": 0.9339929237890112,
+        "ttft_ratio": 0.9059319773068764,
+        "latency_ratios": [
+          0.9770600525759379,
+          0.9308234539715359,
+          0.8723760985310509
+        ]
+      },
+      {
+        "round": 5,
+        "baseline": "iq2-p5-r5",
+        "candidate": "iq2-p6-r5",
+        "decode_ratio": 1.0107082297032295,
+        "prefill_ratio": 0.9897963869959266,
+        "request_wall_ratio": 0.9971771496202281,
+        "ttft_ratio": 1.010312911416608,
+        "latency_ratios": [
+          0.9681971107290922,
+          0.9845341670206038,
+          0.9977202145631044
+        ]
+      },
+      {
+        "round": 6,
+        "baseline": "iq2-p5-r6",
+        "candidate": "iq2-p6-r6",
+        "decode_ratio": 0.9990060468282654,
+        "prefill_ratio": 0.9928220359574909,
+        "request_wall_ratio": 1.0032834917801092,
+        "ttft_ratio": 1.007231469859769,
+        "latency_ratios": [
+          0.9788382017809552,
+          0.9730154479777416,
+          1.0475562641583211
+        ]
+      }
+    ],
+    "paired_intervals": {
+      "decode_ratio": {
+        "median": 1.0112732011064436,
+        "bootstrap_95_percentile": [
+          0.9882391284431618,
+          1.0344613045452227
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      },
+      "prefill_ratio": {
+        "median": 0.9975624021395656,
+        "bootstrap_95_percentile": [
+          0.9341018395492215,
+          1.0608569604377762
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      },
+      "request_wall_ratio": {
+        "median": 0.99190230944394,
+        "bootstrap_95_percentile": [
+          0.9599585453833404,
+          1.03781819028074
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      },
+      "ttft_ratio": {
+        "median": 1.0024674154250985,
+        "bootstrap_95_percentile": [
+          0.9442031281352858,
+          1.074362617977032
+        ],
+        "scope": "descriptive paired bootstrap, six pairs; shared-machine noise is not controlled"
+      }
+    },
+    "median_decode_speed_ratio": 1.010687425655219
+  },
+  "budget_checks": [
+    {
+      "name": "context-p5",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1023001216,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "context-p6",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 4201,
+          "payload": 4732006400
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 90,
+          "payload": 120960000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 2146,
+          "payload": 3735756800
+        }
+      ],
+      "grouped_exact_allocated_bytes": 8588980800,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1023001216,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p5-r1",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p5-r2",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p5-r3",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p5-r4",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p5-r5",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p5-r6",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p6-r1",
+      "groups": [
+        {
+          "bytes": 358400,
+          "units": 3072,
+          "slots": 1489,
+          "payload": 533657600
+        },
+        {
+          "bytes": 422400,
+          "units": 11264,
+          "slots": 5458,
+          "payload": 2305459200
+        },
+        {
+          "bytes": 460800,
+          "units": 24576,
+          "slots": 11907,
+          "payload": 5486745600
+        },
+        {
+          "bytes": 524800,
+          "units": 34816,
+          "slots": 16868,
+          "payload": 8852326400
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17179617840,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p6-r2",
+      "groups": [
+        {
+          "bytes": 358400,
+          "units": 3072,
+          "slots": 1489,
+          "payload": 533657600
+        },
+        {
+          "bytes": 422400,
+          "units": 11264,
+          "slots": 5458,
+          "payload": 2305459200
+        },
+        {
+          "bytes": 460800,
+          "units": 24576,
+          "slots": 11907,
+          "payload": 5486745600
+        },
+        {
+          "bytes": 524800,
+          "units": 34816,
+          "slots": 16868,
+          "payload": 8852326400
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17179617840,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p6-r3",
+      "groups": [
+        {
+          "bytes": 358400,
+          "units": 3072,
+          "slots": 1489,
+          "payload": 533657600
+        },
+        {
+          "bytes": 422400,
+          "units": 11264,
+          "slots": 5458,
+          "payload": 2305459200
+        },
+        {
+          "bytes": 460800,
+          "units": 24576,
+          "slots": 11907,
+          "payload": 5486745600
+        },
+        {
+          "bytes": 524800,
+          "units": 34816,
+          "slots": 16868,
+          "payload": 8852326400
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17179617840,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p6-r4",
+      "groups": [
+        {
+          "bytes": 358400,
+          "units": 3072,
+          "slots": 1489,
+          "payload": 533657600
+        },
+        {
+          "bytes": 422400,
+          "units": 11264,
+          "slots": 5458,
+          "payload": 2305459200
+        },
+        {
+          "bytes": 460800,
+          "units": 24576,
+          "slots": 11907,
+          "payload": 5486745600
+        },
+        {
+          "bytes": 524800,
+          "units": 34816,
+          "slots": 16868,
+          "payload": 8852326400
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17179617840,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p6-r5",
+      "groups": [
+        {
+          "bytes": 358400,
+          "units": 3072,
+          "slots": 1489,
+          "payload": 533657600
+        },
+        {
+          "bytes": 422400,
+          "units": 11264,
+          "slots": 5458,
+          "payload": 2305459200
+        },
+        {
+          "bytes": 460800,
+          "units": 24576,
+          "slots": 11907,
+          "payload": 5486745600
+        },
+        {
+          "bytes": 524800,
+          "units": 34816,
+          "slots": 16868,
+          "payload": 8852326400
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17179617840,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "iq2-p6-r6",
+      "groups": [
+        {
+          "bytes": 358400,
+          "units": 3072,
+          "slots": 1489,
+          "payload": 533657600
+        },
+        {
+          "bytes": 422400,
+          "units": 11264,
+          "slots": 5458,
+          "payload": 2305459200
+        },
+        {
+          "bytes": 460800,
+          "units": 24576,
+          "slots": 11907,
+          "payload": 5486745600
+        },
+        {
+          "bytes": 524800,
+          "units": 34816,
+          "slots": 16868,
+          "payload": 8852326400
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17179617840,
+      "gpu_cache_allocated_mib": 4094.48,
+      "graph_workspace_max_bytes": 593137920,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "no-ram-p6",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "ppl-p5",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "ppl-p6",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-long-p6",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 4201,
+          "payload": 4732006400
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 90,
+          "payload": 120960000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 2146,
+          "payload": 3735756800
+        }
+      ],
+      "grouped_exact_allocated_bytes": 8588980800,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p5-r1",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p5-r2",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p5-r3",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p5-r4",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p5-r5",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p5-r6",
+      "groups": [],
+      "grouped_exact_allocated_bytes": null,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p6-r1",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p6-r2",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p6-r3",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p6-r4",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p6-r5",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "q5-p6-r6",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    },
+    {
+      "name": "sync-p6",
+      "groups": [
+        {
+          "bytes": 1126400,
+          "units": 48128,
+          "slots": 8404,
+          "payload": 9466265600
+        },
+        {
+          "bytes": 1344000,
+          "units": 1024,
+          "slots": 179,
+          "payload": 240576000
+        },
+        {
+          "bytes": 1740800,
+          "units": 24576,
+          "slots": 4292,
+          "payload": 7471513600
+        }
+      ],
+      "grouped_exact_allocated_bytes": 17178870320,
+      "gpu_cache_allocated_mib": 4091.94,
+      "graph_workspace_max_bytes": 1871090816,
+      "gpu_budget_pass": true,
+      "sampled_budget_and_idle_pass": true,
+      "failures_zero": true
+    }
+  ],
+  "all_budget_checks_pass": true
+}

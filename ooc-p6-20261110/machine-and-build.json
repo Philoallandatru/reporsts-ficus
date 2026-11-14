@@ -1,0 +1,343 @@
+{
+  "branch": "feature/file-expert-store-p0-p2",
+  "head": "7d7f0287530bc8981690f361d8c1627dbae1c99a",
+  "source_sha256": {
+    "docs/development/file-expert-store.md": "130f784d9484c0eb2ee03c7ce1779816d87ed9745850cb511a423b62c0c0940c",
+    "ggml/include/ggml-backend.h": "d17a122013b7f70b99e84de51336f3126accfdd61a83fbbb5668a949e4515177",
+    "ggml/src/ggml-backend.cpp": "dbe3a461df0031ef7bf57437e15661b5340a0743b5941b6e8519459bf6ef1fe1",
+    "src/CMakeLists.txt": "831b49c61d5a8397cab8c8fa5781782a2403518aa0e1f900d82f51ddba83a441",
+    "src/llama-context.cpp": "6c7bd83cf8aee69a85a6e90900920d6392f62408592a08902c3cda599bee2ce9",
+    "src/llama-context.h": "5c67ce18c702a50a1c84433f11035c2fd1b4e3540501e45764809d3f3aced0cd",
+    "src/llama-expert-store.cpp": "11b17bfa631f45b30384c49ac07017d5fbf5194adc78f3420081b58ac1335678",
+    "src/llama-expert-store.h": "6e2dd7253fc663dfa73d8a5f886b5a990cac6584d9c22b8eeb2a2fe6f95ec79d",
+    "src/llama-graph.cpp": "5dcb21e5e899ffa0995e4a3ab0cda4ea102ccb4874f2c87e8c469a32d3919fe8",
+    "src/llama-graph.h": "cedd161900a0096b0b0ea7b5f568e333bbeb680cafb2928c12aeaf98d305d5a3",
+    "src/llama-model-loader.cpp": "401beaac443d6927d8abd28cd157e123769ff2fbc3cf36129d873888f3a5d592",
+    "src/llama-model-loader.h": "d58857f007f8cefc8bd50cc58ba838d1ae57ed4fbba33b37ae3e712bef808ff4",
+    "src/llama-model.cpp": "1c9bf21039a856ab877ba581adcf3100d5a0566254b93d3e6f4bf6865ba64acb",
+    "src/llama-model.h": "a337f1d4763ae1064f83a4351802d9e05908abf55c1e6faee159fc9ad2aa5d1f",
+    "src/llama-moe-cache.cpp": "09a7faf70b8897fe9c521f138cf897f6ca7459361f2accef1d45b370c725a96e",
+    "src/llama-moe-cache.h": "e4e33a0d1fb8bb8764975efa8f7bd346cf427c94e35661fb402536b9e54614f8",
+    "src/llama-weight-rows.cpp": "2e102dfb337f26e066e82d2b715a69abc0c71ffd51ea9e1b9ade029a40a170d6",
+    "src/llama-weight-rows.h": "b0e713d5ba0d989ddff1c189669796241a12b9f321fce43f122eb94afd991e92",
+    "src/models/qwen4exp.cpp": "edd6f142d41166cb18b37dfa351b3654763cf719dc3ce365132c4d4846d23450",
+    "tests/CMakeLists.txt": "288a9f75dccdc9cf20fa3472548f4084721086800210936e760dd2078acc3b83",
+    "tests/test-backend-tensor.cpp": "2c0797e5d5c6ec5b6610d5f03c4be870c577b43fb943ff2dc20f3561e824a6c4",
+    "tests/test-expert-store.cpp": "0ba0c711ad43f37896b02afb71147a89aebc9865fb82c11e363fb3dc61ff8f8c"
+  },
+  "p6_changed_files": [
+    "docs/development/file-expert-store.md",
+    "src/llama-expert-store.cpp",
+    "tests/test-expert-store.cpp"
+  ],
+  "source_snapshot": "D:\\llama-ooc-p6-20261110\\p6-source",
+  "baseline_source_snapshot": "D:\\llama-ooc-p5-20261110\\p5-source",
+  "binaries": {
+    "p5": {
+      "context_boundary_probe.exe": "985b533f642fbc7662d9b49220be9ba2dda66a56718eca834cda52f915f5250c",
+      "ggml-base.dll": "931a829955a683baee03beb15a3306d2a037cb1ad699718eeb279e9c33ed5210",
+      "ggml-cpu.dll": "89a4a43a1117301a0a2d7f822420eba46fedef431e1d92e61453d50145132dcc",
+      "ggml-cuda.dll": "d7064c6870298fdbfe54ed4a1dfbe20044a889c4bc41c93f488e5b1a4f45066a",
+      "ggml.dll": "1eb3b4c17891624f0dedec3abcf69c0bc1d67d5df04d3dc22bf6967e02aba6f9",
+      "llama-cli-impl.dll": "8b40ccbd8e474e222ade5b9f3f8c77a1023d5efdc15078bd5ea9e4c43e4de946",
+      "llama-common.dll": "4c54552d6cea13a331fe25d534f198507fcfc3a1d3e980b904d0f1fdeffc1adb",
+      "llama-server-impl.dll": "a6f53acc4fcce6cbe046dd01fd0dbe6261456022693d0c2c5235cc4d5f767410",
+      "llama.dll": "708520ec331cd5981985c1bd6cb972c72e7f117c937aa7c0ce6e3789f350ef56",
+      "model_probe.exe": "2a7fd9e9b71abb57c014e37b310a2c723f554c68b1e5933f5516857a7d3b3c70",
+      "mtmd.dll": "4c073e000d029dcf8a023e9815c3f2bdaa4c6cd0d7e5e048b94dca5ba94cdcc9"
+    },
+    "p6": {
+      "context_boundary_probe.exe": "985b533f642fbc7662d9b49220be9ba2dda66a56718eca834cda52f915f5250c",
+      "ggml-base.dll": "931a829955a683baee03beb15a3306d2a037cb1ad699718eeb279e9c33ed5210",
+      "ggml-cpu.dll": "89a4a43a1117301a0a2d7f822420eba46fedef431e1d92e61453d50145132dcc",
+      "ggml-cuda.dll": "d7064c6870298fdbfe54ed4a1dfbe20044a889c4bc41c93f488e5b1a4f45066a",
+      "ggml.dll": "1eb3b4c17891624f0dedec3abcf69c0bc1d67d5df04d3dc22bf6967e02aba6f9",
+      "llama-cli-impl.dll": "8b40ccbd8e474e222ade5b9f3f8c77a1023d5efdc15078bd5ea9e4c43e4de946",
+      "llama-common.dll": "4c54552d6cea13a331fe25d534f198507fcfc3a1d3e980b904d0f1fdeffc1adb",
+      "llama-server-impl.dll": "a6f53acc4fcce6cbe046dd01fd0dbe6261456022693d0c2c5235cc4d5f767410",
+      "llama.dll": "e255c3779245c0b74ba30f6c549f17dc26aafda106d7dfb81f2bf4ce25f32c42",
+      "model_probe.exe": "2a7fd9e9b71abb57c014e37b310a2c723f554c68b1e5933f5516857a7d3b3c70",
+      "mtmd.dll": "4c073e000d029dcf8a023e9815c3f2bdaa4c6cd0d7e5e048b94dca5ba94cdcc9"
+    }
+  },
+  "models": {
+    "iq2": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\IQ2_XS\\Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00001-of-00002.gguf",
+        "bytes": 39225954592,
+        "mtime_ns": 1794191363557608800,
+        "sha256": "92cee27ae5bbadcd732416a0f7a7f0acc092399dbbe8f5a5efa707c2ec0a49d7"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\IQ2_XS\\Qwen3.8-Flash-Next-GSQ-RCO-IQ2_XS-00002-of-00002.gguf",
+        "bytes": 28800138432,
+        "mtime_ns": 1794191665273017200,
+        "sha256": "316b46f3a2dbd68c900f43136ab9449f9dcc3725dfd8c794847c204bc161e113"
+      }
+    ],
+    "q5": [
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00001-of-00006.gguf",
+        "bytes": 10946618,
+        "mtime_ns": 1794183865589166800,
+        "sha256": "610922cdb1afe1094e95d7a3e86b12ee33317ebbf7320ac9344e21b6ae4bb69f"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00002-of-00006.gguf",
+        "bytes": 682434912,
+        "mtime_ns": 1794183873593296200,
+        "sha256": "494ca4ed3dbf97bc28da88af3890b8877b9032f909812d00c0526a9ca5e91d2e"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf",
+        "bytes": 54400261312,
+        "mtime_ns": 1794184378215886400,
+        "sha256": "34efd79a80a1ce540a517a5d56171924b66ce1c38b04c904f17ad6d8ef17cf20"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf",
+        "bytes": 49990245824,
+        "mtime_ns": 1794184923189653300,
+        "sha256": "9ee6bbe462e6830864382d629101490625b1c95afa15492b7ad550c7bed2dd13"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf",
+        "bytes": 49882416192,
+        "mtime_ns": 1794185489272484100,
+        "sha256": "0b2437f661f584030cb5aeb8fb1bb70f6422518a6746bfcc0304167c7b6b8beb"
+      },
+      {
+        "path": "C:\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf",
+        "bytes": 3320101792,
+        "mtime_ns": 1794185560368960500,
+        "sha256": "55dd96c5ad0863b06b6393151b9ad0ac727b8d58a62e02a296ca5d5ddbfee4a3"
+      }
+    ]
+  },
+  "hardware": {
+    "captured": "2026-11-10T09:46:08.5553999+08:00",
+    "os": {
+      "Caption": "Microsoft Windows 11 \u4e13\u4e1a\u5de5\u4f5c\u7ad9\u7248",
+      "Version": "10.0.26200",
+      "BuildNumber": "26200",
+      "TotalVisibleMemorySize": 91594584,
+      "TotalVirtualMemorySize": 125149016
+    },
+    "cpu": {
+      "Name": "Intel(R) Core(TM) Ultra 7 270K Plus",
+      "NumberOfCores": 24,
+      "NumberOfLogicalProcessors": 24
+    },
+    "disks": [
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE1",
+        "Model": "WDC WDS960G2G0C-00AJM0",
+        "Size": 960194511360
+      },
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE3",
+        "Model": "Seagate ZP1000GV30012",
+        "Size": 1000202273280
+      },
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE2",
+        "Model": "ZHITAI Ti600 1TB",
+        "Size": 1000202273280
+      },
+      {
+        "DeviceID": "\\\\.\\PHYSICALDRIVE0",
+        "Model": "BIWIN X570 1TB",
+        "Size": 1024203640320
+      }
+    ],
+    "pagefile": {
+      "Name": "C:\\pagefile.sys",
+      "AllocatedBaseSize": 32768
+    },
+    "gpu": [
+      "0, GPU-bf0ccb9a-491e-34cc-aab1-6d5e96272e4b, NVIDIA GeForce RTX 5080, 616.64, 16303 MiB, 00000000:02:00.0",
+      "1, GPU-6845fa38-d19c-4045-912e-fcd88ffbaca5, NVIDIA GeForce RTX 5060 Ti, 616.64, 16311 MiB, 00000000:86:00.0"
+    ]
+  },
+  "build_cache_sha256": "06daf451437c98d000d852bc22b8523d516c7dfd7192fed30e86327138f6a9a6",
+  "gpu_after_tests": "NVIDIA GeForce RTX 5080, GPU-bf0ccb9a-491e-34cc-aab1-6d5e96272e4b, 616.64, 16303 MiB, 657 MiB\r\nNVIDIA GeForce RTX 5060 Ti, GPU-6845fa38-d19c-4045-912e-fcd88ffbaca5, 616.64, 16311 MiB, 5235 MiB\r\n",
+  "model_identity_matches_p5": true,
+  "archived_at": "2026-11-10T17:13:43.098557+08:00",
+  "acceptance_audit": {
+    "comparisons": [
+      {
+        "reference": "q5-p5-r1",
+        "candidate": "q5-p6-r1",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-p5-r2",
+        "candidate": "q5-p6-r2",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-p5-r3",
+        "candidate": "q5-p6-r3",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-p5-r4",
+        "candidate": "q5-p6-r4",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-p5-r5",
+        "candidate": "q5-p6-r5",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-p5-r6",
+        "candidate": "q5-p6-r6",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "iq2-p5-r1",
+        "candidate": "iq2-p6-r1",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "iq2-p5-r2",
+        "candidate": "iq2-p6-r2",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "iq2-p5-r3",
+        "candidate": "iq2-p6-r3",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "iq2-p5-r4",
+        "candidate": "iq2-p6-r4",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "iq2-p5-r5",
+        "candidate": "iq2-p6-r5",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "iq2-p5-r6",
+        "candidate": "iq2-p6-r6",
+        "exact": true,
+        "routes_bitwise_identical": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "ppl-p5",
+        "candidate": "ppl-p6",
+        "exact": true,
+        "floats": 43456000
+      },
+      {
+        "reference": "q5-ppl-native",
+        "candidate": "ppl-p6",
+        "exact": true,
+        "floats": 43456000
+      },
+      {
+        "reference": "context-p5",
+        "candidate": "context-p6",
+        "exact": true,
+        "floats": 993280
+      },
+      {
+        "reference": "q5-p5-r1",
+        "candidate": "no-ram-p6",
+        "exact": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-p5-r1",
+        "candidate": "sync-p6",
+        "exact": true,
+        "floats": 31784960
+      },
+      {
+        "reference": "q5-long-native-ws48",
+        "candidate": "q5-long-p6",
+        "exact": true,
+        "floats": 1907097600
+      }
+    ],
+    "all_bitwise_exact": true,
+    "all_budget_checks_pass": true,
+    "completed_runs": 31,
+    "actual_ubatch": 512,
+    "single_rtx_5080": true,
+    "context_boundary_and_clear_pass": true,
+    "q5_decode_ratio": 1.0926485436131188,
+    "q5_ten_percent_gate": false,
+    "long_outputs": 7680,
+    "long_elapsed_s": 7843.3417936,
+    "long_after_4096_s": 4210.867544499999,
+    "long_routes_identical": true,
+    "etw_expert_reads": true,
+    "etw_no_lost_events": true,
+    "etw_target_pagefile_fault_bytes": 0,
+    "etw_retained_events_only": true,
+    "etw_observed_disk_event_interval_s": [
+      107.774266,
+      182.027702
+    ],
+    "etw_prefix_coverage_limited": true,
+    "scope": "P6 cache layout on tested single-GPU path; P5 failures and conditions remain"
+  },
+  "research_sha256": {
+    "analyze.py": "28aedccf43d4b907efc589471d2b641114bca4c7e91a0233668efae8de24f756",
+    "analyze_etw.py": "b7598d1cc5aacfa0509ce791a97c927ab6b008ac67fc5199bf8ee28a110ebf1b",
+    "analyze_routes.py": "3fd7fa97d5c64fb5e07ad1b0474a644fd22260c80d3ab3d312525605ec282c70",
+    "archive.py": "1b27869d92801280e613ef53df2a812838c0a4956727054020ece284b02e9614",
+    "audit.py": "59bae723d38fa76ee6218db3d28114e757f3056b19fe5e1403f8a6fd14da0ded",
+    "build.ps1": "fe1af690de901c2e2a627127a11b9bb8d5e063ceecfec9aac63373736f3c3905",
+    "compare_logits.py": "82d3384ff0e113658b39d2395191467a72e717060a2ae7c8e328f79e5dad6906",
+    "context_boundary_probe.cpp": "56e60c8fef6fbb370279146dac4d7d197df74ddc08c240f865c769d2e3311396",
+    "DIAGNOSIS.md": "26dd18830443c7a971cca1fb44eb7faf782a5edf11102f8fa7d7643c8346afb3",
+    "EVIDENCE.md": "30322baeb983875685b3ee56aecf592203af2a6b89404131a02322151978c1d1",
+    "finalize_docs.py": "373d58ae5555b93f97bb953073ebd58200fd47c6944ff8bc831bc19aefeab6ef",
+    "inspect_sizes.py": "9da2e102a041ae3b08d3584d345340799b23a8723688c555272a6875a2a1a94b",
+    "model_probe.cpp": "4c00c917731ade82eee9902dd9a9cdabf1e26fc7953c2fbebd189ed102a9eab4",
+    "observe_long.py": "351d27493aa48b7b0f43c5373358d9cbc766aae90aa02574e0dcac3681dec46e",
+    "prepare.py": "cd9ab9ceedf76d411019d29a9e4ddc95ab561750c3b032d2b82da6c7b4c3b15d",
+    "PROTOCOL.zh-CN.md": "8002df1e79ad5283f51c54d65e0dd36fa053d4a10b8253d9f25afa92a3cb1258",
+    "render_report.py": "1ae2332807069876c8c356a10403646b8545f17be7eb55673548c4e5b1ceddc0",
+    "RESULTS.zh-CN.md": "7bc6b884a1ef7f0f98f7bf651187f696ab870cc1b15ea5be0ec93cfd55377f9d",
+    "REVIEW.md": "8c6de7966de154907c03e91a4492792acc19cc88cca500d9cf45d594c385e1e8",
+    "run_paired.py": "037f951c2270ff5321983e27ffd51c9ae44f2353782b50b6f61a0d542e7ea224",
+    "run_probe.py": "b7509030dcafd0bbbf3f492b28931377c2a09d05a0684167b318aeb96142d0f9",
+    "run_validation.py": "d59cdc0139306ac8ebe9f663c626db2db57a8a7099cfb5190673f8359b9b70ac",
+    "slow_windows.py": "ec0cfbe6b955f7a26bc27a7641325bea215d4ffb66bb254f40ee932744773153",
+    "STATUS.md": "e1e218fcc9fec486f821ad755f76ad7dc18c6008314d5dd497af90f565878e6a",
+    "status.py": "8a64d1fde482ea6b24ea75190ef681f8fa2bf57ed958cafffd1bf0b8c623cedf",
+    "summarize.py": "2463a666c1ef9c2e171a1265504d4e9e8efa4b1c5542677064e294c624930130",
+    "trace_early.py": "27300d1603c41b59e8544d16470cfcf58c57314771ba38257bc23adc8d8b7316",
+    "verify_archive.py": "95cc898ddc4f03e40b32095bcb650e688d91eae675a8125b680388c544e5844e",
+    "working_set.py": "e4e7b279ddab1458668a830e1bc88d38a24f7b3711ec735a7feefbf7a2574450"
+  }
+}

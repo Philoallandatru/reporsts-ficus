@@ -51,7 +51,7 @@
 
 **P6。** loader 登记分片、量化张量与专家偏移；GPU miss 先查程序自己的 RAM 专家缓存，再通过 Windows 无缓冲读从 GGUF 取所需权重。固定 staging、两个在途槽和后端完成事件负责读取、上传、回收。显存缓存仍由原有策略控制。P6 把 RAM 槽按精确字节数分组，减少小张量占大槽的浪费，但没有协调两级缓存的保留和淘汰。PLE 查找表另走紧凑行缓存。入口见 [开发文档](../../llama.cpp/docs/development/file-expert-store.md)和 `llama-expert-store.cpp::transfer`；一般 prefill 上传可使用已有 RAM 命中，miss 已经绕过准入。
 
-**Strata。** 从权重驻留到算子调度共同考虑，主要机制如下。完整的分支条件、实际运行记录和源码行号在[源码附录](SOURCE-REVIEW.zh-CN.md)。
+**Strata。** 从权重驻留到算子调度共同考虑，主要机制如下。完整的分支条件、实际运行记录和源码行号在[源码附录](q5-strata-compare-20261111/SOURCE-REVIEW.zh-CN.md)。
 
 | 环节 | Strata 如何实现 | 相对 P6 的意义 |
 |---|---|---|
@@ -71,7 +71,7 @@
 | P5 | Q5 完成实际 8K prompt 与 7,680 输出、逐位校验和预算检查。在旧 48 GiB 工作集上限的同 GPU 缓存对照中，文件路径用约 **20.8 GiB** 工作集，原生参考达到 **48 GiB**；对应 **2.26 vs 4.44 tok/s**。长测文件路径工作集约 13.46 GiB。 | 原生在所有 RAM 约束下都更快，或文件路径的 private commit 也更低。旧短测的 private 为约 29.45 vs 13.32 GiB。 |
 | P6 | 16 GiB 专家 RAM 内的槽位从 **9,868→12,875**；与 P5 的六组配对显示短测逻辑读取 **−16.96%**、decode **+9.26%**。租约/预算保持，全长 1,907,097,600 个 logits 与原生 GPU 参考逐位一致。 | 已达到预设 +10%，读盘长尾已解决，或 P6 和 Strata 逐位等价。旧长测慢读必须保留。 |
 
-结论应写成一条资源曲线：RAM 约束较松时，原生 mmap 能用更多常驻文件页获得更高吞吐；RAM 约束较紧时，哪一条快要用本轮的同工作集实验判断。工作集、private commit 和系统缓存分别报告，不能合并成一句「省内存」。旧结果见 [P5](../ooc-p5-20261110/RESULTS.zh-CN.md)与 [P6](../ooc-p6-20261110/RESULTS.zh-CN.md)。
+结论应写成一条资源曲线：RAM 约束较松时，原生 mmap 能用更多常驻文件页获得更高吞吐；RAM 约束较紧时，哪一条快要用本轮的同工作集实验判断。工作集、private commit 和系统缓存分别报告，不能合并成一句「省内存」。旧结果见 [P5](ooc-p5-20261110/RESULTS.zh-CN.md)与 [P6](ooc-p6-20261110/RESULTS.zh-CN.md)。
 
 ## 建议怎样改 llama.cpp
 
@@ -96,6 +96,6 @@
 
 ## 复现与产物
 
-- [协议](PROTOCOL.zh-CN.md)、[源码附录](SOURCE-REVIEW.zh-CN.md)、[逐轮指标](measurements.json)、[九次对照的核验结果](audit.json)。
-- [同轨迹测量 probe](q5_probe.cpp)、[构建脚本](build-probe.ps1)、[运行脚本](run_compare.py)、[汇总脚本](summarize.py)。不覆盖既有实验目录；复跑使用新运行名。
+- [协议](q5-strata-compare-20261111/PROTOCOL.zh-CN.md)、[源码附录](q5-strata-compare-20261111/SOURCE-REVIEW.zh-CN.md)、[逐轮指标](q5-strata-compare-20261111/measurements.json)、[九次对照的核验结果](q5-strata-compare-20261111/audit.json)。
+- [同轨迹测量 probe](q5-strata-compare-20261111/q5_probe.cpp)、[构建脚本](q5-strata-compare-20261111/build-probe.ps1)、[运行脚本](q5-strata-compare-20261111/run_compare.py)、[汇总脚本](q5-strata-compare-20261111/summarize.py)。不覆盖既有实验目录；复跑使用新运行名。
 - `D:/q5-strata-compare-20261111/runs` 保留版本/命令、真实缓存大小、128 条 token、资源采样、ETW 原始/合并文件和逐条 DiskIO。跨引擎相同 token IDs 是工作量控制，并不证明输出质量相同。测试使用共享主机的自然文件缓存状态，三个循环只能说明该机器和这条轨迹下的结果。

@@ -1,0 +1,14 @@
+{
+  "ctx": 32768,
+  "batch": 512,
+  "ubatch": 512,
+  "gpu_mib": 4096,
+  "requests": [
+    {
+      "name": "formal-engineering",
+      "prompt": "<|im_start|>user\nDesign a rainwater collection system for a school garden. Discuss storage sizing, materials, sensors, maintenance, and a worked water budget. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully. Discuss tradeoffs carefully.<|im_end|>\n<|im_start|>assistant\n",
+      "prompt_tokens": 128,
+      "steps": 128
+    }
+  ]
+}

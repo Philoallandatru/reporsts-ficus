@@ -1,0 +1,144 @@
+{
+  "name": "q5-long-native-ws48",
+  "pid": 18152,
+  "start_time": 1794279338.613612,
+  "end_time": 1794279520.412793,
+  "seconds": 181.79918098449707,
+  "lost_buffers": 0,
+  "lost_events": 0,
+  "disks": {
+    "1": {
+      "target_read_bytes": 0,
+      "other_read_bytes": 133948416,
+      "target_write_bytes": 0,
+      "other_write_bytes": 30650368
+    },
+    "2": {
+      "target_read_bytes": 18893717504,
+      "other_read_bytes": 598450176,
+      "target_write_bytes": 0,
+      "other_write_bytes": 195875328
+    },
+    "3": {
+      "target_read_bytes": 94208,
+      "other_read_bytes": 10240,
+      "target_write_bytes": 0,
+      "other_write_bytes": 1501806592
+    }
+  },
+  "target_files": {
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf": {
+      "read_count": 140382,
+      "read_bytes": 8880451584,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf": {
+      "read_count": 9039,
+      "read_bytes": 571432960,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf": {
+      "read_count": 148967,
+      "read_bytes": 9404866560,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf": {
+      "read_count": 8676,
+      "read_bytes": 36966400,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume12\\llama-ooc-p5-20261110\\native-noprefetch-bin\\ggml-cuda.dll": {
+      "read_count": 2,
+      "read_bytes": 61440,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume12\\llama-ooc-p5-20261110\\native-noprefetch-bin\\llama.dll": {
+      "read_count": 1,
+      "read_bytes": 32768,
+      "write_count": 0,
+      "write_bytes": 0
+    }
+  },
+  "first_disk_completion_us": 54958,
+  "last_disk_completion_us": 181777689,
+  "gguf_reads_by_process": {
+    "model_probe.exe (18152)": {
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf": {
+        "read_count": 140382,
+        "read_bytes": 8880451584
+      },
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf": {
+        "read_count": 9039,
+        "read_bytes": 571432960
+      },
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf": {
+        "read_count": 148967,
+        "read_bytes": 9404866560
+      },
+      "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf": {
+        "read_count": 8676,
+        "read_bytes": 36966400
+      }
+    }
+  },
+  "target_gguf": {
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf": {
+      "read_count": 140382,
+      "read_bytes": 8880451584,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf": {
+      "read_count": 9039,
+      "read_bytes": 571432960,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf": {
+      "read_count": 148967,
+      "read_bytes": 9404866560,
+      "write_count": 0,
+      "write_bytes": 0
+    },
+    "\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00003-of-00006.gguf": {
+      "read_count": 8676,
+      "read_bytes": 36966400,
+      "write_count": 0,
+      "write_bytes": 0
+    }
+  },
+  "target_expert_read_bytes": 18856751104,
+  "target_hard_faults": {
+    "\"\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00004-of-00006.gguf\"": {
+      "faults": 148951,
+      "bytes": 9404866560
+    },
+    "\"\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00005-of-00006.gguf\"": {
+      "faults": 140376,
+      "bytes": 8880451584
+    },
+    "\"\\Device\\HarddiskVolume10\\Users\\Administrator\\Documents\\Code\\tasks\\strata-lab\\Data\\models\\unsloth-UD-Q5_K_XL\\Qwen3.8-Flash-Next-UD-Q5_K_XL-00006-of-00006.gguf\"": {
+      "faults": 9036,
+      "bytes": 571432960
+    },
+    "\"\\Device\\HarddiskVolume12\\llama-ooc-p5-20261110\\runs\\q5-long-native-ws48\\result.json\"": {
+      "faults": 63,
+      "bytes": 4128768
+    },
+    "\"\\Device\\HarddiskVolume12\\llama-ooc-p5-20261110\\native-noprefetch-bin\\ggml-cuda.dll\"": {
+      "faults": 2,
+      "bytes": 61440
+    },
+    "\"\\Device\\HarddiskVolume12\\llama-ooc-p5-20261110\\native-noprefetch-bin\\llama.dll\"": {
+      "faults": 1,
+      "bytes": 32768
+    }
+  },
+  "target_pagefile_fault_bytes": 0,
+  "scope": "host DiskIO completion events attributed by initiating process; not NAND-internal bytes; Q5 expert shards 4/5/6"
+}

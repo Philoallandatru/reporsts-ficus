@@ -1,0 +1,45 @@
+{
+  "captured": "2026-11-10T09:46:08.5553999+08:00",
+  "os": {
+    "Caption": "Microsoft Windows 11 专业工作站版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200",
+    "TotalVisibleMemorySize": 91594584,
+    "TotalVirtualMemorySize": 125149016
+  },
+  "cpu": {
+    "Name": "Intel(R) Core(TM) Ultra 7 270K Plus",
+    "NumberOfCores": 24,
+    "NumberOfLogicalProcessors": 24
+  },
+  "disks": [
+    {
+      "DeviceID": "\\\\.\\PHYSICALDRIVE1",
+      "Model": "WDC WDS960G2G0C-00AJM0",
+      "Size": 960194511360
+    },
+    {
+      "DeviceID": "\\\\.\\PHYSICALDRIVE3",
+      "Model": "Seagate ZP1000GV30012",
+      "Size": 1000202273280
+    },
+    {
+      "DeviceID": "\\\\.\\PHYSICALDRIVE2",
+      "Model": "ZHITAI Ti600 1TB",
+      "Size": 1000202273280
+    },
+    {
+      "DeviceID": "\\\\.\\PHYSICALDRIVE0",
+      "Model": "BIWIN X570 1TB",
+      "Size": 1024203640320
+    }
+  ],
+  "pagefile": {
+    "Name": "C:\\pagefile.sys",
+    "AllocatedBaseSize": 32768
+  },
+  "gpu": [
+    "0, GPU-bf0ccb9a-491e-34cc-aab1-6d5e96272e4b, NVIDIA GeForce RTX 5080, 616.64, 16303 MiB, 00000000:02:00.0",
+    "1, GPU-6845fa38-d19c-4045-912e-fcd88ffbaca5, NVIDIA GeForce RTX 5060 Ti, 616.64, 16311 MiB, 00000000:86:00.0"
+  ]
+}

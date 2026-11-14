@@ -1,0 +1,38 @@
+{
+  "reference": "q5-ppl-native",
+  "candidate": "q5-ppl-file",
+  "requests": [
+    {
+      "request": 0,
+      "name": "science",
+      "floats": 22845440,
+      "exact": true,
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "nmse": 0.0,
+      "argmax_matches": 92,
+      "outputs": 92,
+      "reference_ppl": 6.183249662138098,
+      "candidate_ppl": 6.183249662138098,
+      "ppl_relative": 0.0,
+      "fixed_text": true
+    },
+    {
+      "request": 1,
+      "name": "software",
+      "floats": 20610560,
+      "exact": true,
+      "max_abs": 0.0,
+      "rmse": 0.0,
+      "nmse": 0.0,
+      "argmax_matches": 83,
+      "outputs": 83,
+      "reference_ppl": 17.357955755507284,
+      "candidate_ppl": 17.357955755507284,
+      "ppl_relative": 0.0,
+      "fixed_text": true
+    }
+  ],
+  "exact": true,
+  "tolerance_pass": true
+}

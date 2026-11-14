@@ -1,0 +1,12 @@
+Test project D:/llama-ooc-p0-p2-20261110/build
+    Start 35: test-backend-tensor
+1/2 Test #35: test-backend-tensor ..............   Passed    0.31 sec
+    Start 36: test-expert-store
+2/2 Test #36: test-expert-store ................   Passed    0.40 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Label Time Summary:
+main    =   0.71 sec*proc (2 tests)
+
+Total Test time (real) =   0.72 sec

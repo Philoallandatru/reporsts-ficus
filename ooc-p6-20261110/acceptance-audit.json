@@ -1,0 +1,146 @@
+{
+  "comparisons": [
+    {
+      "reference": "q5-p5-r1",
+      "candidate": "q5-p6-r1",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-p5-r2",
+      "candidate": "q5-p6-r2",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-p5-r3",
+      "candidate": "q5-p6-r3",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-p5-r4",
+      "candidate": "q5-p6-r4",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-p5-r5",
+      "candidate": "q5-p6-r5",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-p5-r6",
+      "candidate": "q5-p6-r6",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "iq2-p5-r1",
+      "candidate": "iq2-p6-r1",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "iq2-p5-r2",
+      "candidate": "iq2-p6-r2",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "iq2-p5-r3",
+      "candidate": "iq2-p6-r3",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "iq2-p5-r4",
+      "candidate": "iq2-p6-r4",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "iq2-p5-r5",
+      "candidate": "iq2-p6-r5",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "iq2-p5-r6",
+      "candidate": "iq2-p6-r6",
+      "exact": true,
+      "routes_bitwise_identical": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "ppl-p5",
+      "candidate": "ppl-p6",
+      "exact": true,
+      "floats": 43456000
+    },
+    {
+      "reference": "q5-ppl-native",
+      "candidate": "ppl-p6",
+      "exact": true,
+      "floats": 43456000
+    },
+    {
+      "reference": "context-p5",
+      "candidate": "context-p6",
+      "exact": true,
+      "floats": 993280
+    },
+    {
+      "reference": "q5-p5-r1",
+      "candidate": "no-ram-p6",
+      "exact": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-p5-r1",
+      "candidate": "sync-p6",
+      "exact": true,
+      "floats": 31784960
+    },
+    {
+      "reference": "q5-long-native-ws48",
+      "candidate": "q5-long-p6",
+      "exact": true,
+      "floats": 1907097600
+    }
+  ],
+  "all_bitwise_exact": true,
+  "all_budget_checks_pass": true,
+  "completed_runs": 31,
+  "actual_ubatch": 512,
+  "single_rtx_5080": true,
+  "context_boundary_and_clear_pass": true,
+  "q5_decode_ratio": 1.0926485436131188,
+  "q5_ten_percent_gate": false,
+  "long_outputs": 7680,
+  "long_elapsed_s": 7843.3417936,
+  "long_after_4096_s": 4210.867544499999,
+  "long_routes_identical": true,
+  "etw_expert_reads": true,
+  "etw_no_lost_events": true,
+  "etw_target_pagefile_fault_bytes": 0,
+  "etw_retained_events_only": true,
+  "etw_observed_disk_event_interval_s": [
+    107.774266,
+    182.027702
+  ],
+  "etw_prefix_coverage_limited": true,
+  "scope": "P6 cache layout on tested single-GPU path; P5 failures and conditions remain"
+}

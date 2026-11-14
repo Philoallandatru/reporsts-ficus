@@ -1,0 +1,22 @@
+{
+  "completed": [
+    "r1-native-np",
+    "r1-p6",
+    "r1-strata-matched",
+    "r2-p6",
+    "r2-strata",
+    "r2-native-np",
+    "r3-strata",
+    "r3-native-np",
+    "r3-p6"
+  ],
+  "output_tokens_per_run": 128,
+  "same_trajectory": true,
+  "same_q5_manifest": true,
+  "no_spec_or_tail_skip": true,
+  "lost_events": 0,
+  "all_q5_decode_reads_attributed": true,
+  "matched_gpu_and_ws_budgets": true,
+  "stock_prefetch_guard_retained": true,
+  "strata_calibration_excluded": true
+}

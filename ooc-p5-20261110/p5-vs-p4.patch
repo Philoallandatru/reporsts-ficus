@@ -1,0 +1,364 @@
+--- p4/docs/development/file-expert-store.md
++++ p5/docs/development/file-expert-store.md
+@@ -1,4 +1,4 @@
+-# Experimental file expert source (P0-P4)
++# Experimental file expert source
+ 
+ This branch adds a Windows file source for routed MoE weights, a bounded RAM expert cache, and a two-buffer asynchronous read/upload pipeline. It feeds both the existing CUDA MoE cache and general expert uploads from GGUF shards without changing inference routing or quantization. Qwen4exp PLE uses a separate bounded row cache and compact quantized graph inputs.
+ 
+@@ -12,8 +12,11 @@
+ | `LLAMA_EXPERT_IO_DEPTH` | 1 (synchronous control), 2 (double buffering) | 2 |
+ | `LLAMA_EXPERT_GRAPH_MIB` | Integer MiB, 1 through 65536; total GPU graph workspace ceiling | 4096 |
+ | `LLAMA_PLE_RAM_MIB` | Integer MiB, 0 through 65536; row payload and metadata budget | 64 |
++| `LLAMA_MMAP_PREFETCH` | `on`, `off`; whole-range loader advice on the native path | `on` |
+ 
+ These are experimental environment controls, not new command-line options or additions to `llama.h`.
++
++File mode always disables whole-range loader prefetch. Native mode keeps its original prefetch behavior unless `LLAMA_MMAP_PREFETCH=off` is explicitly set. On Windows, large native expert mappings can cause a transient system commit peak during loading; disabling this advice changes startup behavior and must be disclosed in comparisons. It does not cap native mmap residency or replace runtime memory monitoring.
+ 
+ ## Run
+ 
+@@ -42,6 +45,8 @@
+ 
+ Before graph allocation, the scheduler measures GPU workspace, including full-shape temporary expert tensors. The initial plan also checks current device memory with a 512 MiB reserve. If the requested microbatch cannot fit, planning falls back to the smallest cache group's safe batch (at most 32), then halves it if needed. A graph that still cannot fit at one token fails explicitly. Runtime graph rebuilds are measured again before allocation. This workspace ceiling does not include resident weights, KV/recurrent state, the GPU expert cache, driver memory, or other processes; those remain separate allocations.
+ 
++Expert `MUL_MAT_ID` nodes using file sources are explicitly assigned to a supporting GPU before graph measurement and allocation. This also covers batches that exceed an individual cache group's capacity but fall below the usual GPU offload threshold. The scheduler's assigned-measure API preserves these placements; the original measurement API retains its reset behavior. Numerical comparisons should match the actual CPU/GPU execution path: the tested Q5 CPU fallback at batches 3 and 16 differed from the GPU reference beyond the declared regression tolerance.
++
+ File-mode warmup uses the model's normal routed top-k. The native all-expert warmup can select CPU computation and scan the full mapped expert table, so it is not used in file mode. Normal inference keeps the original top-k and coefficients.
+ 
+ ## Data path and failure behavior
+@@ -66,6 +71,8 @@
+ 
+ The session logs RAM allocation, payload occupancy/peak, hit/miss counts, evictions, bypasses, cache waits, staging/control bytes, read/upload counts, pending/overlap counts, wait times, and failure-drain counts. Its in-flight and lease counts must be zero on exit. `direct` counts bytes returned by completed direct reads, including alignment overhead; cancelled reads may have performed additional device I/O. It is not an NVMe traffic measurement. `overlap` counts uploads submitted while another read is still owned by the pipeline, not GPU/SSD profiling intervals.
+ 
++`llama_perf_context_print` also prints file-session counters and RAM/GPU residency at an explicit checkpoint. The `routed decode experts` label in the experimental log includes all routes seen by the GPU cache lookup, including small-batch prefill; it excludes general-path prompt scans. Its count is cumulative, while GPU residency and shared RAM/GPU role bytes are current snapshots. These diagnostics run outside the probe's per-token decode timer and remain included in request wall time.
++
+ The RAM budget includes entry metadata and payload storage. Slot payload capacity is the largest registered expert-role size, or the remaining RAM budget if that is smaller. Entries larger than a slot bypass the cache and stream through staging. Fixed slots can waste capacity for mixed-size experts; allocation and useful payload occupancy are reported separately. If every usable entry is leased, the pipeline waits for a consumer before eviction. Control objects and the two request descriptors are fixed-size and reported separately; normal call stacks, allocator and driver overhead are not a total-process RAM guarantee.
+ 
+ ## Verification
+@@ -77,14 +84,20 @@
+ 
+ `test-expert-store` is built on Windows. It checks byte ranges across chunks, quantized expert slices, multiple files, UTF-8 paths, views, EOF, randomized ranges, zero-length reads, range overflow, missing/truncated files, and write exclusion. It also checks RAM hits without reads, repeated eviction with a one-entry cache, backpressure, delayed read completion and asynchronous consumption, injected cancellation/errors at read and upload stages, partial-entry invalidation, retry, repeated teardown, and event-handle counts. With a GPU available it verifies real event-fenced uploads and errors after H2D submission. Its total staging budget is 1 MiB. Test fault hooks are compiled only into the test target.
+ 
+-`test-backend-tensor` also checks legacy/status callback replacement, handled/unhandled successful copies, and FAILED/ABORTED statuses. Failure cases leave a sentinel output unchanged, proving that the dependent GPU split did not run.
++`test-backend-tensor` also checks legacy/status callback replacement, handled/unhandled successful copies, and FAILED/ABORTED statuses. Failure cases leave a sentinel output unchanged, proving that the dependent GPU split did not run. A host-weight, small-batch graph verifies that explicit GPU assignment survives workspace measurement and creates the required device copy.
+ 
+ Row tests cover quantized byte identity, duplicate/local ID remapping, the final table row, invalid IDs, hits without reads, hundreds of small-cache evictions, and cancellation. A prompt-admission test ensures a scan does not evict a decode entry. Model probes compare identical token trajectories at 1/32/33/512-token entries and across EOS/history boundaries.
+ 
+ For MSVC with a localized installation, ensure CMake's `msvc_deps_prefix` matches `/showIncludes` output. Use a consistent console encoding during configure and build, and check `ninja -t deps` after header changes. A mismatched prefix can silently produce stale objects.
+ 
+-## Remaining work
++## Measured scope and remaining work
+ 
+-- P5: controlled total-memory capacity tests and repeatable performance measurements.
++P5 exercised the 147.416 GiB Qwen3.8 Q5 model on one RTX 5080 with 87.35 GiB visible host RAM. The file configuration used a 4 GiB GPU expert cache, 8 GiB RAM expert cache, 32 MiB staging and 64 MiB PLE cache. It completed an actual 8192-token prompt, 7680 output positions across 15 requests, and over 30 further minutes after the first 4096 outputs. Full teacher-forcing replay matched 1,907,097,600 float logits bitwise on the same GPU execution path. Sampled peak working set/private commit were 13.46/21.44 GiB; minimum available RAM/commit headroom were 45.07/15.28 GiB. A steady ETW window showed continuing expert-file reads without target-process pagefile hard faults.
+ 
+-Expert and PLE mappings remain virtual address metadata, while their runtime reads use bounded file sessions. RSS alone does not account for all process commit, pinned memory, or OS mappings/cache. Generation with a model larger than physical RAM plus VRAM does not by itself complete the final capacity acceptance test. Native mmap may already run the same model; controlled total-memory and performance acceptance remains P5.
++This is a resource tradeoff, not a general speedup. The tuned six-round Q5 file result was 2.254 decode tokens/s versus 5.122 for the native inference reference, with peak working set 20.79 versus 48 GiB. That reference disabled loader prefetch and used a 48 GiB process working-set cap; native mmap also completed the full long replay. The cap and system resource guards belong to the research driver, not the CLI. They do not bound all global standby cache.
++
++Default-off Q5 throughput met the 3% median regression gate. The short IQ2 comparison with runtime GPU monitoring missed that gate; a separate six-pair recheck without runtime GPU queries met it (decode +0.39%, prefill -0.48%). Both results are retained. Monitoring and ordering changed together, so the sole cause of the initial difference is not established. The CPU fallback comparison at batches 3 and 16 also remains outside the numerical tolerance; numerical acceptance is scoped to matching GPU execution.
++
++The workspace evidence is in the sibling `research/ooc-p5-20261110` directory: protocol, report, per-run commands and counters, complete comparisons, and build/model identity manifest. Large logits and ETW artifacts are stored separately as recorded there.
++
++Expert and PLE mappings remain virtual address metadata, while runtime reads use bounded file sessions. RSS alone does not account for all process commit, pinned memory, or OS mappings/cache. The measured limits do not guarantee total system memory on another workload or machine. P6 remains measurement-driven I/O/cache optimization; multi-GPU, additional model layouts and dense-model streaming remain later work. CPU/GPU fallback equivalence and wider default-path performance coverage need separate validation.
+--- p4/ggml/include/ggml-backend.h
++++ p5/ggml/include/ggml-backend.h
+@@ -359,6 +359,8 @@
+ 
+     // Initialize backend buffers from a measure graph
+     GGML_API void                 ggml_backend_sched_reserve_size(ggml_backend_sched_t sched, struct ggml_cgraph * measure_graph, size_t * sizes);
++    // Keep explicit backend assignments while measuring a freshly built graph, like reserve().
++    GGML_API void                 ggml_backend_sched_reserve_size_assigned(ggml_backend_sched_t sched, struct ggml_cgraph * measure_graph, size_t * sizes);
+     GGML_API bool                 ggml_backend_sched_reserve(ggml_backend_sched_t sched, struct ggml_cgraph * measure_graph); // returns success
+ 
+     GGML_API int                  ggml_backend_sched_get_n_backends(ggml_backend_sched_t sched);
+--- p4/ggml/src/ggml-backend.cpp
++++ p5/ggml/src/ggml-backend.cpp
+@@ -2414,11 +2414,14 @@
+ }
+ 
+ void ggml_backend_sched_reserve_size(ggml_backend_sched_t sched, struct ggml_cgraph * measure_graph, size_t * sizes) {
++    ggml_backend_sched_reset(sched);
++    ggml_backend_sched_reserve_size_assigned(sched, measure_graph, sizes);
++}
++
++void ggml_backend_sched_reserve_size_assigned(ggml_backend_sched_t sched, struct ggml_cgraph * measure_graph, size_t * sizes) {
+     GGML_ASSERT(sched);
+     GGML_ASSERT((int)sched->hash_set.size >= measure_graph->n_nodes + measure_graph->n_leafs);
+     GGML_ASSERT(sizes);
+-
+-    ggml_backend_sched_reset(sched);
+ 
+     ggml_backend_sched_synchronize(sched);
+ 
+--- p4/src/llama-context.cpp
++++ p5/src/llama-context.cpp
+@@ -1813,6 +1813,7 @@
+             ggml_backend_sched_reset(sched.get());
+             res->reset();
+             gf = model.build_graph(gparams);
++            file_expert_graph_assign(gf);
+         }
+         if (!ggml_backend_sched_alloc_graph(sched.get(), gf)) {
+             LLAMA_LOG_ERROR("%s: failed to allocate graph\n", __func__);
+@@ -3014,9 +3015,14 @@
+     this->n_outputs = save_n_outputs;
+ 
+     // initialize scheduler with the specified graph
++    file_expert_graph_assign(gf);
+     if (split_only) {
+         if (sizes) {
+-            ggml_backend_sched_reserve_size(sched.get(), gf, sizes);
++            if (model.expert_store()) {
++                ggml_backend_sched_reserve_size_assigned(sched.get(), gf, sizes);
++            } else {
++                ggml_backend_sched_reserve_size(sched.get(), gf, sizes);
++            }
+         } else {
+             ggml_backend_sched_split_graph(sched.get(), gf);
+         }
+@@ -3028,6 +3034,7 @@
+             ggml_backend_sched_reset(sched.get());
+             res->reset();
+             gf = model.build_graph(gparams);
++            file_expert_graph_assign(gf);
+         }
+         if (!ggml_backend_sched_reserve(sched.get(), gf)) {
+             GGML_ASSERT(!sizes);
+@@ -3133,8 +3140,9 @@
+     if (!model.expert_store()) {
+         return true;
+     }
++    file_expert_graph_assign(graph);
+     std::vector<size_t> sizes(backend_ptrs.size());
+-    ggml_backend_sched_reserve_size(sched.get(), graph, sizes.data());
++    ggml_backend_sched_reserve_size_assigned(sched.get(), graph, sizes.data());
+     size_t gpu_bytes = 0;
+     for (size_t i = 0; i < sizes.size(); ++i) {
+         if (ggml_backend_dev_type(ggml_backend_get_device(backend_ptrs[i])) == GGML_BACKEND_DEVICE_TYPE_GPU) {
+@@ -3147,6 +3155,27 @@
+     }
+     file_graph_peak = std::max(file_graph_peak, gpu_bytes);
+     return true;
++}
++
++void llama_context::file_expert_graph_assign(ggml_cgraph * graph) {
++    const auto * store = model.expert_store();
++    if (!store || !graph) {
++        return;
++    }
++    for (int i = 0; i < ggml_graph_n_nodes(graph); ++i) {
++        auto * node = ggml_graph_node(graph, i);
++        if (node->op != GGML_OP_MUL_MAT_ID || !store->contains(node->src[0])) {
++            continue;
++        }
++        // Small batches can exceed cache capacity but fall below the normal GPU offload threshold.
++        for (auto * backend : backend_ptrs) {
++            if (ggml_backend_dev_type(ggml_backend_get_device(backend)) == GGML_BACKEND_DEVICE_TYPE_GPU &&
++                ggml_backend_supports_op(backend, node)) {
++                ggml_backend_sched_set_tensor_backend(sched.get(), node, backend);
++                break;
++            }
++        }
++    }
+ }
+ 
+ bool llama_context::file_expert_graph_supported(ggml_cgraph * graph, bool allow_copy) const {
+@@ -5170,6 +5199,18 @@
+     LLAMA_LOG_INFO("%s:       total time = %10.2f ms / %5d tokens\n", __func__, (t_end_ms - data.t_start_ms), (data.n_p_eval + data.n_eval));
+     LLAMA_LOG_INFO("%s:    graphs reused = %10d\n", __func__, data.n_reused);
+     LLAMA_LOG_INFO("%s:   graph reallocs = %10d    / %5d        (same size) / (changed size)\n", __func__, data.n_reallocs_same, data.n_reallocs_diff);
++    if (ctx) {
++        ctx->perf_print_file();
++    }
++}
++
++void llama_context::perf_print_file() const {
++    if (moe_cache) {
++        moe_cache->log_file_stats();
++    }
++    if (weight_rows) {
++        weight_rows->log_stats();
++    }
+ }
+ 
+ void llama_perf_context_reset(llama_context * ctx) {
+--- p4/src/llama-context.h
++++ p5/src/llama-context.h
+@@ -202,6 +202,8 @@
+ 
+     llama_perf_context_data perf_get_data() const;
+     void perf_reset();
++    void perf_print_file() const;
++    void file_expert_graph_assign(ggml_cgraph * graph);
+ 
+     llama_memory_breakdown memory_breakdown() const;
+ 
+--- p4/src/llama-expert-store.cpp
++++ p5/src/llama-expert-store.cpp
+@@ -633,6 +633,10 @@
+     pimpl(std::make_unique<impl>(*this, store, backend, opts)) {}
+ 
+ llama_expert_session::~llama_expert_session() {
++    log_stats();
++}
++
++void llama_expert_session::log_stats() const {
+     const auto s = snapshot();
+     LLAMA_LOG_INFO("llama_%s_session: RAM = %.3f MiB, live/peak = %.3f/%.3f MiB, staging = %.3f MiB, control = %zu B, hits = %llu, misses = %llu, hit bytes = %.3f MiB, evictions = %llu, bypasses = %llu, cache waits = %llu, reads = %llu (%llu pending), logical/direct = %.3f/%.3f MiB, uploads = %llu, overlap = %llu, peak in-flight = %zu, in-flight = %zu, leases = %zu, read/upload wait = %.3f/%.3f ms, failures = %llu, cancelled = %llu, drained reads/uploads = %llu/%llu\n",
+                   pimpl->opts.label, s.ram_bytes/1048576.0, s.ram_live/1048576.0, s.ram_peak/1048576.0, s.staging_bytes/1048576.0, s.control_bytes,
+@@ -719,6 +723,20 @@
+     return pimpl->st;
+ }
+ 
++void llama_expert_session::visit_resident(const std::function<void(const ggml_tensor *, size_t, size_t)> & visitor) const {
++    std::lock_guard<std::mutex> lock(pimpl->mutex);
++    std::unordered_map<const impl::source *, const ggml_tensor *> tensors;
++    for (const auto & item : pimpl->store.sources) {
++        tensors.emplace(&item.second, item.first);
++    }
++    for (size_t i = 0; i < pimpl->n_entries; ++i) {
++        const auto & item = pimpl->entries[i];
++        if (item.valid) {
++            visitor(tensors.at(item.src), item.expert, item.filled);
++        }
++    }
++}
++
+ std::map<ggml_backend_buffer_type_t, size_t> llama_expert_session::memory_breakdown() const {
+     std::map<ggml_backend_buffer_type_t, size_t> res;
+     res[ggml_backend_cpu_buffer_type()] = pimpl->st.ram_bytes + pimpl->st.control_bytes;
+--- p4/src/llama-expert-store.h
++++ p5/src/llama-expert-store.h
+@@ -105,6 +105,8 @@
+     // Thread-safe, permanent cancellation. A new session is needed after cancel().
+     void cancel();
+     stats snapshot() const;
++    void log_stats() const;
++    void visit_resident(const std::function<void(const ggml_tensor *, size_t, size_t)> & visitor) const;
+     std::map<ggml_backend_buffer_type_t, size_t> memory_breakdown() const;
+ 
+ #ifdef LLAMA_EXPERT_STORE_TESTING
+--- p4/src/llama-model.cpp
++++ p5/src/llama-model.cpp
+@@ -2027,7 +2027,12 @@
+         }
+     }
+ 
+-    ml.init_mappings(!pimpl->expert_store, use_mlock ? &pimpl->mlock_mmaps : nullptr);
++    const char * prefetch_env = std::getenv("LLAMA_MMAP_PREFETCH");
++    if (prefetch_env && std::strcmp(prefetch_env, "on") != 0 && std::strcmp(prefetch_env, "off") != 0) {
++        throw std::runtime_error("LLAMA_MMAP_PREFETCH must be on or off");
++    }
++    const bool prefetch = !prefetch_env || std::strcmp(prefetch_env, "off") != 0;
++    ml.init_mappings(!pimpl->expert_store && prefetch, use_mlock ? &pimpl->mlock_mmaps : nullptr);
+     pimpl->mappings.reserve(ml.mappings.size());
+ 
+     // create the backend buffers
+--- p4/src/llama-moe-cache.cpp
++++ p5/src/llama-moe-cache.cpp
+@@ -984,3 +984,40 @@
+     }
+     return res;
+ }
++
++void llama_moe_cache::log_file_stats() const {
++    if (!pimpl->expert_session) {
++        return;
++    }
++    pimpl->log_stats();
++    pimpl->expert_session->log_stats();
++    size_t routed = 0, routed_bytes = 0, gpu = 0, gpu_bytes = 0, shared = 0, shared_bytes = 0;
++    for (const auto & g : pimpl->groups) {
++        size_t bytes = 0;
++        for (const auto * t : g.ref) {
++            bytes += t->nb[2];
++        }
++        for (const auto last : g.lru.last_use) {
++            if (last >= 0) {
++                ++routed;
++                routed_bytes += bytes;
++            }
++        }
++        gpu += g.lru.n_filled;
++        gpu_bytes += g.lru.n_filled*bytes;
++    }
++    pimpl->expert_session->visit_resident([&](const ggml_tensor * t, size_t expert, size_t bytes) {
++        const auto found = pimpl->bindings.find(t);
++        if (found == pimpl->bindings.end()) {
++            return;
++        }
++        const int32_t il = found->second.il;
++        const auto & g = pimpl->groups[pimpl->layers[il].ig];
++        if (g.lru.slot_map[il][expert] < g.lru.n_slots) {
++            ++shared;
++            shared_bytes += bytes;
++        }
++    });
++    LLAMA_LOG_INFO("llama_file_residency: routed decode experts = %zu, routed bytes = %zu, GPU experts = %zu, GPU bytes = %zu, shared role entries = %zu, shared bytes = %zu, general calls = %llu\n",
++        routed, routed_bytes, gpu, gpu_bytes, shared, shared_bytes, (unsigned long long) pimpl->file_general_calls);
++}
+--- p4/src/llama-moe-cache.h
++++ p5/src/llama-moe-cache.h
+@@ -45,6 +45,7 @@
+                            const std::vector<bool> & used, ggml_abort_callback abort, void * abort_data);
+ 
+     std::map<ggml_backend_buffer_type_t, size_t> memory_breakdown() const;
++    void log_file_stats() const;
+ 
+ private:
+     struct impl;
+--- p4/src/llama-weight-rows.h
++++ p5/src/llama-weight-rows.h
+@@ -16,6 +16,7 @@
+     void set_abort_callback(ggml_abort_callback callback, void * data);
+     std::map<ggml_backend_buffer_type_t, size_t> memory_breakdown() const;
+     llama_expert_session::stats snapshot() const;
++    void log_stats() const { session.log_stats(); }
+ 
+ private:
+     const ggml_tensor * table;
+--- p4/tests/test-backend-tensor.cpp
++++ p5/tests/test-backend-tensor.cpp
+@@ -689,6 +689,32 @@
+     return true;
+ }
+ 
++static bool test_sched_measure_assigned(ggml_backend_dev_t dev) {
++    ggml_backend_ptr gpu(ggml_backend_dev_init(dev, nullptr));
++    ggml_backend_ptr cpu(ggml_backend_init_by_type(GGML_BACKEND_DEVICE_TYPE_CPU, nullptr));
++    if (!gpu || !cpu) {
++        return false;
++    }
++    ggml_context_ptr weights(ggml_init({ggml_tensor_overhead()*2, nullptr, true}));
++    ggml_context_ptr ctx(ggml_init({ggml_tensor_overhead()*16 + ggml_graph_overhead(), nullptr, true}));
++    auto * w = ggml_new_tensor_2d(weights.get(), GGML_TYPE_F32, 32, 32);
++    ggml_backend_buffer_ptr wbuf(ggml_backend_alloc_ctx_tensors(weights.get(), cpu.get()));
++    ggml_backend_buffer_set_usage(wbuf.get(), GGML_BACKEND_BUFFER_USAGE_WEIGHTS);
++    auto * x = ggml_new_tensor_2d(ctx.get(), GGML_TYPE_F32, 32, 1);
++    ggml_set_input(x);
++    auto * y = ggml_mul_mat(ctx.get(), w, x);
++    ggml_set_output(y);
++    auto * graph = ggml_new_graph(ctx.get());
++    ggml_build_forward_expand(graph, y);
++    ggml_backend_t backends[] = {gpu.get(), cpu.get()};
++    ggml_backend_sched_ptr sched(ggml_backend_sched_new(backends, nullptr, 2, GGML_DEFAULT_GRAPH_SIZE, false, true));
++    ggml_backend_sched_set_tensor_backend(sched.get(), y, gpu.get());
++    size_t sizes[2] = {};
++    ggml_backend_sched_reserve_size_assigned(sched.get(), graph, sizes);
++    // Host weights and a small batch must not erase the caller's GPU assignment.
++    return sizes[0] > 0 && ggml_backend_sched_get_tensor_backend(sched.get(), y) == gpu.get() && y->src[0] != w;
++}
++
+ int main() {
+     ggml_backend_load_all();
+ 
+@@ -702,7 +728,7 @@
+         ggml_backend_buffer_type_t buft = ggml_backend_dev_buffer_type(dev);
+ 
+         const bool ok = test_buft(buft) &&
+-            (ggml_backend_dev_type(dev) != GGML_BACKEND_DEVICE_TYPE_GPU || test_sched_copy_status(dev));
++            (ggml_backend_dev_type(dev) != GGML_BACKEND_DEVICE_TYPE_GPU || (test_sched_measure_assigned(dev) && test_sched_copy_status(dev)));
+         printf("%s %s\n", name, ok ? "PASSED" : "FAILED");
+         if (ok) {
+             n_ok++;
