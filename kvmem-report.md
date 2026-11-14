@@ -38,6 +38,8 @@ prompt batch 512、独立空专家 profile 且 swaps=0；context 均为 262144�
 | 220,529 | 端到端输出 | 4.94 tok/s | 7.90 tok/s | **1.60×** |
 | 55（短，3 次中位） | decode | 191.1 tok/s | 173.4 tok/s | 0.91× |
 
+![KVMem 与原生 KV 的长上下文对比](kvmem-longcontext.svg)
+
 资源（220K 输入、整卡与进程树采样）：GPU0 峰值 **14,934 → 14,174 MiB**（少 5%），
 进程树 RSS 峰值 **14.64 → 16.94 GiB**（多 16%），可用 RAM 最低约 40 GiB 以上，未触顶。
 
