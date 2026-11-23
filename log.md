@@ -10,3 +10,4 @@
 - **根目录整理**：将 10 篇平铺报告与 2 张 SVG 图归入 `reports/`（补齐 OKF Frontmatter、修复相对路径与外部断链、生成 `reports/index.md`），将 4 个原始实验目录归入 `runs/`。
 - **语义拆解重构**：废弃混合容器 `nvmespec/`，拆分为 `kb/`（`nvme/`、`pcie/`、`pci-firmware/`、`ssd-design/`、`llm-inference/`、`reference-wikipedia/`）与 `benchmarks/`（`reports/`、`runs/`、`assets/`）两大语义层，并清理冗余 `spec/欢迎.md`。
 - **Ficus-KB 整合**：将 `Ficus-KB/wiki/` 的 `agents/`、`engineering/`、`specs/`、`storage/` 合并入 `kb/` 对应领域，将 `wiki/llm/` 归入 `kb/llm-inference/ficus/`，将 `design/` 与 `diary/` 归入 `personal/`（默认隔离于技术检索外）；完成 69 篇文档 `status`/`verified` 规范化、150 处外部路径断链清理与 60 条索引补全。
+- **算法与治理文档沉淀**：将 Contextual BM25 + 显式图谱 PPR + RRF 检索算法、渐进式披露 MCP 设计及 OKF 生命周期治理方法写入 [GOVERNANCE.md](GOVERNANCE.md)。
