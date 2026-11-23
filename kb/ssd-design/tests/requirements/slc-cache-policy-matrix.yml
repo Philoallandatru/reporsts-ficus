@@ -1,0 +1,112 @@
+policies:
+  - id: SLC-POL-001
+    name: admit_all_to_slc
+    category: admission
+    objective: send foreground writes to SLC cache whenever free SLC pages are available
+    primary_metrics: [slc_occupancy, foreground_write_latency, destage_backlog]
+    risks: [cache_pollution, fast_write_cliff, unnecessary_destage_waf]
+    requirements: [REQ-PERF-001, REQ-FTL-001]
+    tests: [T5-003, T5-001]
+    profiles:
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+    design_pages:
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+
+  - id: SLC-POL-002
+    name: size_aware_bypass
+    category: admission
+    objective: admit small/random writes to SLC and bypass large sequential writes directly to TLC or QLC
+    primary_metrics: [bypass_ratio, write_latency, destage_writes, waf]
+    risks: [wrong_stream_classification, foreground_tlc_latency]
+    requirements: [REQ-PERF-001, REQ-QOS-001]
+    tests: [T5-003, T5-002]
+    profiles:
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+    design_pages:
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+
+  - id: SLC-POL-003
+    name: temperature_aware_cache
+    category: placement
+    objective: keep hot or short-lived writes in SLC while sending cold sequential data to main storage
+    primary_metrics: [hot_cold_accuracy, future_relocation_writes, cache_hit_lifetime]
+    risks: [temperature_misclassification, fragmentation, namespace_stream_mismatch]
+    requirements: [REQ-FTL-001, REQ-PERF-001]
+    tests: [T5-003, T2-002]
+    design_pages:
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+
+  - id: SLC-POL-004
+    name: background_destage_budget
+    category: destage
+    objective: destage SLC pages during idle or low-pressure windows without starving foreground reads
+    primary_metrics: [destage_backlog, read_p999_during_destage, gc_duty_cycle]
+    risks: [cache_full_cliff, foreground_read_starvation, gc_destage_interference]
+    requirements: [REQ-QOS-001, REQ-PERF-001]
+    tests: [T5-002, T5-003]
+    profiles:
+      - tests/profiles/fio/mixed-read-write-qos.fio
+    design_pages:
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: SLC-POL-005
+    name: emergency_destage_and_bypass
+    category: forward-progress
+    objective: guarantee forward progress when SLC cache or TLC/QLC free blocks approach hard watermarks
+    primary_metrics: [slc_hard_threshold_events, write_throttle_time, free_block_watermark, write_cliff_duration]
+    risks: [host_write_timeout, severe_tail_latency, waf_spike]
+    requirements: [REQ-FTL-001, REQ-PERF-001, REQ-QOS-001]
+    tests: [T5-003, T2-002, T5-002]
+    profiles:
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+      - tests/profiles/fio/steady-state-randwrite.fio
+    design_pages:
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+
+  - id: SLC-POL-006
+    name: plp_aware_cache_metadata
+    category: recovery
+    objective: ensure host-completed SLC cache writes and destage journal entries survive flush, FUA and power loss semantics
+    primary_metrics: [protected_cache_bytes, cache_metadata_writes, recovery_accepted_cache_pages]
+    risks: [lost_completed_write, stale_slc_page_resurrection, excessive_metadata_waf]
+    requirements: [REQ-DATA-002, REQ-PLP-001, REQ-PERF-001]
+    tests: [T2-004, T4-003, T4-005, T5-003]
+    profiles:
+      - tests/profiles/fio/flush-fua-powerfail.fio
+    design_pages:
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+      - wiki/concepts/power-loss-recovery.md
+
+states:
+  - state: burst
+    trigger: slc_occupancy_below_soft_threshold
+    behavior: admit foreground writes to SLC cache
+    host_effect: low_write_latency
+    tests: [T5-001, T5-003]
+
+  - state: destage_pressure
+    trigger: slc_occupancy_above_soft_threshold_or_destage_backlog_growing
+    behavior: increase background destage budget while preserving read priority
+    host_effect: p99_write_latency_increase
+    tests: [T5-002, T5-003]
+
+  - state: cache_full
+    trigger: slc_occupancy_near_hard_threshold
+    behavior: bypass new writes or perform synchronous destage
+    host_effect: visible_write_cliff
+    tests: [T5-003]
+
+  - state: low_main_free
+    trigger: tlc_or_qlc_free_blocks_below_hard_watermark
+    behavior: coordinate destage with GC and throttle host writes if needed
+    host_effect: waf_spike_and_tail_latency_growth
+    tests: [T2-002, T5-003]
+
+  - state: recovery_constrained
+    trigger: flush_fua_shutdown_or_power_fail_requires_persistent_cache_metadata
+    behavior: prioritize SLC cache metadata and destage journal commit
+    host_effect: persistence_latency_dominates
+    tests: [T2-004, T4-003, T4-005]

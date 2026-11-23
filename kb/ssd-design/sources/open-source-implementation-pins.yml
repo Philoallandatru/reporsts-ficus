@@ -1,0 +1,166 @@
+implementation_pins:
+  id: OPEN-SOURCE-IMPLEMENTATION-PINS
+  title: Open-source SSD/NVMe implementation commit pins
+  query_date: 2026-08-12
+  method: git ls-remote --symref <repo> HEAD
+  purpose:
+    - Avoid drifting references to moving default branches.
+    - Provide stable source-code reading anchors for SSD firmware, emulator, simulator and host-stack study.
+    - Feed follow-up work that maps concepts to concrete files, functions and runnable smoke tests.
+  caveats:
+    - These pins identify remote HEAD at query time; they are not validated builds.
+    - A future reproducibility pass should clone each repository, record toolchain versions and run a smoke test.
+    - FlashSim is represented by an accessible public fork because the previously listed repository URL was unavailable at query time.
+  projects:
+    - id: SRC-COSMOS
+      name: Cosmos+ OpenSSD
+      role: FPGA SSD controller firmware and hardware reference
+      repository: https://github.com/Cosmos-OpenSSD/Cosmos-plus-OpenSSD
+      default_branch: master
+      head_commit: 78601486bb5581e40628ec7e841dea8e97eff034
+      pinned_ref: https://github.com/Cosmos-OpenSSD/Cosmos-plus-OpenSSD/tree/78601486bb5581e40628ec7e841dea8e97eff034
+      reading_focus:
+        - firmware request lifecycle
+        - buffer management
+        - NAND request scheduler
+        - GreedyFTL
+      follow_up:
+        - Record build environment and board/toolchain assumptions.
+        - Map firmware request queues to the command lifecycle and flash scheduler pages.
+
+    - id: SRC-FEMU
+      name: FEMU
+      role: QEMU-based NVMe SSD emulator
+      repository: https://github.com/MoatLab/FEMU
+      default_branch: master
+      head_commit: 46e4261f997e39a6184febe8148a6c3449719119
+      pinned_ref: https://github.com/MoatLab/FEMU/tree/46e4261f997e39a6184febe8148a6c3449719119
+      reading_focus:
+        - NVMe device emulation
+        - BlackBox/WhiteBox/OpenChannel/ZNS modes
+        - timing model
+        - host stack interaction
+      follow_up:
+        - Add a smoke boot recipe and identify fault-injection hook points.
+        - Bind PLP, LDPC and scheduler matrices to emulator extension points.
+
+    - id: SRC-SIMPLESSD
+      name: SimpleSSD
+      role: Full-system SSD simulator
+      repository: https://github.com/SimpleSSD/SimpleSSD
+      default_branch: "2.0"
+      head_commit: 2be371619a6533821741540ee2d8ce742c2dad2d
+      pinned_ref: https://github.com/SimpleSSD/SimpleSSD/tree/2be371619a6533821741540ee2d8ce742c2dad2d
+      reading_focus:
+        - controller/FTL/PAL layering
+        - NAND timing configuration
+        - address translation
+        - latency model
+      follow_up:
+        - Extract configuration fields that correspond to the NAND parameter matrix.
+        - Add a runnable config snapshot for page mapping, GC and scheduler experiments.
+
+    - id: SRC-MQSIM
+      name: MQSim
+      role: Multi-queue SSD architecture simulator
+      repository: https://github.com/CMU-SAFARI/MQSim
+      default_branch: master
+      head_commit: 51f0f2d3fed92d88ef4a0fa61a38024b07bf9d16
+      pinned_ref: https://github.com/CMU-SAFARI/MQSim/tree/51f0f2d3fed92d88ef4a0fa61a38024b07bf9d16
+      reading_focus:
+        - SSD configuration
+        - channel/package/die/plane model
+        - transaction scheduling
+        - steady-state latency
+      follow_up:
+        - Map simulator config fields to flash scheduler and QoS policy matrices.
+        - Record example workloads for steady-state and write-cliff scenarios.
+
+    - id: SRC-SPDK
+      name: SPDK
+      role: User-space NVMe driver and host-side FTL reference
+      repository: https://github.com/spdk/spdk
+      default_branch: master
+      head_commit: 804a8090b158cbaef613431711afbaefbc76e2ee
+      pinned_ref: https://github.com/spdk/spdk/tree/804a8090b158cbaef613431711afbaefbc76e2ee
+      reading_focus:
+        - lib/nvme queue pairs and polling
+        - bdev layer
+        - lib/ftl metadata and relocation
+        - recovery logic
+      follow_up:
+        - Keep host-side FTL lessons separate from SSD controller firmware claims.
+        - Link relevant FTL metadata concepts to SPDK source files.
+
+    - id: SRC-LINUX-NVME
+      name: Linux NVMe
+      role: Host kernel NVMe driver and target reference
+      repository: https://github.com/torvalds/linux
+      default_branch: master
+      head_commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
+      pinned_ref: https://github.com/torvalds/linux/tree/f5bbbfec59b4e2fb7520a91de3df8a6174325d6a/drivers/nvme
+      reading_focus:
+        - PCI host driver lifecycle
+        - controller reset and queue setup
+        - namespace scan
+        - NVMe target and endpoint behavior
+      follow_up:
+        - Record kernel release/tag once selected.
+        - Map host-visible error expectations to TEST_PLAN.md.
+
+    - id: SRC-NVME-CLI
+      name: nvme-cli
+      role: NVMe admin and diagnostic command tool
+      repository: https://github.com/linux-nvme/nvme-cli
+      default_branch: master
+      head_commit: 0a77a7d326e509ad1464bcf49ed130df82312871
+      pinned_ref: https://github.com/linux-nvme/nvme-cli/tree/0a77a7d326e509ad1464bcf49ed130df82312871
+      reading_focus:
+        - identify
+        - log pages
+        - firmware download/commit
+        - format/sanitize/self-test
+      follow_up:
+        - Expand nvme-cli profile commands for firmware update, telemetry and persistent error tests.
+
+    - id: SRC-LIBNVME
+      name: libnvme
+      role: NVMe userspace library and command structure reference
+      repository: https://github.com/linux-nvme/libnvme
+      default_branch: master
+      head_commit: ad61ac8a319ad0823c1c9861eecbf66125f8b9a1
+      pinned_ref: https://github.com/linux-nvme/libnvme/tree/ad61ac8a319ad0823c1c9861eecbf66125f8b9a1
+      reading_focus:
+        - NVMe command helpers
+        - identify/log structure definitions
+        - status and feature helper APIs
+      follow_up:
+        - Use as a reference for future generated host-side test utilities.
+
+    - id: SRC-OPENCHANNEL-QEMU
+      name: OpenChannelSSD qemu-nvme
+      role: Historical open-channel NVMe emulator reference
+      repository: https://github.com/OpenChannelSSD/qemu-nvme
+      default_branch: master
+      head_commit: b6fb7eb1e9d708b920f24b559c503e68d0eb0329
+      pinned_ref: https://github.com/OpenChannelSSD/qemu-nvme/tree/b6fb7eb1e9d708b920f24b559c503e68d0eb0329
+      reading_focus:
+        - open-channel geometry
+        - host-managed FTL boundary
+        - legacy NVMe emulation
+      follow_up:
+        - Treat as historical context; prefer FEMU for active experiments.
+
+    - id: SRC-FLASHSIM-FORK
+      name: FlashSim accessible fork
+      role: Historical SSD/FTL simulator reference
+      repository: https://github.com/MatiasBjorling/flashsim
+      default_branch: master
+      head_commit: 53098b017a4dbbe27665a755000738ed70862141
+      pinned_ref: https://github.com/MatiasBjorling/flashsim/tree/53098b017a4dbbe27665a755000738ed70862141
+      original_repository_status: https://github.com/flashsim/flashsim was unavailable at query time
+      reading_focus:
+        - legacy FTL simulation structure
+        - DFTL/FAST-era model context
+      follow_up:
+        - Use only as historical reference unless a maintained upstream is identified.

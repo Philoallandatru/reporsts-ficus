@@ -1,0 +1,156 @@
+standards_public_audit:
+  id: STANDARDS-PUBLIC-AUDIT-2026-08-12
+  title: Public SSD standards version audit
+  query_date: 2026-08-12
+  purpose:
+    - Record which SSD/NVMe/NAND standards were verified from official public pages.
+    - Capture exact version/revision targets before downloading PDFs and calculating sha256.
+    - Distinguish directly verified public PDFs from gated or manually verified entries.
+  verification_rules:
+    - Prefer official standards organization pages and first-party PDFs.
+    - Treat search snippets, mailing lists and vendor product briefs as hints only unless the owning organization page or PDF is reachable.
+    - Do not copy restricted specifications into this repository; record access conditions only.
+  records:
+    - id: SRC-NVME-BASE
+      owning_org: NVM Express
+      title: NVM Express Base Specification
+      verified_version: "Revision 2.4"
+      ratified_date: 2026-07-31
+      official_page: https://nvmexpress.org/specification/nvm-express-base-specification/
+      official_pdf: https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-Revision-2.4-Ratified-2026.07.31.pdf
+      verification_status: official_page_verified_pdf_url_identified
+      access_condition: public_download_with_NVM_Express_notice
+      local_file: null
+      sha256: null
+      next_action: Download if license policy allows; record exact filename and sha256.
+
+    - id: SRC-NVME-NVM
+      owning_org: NVM Express
+      title: NVM Express NVM Command Set Specification
+      verified_version: "Revision 1.3"
+      ratified_date: 2026-07-31
+      official_page: https://nvmexpress.org/specification/nvm-command-set-specification/
+      official_pdf: https://nvmexpress.org/wp-content/uploads/NVM-Express-NVM-Command-Set-Specification-Revision-1.3-Ratified-2026.07.31.pdf
+      verification_status: official_page_and_pdf_verified
+      access_condition: public_download_with_NVM_Express_notice
+      local_file: null
+      sha256: null
+      applies_to:
+        - read/write/flush/compare command semantics
+        - sanitize and media/data error behavior
+        - streams and FDP-related command fields
+      next_action: Download if license policy allows; record exact filename and sha256.
+
+    - id: SRC-NVME-ZNS
+      owning_org: NVM Express
+      title: NVM Express Zoned Namespace Command Set Specification
+      verified_version: "Revision 1.5"
+      ratified_date: 2026-07-31
+      official_page: https://nvmexpress.org/specification/nvme-zoned-namespaces-zns-command-set-specification/
+      official_pdf: official_page_current_specification_link
+      verification_status: official_page_verified_pdf_link_present
+      access_condition: public_download_with_NVM_Express_notice
+      local_file: null
+      sha256: null
+      next_action: Download via official current-specification link and record sha256.
+
+    - id: SRC-NVME-MI
+      owning_org: NVM Express
+      title: NVM Express Management Interface Specification
+      verified_version: "Revision 2.2"
+      ratified_date: 2026-07-31
+      official_page: https://nvmexpress.org/specification/nvme-mi-specification/
+      official_pdf: official_page_current_specification_link
+      verification_status: official_page_verified_pdf_link_present
+      access_condition: public_download_with_NVM_Express_notice
+      local_file: null
+      sha256: null
+      next_action: Download via official current-specification link and record sha256.
+
+    - id: SRC-NVME-BOOT
+      owning_org: NVM Express
+      title: NVM Express Boot Specification
+      verified_version: "Revision 1.4"
+      ratified_date: 2026-07-31
+      official_page: https://nvmexpress.org/specification/nvme-boot-specification/
+      official_pdf: official_page_current_specification_link
+      verification_status: official_page_verified_pdf_link_present
+      access_condition: public_download_with_NVM_Express_notice
+      local_file: null
+      sha256: null
+      next_action: Add boot/platform compatibility page before using this source for design claims.
+
+    - id: SRC-OCP-NVME
+      owning_org: Open Compute Project
+      title: Datacenter NVMe SSD Specification
+      verified_version: "Version 2.6 (09252024)"
+      official_page: https://www.opencompute.org/documents/datacenter-nvme-ssd-specification-v2-6-2-pdf
+      official_pdf: https://www.opencompute.org/documents/datacenter-nvme-ssd-specification-v2-6-2-pdf
+      verification_status: official_url_recorded_but_head_request_forbidden
+      access_condition: public_document_portal
+      local_file: null
+      sha256: null
+      applies_to:
+        - OCP telemetry and SMART extended logs
+        - error injection and PLP failure mode features
+        - firmware update, reliability, thermal, security and form-factor requirements
+        - FDP optional device feature requirements
+      notes:
+        - The official OCP URL is recorded, but scripted HEAD access returned HTTP 403 in this environment.
+        - Version 2.7 appears to have a public document URL candidate, but this audit could not fetch it from the official portal in this environment.
+      next_action: Re-check OCP portal manually; if v2.7 is reachable, promote it to target_version and record hash.
+
+    - id: SRC-SNIA-PTS
+      owning_org: SNIA
+      title: Solid State Storage Performance Test Specification
+      verified_version: "v2.0.2"
+      published_date: 2020-10-01
+      official_page: https://www.snia.org/tech_activities/standards/curr_standards/pts
+      official_pdf: official_page_standard_link
+      verification_status: official_url_recorded_but_head_request_forbidden
+      access_condition: public_or_site_javascript_gated_by_document
+      local_file: null
+      sha256: null
+      applies_to:
+        - repeatable SSD performance test methodology
+        - enterprise/client performance reporting
+      notes:
+        - The official SNIA URL is recorded, but scripted HEAD access returned HTTP 403 in this environment.
+      next_action: Download standard through SNIA link if permitted and record sha256.
+
+    - id: SRC-ONFI
+      owning_org: ONFI
+      title: Open NAND Flash Interface Specification
+      verified_version: "Revision 5.2"
+      official_page: https://onfi.org/specs.html
+      official_pdf_candidate: https://onfi.org/files/ONFI_5_2_Rev1.0.pdf
+      verification_status: official_domain_known_but_request_rejected_in_environment
+      access_condition: public_download_after_clickthrough_or_site_terms
+      local_file: null
+      sha256: null
+      notes:
+        - The environment reached the ONFI domain but received a request-rejected page.
+        - Keep this as manually verified before using it for exact timing or interface claims.
+      next_action: Download manually from ONFI specs page, then record filename and sha256.
+
+    - id: SRC-JESD218
+      owning_org: JEDEC
+      title: JESD218 SSD Endurance Rating Method
+      verified_version: "JESD218B.02"
+      official_page: https://www.jedec.org/standards-documents/docs/jesd218b02
+      verification_status: official_url_recorded_robots_blocked
+      access_condition: account_or_site_gated
+      local_file: null
+      sha256: null
+      next_action: Verify through JEDEC account flow; record access condition and local hash only if redistribution policy allows.
+
+    - id: SRC-JESD219
+      owning_org: JEDEC
+      title: JESD219 SSD Endurance Workloads
+      verified_version: "JESD219A"
+      official_page: https://www.jedec.org/standards-documents/docs/jesd219a
+      verification_status: official_url_recorded_robots_blocked
+      access_condition: account_or_site_gated
+      local_file: null
+      sha256: null
+      next_action: Verify through JEDEC account flow; pair with JESD218 endurance requirements.

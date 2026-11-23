@@ -1,0 +1,99 @@
+policies:
+  - id: PLC-POL-001
+    name: no_hint_baseline
+    category: baseline
+    objective: classify data temperature internally without host placement hints
+    primary_metrics: [waf, gc_relocation_writes, placement_entropy]
+    risks: [late_hot_cold_detection, high_gc_relocation]
+    requirements: [REQ-FTL-001, REQ-PERF-001]
+    tests: [T2-002, T5-001]
+    design_pages:
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+
+  - id: PLC-POL-002
+    name: stream_to_write_frontier
+    category: stream-placement
+    objective: map stream or lifecycle hints to separate write frontiers and block pools
+    primary_metrics: [stream_isolation_ratio, per_class_free_blocks, waf]
+    risks: [stream_starvation, fragmented_free_pool, hint_misuse]
+    requirements: [REQ-FTL-001, REQ-PERF-001, REQ-QOS-001]
+    tests: [T2-002, T5-001, T5-002]
+    design_pages:
+      - wiki/concepts/fdp-streams-placement-hints.md
+
+  - id: PLC-POL-003
+    name: fdp_reclaim_unit_mapping
+    category: fdp
+    objective: map placement handles or reclaim-unit hints to internal reclaim units while preserving GC forward progress
+    primary_metrics: [per_class_waf, reclaim_unit_valid_ratio, fallback_rate]
+    risks: [small_reclaim_units, host_hint_conflict, free_block_imbalance]
+    requirements: [REQ-FTL-001, REQ-PERF-001]
+    tests: [T2-002, T5-001, T7-001]
+    design_pages:
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+
+  - id: PLC-POL-004
+    name: placement_aware_slc_admission
+    category: slc-cache
+    objective: decide SLC admission and destage grouping using placement class, write size and temperature
+    primary_metrics: [slc_per_class_occupancy, bypass_ratio, write_cliff_point, destage_writes]
+    risks: [cache_fragmentation, placement_class_pollution, write_cliff]
+    requirements: [REQ-PERF-001, REQ-QOS-001]
+    tests: [T5-003, T5-002]
+    profiles:
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+    design_pages:
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+
+  - id: PLC-POL-005
+    name: fallback_and_hint_quality
+    category: fallback
+    objective: preserve forward progress when host hints are missing, wrong or impossible to satisfy
+    primary_metrics: [fallback_rate, placement_entropy, write_throttle_time, per_class_waf]
+    risks: [silent_hint_ineffectiveness, host_timeout, unexplained_waf]
+    requirements: [REQ-FTL-001, REQ-PERF-001, REQ-TEST-001]
+    tests: [T2-002, T5-003, T7-001]
+    design_pages:
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: PLC-POL-006
+    name: placement_metadata_recovery
+    category: recovery
+    objective: persist placement class in page metadata or journal so recovery preserves GC/SLC grouping
+    primary_metrics: [placement_metadata_mismatch, recovery_rebuilt_classes, stale_class_entries]
+    risks: [post_recovery_gc_mixing, stale_page_resurrection, incomplete_journal_replay]
+    requirements: [REQ-PLP-001, REQ-FTL-002, REQ-DATA-001]
+    tests: [T4-003, T4-005, T2-003]
+    design_pages:
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/power-loss-recovery.md
+
+states:
+  - state: no_hint
+    trigger: command has no placement information
+    behavior: use internal temperature classifier and default write frontier
+    tests: [T5-001]
+
+  - state: hinted
+    trigger: command carries stream, placement handle, namespace policy or zone context
+    behavior: map hint to placement class and choose matching write frontier
+    tests: [T2-002, T5-001]
+
+  - state: fallback
+    trigger: hinted placement class lacks free blocks or violates QoS/PLP constraints
+    behavior: write to fallback class and increment fallback telemetry
+    tests: [T5-003, T7-001]
+
+  - state: mixed_or_bad_hint
+    trigger: placement entropy too low or tenant writes conflict with declared class
+    behavior: degrade hint trust, merge small classes or return to no-hint baseline
+    tests: [T7-001]
+
+  - state: recovery_rebuild
+    trigger: controller boots after power loss or reset
+    behavior: rebuild placement class from journal, page metadata and checkpoint
+    tests: [T4-003, T4-005]

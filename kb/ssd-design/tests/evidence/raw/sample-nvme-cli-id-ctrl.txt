@@ -1,0 +1,7 @@
+NVME Identify Controller:
+vid       : 0x1d1d
+mn        : Sample NVMe Controller
+fr        : sample-fw
+oacs      : 0x0017
+
+sample_note: synthetic nvme-cli stdout for schema validation only

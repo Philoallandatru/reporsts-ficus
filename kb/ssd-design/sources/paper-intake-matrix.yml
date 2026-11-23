@@ -1,0 +1,158 @@
+papers:
+  id: SSD-PAPER-INTAKE-MATRIX
+  title: SSD research paper intake matrix
+  review_date: 2026-08-12
+  purpose:
+    - Turn the bibliography seed into a tracked intake queue.
+    - Record what each paper can and cannot support in the knowledge base.
+    - Keep paper metadata separate from local PDF/hash/version capture.
+  required_fields:
+    - key
+    - topic
+    - source_url
+    - knowledge_base_use
+    - limitations
+    - local_pdf_path_or_status
+    - sha256_or_pending
+    - reading_status
+    - related_concepts
+  intake_rules:
+    - Every paper entry must point to a primary source page or PDF URL.
+    - A paper may support design intuition, but not product parameters unless the paper explicitly reports them.
+    - If the paper is only a preprint or arXiv copy, the intake record must say so.
+    - Local PDF capture and sha256 tracking belong in VERSIONED_SOURCES.md and source-artifact-manifest.yml.
+  entries:
+    - key: lee-fast-2006-fast-ftl
+      topic: FAST log-block FTL
+      source_url: https://link.springer.com/chapter/10.1007/11807964_88
+      knowledge_base_use:
+        - hybrid mapping
+        - log block design
+        - sector-level merge intuition
+      limitations:
+        - early NAND assumptions
+        - pre-NVMe workload context
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/ftl-hybrid-log-block-mapping.md
+        - wiki/concepts/ftl-design-deep-dive.md
+
+    - key: gupta-asplos-2009-dftl
+      topic: DFTL page mapping cache
+      source_url: https://dl.acm.org/doi/10.1145/1508244.1508271
+      knowledge_base_use:
+        - demand-based mapping
+        - translation page cache
+        - DRAM constrained design
+      limitations:
+        - FlashSim-era assumptions
+        - no modern NVMe multi-queue detail
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/ftl-dftl-demand-based-mapping.md
+        - wiki/concepts/ftl-page-mapping.md
+
+    - key: bjorling-fast-2017-lightnvm
+      topic: Open-channel SSD / host-managed FTL
+      source_url: https://www.usenix.org/conference/fast17/technical-sessions/presentation/bjorling
+      knowledge_base_use:
+        - host-managed FTL boundary
+        - open-channel geometry
+        - host/device partitioning
+      limitations:
+        - partially superseded by ZNS/FDP paths
+        - not a full device implementation
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/fdp-streams-placement-hints.md
+        - wiki/concepts/opensource-implementation-index.md
+
+    - key: zhao-fast-2013-ldpc-ssd
+      topic: LDPC soft decoding in SSD
+      source_url: https://www.usenix.org/conference/fast13/technical-sessions/presentation/zhao
+      knowledge_base_use:
+        - hard/soft decode
+        - read retry
+        - latency and reliability tradeoffs
+      limitations:
+        - vendor retry tables differ
+        - decoder implementation must be mapped to actual NAND
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/ecc-ldpc-reliability.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+
+    - key: li-fast-2018-femu
+      topic: FEMU NVMe SSD emulator
+      source_url: https://www.usenix.org/conference/fast18/presentation/li
+      knowledge_base_use:
+        - emulator design
+        - NVMe device behavior
+        - host stack experimentation
+      limitations:
+        - accuracy depends on calibration
+        - not a product controller
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/verification-and-emulation.md
+        - wiki/concepts/ssd-verification-matrix.md
+
+    - key: tavakkol-fast-2018-mqsim
+      topic: MQSim multi-queue SSD simulator
+      source_url: https://www.usenix.org/conference/fast18/presentation/tavakkol
+      knowledge_base_use:
+        - multi-queue QoS modeling
+        - steady-state latency
+        - architecture sweep experiments
+      limitations:
+        - default config is not a target SSD
+        - requires calibration
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/performance-qos-write-amplification.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+
+    - key: jung-cal-2017-simplessd
+      topic: SimpleSSD full-system simulator
+      source_url: https://arxiv.org/abs/1705.06419
+      knowledge_base_use:
+        - controller/FTL/PAL layering
+        - NAND timing and configuration
+        - holistic system simulation
+      limitations:
+        - arXiv copy should be pinned to a formal version when possible
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/nand-media-parameter-guide.md
+        - wiki/concepts/ftl-page-mapping.md
+
+    - key: jung-atc-2020-openexpress
+      topic: OpenExpress hardware NVMe framework
+      source_url: https://www.usenix.org/conference/atc20/presentation/jung
+      knowledge_base_use:
+        - NVMe queue and doorbell hardware
+        - PRP and CQ pipeline ideas
+      limitations:
+        - front-end hardware only
+        - no full NAND/FTL product coverage
+      local_pdf_path_or_status: pending
+      sha256_or_pending: pending
+      reading_status: seed_only
+      related_concepts:
+        - wiki/concepts/controller-rtl-ip-reference.md
+        - wiki/concepts/controller-hardware-module-boundaries.md
+

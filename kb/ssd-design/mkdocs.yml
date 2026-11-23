@@ -1,0 +1,112 @@
+site_name: SSD 固件与硬件设计知识库
+site_description: SSD controller, firmware, FTL, NAND, reliability and verification knowledge base.
+docs_dir: .
+use_directory_urls: false
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - 首页: README.md
+  - Wiki:
+      - 入口: wiki/index.md
+      - SSD 系统架构: wiki/concepts/ssd-system-architecture.md
+      - 最小控制器路线: wiki/concepts/minimal-ssd-controller-roadmap.md
+      - NVMe 寄存器、队列与状态机: wiki/concepts/nvme-register-queue-state.md
+      - NVMe 命令生命周期: wiki/concepts/nvme-command-lifecycle-in-ssd.md
+      - 控制器硬件模块边界: wiki/concepts/controller-hardware-module-boundaries.md
+      - NAND 介质参数手册: wiki/concepts/nand-media-parameter-guide.md
+      - DRAM-less / HMB: wiki/concepts/dram-less-hmb-ssd.md
+      - Flash Scheduler: wiki/concepts/flash-scheduler-arbitration.md
+      - FTL 与固件职责: wiki/concepts/firmware-ftl.md
+      - FTL 设计深水区: wiki/concepts/ftl-design-deep-dive.md
+      - FTL Page Mapping: wiki/concepts/ftl-page-mapping.md
+      - FTL Hybrid / Log-block Mapping: wiki/concepts/ftl-hybrid-log-block-mapping.md
+      - DFTL / Demand-based Mapping: wiki/concepts/ftl-dftl-demand-based-mapping.md
+      - GC 与 Wear Leveling 策略: wiki/concepts/gc-wear-leveling-policy.md
+      - SLC Cache 与 Write Cliff: wiki/concepts/slc-cache-write-cliff-destage.md
+      - FDP / Streams / Placement Hint: wiki/concepts/fdp-streams-placement-hints.md
+      - Firmware Update 与 Rollback: wiki/concepts/firmware-update-rollback.md
+      - FTL 元数据格式与恢复约定: wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+      - ECC、LDPC 与可靠性: wiki/concepts/ecc-ldpc-reliability.md
+      - 掉电保护与恢复: wiki/concepts/power-loss-recovery.md
+      - 性能、QoS 与写放大: wiki/concepts/performance-qos-write-amplification.md
+      - 仿真、验证与测试平台: wiki/concepts/verification-and-emulation.md
+      - SSD 验证矩阵: wiki/concepts/ssd-verification-matrix.md
+      - 故障注入目录: wiki/concepts/fault-injection-catalog.md
+      - 验证证据与故障注入闭环: wiki/concepts/verification-evidence-and-fault-bridge.md
+      - 量产需求与合规: wiki/concepts/production-requirements-and-compliance.md
+      - 开源实现索引: wiki/concepts/opensource-implementation-index.md
+      - 源码导读: wiki/concepts/source-code-reading-guide.md
+  - 图谱:
+      - SSD 控制器架构总览: maps/architecture-overview.md
+      - 读写路径图: maps/write-read-path.md
+      - 掉电恢复流程图: maps/recovery-flow.md
+  - 工程附录:
+      - 知识地图: KNOWLEDGE_MAP.md
+      - 术语表: GLOSSARY.md
+      - 追踪矩阵: TRACEABILITY_MATRIX.md
+      - 测试计划: TEST_PLAN.md
+      - GC Policy Matrix: tests/requirements/gc-policy-matrix.yml
+      - SLC Cache Policy Matrix: tests/requirements/slc-cache-policy-matrix.yml
+      - Placement Policy Matrix: tests/requirements/placement-policy-matrix.yml
+      - Firmware Update Policy Matrix: tests/requirements/firmware-update-policy-matrix.yml
+      - HMB Policy Matrix: tests/requirements/hmb-policy-matrix.yml
+      - Flash Scheduler Policy Matrix: tests/requirements/flash-scheduler-policy-matrix.yml
+      - LDPC Pipeline Policy Matrix: tests/requirements/ldpc-pipeline-policy-matrix.yml
+      - Emulator Hook Matrix: tests/requirements/emulator-hook-matrix.yml
+      - Verification Evidence Schema: tests/requirements/verification-evidence-schema.yml
+      - NVMe Command Spec Map: tests/requirements/nvme-command-spec-map.yml
+      - nvme-cli Output Field Map: tests/requirements/nvme-cli-output-field-map.yml
+      - Sample nvme-cli Evidence Log: tests/evidence/sample-nvme-cli-readonly-pass.jsonl
+      - Sample LDPC Evidence Log: tests/evidence/sample-ldpc-pass.jsonl
+      - Sample PLP Evidence Log: tests/evidence/sample-plp-pass.jsonl
+      - 掉电恢复状态表: tests/faults/power-loss-state-table.yml
+      - Firmware Update State Table: tests/faults/firmware-update-state-table.yml
+      - 资料来源: SOURCES.md
+      - 版本化来源清单: VERSIONED_SOURCES.md
+      - 论文与 BibTeX: BIBLIOGRAPHY.md
+      - 专利检索索引: PATENT_INDEX.md
+      - 覆盖缺口清单: COVERAGE_GAPS.md
+      - 采集 Backlog: BACKLOG.md
+      - llmwiki 使用说明: LLMWIKI.md
+      - 维护日志: log.md
+  - 资料 Intake:
+      - Standards Version Pins: sources/standards-version-pins.yml
+      - Standards Public Audit 2026-08-12: sources/standards-public-audit-2026-08-12.yml
+      - Source Artifact Manifest: sources/source-artifact-manifest.yml
+      - PDF Artifact Index: sources/pdf-artifact-index.yml
+      - PDF Topic Locator: sources/pdf-topic-locator.yml
+      - Implementation Smoke-test Matrix: sources/implementation-smoke-test-matrix.yml
+      - NAND Vendor Intake: sources/vendor-intake/nand-vendor-public-materials.md
+      - NAND Parameter Extraction Matrix: sources/vendor-intake/nand-parameter-extraction-matrix.yml
+      - Micron NAND Flash Guide Intake: sources/vendor-intake/micron-nand-flash-guide-intake.md
+      - Controller Vendor Intake: sources/vendor-intake/controller-vendor-public-materials.md
+      - Open Source Implementation Pins: sources/open-source-implementation-pins.yml
+      - NAND/Controller/Patent Research Notes: sources/research-nand-controller-patent-notes.md
+      - Patent Intake Template: sources/patents/patent-intake-template.md
+  - 模板:
+      - 资料采集模板: templates/source-intake-template.md
+      - 概念页模板: templates/concept-page-template.md
+      - 测试需求模板: templates/test-requirement-template.md
+      - 验证报告模板: templates/verification-report-template.md

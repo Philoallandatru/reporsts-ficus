@@ -1,0 +1,159 @@
+# pcie-wiki 索引
+
+## 补充归档索引（Governance Auto-Synced）
+
+- [PCIe 访问控制服务（ACS - Access Control Services）](wiki/advanced-features/acs.md) — 访问控制服务（ACS）是 PCIe 规范中引入的一项安全特性，旨在控制和限制 Peer-to-Peer（P2P）流量在 PCIe 拓扑中的传播。ACS 对于实现设备隔离、增强系统安全性以及支持虚拟化环境中的 I/O 虚拟化（如 SR-IOV）至关重要。
+- [PCIe 备选路由 ID（ARI - Alternative Routing-ID Interpretation）](wiki/advanced-features/ari.md) — 备选路由 ID 解释（ARI）是 PCIe 2.0 规范引入的一项扩展特性，旨在突破传统 PCIe 设备功能数量的限制。在传统 PCIe 中，每个设备最多支持 8 个功能（Function 0-7），而 ARI 将这一限制扩展到 256 个功能，极大地增强了设备的功能密度。
+- [PCIe 原子操作（Atomic Operations）](wiki/advanced-features/atomic-ops.md) — 原子操作（Atomic Operations，简称 AtomicOps）是 PCIe 规范中引入的一种特殊的事务类型，允许设备对内存位置执行不可分割的读-修改-写操作。这些操作在多处理器系统、多设备协同和并发编程中至关重要，提供了硬件级别的同步原语，确保在分布式计算环境中的数据一致性和正确性。
+- [数据对象交换（Data Object Exchange, DOE）](wiki/advanced-features/doe.md) — 数据对象交换（DOE）是 PCIe 6.0 规范中引入的一项重要特性，提供了一种通过 PCIe 配置空间安全交换数据对象的标准化机制。DOE 使得 PCIe 设备能够支持各种安全协议和管理功能，而无需占用宝贵的内存映射 I/O（MMIO）资源。
+- [PCIe 热插拔（Hot-Plug）](wiki/advanced-features/hot-plug.md) — 热插拔（Hot-Plug）是 PCIe 规范中的一项重要特性，允许在系统运行时动态地添加或移除 PCIe 设备，而无需关闭系统电源或重启操作系统。这一特性对于服务器、存储系统和其他需要高可用性的应用场景至关重要。
+- [完整性和数据加密（Integrity and Data Encryption, IDE）](wiki/advanced-features/ide.md) — 完整性和数据加密（IDE）是 PCIe 6.0 规范中引入的关键安全特性，旨在保护 PCIe 链路上传输的数据免受窃听、篡改和重放攻击。IDE 提供了硬件级别的加密和完整性保护，确保数据在 PCIe 拓扑结构中的传输安全。
+- [精确时间测量（Precision Time Measurement, PTM）](wiki/advanced-features/ptm.md) — 精确时间测量（PTM）是 PCIe 3.1 规范中引入的一项重要特性，用于在 PCIe 拓扑结构中的多个设备之间建立共同的时间参考。PTM 允许系统中的设备以亚微秒级的精度同步它们的本地时钟，这对于需要精确时间协调的应用至关重要。
+- [SR-IOV 虚拟化详解](wiki/advanced-features/sriov.md) — Single Root I/O Virtualization (SR-IOV) 是 PCIe 的虚拟化扩展，允许单个物理设备虚拟为多个独立的虚拟设备，直接分配给虚拟机使用。
+- [PCIe TLP 处理提示（TPH - TLP Processing Hints）](wiki/advanced-features/tph.md) — TLP 处理提示（TPH - TLP Processing Hints）是 PCIe 规范中的一项性能优化特性，允许设备在发送 TLP（Transaction Layer Packet）时附加额外的提示信息，指导接收方如何高效地处理数据包，特别是如何优化缓存放置和处理器亲和性。
+- [PCIe 地址空间管理](wiki/architecture/address-space.md) — PCIe 设备使用多种地址空间来访问系统资源和设备寄存器。理解这些地址空间的组织、映射和管理对于 PCIe 系统设计和驱动开发至关重要。
+- [PCIe 时钟架构](wiki/architecture/clock-architecture.md) — PCIe 的时钟架构是系统设计中的关键要素，直接影响链路的稳定性、性能和互操作性。PCIe 采用**差分时钟**传输，支持多种时钟架构模式，并对时钟精度、抖动和频谱扩展有严格要求。
+- [PCIe 设备枚举](wiki/architecture/enumeration.md) — PCIe 设备枚举是系统启动时由 BIOS/UEFI 或操作系统执行的过程，用于发现总线上的所有设备、分配资源（内存地址、I/O 地址、中断）并建立设备树结构。
+- [PCIe 三层协议模型](wiki/architecture/layering.md) — PCIe 采用**分层架构**，将复杂的通信协议分解为三个独立的层次。每层负责特定的功能，层与层之间通过定义良好的接口通信。
+- [PCIe 链路宽度](wiki/architecture/link-width.md) — PCIe 链路宽度 (Link Width) 指并行使用的数据通道（Lane）数量。通过增加链路宽度可以成比例地提高总带宽。
+- [PCIe 数据包类型](wiki/architecture/packet-types.md) — PCIe 协议栈使用三种主要的数据包类型来实现完整的通信功能：
+- [PCIe 速度和编码](wiki/architecture/speed-encoding.md) — PCIe 通过提高数据传输速率和改进编码方案来增加带宽。本文详细介绍各代 PCIe 的速度、编码方式和带宽计算。
+- [Ack/Nak Protocol](wiki/concepts/acknak-protocol.md) — Ack/Nak 协议是 PCIe 数据链路层 实现可靠传输的核心机制，用于确认 TLP（事务层包） 的接收状态并触发必要时的重传。^[pcie-dllp-format.md:14-27]
+- [ACK/NAK 协议](wiki/concepts/acknak-协议.md) — ACK/NAK 协议是 PCIe 数据链路层 的核心可靠传输机制，负责确保事务层数据包（TLP）能够正确无误地从发送端到达接收端。^[pcie-layering.md:212-214]
+- [ASPM (Active State Power Management)](wiki/concepts/aspm-active-state-power-management.md) — ASPM 的核心设计目标包括四个方面：降低链路空闲时的电源消耗、从低功耗状态快速恢复至全速运行、对外层软件尽可能透明，以及提供灵活配置以平衡性能与功耗。^[pcie-aspm.md:9-13]
+- [ASPM L0s 状态 (Standby)](wiki/concepts/aspm-l0s-状态-standby.md) — ASPM L0s（Standby，待机状态）是 PCIe 链路电源管理中的一种快速低功耗状态，用于在链路短暂空闲时节省电能，同时保持快速恢复能力。
+- [ASPM L1 状态 (Low Power)](wiki/concepts/aspm-l1-状态-low-power.md) — ASPM L1 状态（Low Power State）是 PCIe 链路电源管理中的低功耗状态之一，相比 L0s 待机状态 提供更深度的节能效果。当链路处于空闲状态且时间超过阈值时，硬件会自动触发从 L0 活动状态切换到 L1 低功耗状态，以降低电源消耗。^[pcie-aspm.md:133-139]
+- [ASPM L1.2 子状态](wiki/concepts/aspm-l12-子状态.md) — L1.2 是 PCIe ASPM（Active State Power Management）电源管理机制中的子状态之一，属于 ASPM L1 低功耗状态的深度节能扩展。L1.2 在 PCIe 3.1 规范中引入，是 ASPM 系列中功耗最低的状态，能够在链路空闲时实现接近 99% 的功耗节省，对延长笔记本电脑电池续航和降低数据中心能耗具有重要意义。...
+- [ASPM (主动状态电源管理)](wiki/concepts/aspm-主动状态电源管理.md) — ASPM（Active State Power Management，主动状态电源管理）是一种利用 PCIe LTSSM（链路训练与状态机）省电状态实现的节能机制。它允许设备在链路空闲时自动进入低功耗状态，从而降低整体能耗。
+- [ASPM 配置与控制](wiki/concepts/aspm-配置与控制.md) — 本页面介绍 ASPM（Active State Power Management）的配置方法、控制机制及实用技巧。ASPM 是 PCIe 链路电源管理的核心机制，通过硬件自动在空闲时切换链路状态来节省功耗。^[pcie-aspm.md:1-3]
+- [BDF 地址分配方案](wiki/concepts/bdf-地址分配方案.md) — BDF（Bus:Device.Function）地址分配方案是 SR-IOV 技术中用于标识 PCIe 设备及其虚拟功能的关键机制。该方案定义了 Physical Function（PF）和 Virtual Function（VF）在 PCIe 总线上的地址分配规则。 ^[pcie-sriov.md:121-122]
+- [BDF 地址格式](wiki/concepts/bdf-地址格式.md) — BDF（Bus:Device.Function）地址格式是 PCIe 系统中用于唯一标识设备的核心编址方案。每个 PCIe 设备在系统中都拥有一个唯一的 BDF 地址。
+- [Byte Enable 字段](wiki/concepts/byte-enable-字段.md) — Byte Enable（字节使能，简称 BE）是 PCIe TLP（Transaction Layer Packet）Header 中的重要字段，用于指示数据负载中哪些字节是有效的。^[pcie-tlp-format.md:91-98]^
+- [Class Code 寄存器](wiki/concepts/class-code-寄存器.md) — Class Code（类别代码）是 PCI/PCIe 配置空间中用于标识设备类型的标准分类字段，位于 Type 0 Header 的偏移 `0x09` 处，共 24 位。^[pcie-config-space.md:114-116]
+- [DLLP CRC-16](wiki/concepts/dllp-crc-16.md) — DLLP CRC-16 是用于保护数据链路层包（Data Link Layer Packet, DLLP）完整性的 16 位循环冗余校验码。它位于每个 DLLP 的最后 2 个字节，用于检测传输过程中可能发生的数据损坏。 ^[pcie-dllp-format.md:419-452]
+- [DLLP (Data Link Layer Packet) 协议](wiki/concepts/dllp-data-link-layer-packet-协议.md) — DLLP（Data Link Layer Packet，数据链路层数据包）是 PCI Express 协议中位于PCI Express数据链路层的核心协议元素。它负责在相邻PCI Express设备之间提供可靠的数据传输服务，是确保TLP（Transaction Layer Packet，事务层数据包）能够正确交付的关键机制。 ^[pcie-spec-...
+- [DLLP (Data Link Layer Packet)](wiki/concepts/dllp-data-link-layer-packet.md) — DLLP 在 PCIe 协议栈中扮演着关键的辅助角色，其主要功能包括五个方面：确认机制（ACK/NAK）用于确认 TLP 的接收状态；流控制初始化（InitFC）用于在链路建立时交换缓冲区容量信息；流控制更新（UpdateFC）用于运行时实时更新可用信用；电源管理（PM）用于协商链路电源状态；厂商自定义（Vendor）用于厂商特定的链路控制需求。^[p...
+- [DLLP Type Encoding](wiki/concepts/dllp-type-encoding.md) — DLLP Type 字段占据 DLLP 的第一个字节，用于定义 DLLP 的类型和子类型。该字段与第二个字节的保留位共同构成 **Type (2 bytes)** 区域，是所有 DLLP 固定格式的起始部分。^[pcie-dllp-format.md:79-80]
+- [DLLP vs TLP Comparison](wiki/concepts/dllp-vs-tlp-comparison.md) — DLLP（Data Link Layer Packet）和 TLP（Transaction Layer Packet）是 PCIe 协议栈中两个核心的包类型，分别运行在不同的协议层次，具有不同的功能和特性。理解两者之间的区别对于掌握 PCIe 链路管理机制和数据传输原理至关重要。 ^[pcie-dllp-format.md:9-12]
+- [ECAM 机制](wiki/concepts/ecam-机制.md) — 在 PCIe 系统中，每个设备都拥有一个独立的 4096 字节配置空间，用于存储设备识别信息、地址映射和能力声明等关键配置数据。ECAM 机制提供了一种高效、标准化访问这些配置空间的方式。^[pcie-config-space.md:3, pcie-config-space.md:9-13]
+- [ECRC (端到端CRC校验)](wiki/concepts/ecrc-端到端crc校验.md) — 在 PCIe 协议栈中，TLP（Transaction Layer Packet）的完整结构包含三个部分：
+- [FEMU NVMe模拟器](wiki/concepts/femu-nvme模拟器.md) — FEMU 是一款基于 QEMU 的开源 NVMe 模拟器，专门用于模拟 NVMe 存储设备在 PCIe 总线上的行为和协议栈。该项目由 FEMU 团队开发维护，为存储系统研究、性能分析和驱动程序开发提供了重要的实验平台。 ^[pcie-project-overview.md:237]
+- [Flow Control (InitFC/UpdateFC)](wiki/concepts/flow-control-initfcupdatefc.md) — 流控制是 PCIe 数据链路层（Data Link Layer）用于管理接收缓冲区、防止溢出的核心机制。该机制通过 **InitFC** 和 **UpdateFC** 两种 DLLP 实现，确保发送方不会向接收方的缓冲区写入超过其容量的数据。 ^[pcie-dllp-format.md:14-26]
+- [FTS (Fast Training Sequence)](wiki/concepts/fts-fast-training-sequence.md) — FTS 的核心作用是在链路从低功耗状态退出时，快速恢复时钟锁定，使接收器能够重新正确解析数据。由于 L0s 状态仅关闭了发送器电路而保持接收器运行，因此恢复过程相对简单，需要的只是重新锁定时钟。 ^[pcie-aspm.md:99-105]
+- [LCRC 与 ECRC 错误检测](wiki/concepts/lcrc-与-ecrc-错误检测.md) — 在 PCIe 协议中，错误检测机制分布在不同的协议层次，以确保数据在传输过程中的完整性。PCIe 采用两级 CRC 校验机制：
+- [LTSSM (链路训练与状态状态机)](wiki/concepts/ltssm-链路训练与状态状态机.md) — LTSSM 是 PCIe 链路生命周期的控制中心，管理从设备上电到正常通信的整个过程。 ^[pcie-ltssm.md:9]
+- [LTSSM 链路训练状态机](wiki/concepts/ltssm-链路训练状态机.md) — PCIe 链路从上电到正常工作，需要经历完整的训练过程。LTSSM 管理这一过程的所有阶段，从最初的物理连接检测，到最终的数据传输状态，涵盖了链路的完整生命周期。 [^pcie-layering.md:343-380]
+- [LTSSM链路训练状态机](wiki/concepts/ltssm链路训练状态机.md) — LTSSM（Link Training and Status State Machine，链路训练与状态机）是 PCI Express（PCIe）物理层中的核心机制，负责在链路初始化和恢复过程中建立和维护高速串行通信链路。^[pcie-project-overview.md]
+- [Mermaid 解释性重绘规范](wiki/concepts/mermaid-解释性重绘规范.md) — Mermaid 解释性重绘规范是 llmwiki 在编译技术文档页面时必须遵守的图表制作与证据引用规则。该规范旨在确保图表既清晰表达技术概念，又不引入未被来源确认的细节，同时保持严格的引用纪律。
+- [MSI-X Capability 结构](wiki/concepts/msi-x-capability-结构.md) — MSI-X Capability 结构位于 PCIe 设备的配置空间中，用于声明和配置 MSI-X 中断能力。该结构包含 **4 个双字（16 字节）**，定义了 MSI-X 中断的核心配置参数，包括中断数量、表位置和待处理位数组位置。^[pcie-msix.md:67-69]
+- [MSI-X Message Address 格式](wiki/concepts/msi-x-message-address-格式.md) — 在 MSI-X 中断机制中，**Message Address**（消息地址）是用于将中断请求定向到目标 CPU 的 64 位地址。每个 MSI-X Table Entry 包含两个字段来存储这个消息地址 ^[pcie-msix.md:133-143]：
+- [MSI-X Message Data 格式](wiki/concepts/msi-x-message-data-格式.md) — MSI-X Message Data 是 MSI-X 中断机制中用于携带中断信息的关键字段，定义在 MSI-X Table Entry 的偏移 0x08 处，共 32 位（其中低 16 位有效）。
+- [MSI-X Table 结构](wiki/concepts/msi-x-table-结构.md) — MSI-X Table 是 MSI-X 中断机制的核心配置数据结构，存储在设备的 BAR 空间中。每个中断向量在表中对应一个独立的 Entry，支持独立配置地址、数据和掩码状态。^[pcie-msix.md:124-128]
+- [MSI-X 中断机制](wiki/concepts/msi-x-中断机制.md) — MSI-X (Message Signaled Interrupts - Extended) 是 PCI Express (PCIe) 中最强大的中断机制，支持多达 2048 个独立配置的中断向量，是现代高性能设备（如 NVMe 固态硬盘、高速网卡）的首选中断方案。相比传统的 INTx 中断和标准 MSI，MSI-X 提供了更高的灵活性和可扩展性。 ^...
+- [NVMe over PCIe 集成](wiki/concepts/nvme-over-pcie-集成.md) — NVMe over PCIe 是将 NVMe (Non-Volatile Memory Express) 存储协议通过 PCI Express 总线进行传输的技术方案。这种集成充分发挥了 PCIe 高速串行总线的带宽优势，为固态存储设备提供了低延迟、高吞吐量的数据传输通道。
+- [P2P 对等通信](wiki/concepts/p2p-对等通信.md) — P2P（Peer-to-Peer，对等通信）是 [[PCIe 拓扑结构]] 中的一种重要通信模式，允许不同 Endpoint 设备之间直接交换数据，无需经过 Root Complex 中转。这种通信方式可以显著降低延迟并减轻 Root Complex 的带宽压力。 ^[pcie-topology.md:337-345]
+- [PBA (Pending Bit Array)](wiki/concepts/pba-pending-bit-array.md) — PBA 是一个位图结构，存储在设备的 BAR（Base Address Register）空间中，每个 MSI-X 中断向量对应一个比特位。当某个中断向量被屏蔽（Masked）时，如果设备触发了该中断，则对应的 PBA 位会被置 1，以标记该中断处于待处理状态。^[pcie-msix.md:239-249]
+- [PCI Express (PCIe) 技术](wiki/concepts/pci-express-pcie-技术.md) — PCI Express（简称 PCIe）是一种高速串行计算机扩展总线标准，用于连接计算机内部的各种硬件设备。它由 PCI-SIG（PCI Special Interest Group）组织制定，是传统 PCI 和 AGP 总线的继承者和替代者。^[pcie-project-overview.md:1-3]
+- [PCIe Endpoint 端点设备](wiki/concepts/pcie-endpoint-端点设备.md) — PCIe Endpoint（端点设备）是 PCIe 拓扑结构中的**叶子节点**，是实际承载功能操作的设备。Endpoint 通过上行端口连接到 PCIe 树的上级设备（如 Root Complex 或 Switch 的下行端口），负责提供具体的硬件功能，如存储、网络、图形等。 ^[pcie-topology.md:81-83]
+- [PCIe Recovery 状态](wiki/concepts/pcie-recovery-状态.md) — Recovery 状态是 PCIe 链路在运行过程中遇到问题时的恢复机制。当链路从正常工作的 L0 状态进入 Recovery 时，LTSSM 会暂停正常数据传输，通过发送训练序列（TS1/TS2）来重新建立位锁定、符号锁定和链路配置。整个恢复过程对软件透明，通常在毫秒级完成。 ^[pcie-ltssm.md:276-280]
+- [PCIe Switch 交换机](wiki/concepts/pcie-switch-交换机.md) — PCIe Switch（交换机）是一种用于**扩展 PCIe 连接数量**的桥接设备。它是 PCIe [[PCIe 拓扑结构|树形拓扑]]中的关键组件，能够将一个上行端口扩展为多个下行端口，从而连接更多 Endpoint 设备。 ^[pcie-topology.md:48-48]
+- [PCIe Switch 带宽分配](wiki/concepts/pcie-switch-带宽分配.md) — PCIe Switch 带宽分配是指在 PCIe 交换设备中，如何将上行链路（Upstream Port）的带宽资源分配给多个下行端口（Downstream Port）的机制。由于 Switch 的下行端口数量通常多于上行端口，因此带宽分配策略直接影响着多个设备同时通信时的性能表现。
+- [PCIe 三层协议架构](wiki/concepts/pcie-三层协议架构.md) — PCIe 采用**分层架构**，将复杂的通信协议分解为三个独立的层次，自上而下分别是**事务层（Transaction Layer）**、**数据链路层（Data Link Layer）** 和 **物理层（Physical Layer）**。每层负责特定的功能，层与层之间通过定义良好的接口通信。这种设计将协议复杂性模块化，便于硬件实现和协议理解。 ^...
+- [PCIe 三层协议栈](wiki/concepts/pcie-三层协议栈.md) — PCI Express（PCIe）采用分层架构设计，将协议功能划分为三个独立的层次：事务层（Transaction Layer）、数据链路层（Data Link Layer）和物理层（Physical Layer）。这种分层设计简化了协议的实现、调试和演进。
+- [PCIe 三层协议栈模型](wiki/concepts/pcie-三层协议栈模型.md) — PCI Express（PCIe）采用分层架构设计，将协议功能划分为三个主要层级，从上至下依次为**事务层（Transaction Layer）**、**数据链路层（Data Link Layer）** 和 **物理层（Physical Layer）**。这种分层设计使得不同组件之间的通信职责清晰，便于标准化实现和故障排查。^[visualizatio...
+- [PCIe 三层协议模型](wiki/concepts/pcie-三层协议模型.md) — PCI Express (PCIe) 采用经典的三层协议架构来组织其通信协议栈。这种分层设计将协议功能划分为三个独立的层次，每层负责不同的职责，层与层之间通过明确定义的接口进行交互 [^pcie-project-overview.md:33]。
+- [PCIe 扩展能力](wiki/concepts/pcie-扩展能力.md) — PCIe 扩展能力（Extended Capabilities）是 PCIe 设备配置空间的重要组成部分，位于扩展配置空间区域（偏移 0x100 及以后）。 ^[pcie-config-space.md:318-320]
+- [PCIe 拓扑结构](wiki/concepts/pcie-拓扑结构.md) — PCIe（PCI Express）拓扑结构定义了系统中各个组件之间的连接方式和层次关系。理解 PCIe 拓扑是掌握 PCIe 技术的关键基础。^[pcie-project-overview.md:40]
+- [PCIe 数据编码方案](wiki/concepts/pcie-数据编码方案.md) — PCIe 在物理层采用数据编码方案将上层交付的数据转换为适合在高速串行链路上传输的信号格式。编码的核心目标是实现 **直流平衡（DC Balance）**、提供足够的信号跳变以支持**时钟恢复**，以及尽可能提高有效数据的传输效率。^[pcie-layering.md:284-289]
+- [PCIe 树形拓扑结构](wiki/concepts/pcie-树形拓扑结构.md) — PCIe 采用**树形拓扑结构**，由 Root Complex（根复合体）作为根节点，通过 Switch（交换机）扩展，连接多个 Endpoint（端点）设备。每个连接都是**点对点**的，没有共享总线。^[pcie-topology.md:5]
+- [PCIe 流控制机制](wiki/concepts/pcie-流控制机制.md) — PCIe 流控制（Flow Control）是一种基于**信用 (Credit)** 的机制，用于防止发送方发送超过接收方缓冲区容量的数据，确保数据链路不会因接收方缓冲区溢出而导致丢包。^[pcie-layering.md:116-123]
+- [PCIe 流量控制机制](wiki/concepts/pcie-流量控制机制.md) — PCIe 流量控制（Flow Control）是一种基于**信用（Credit）的机制**，用于确保发送端不会向接收端发送超出其缓冲能力的数据，从而避免数据丢失并实现链路的可靠通信。^[pcie-spec-analysis.md]
+- [PCIe 电源管理状态](wiki/concepts/pcie-电源管理状态.md) — PCIe 电源管理是 PCI Express 规范中用于降低设备功耗的重要机制，通过管理设备电源状态（D-State）和链路电源状态（L-State）来实现能耗优化。规范在第五章（Power Management，第 439-494 页）中详细定义了相关协议和状态转换机制。^[pcie-spec-analysis.md:84, pcie-spec-an...
+- [PCIe 能力结构](wiki/concepts/pcie-能力结构.md) — PCIe 能力结构是配置空间的重要组成部分。设备通过在配置空间中实现能力结构，向主机软件暴露其支持的各类特性。标准 PCI 配置空间为 256 字节，PCIe 设备还需要额外的扩展配置空间（最高 4096 字节），以容纳更多的能力结构。^[pcie-implementation-analysis.md:52-53]
+- [PCIe 能力链表](wiki/concepts/pcie-能力链表.md) — PCIe 能力链表是配置空间中用于声明和管理设备功能特性的可扩展机制，允许设备以链表形式串联多个能力结构，每个能力结构包含特定功能的配置寄存器。
+- [PCIe 虚拟通道](wiki/concepts/pcie-虚拟通道.md) — PCIe 虚拟通道（Virtual Channel，VC）是 PCIe 协议中实现**流量分类**和 **QoS（服务质量）**的关键机制。它允许在单个物理链路上同时传输多路独立管理的流量，确保不同类型的业务数据能够按需获得适当的传输优先级和带宽保障。^[pcie-layering.md:185-192]
+- [PCIe 训练序列 (TS1/TS2)](wiki/concepts/pcie-训练序列-ts1ts2.md) — 训练序列（Training Sequence，TS）是 PCIe 物理层链路训练过程中发送的特殊符号序列，用于建立位锁定、符号锁定以及在链路两端交换配置信息。TS1 和 TS2 是两种主要的训练序列，分别用于不同的训练阶段。^[pcie-ltssm.md:124-144]
+- [PCIe 设备枚举过程](wiki/concepts/pcie-设备枚举过程.md) — PCIe 设备枚举是指系统在启动时自动发现和识别所有 PCIe 设备的过程。该过程由 BIOS/UEFI 主导，遵循 PCIe 的[[PCIe 树形拓扑结构|树形拓扑结构]]，从 Root Complex（根复合体）开始，逐层向下扫描，最终完成对所有设备的发现与配置。 ^[pcie-topology.md:200-205]
+- [PCIe 配置空间](wiki/concepts/pcie-配置空间.md) — PCIe 配置空间（Configuration Space）是每个 PCIe 设备必须实现的标准化寄存器区域，堪称设备的"身份证"和"控制面板"。它承担着设备识别、地址映射、能力声明以及行为控制等核心功能。 ^[pcie-config-space.md:3-14, pcie-implementation-analysis.md:49-61]
+- [PCIe 配置空间与BARs](wiki/concepts/pcie-配置空间与bars.md) — PCIe 配置空间是 PCI Express 设备用于与系统软件进行通信的一组标准化寄存器区域。每个 PCIe 设备都必须在配置空间中进行声明，使得操作系统和驱动程序能够发现设备、读取设备能力并分配必要的资源。配置空间是 PCIe 架构中最基础也是最重要的组成部分之一。
+- [PCIe 链路宽度协商](wiki/concepts/pcie-链路宽度协商.md) — PCIe 链路宽度协商（Link Width Negotiation）是 PCIe 链路初始化过程中的关键步骤，用于确定链路两端设备之间实际激活的 Lane 数量。PCIe 支持多种链路宽度，包括 x1、x2、x4、x8、x16 和 x32，协商过程确保两端设备在共同支持的范围内达成一致。^[pcie-ltssm.md:14]
+- [PCIe 链路速度与编码](wiki/concepts/pcie-链路速度与编码.md) — PCIe 链路速度与编码是物理层传输效率的核心参数。不同的 PCIe 代际采用不同的信号速率和编码方案，直接影响链路的有效带宽和功耗特性。
+- [Physical Function (PF)](wiki/concepts/physical-function-pf.md) — Physical Function 是 PCIe 设备上**完整的 PCIe 功能单元**，它包含 SR-IOV 扩展能力，负责管理和配置该设备上的所有 Virtual Functions (VF)。在 SR-IOV 架构中，PF 充当 VF 的控制平面，而 VF 则专注于数据平面操作。^[pcie-sriov.md:56-60]
+- [Power Management DLLP](wiki/concepts/power-management-dllp.md) — DLLP 是 PCIe 数据链路层专用的控制包，与承载用户数据的 TLP 不同，DLLP 承载链路控制信息。电源管理 DLLP 是其五大功能类别之一，用于协商电源状态转换。^[pcie-dllp-format.md:3-13] 电源管理 DLLP 包括以下类型：^[pcie-dllp-format.md:86-90]
+- [Root Complex 根复合体](wiki/concepts/root-complex-根复合体.md) — Root Complex（根复合体）是 PCIe 拓扑 树形结构的根节点，负责将 CPU 和内存接入 PCIe 架构。它是系统通信的核心枢纽，所有 PCIe 流量最初都经过或终止于 Root Complex。 ^[pcie-topology.md:11-13]
+- [SR-IOV 单根 IO 虚拟化](wiki/concepts/sr-iov-单根-io-虚拟化.md) — SR-IOV 的核心思想是将一个物理 PCIe 设备拆分为多个虚拟功能。在这一架构中，存在两种关键组件：
+- [SR-IOV 启用流程](wiki/concepts/sr-iov-启用流程.md) — SR-IOV (Single Root I/O Virtualization) 是 PCIe 规范的关键虚拟化特性，允许将单个物理设备虚拟为多个独立的虚拟功能（VF）直接分配给虚拟机使用。启用 SR-IOV 需要经过检测支持、驱动初始化、启用 VF 以及分配给虚拟机等步骤。
+- [SR-IOV 概述](wiki/concepts/sr-iov-概述.md) — Single Root I/O Virtualization (SR-IOV) 是 PCIe 规范中的关键虚拟化特性，允许单个物理设备虚拟为多个独立的虚拟设备，直接分配给虚拟机使用，从而实现接近原生性能的 I/O 虚拟化解决方案。 ^[pcie-sriov.md:3, pcie-sriov.md:9]
+- [SR-IOV 配置空间结构](wiki/concepts/sr-iov-配置空间结构.md) — SR-IOV (Single Root I/O Virtualization) 的配置空间是实现硬件级虚拟化的核心机制。SR-IOV 扩展能力位于 PCIe 扩展配置空间 (0x100 地址之后)，其中定义了管理虚拟功能所需的所有寄存器和配置信息。 ^[pcie-sriov.md:141-159]
+- [TLP Header 格式](wiki/concepts/tlp-header-格式.md) — TLP Header 是事务层数据包（Transaction Layer Packet）的控制核心，用于携带事务的路由信息、属性参数和传输配置。TLP Header 必须与 Data Payload 组合才能构成完整的 TLP，在 PCIe 协议栈中由事务层生成后依次传递给数据链路层和物理层进行封装和传输。 ^[pcie-tlp-format.md:3...
+- [TLP (Transaction Layer Packet) 格式与事务类型](wiki/concepts/tlp-transaction-layer-packet-格式与事务类型.md) — PCI Express 事务层数据包（TLP）是 PCIe 协议中用于在端点设备、交换机和根复合体之间传输信息的核心数据结构。事务层位于 PCIe 协议栈的第三层（从下往上依次为物理层、数据链路层、事务层），负责处理所有的通信请求和响应。
+- [TLP 事务层包](wiki/concepts/tlp-事务层包.md) — PCIe 采用分层协议架构，事务层（Transaction Layer）位于三层协议栈的最顶层，负责 TLP 的生成、路由和处理。TLP 承载了所有来自软件层和设备层的请求，如内存读写、I/O 操作、配置空间访问以及消息传递。^[pcie-implementation-analysis.md:20-30]
+- [TLP (事务层数据包)](wiki/concepts/tlp-事务层数据包.md) — TLP 是 PCIe 通信的基本单元，由事务层构建并沿协议栈向下传递。 ^[pcie-tlp-format.md:3-9]
+- [TLP 处理流程](wiki/concepts/tlp-处理流程.md) — TLP 处理流程描述了事务层数据包（Transaction Layer Packet）在 PCIe 系统中的完整生命周期，涵盖从发送方的构建到接收方的处理全过程。^[pcie-tlp-format.md:493-544]
+- [TLP 类型详解](wiki/concepts/tlp-类型详解.md) — Transaction Layer Packet（TLP 类型）是 PCIe 事务层用于在设备间传输数据的核心单元。根据传输需求不同，PCIe 定义了多种 TLP 类型，每种类型通过 **Fmt** 和 **Type** 字段的组合唯一标识。 ^[pcie-tlp-format.md:147-163]
+- [TLP 路由机制](wiki/concepts/tlp-路由机制.md) — 在 PCIe 系统中，**TLP 路由机制**决定了事务层数据包（Transaction Layer Packet）如何从源设备传输到目标设备。PCIe 定义了三种核心路由方式，每种方式针对不同类型的 TLP 和应用场景。正确理解这些路由机制对于掌握 PCIe 通信原理至关重要。 ^[pcie-tlp-format.md:437-448]
+- [Type 0 配置头](wiki/concepts/type-0-配置头.md) — Type 0 配置头是 PCIe 配置空间中用于端点设备（Endpoint Device）的标准头部结构。它位于配置空间的前 64 字节区域（偏移 0x00-0x3F），定义了设备识别、地址映射、能力声明和控制状态等核心信息。^[pcie-config-space.md:36-40]
+- [VF BARs 配置](wiki/concepts/vf-bars-配置.md) — VF BARs（Virtual Function Base Address Registers）是 SR-IOV 架构中用于为每个虚拟功能（VF）分配独立地址空间的配置寄存器。与传统的 PF BARs 类似，VF BARs 定义了 VF 访问内存映射 I/O 空间的地址范围，但配置方式有所不同——VF BARs 是在 PF 的 SR-IOV 扩展能力结...
+- [VFIO 设备直通](wiki/concepts/vfio-设备直通.md) — VFIO（Virtual Function I/O）是现代 Linux 系统中用于设备直通的框架，允许将物理设备直接分配给虚拟机使用，绕过主机内核，实现接近原生性能的 I/O 操作。
+- [Virtual Function (VF)](wiki/concepts/virtual-function-vf.md) — VF 作为轻量级的 PCIe 功能，具有以下核心特性：
+- [中断亲和性与 NUMA 优化](wiki/concepts/中断亲和性与-numa-优化.md) — 中断亲和性（Interrupt Affinity）是指将特定中断绑定到指定 CPU 核心处理的机制。结合 NUMA（Non-Uniform Memory Access，非一致性内存访问）架构的优化，可以显著提升高性能 I/O 设备的性能表现。MSI-X 作为现代 PCIe 设备的首选中断机制，提供了灵活的中断向量分配能力，为中断亲和性和 NUMA 优化...
+- [可视化内容分类原则](wiki/concepts/可视化内容分类原则.md) — 本文档定义了技术文档编写中可视化内容的分类标准，旨在指导作者根据信息特性选择恰当的呈现方式，确保图示既准确传达协议细节，又便于读者理解。
+- [基址寄存器 (BAR)](wiki/concepts/基址寄存器-bar.md) — 在 Type 0 配置空间 Header 中，共包含 6 个 BAR 寄存器，排列在偏移 0x10 至 0x27 之间。每个 BAR 占 32 位（4 字节），可独立或配对使用。^[pcie-config-space.md:50-61]
+- [多队列中断并行](wiki/concepts/多队列中断并行.md) — 多队列中断并行（Multi-Queue Interrupt Parallelism）是一种通过为每个硬件队列分配独立中断向量，使多个 CPU 核心能够并行处理中断的技术。这种架构消除了单队列模型的串行化瓶颈，显著提升了高性能设备（如 NVMe 存储、网络适配器）的 I/O 性能。^[pcie-msix.md:56-59]
+- [设备枚举与链路训练](wiki/concepts/设备枚举与链路训练.md) — 设备枚举（Device Enumeration）与链路训练（Link Training）是 PCI Express（以下简称 PCIe）系统启动过程中两个紧密配合的阶段，分别由软件层和硬件层完成。它们共同确保系统中所有 PCIe 设备被正确发现、配置并建立起可靠的通信链路。
+- [页面引用来源规则](wiki/concepts/页面引用来源规则.md) — 页面引用来源规则是 llmwiki 确保内容可信、可溯源的核心规范。所有页面在编译和撰写时必须遵守以下规则。
+- [高级错误报告 AER](wiki/concepts/高级错误报告-aer.md) — AER 是 PCIe 能力结构的重要组成部分，允许设备检测、记录并向系统软件报告各类错误。与传统的 PCI 错误报告机制相比，AER 提供了更细粒度的错误分类和更详细的错误状态信息。^[pcie-implementation-analysis.md:180-182]
+- [Base Address Registers (BARs) 详解](wiki/configuration/bars.md) — Base Address Registers (BARs) 是 PCIe 设备向系统声明所需地址空间的核心机制，通过 BARs，操作系统可以为设备分配内存或 I/O 地址范围，实现设备寄存器和缓冲区的访问。
+- [PCIe 能力结构（Capabilities）](wiki/configuration/capabilities.md) — PCIe 配置空间中的 **Capability Structure**（能力结构）是一种扩展机制，允许设备声明和配置各种可选特性。这些结构以链表形式组织在配置空间的 0x40-0xFF 区域，避免了固定布局的限制。
+- [配置空间布局详解](wiki/configuration/config-space.md) — Configuration Space 是 PCIe 设备的"身份证"和"控制面板"，包含设备识别信息、地址映射、能力声明等关键配置。
+- [PCIe 扩展能力结构（Extended Capabilities）](wiki/configuration/extended-capabilities.md) — 传统配置空间：0x000-0x0FF (256 字节)
+- [PCIe 配置空间头部类型](wiki/configuration/header-types.md) — PCIe 配置空间的前 64 字节称为配置空间头部（Configuration Space Header），定义了设备的基本标识和控制信息。根据设备类型不同，头部分为两种格式：
+- [ACK/NAK 协议详解](wiki/data-link-layer/ack-nak.md) — Data Link Layer 的 ACK/NAK 协议是 PCIe 可靠传输的核心机制，通过确认应答和重传机制确保 TLP 的可靠交付。
+- [DLLP 格式详解](wiki/data-link-layer/dllp-format.md) — Data Link Layer Packet (DLLP) 是数据链路层使用的控制包，用于链路管理、流控制和可靠性保证。
+- [流控制初始化 (Flow Control Initialization)](wiki/data-link-layer/fc-init.md) — 流控制初始化（Flow Control Initialization）是 PCIe 链路建立过程中的关键步骤，通过 InitFC1 和 InitFC2 DLLP 实现发送端和接收端之间的信用（Credit）交换。这一机制确保发送端在发送 TLP 之前，接收端有足够的缓冲区空间来接收数据，从而防止缓冲区溢出和数据丢失。
+- [LCRC - 链路层 CRC](wiki/data-link-layer/lcrc.md) — LCRC（Link CRC）是 PCIe 数据链路层用于保证数据完整性的关键机制。它使用 CRC-32 算法对每个 TLP（Transaction Layer Packet）进行校验，能够检测传输过程中发生的数据损坏。LCRC 与重试缓冲区机制配合，构成了 PCIe 端到端可靠传输的基础。
+- [重试缓冲区 (Retry Buffer)](wiki/data-link-layer/retry-buffer.md) — 重试缓冲区（Retry Buffer）是 PCIe 数据链路层（Data Link Layer, DLL）中实现可靠数据传输的核心机制。它确保了在物理层或数据链路层发生错误时，能够自动重传丢失或损坏的数据包，而无需上层软件干预。这种端到端的硬件级重传机制是 PCIe 协议可靠性的基石。
+- [AER (Advanced Error Reporting) 高级错误报告](wiki/error-handling/aer.md) — AER (Advanced Error Reporting) 是 PCIe 的高级错误处理机制，提供详细的错误检测、报告和恢复功能，是构建可靠 PCIe 系统的关键技术。
+- [PCIe 错误检测](wiki/error-handling/detection.md) — PCIe 在各个协议层实现了多层次的错误检测机制，确保数据传输的完整性和可靠性。本文详细介绍各层的错误检测方法和实现。
+- [PCIe 错误注入](wiki/error-handling/error-injection.md) — 错误注入（Error Injection）是一种测试技术，通过人为引入各种错误场景来验证系统的错误处理和恢复机制。在 PCIe 系统中，错误注入对于验证 AER（Advanced Error Reporting）、错误恢复流程和系统鲁棒性至关重要。
+- [PCIe 错误类型](wiki/error-handling/error-types.md) — PCIe 定义了多种错误类型，用于检测和报告链路和设备的异常情况。理解这些错误类型对于系统调试和可靠性设计至关重要。
+- [PCIe 错误恢复](wiki/error-handling/recovery.md) — PCIe 错误恢复机制允许系统在检测到错误后尝试自动恢复，而无需重启整个系统。本文详细介绍 PCIe 的错误恢复流程、策略和实现。
+- [PCIe 常见问题解答 (FAQ)](wiki/glossary/faq.md) — PCIe 常见问题解答 (FAQ) 概念与规范说明。
+- [PCIe 寄存器速查表](wiki/glossary/register-quick-ref.md) — 本页面提供 PCIe 配置空间寄存器的快速参考，包括标准寄存器、Capability 结构和扩展 Capability。
+- [PCIe 规范索引](wiki/glossary/spec-index.md) — PCIe 规范索引 概念与规范说明。
+- [AER 实现](wiki/implementation/aer.md) — AER (Advanced Error Reporting) 的实现涉及硬件错误检测、软件错误处理和错误日志记录。本文介绍 AER 在实际系统中的完整实现。
+- [PCIe 配置空间实现](wiki/implementation/config-space.md) — PCIe 配置空间的实现涉及硬件设计、固件初始化和软件访问三个层面。本文介绍如何在实际系统中实现和访问 PCIe 配置空间。
+- [PCIe 驱动开发指南](wiki/implementation/driver-guide.md) — PCIe 驱动程序是操作系统与 PCIe 设备之间的桥梁，负责设备的初始化、配置、中断处理、DMA 管理以及设备的运行时控制。本文介绍 PCIe 驱动开发的核心概念、关键步骤和最佳实践。
+- [FEMU 代码概览](wiki/implementation/femu-overview.md) — FEMU (Full-system Emulated NVMe) 是基于 QEMU 的 NVMe SSD 全系统模拟器，用于研究和开发 NVMe 相关的软件和固件。FEMU 实现了完整的 PCIe 和 NVMe 协议栈，提供了真实的 SSD 行为模拟。
+- [PCIe 中断实现](wiki/implementation/interrupts.md) — PCIe 支持三种中断机制：Legacy INTx、MSI 和 MSI-X。本文介绍这些中断机制的硬件实现、软件配置和调试方法。
+- [NVMe over PCIe 实现](wiki/implementation/nvme.md) — NVMe (Non-Volatile Memory Express) 是专为 PCIe 接口设计的高性能存储协议，相比传统的 AHCI/SATA 协议，NVMe 充分利用了 PCIe 的高带宽和低延迟特性，提供了多队列、并行处理和精简的命令集。
+- [Legacy INTx 中断](wiki/interrupts/intx.md) — Legacy INTx 是 PCI/PCIe 的传统中断机制，使用物理中断线（INTA#、INTB#、INTC#、INTD#）。在 PCIe 中，INTx 通过消息（Message）模拟实现，保持向后兼容性。
+- [MSI 中断详解](wiki/interrupts/msi.md) — MSI (Message Signaled Interrupts) 是 PCIe 1.0 引入的中断机制，通过发送 Memory Write TLP 来触发中断，取代了传统的物理中断线。MSI 提供了比 INTx 更高的性能，并且是 PCIe 设备的必需特性。
+- [MSI-X 详解](wiki/interrupts/msix.md) — MSI-X (Message Signaled Interrupts - Extended) 是 PCIe 最强大的中断机制，支持多达 2048 个独立配置的中断向量，是现代高性能设备（如 NVMe、高速网卡）的首选中断方案。
+- [PCIe 中断机制概述](wiki/interrupts/overview.md) — PCIe 提供了三种中断机制：传统的 INTx、MSI (Message Signaled Interrupts) 和 MSI-X (Extended Message Signaled Interrupts)。从 INTx 到 MSI-X 的演进极大地提升了中断性能和灵活性。
+- [PCIe 中断路由](wiki/interrupts/routing.md) — 中断路由决定了设备中断如何从设备传递到 CPU。PCIe 支持三种中断机制（INTx、MSI、MSI-X），每种都有不同的路由方式。
+- [PCIe 学习路径指南](wiki/introduction/learning-path.md) — PCIe（PCI Express）是现代计算机系统的核心互连技术，涉及硬件设计、固件开发、驱动编程和系统架构等多个领域。本指南为不同背景的学习者提供系统化的学习路径，帮助你从基础到精通掌握 PCIe 技术。
+- [PCIe 简介](wiki/introduction/overview.md) — PCIe 简介 概念与规范说明。
+- [PCI vs PCIe：并行到串行的演进](wiki/introduction/pci-vs-pcie.md) — PCI（Peripheral Component Interconnect）和 PCIe（PCI Express）代表了计算机扩展总线技术的两个重要时代。从 PCI 的并行架构到 PCIe 的串行架构，这一转变不仅仅是技术细节的改变，而是对现代计算需求的根本性回应。本文将详细比较这两种技术，帮助理解为什么 PCIe 成为了现代计算的基础。
+- [PCIe 术语表](wiki/introduction/terminology.md) — 本术语表收录了 PCIe（PCI Express）技术中常用的术语、缩写和概念，按字母顺序排列，方便快速查阅。每个条目包含中英文对照、简要解释和相关链接。
+- [PCIe 拓扑结构](wiki/introduction/topology.md) — PCIe 采用**树形拓扑结构**，由 Root Complex 作为根节点，通过 Switch 扩展，连接多个 Endpoint 设备。每个连接都是**点对点**的，没有共享总线。
+- [PCIe 电气规范 (Electrical Specification)](wiki/physical-layer/electrical-spec.md) — PCIe 电气规范定义了物理层信号的电气特性，包括电压电平、阻抗、时序、功耗等关键参数。这些规范确保不同厂商的 PCIe 设备能够互操作，并在各种工作条件下保持可靠的通信。
+- [物理层编码方案](wiki/physical-layer/encoding.md) — PCIe 的物理层编码是确保数据可靠传输的关键技术，从 Gen 1 的 8b/10b 编码演进到 Gen 3+ 的 128b/130b 编码，在保证时钟恢复和 DC 平衡的同时大幅提升了传输效率。
+- [PCIe 链路均衡](wiki/physical-layer/link-equalization.md) — 链路均衡 (Link Equalization) 是 PCIe Gen3+ 引入的信号完整性优化技术，通过调整发送端预加重和接收端均衡器参数来补偿信号传输损耗，确保高速链路的可靠性。
+- [链路训练过程 (Link Training Process)](wiki/physical-layer/link-training.md) — 链路训练（Link Training）是 PCIe 物理层初始化的核心过程，通过链路训练状态机（Link Training and Status State Machine, LTSSM）协调两个设备之间建立可靠的高速串行连接。训练过程包括检测链路、协商参数、配置 Lane，最终使链路进入正常工作状态。
+- [链路宽度 (Link Width)](wiki/physical-layer/link-width.md) — PCIe 链路宽度（Link Width）指的是在两个设备之间并行使用的 Lane（通道）数量。链路可以由 x1、x2、x4、x8、x16 或 x32 个 Lane 组成，每个 Lane 都是一个独立的差分信号对，支持全双工通信。链路宽度是决定 PCIe 链路总带宽的关键参数之一。
+- [LTSSM 状态机详解](wiki/physical-layer/ltssm.md) — Link Training and Status State Machine (LTSSM) 是 PCIe 物理层的核心状态机，负责链路初始化、训练、电源管理和错误恢复。
+- [物理层概述 (Physical Layer Overview)](wiki/physical-layer/overview.md) — PCIe 物理层（Physical Layer）是 PCIe 协议栈的最底层，负责在物理介质上传输数据。物理层分为两个主要子块：逻辑子块（Logical Sub-block）和电气子块（Electrical Sub-block），它们协同工作以实现高速、可靠的点对点串行通信。
+- [PCIe Retimer（重定时器）](wiki/physical-layer/retimer.md) — Retimer 是 PCIe Gen 3 及以上引入的物理层设备，用于延长链路距离、改善信号质量。它通过接收、重定时并重新发送信号，解决高速串行链路中的信号完整性问题，使 PCIe 能够支持更长的走线和更复杂的拓扑结构。
+- [PCIe 速度与编码 (Speed and Encoding)](wiki/physical-layer/speed-encoding.md) — PCIe 的速度规格与编码方案紧密相关。每一代 PCIe 都定义了特定的信号速率（GT/s）和编码方案，共同决定了实际可用带宽。理解速度与编码的关系对于系统设计和性能优化至关重要。
+- [ASPM (Active State Power Management) 电源管理](wiki/power-management/aspm.md) — ASPM (Active State Power Management) 是 PCIe 的链路电源管理机制，通过在空闲时将链路切换到低功耗状态来节省能源，对笔记本和数据中心尤为重要。
+- [CLKREQ# 信号与时钟管理](wiki/power-management/clkreq.md) — CLKREQ# (Clock Request) 是 PCIe 的边带信号，用于动态控制参考时钟，是实现深度电源管理（特别是 L1.2 状态）的关键机制。
+- [L1 子状态详解](wiki/power-management/l1-substates.md) — L1 子状态是 PCIe 3.0+ 引入的更精细的电源管理机制，在 L1 状态的基础上进一步降低功耗。包括 L1.1（PLL 关闭）和 L1.2（PLL 和时钟关闭）两个子状态。
+- [PCIe 电源状态](wiki/power-management/power-states.md) — PCIe 定义了多种电源状态，允许系统和设备在不同的功耗级别之间切换，以平衡性能和能耗。本文详细介绍 PCIe 的各种电源状态及其转换机制。
+- [ECRC (端到端 CRC) 详解](wiki/transaction-layer/ecrc.md) — End-to-End CRC (ECRC) 是 PCIe 事务层提供的可选端到端数据完整性保护机制，用于检测 TLP 在传输过程中的错误。
+- [流控制机制 (Flow Control)](wiki/transaction-layer/flow-control.md) — PCIe 流控制是一种基于信用 (Credit) 的机制，用于防止发送方发送超过接收方缓冲区容量的数据，确保链路上的数据传输高效且无丢失。
+- [排序规则 (Ordering Rules)](wiki/transaction-layer/ordering.md) — PCIe 排序规则定义了不同类型的 TLP 之间必须遵守的先后顺序关系，确保数据一致性和正确性。
+- [路由机制详解](wiki/transaction-layer/routing.md) — PCIe 路由机制决定了 TLP（Transaction Layer Packet）如何在复杂的 PCIe 拓扑中从源设备传递到目标设备。
+- [TLP 格式详解](wiki/transaction-layer/tlp-format.md) — Transaction Layer Packet (TLP) 是 PCIe 通信的基本单元，携带所有的读写事务、消息和完成响应。
+- [PCIe 事务类型详解](wiki/transaction-layer/transaction-types.md) — PCIe 定义了多种事务类型（Transaction Types），用于实现不同的数据传输和控制操作。每种事务类型都有特定的用途、格式和处理规则。
+- [PCIe 虚拟通道](wiki/transaction-layer/virtual-channels.md) — 虚拟通道 (Virtual Channel, VC) 是 PCIe 提供的流量分类和 QoS (Quality of Service) 机制。通过虚拟通道，不同类型的流量可以在同一物理链路上获得不同的服务质量保证。

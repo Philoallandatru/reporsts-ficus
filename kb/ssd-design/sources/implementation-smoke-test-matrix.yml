@@ -1,0 +1,218 @@
+implementation_smoke_test_matrix:
+  id: IMPLEMENTATION-SMOKE-TEST-MATRIX
+  title: Open-source SSD/NVMe implementation smoke-test matrix
+  query_date: 2026-08-12
+  purpose:
+    - Turn commit pins into reproducibility checkpoints.
+    - Define the minimum local evidence needed before using a project as an implementation reference.
+    - Keep host-stack, emulator, simulator and FPGA-board smoke tests separate.
+  evidence_required_for_each_project:
+    - pinned_commit_matches_open_source_implementation_pins
+    - local_clone_path_or_archive_name
+    - host_os_and_kernel_or_toolchain_version
+    - dependency_install_commands_or_container_image
+    - build_or_no_build_reason
+    - smoke_command
+    - expected_success_signal
+    - captured_log_path
+  projects:
+    - id: SRC-COSMOS
+      name: Cosmos+ OpenSSD
+      class: fpga_ssd_controller_reference
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - Vivado/Vitis or legacy Xilinx toolchain version
+        - target board and OpenSSD hardware revision
+        - firmware compiler version
+      smoke_test_kind: documentation_and_firmware_static_smoke
+      smoke_command: "Clone the pinned commit; identify firmware request scheduler, buffer manager and GreedyFTL source files; record the checkout path; build only if a matching board/toolchain is available"
+      expected_success_signal:
+        - pinned commit checked out
+        - firmware source tree opens cleanly
+        - request scheduler, buffer manager and FTL entry files recorded
+        - board-dependent build either passes or is explicitly marked unavailable
+      follow_up_concepts:
+        - wiki/concepts/controller-hardware-module-boundaries.md
+        - wiki/concepts/nvme-command-lifecycle-in-ssd.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+
+    - id: SRC-FEMU
+      name: FEMU
+      class: qemu_nvme_ssd_emulator
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - Linux distribution and kernel version
+        - QEMU/FEMU build dependencies
+        - compiler and meson/ninja versions if used by selected branch
+      smoke_test_kind: emulator_boot_and_nvme_identify
+      smoke_command: "Build FEMU from the pinned commit; boot a minimal VM with a FEMU NVMe device; run nvme list and nvme id-ctrl against the guest namespace"
+      expected_success_signal:
+        - FEMU binary starts without fatal errors
+        - guest OS enumerates an NVMe namespace
+        - nvme id-ctrl returns controller data
+        - emulator log path captured
+      follow_up_concepts:
+        - wiki/concepts/verification-and-emulation.md
+        - tests/requirements/emulator-hook-matrix.yml
+        - tests/evidence/sample-plp-pass.jsonl
+
+    - id: SRC-SIMPLESSD
+      name: SimpleSSD
+      class: full_system_ssd_simulator
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - compiler version
+        - CMake version
+        - simulator configuration file snapshot
+      smoke_test_kind: simulator_build_and_minimal_trace
+      smoke_command: "Build the pinned SimpleSSD commit; run the smallest included example or configuration that emits controller, FTL and PAL statistics"
+      expected_success_signal:
+        - simulator binary builds
+        - a minimal workload completes
+        - statistics include latency and flash operation counters
+        - configuration snapshot captured
+      follow_up_concepts:
+        - wiki/concepts/nand-media-parameter-guide.md
+        - wiki/concepts/ftl-page-mapping.md
+        - wiki/concepts/gc-wear-leveling-policy.md
+
+    - id: SRC-MQSIM
+      name: MQSim
+      class: architecture_simulator
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - compiler version
+        - build system or Makefile target
+        - SSD configuration XML
+        - workload XML
+      smoke_test_kind: simulator_build_and_sample_workload
+      smoke_command: "Build the pinned MQSim commit; run one sample SSD configuration and workload; capture response-time, bandwidth and queue statistics"
+      expected_success_signal:
+        - MQSim binary builds
+        - sample workload reaches simulation end
+        - response time, bandwidth or queue statistics are emitted
+        - configuration/workload files are archived or hashed
+      follow_up_concepts:
+        - wiki/concepts/performance-qos-write-amplification.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+        - tests/profiles/fio/steady-state-randwrite.fio
+
+    - id: SRC-SPDK
+      name: SPDK
+      class: userspace_nvme_stack_and_host_side_ftl
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - Linux distribution and kernel version
+        - hugepage/IOMMU configuration
+        - compiler and Python versions
+      smoke_test_kind: userspace_build_and_unit_or_example_smoke
+      smoke_command: "Run SPDK dependency setup where permitted; build SPDK; run unit tests or an nvme identify example against a safe backend"
+      expected_success_signal:
+        - SPDK builds
+        - selected unit/example exits successfully
+        - no production NVMe namespace is modified
+        - host-side FTL boundary note captured
+      follow_up_concepts:
+        - wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+        - wiki/concepts/power-loss-recovery.md
+        - wiki/concepts/source-code-reading-guide.md
+
+    - id: SRC-LINUX-NVME
+      name: Linux NVMe
+      class: host_kernel_driver_reference
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - kernel commit or release tag
+        - documentation build environment if docs are rendered
+        - grep/index tool versions
+      smoke_test_kind: source_index_and_optional_doc_build
+      smoke_command: "Checkout the pinned kernel commit; index drivers/nvme; optionally build NVMe documentation with kernel docs tooling"
+      expected_success_signal:
+        - drivers/nvme source tree exists at pinned commit
+        - host, core, target and fabrics entry files are recorded
+        - docs render or doc-build limitation is recorded
+      follow_up_concepts:
+        - wiki/concepts/nvme-command-lifecycle-in-ssd.md
+        - wiki/concepts/production-requirements-and-compliance.md
+        - tests/profiles/nvme-cli/basic-admin-commands.md
+
+    - id: SRC-NVME-CLI
+      name: nvme-cli
+      class: host_command_tool
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - compiler and meson/ninja versions
+        - libnvme dependency version
+        - target backend or dry-run limitation
+      smoke_test_kind: tool_build_and_safe_help_or_identify
+      smoke_command: "Build the pinned nvme-cli commit; run nvme --version and nvme help; run identify only against an emulator or test namespace"
+      expected_success_signal:
+        - nvme binary reports version
+        - help output lists identify/log/fw/sanitize commands
+        - identify output captured only from safe backend
+      follow_up_concepts:
+        - TEST_PLAN.md
+        - tests/profiles/nvme-cli/basic-admin-commands.md
+        - wiki/concepts/firmware-update-rollback.md
+
+    - id: SRC-LIBNVME
+      name: libnvme
+      class: host_nvme_library
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - compiler and meson/ninja versions
+        - Python/doc generation dependencies if used
+      smoke_test_kind: library_build_and_header_api_smoke
+      smoke_command: "Build the pinned libnvme commit; run available tests or compile a minimal include/link smoke program"
+      expected_success_signal:
+        - library builds
+        - headers expose identify/log/feature structures
+        - selected tests or include/link smoke pass
+      follow_up_concepts:
+        - tests/requirements/verification-evidence-schema.yml
+        - tests/profiles/nvme-cli/basic-admin-commands.md
+
+    - id: SRC-OPENCHANNEL-QEMU
+      name: OpenChannelSSD qemu-nvme
+      class: historical_open_channel_emulator
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - legacy QEMU dependency versions
+        - compiler version
+        - host kernel compatibility constraints
+      smoke_test_kind: historical_source_index_first
+      smoke_command: "Checkout the pinned commit; index open-channel geometry and NVMe emulation files; build only if legacy dependencies are readily available"
+      expected_success_signal:
+        - pinned source can be checked out
+        - open-channel geometry and device model entry files recorded
+        - build risk is documented before spending integration time
+      follow_up_concepts:
+        - wiki/concepts/fdp-streams-placement-hints.md
+        - wiki/concepts/opensource-implementation-index.md
+
+    - id: SRC-FLASHSIM-FORK
+      name: FlashSim accessible fork
+      class: historical_ftl_simulator
+      pinned_commit_source: sources/open-source-implementation-pins.yml
+      local_status: not_cloned
+      build_environment_to_record:
+        - compiler version
+        - original upstream availability status
+      smoke_test_kind: historical_source_index_first
+      smoke_command: "Checkout the accessible fork; locate simulator entry point and FTL mapping examples; build only if dependencies are low risk"
+      expected_success_signal:
+        - pinned fork can be checked out
+        - FTL simulation entry files recorded
+        - historical-only status is preserved in notes
+      follow_up_concepts:
+        - wiki/concepts/ftl-dftl-demand-based-mapping.md
+        - BIBLIOGRAPHY.md

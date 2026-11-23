@@ -1,0 +1,421 @@
+{
+  "schema_version": 1,
+  "source_sha256": "3101608e878a660597d51c9c6d1397ba427a9ff0d983a417d0171019541888a5",
+  "status": "complete",
+  "next_page": 123,
+  "last_page": 122,
+  "batch_size": 8,
+  "processed_ranges": [
+    {
+      "start": 7,
+      "end": 14,
+      "completed_at": "2026-07-04",
+      "notes": "Initial validated batch: scope, glossary, Traditional PCI BIOS entry model, BIOS32 discovery."
+    },
+    {
+      "start": 15,
+      "end": 22,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: PCI BIOS capability discovery, indexed device discovery, Special Cycles, and PCI IRQ routing."
+    },
+    {
+      "start": 23,
+      "end": 30,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: Traditional PCI BIOS conventional and extended Configuration Space access, width-specific read/write calls, and function availability."
+    },
+    {
+      "start": 31,
+      "end": 38,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: Traditional PCI BIOS return codes, UEFI PCI services and root-bridge model, firmware/operating-system handoff, and the ACPI entry to enhanced configuration access."
+    },
+    {
+      "start": 39,
+      "end": 46,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: Enhanced Configuration Access address layout, MCFG, _CBA, multiple-host-bridge mappings, and ACPI PCI host-bridge identification."
+    },
+    {
+      "start": 47,
+      "end": 54,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: ACPI host-bridge resources and INTx routing, plus PCI host-bridge _OSC support and control negotiation through returned Control Field bit 3."
+    },
+    {
+      "start": 55,
+      "end": 62,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: _OSC returned control semantics, query and monotonic-call rules, control-bit dependencies, ASL example boundary, and PCI _DSM revision negotiation."
+    },
+    {
+      "start": 63,
+      "end": 70,
+      "completed_at": "2026-07-04",
+      "notes": "Validated batch: PCI _DSM function catalog, PCI Express slot information, slot-number tokenization and localized vendor labels, and PCI root-bus capabilities structure."
+    },
+    {
+      "start": 71,
+      "end": 78,
+      "completed_at": "2026-07-05",
+      "notes": "Validated batch: PCI _DSM Function 4 return wrapper, boot-configuration preservation, LTR limits, device naming hints, post-reset responsibility, and per-device readiness durations."
+    },
+    {
+      "start": 79,
+      "end": 86,
+      "completed_at": "2026-07-05",
+      "notes": "Validated batch: D3cold auxiliary-power negotiation, PERST# assertion delay, and DPC/Hot-Plug Surprise control including Error Disconnect Recovery boundaries."
+    },
+    {
+      "start": 87,
+      "end": 94,
+      "completed_at": "2026-07-05",
+      "notes": "Validated batch: DPC containment-port location, vendor-specific TPH Steering Tags, and the PCIe SSD status LED discovery/read/set interface."
+    },
+    {
+      "start": 95,
+      "end": 102,
+      "completed_at": "2026-07-05",
+      "notes": "Validated batch: generic ACPI PCI slot description, OSHP and hot-plug parameters, plus PCI Expansion ROM image headers, PCIR metadata, chaining, and multi-device lists."
+    },
+    {
+      "start": 103,
+      "end": 110,
+      "completed_at": "2026-07-05",
+      "notes": "Validated batch: POST Expansion ROM discovery and image selection, PC-compatible INIT relocation/resizing and checksum lifecycle, plus PMM temporary and permanent allocation semantics."
+    },
+    {
+      "start": 111,
+      "end": 118,
+      "completed_at": "2026-07-05",
+      "notes": "Validated batch: PMM limits and flags, run-time ROM relocation and placement, EBDA fallback, shared interrupt chaining, and firmware-managed Expansion ROM configuration utilities."
+    },
+    {
+      "start": 119,
+      "end": 122,
+      "completed_at": "2026-07-05",
+      "notes": "Validated final batch: configuration-utility console-redirection behavior and header, DMTF SM CLP pre-boot configuration entry point, and the UEFI Expansion ROM boundary; full-wiki link and citation consistency pass completed."
+    }
+  ],
+  "concept_pages": [
+    "concepts/pci-firmware-interface.md",
+    "concepts/pci-address.md",
+    "concepts/configuration-space.md",
+    "concepts/pci-segment-group.md",
+    "concepts/traditional-pci-bios.md",
+    "concepts/bios32-service-directory.md",
+    "concepts/pci-bios-present.md",
+    "concepts/pci-bios-device-discovery.md",
+    "concepts/pci-bios-configuration-access.md",
+    "concepts/pci-special-cycle.md",
+    "concepts/pci-irq-routing.md",
+    "concepts/pci-bios-return-codes.md",
+    "concepts/uefi-pci-services.md",
+    "concepts/uefi-pci-root-bridge-protocol.md",
+    "concepts/firmware-os-handoff.md",
+    "concepts/enhanced-configuration-access.md",
+    "concepts/mcfg.md",
+    "concepts/cba.md",
+    "concepts/acpi-pci-host-bridge.md",
+    "concepts/osc.md",
+    "concepts/pci-dsm.md",
+    "concepts/pci-express-slot-information.md",
+    "concepts/pci-express-slot-number.md",
+    "concepts/pci-bus-capabilities.md",
+    "concepts/pci-boot-configuration-preservation.md",
+    "concepts/latency-tolerance-reporting.md",
+    "concepts/pci-device-naming-hint.md",
+    "concepts/pci-device-readiness-timing.md",
+    "concepts/d3cold-aux-power-limit.md",
+    "concepts/perst-assertion-delay.md",
+    "concepts/dpc-hot-plug-surprise-control.md",
+    "concepts/dpc-containment-port-location.md",
+    "concepts/vendor-specific-tph-steering-tag.md",
+    "concepts/pcie-ssd-status-led.md",
+    "concepts/generic-acpi-pci-slot-description.md",
+    "concepts/oshp.md",
+    "concepts/pci-hot-plug-parameters.md",
+    "concepts/pci-expansion-rom.md",
+    "concepts/pci-data-structure.md",
+    "concepts/pci-expansion-rom-device-list.md",
+    "concepts/post-expansion-rom-processing.md",
+    "concepts/pc-compatible-expansion-rom-initialization.md",
+    "concepts/post-memory-manager-allocation.md",
+    "concepts/expansion-rom-runtime-placement.md",
+    "concepts/extended-bios-data-area.md",
+    "concepts/expansion-rom-interrupt-chaining.md",
+    "concepts/expansion-rom-configuration-utility.md",
+    "concepts/expansion-rom-sm-clp-entry-point.md",
+    "concepts/uefi-expansion-rom.md"
+  ],
+  "review_queue": [
+    {
+      "page": 12,
+      "reason": "Validate BIOS32 Service Directory field sizes, checksum semantics, and address-range endpoint against rendered Table 2-1."
+    },
+    {
+      "page": 15,
+      "reason": "Validate the exact bit positions and reserved fields in the PCI BIOS Present AL capability bitmap against rendered Figure 2-1."
+    },
+    {
+      "page": 19,
+      "reason": "Validate all offsets, sizes, and field boundaries in the 16-byte IRQ Routing Table Entry against rendered Table 2-2."
+    },
+    {
+      "page": 20,
+      "reason": "Cross-page routing-query contract spans pages 18-21; verify IRQRoutingExpansionsBuffer pointer sizes and register mapping against rendered layout."
+    },
+    {
+      "page": 23,
+      "reason": "Validate the exact CS/DS/ES descriptor requirements and the stated 256-MiB PCI Express BAR-region wording against the rendered page."
+    },
+    {
+      "page": 24,
+      "reason": "The DI register-number encoding is a cross-page bit-field contract repeated through page 30; verify DI[15], DI[11:0], reserved bits, and width-dependent bounds against rendered pages."
+    },
+    {
+      "page": 28,
+      "reason": "Write Configuration Byte input requirements say the BIOS will read and return a value; determine whether this is a specification editorial error. Similar wording continues on pages 29-30."
+    },
+    {
+      "page": 30,
+      "reason": "Validate Function List Table 2-3 identifiers, optionality, and note associations against the rendered table."
+    },
+    {
+      "page": 31,
+      "reason": "Validate all Traditional PCI BIOS return-code names and hexadecimal values against rendered Table 2-4."
+    },
+    {
+      "page": 35,
+      "reason": "Host Bridge ACPI object requirements and safe-mode bullets span pages 35-36; verify list boundaries and the applicability footnote against rendered pages."
+    },
+    {
+      "page": 36,
+      "reason": "The BAR translation rule continues onto page 37; verify the cross-page sentence and exact roles of _TRA, _TTP, and _TRS against rendered pages."
+    },
+    {
+      "page": 39,
+      "reason": "Validate Table 4-1 address bit fields and Figure 4-1's 256-MiB layout against the rendered page; these structures begin immediately after the processed page-38 boundary."
+    },
+    {
+      "page": 41,
+      "reason": "Validate every byte length and offset in cross-page Tables 4-2 and 4-3 against rendered pages 41-42, including the variable allocation-structure list at offset 44."
+    },
+    {
+      "page": 45,
+      "reason": "The multiple-host-bridge implementation note's worked example appears to alternate between 0xE2000000 and 0xE20000000; verify the rendered hexadecimal values and whether this is an editorial error."
+    },
+    {
+      "page": 46,
+      "reason": "Validate the PNP0A08/PNP0A03 ASL example formatting and the distinction between extended Configuration Space support and MCFG/_CBA memory-mapped access against the rendered page."
+    },
+    {
+      "page": 47,
+      "reason": "Resource description and PCI INTx routing introduce several ACPI objects on one page; verify the exact _CRS/_PRS/_SRS, _BBN, _SEG, and _PRT applicability language against the rendered page."
+    },
+    {
+      "page": 49,
+      "reason": "Table 4-4 (_OSC Support Field) spans pages 49-51; validate every bit offset, reserved range, and interpretation against the rendered cross-page table."
+    },
+    {
+      "page": 50,
+      "reason": "Validate the Error Disconnect Recover _OST Arg1 bit field (status and Bus/Device/Function positions) against the rendered layout."
+    },
+    {
+      "page": 51,
+      "reason": "Table 4-5 (_OSC Control Field passed in Arg3) spans pages 51-52; validate every request bit, dependency, reserved range, and the apparent 'Capability tructure' source typo."
+    },
+    {
+      "page": 53,
+      "reason": "Table 4-6 (_OSC Control Field returned value) begins on page 53 and continues beyond this batch; verify all grant semantics and ownership dependencies as a single cross-page structure when the remaining pages are processed."
+    },
+    {
+      "page": 55,
+      "reason": "Table 4-6 (_OSC Control Field returned value) spans pages 53-58; validate all bit offsets, grant/denial semantics, register ownership windows, and duplicated or malformed source wording against the rendered table."
+    },
+    {
+      "page": 61,
+      "reason": "The sample _OSC ASL implementation spans pages 61-62; validate code indentation, masks, status-bit behavior, and the apparent missing closing brace/comment formatting against the rendered pages."
+    },
+    {
+      "page": 62,
+      "reason": "Table 4-7 (_DSM Definitions for PCI) begins on page 62 and is rendered on page 63; validate UUID, revision IDs, hexadecimal function indices, and descriptions as one cross-page structure."
+    },
+    {
+      "page": 63,
+      "reason": "Validate every Initial Revision ID, function index, and description in Table 4-7 against the rendered table; the heading begins on page 62 and the full table appears on page 63."
+    },
+    {
+      "page": 64,
+      "reason": "PCI Express Slot Information return data spans pages 64-65; validate the nested package shape, link-width bit positions, slot-type values, signal bits, and the apparent source typos in the rendered pages."
+    },
+    {
+      "page": 66,
+      "reason": "Validate the Function 2 four-item token package, Source ID and Token ID ranges, inclusive start/end bit semantics, and the ASL/example arithmetic against the rendered page."
+    },
+    {
+      "page": 67,
+      "reason": "Validate Function 3's locale/string return package and RFC 3066 alias table, including capitalization and UTF-16 wording, against the rendered page."
+    },
+    {
+      "page": 69,
+      "reason": "Table 4-9 spans pages 69-70; validate all byte lengths, offsets, attribute bits, Current Speed/Mode encodings, Supported Speeds/Modes bits, voltage values, and reserved ranges as one rendered structure."
+    },
+    {
+      "page": 71,
+      "reason": "Function 4's wrapper buffer begins on the neighboring page 71; validate its package-versus-buffer wording, offsets, status all-ones encoding, and variable Bus Capabilities Structure layout when processing the next batch."
+    },
+    {
+      "page": 72,
+      "reason": "Function 5 return semantics cross pages 72-73; validate the preserve/rebalance hierarchy rules, bridge scope, and exception for invalid resource settings against the rendered pages."
+    },
+    {
+      "page": 75,
+      "reason": "Validate Table 4-10 device locations, Function 7 package values, and resulting operating-system labels against the rendered example table."
+    },
+    {
+      "page": 76,
+      "reason": "Function 8 behavior crosses pages 76-77; verify host-bus-only placement, hierarchy coverage, Sx wording, and the exact 0/1 return semantics against rendered pages."
+    },
+    {
+      "page": 78,
+      "reason": "Validate Function 9's five-element package order, microsecond units, DL_Up applicability, Ones sentinel, and precedence over FRS/DRS and readiness-reporting data against rendered pages 77-78."
+    },
+    {
+      "page": 79,
+      "reason": "Function 0Ah spans pages 79-80; validate the Arg3 mW range, 8000 0000h sentinel, all return values, retry throttling, and the distinction between auxiliary and main power against the rendered pages."
+    },
+    {
+      "page": 80,
+      "reason": "The auxiliary-power budgeting implementation note contains a slot-priority example and apparent x4/x2 wording mismatch; verify the rendered bullets before treating the example as normative or internally consistent."
+    },
+    {
+      "page": 81,
+      "reason": "Validate Function 0Bh's PME_TO_Ack-to-PERST# timing endpoints, 10 ms maximum, S0 versus S3/S4/S5 applicability, aggregation rule, and failure return semantics against the rendered page."
+    },
+    {
+      "page": 83,
+      "reason": "Function 0Ch's enable/disable procedure crosses pages 82-84; validate Revision IDs 5/6, package shape, ownership-dependent step ordering, SFI HPS Suppress behavior, and return codes as one rendered structure."
+    },
+    {
+      "page": 85,
+      "reason": "The DPC Event Handling flow chart spans pages 85-86 and extraction loses arrows, grouping, and some _OST arguments; reconstruct and validate the complete rendered diagram before encoding its detailed control flow."
+    },
+    {
+      "page": 86,
+      "reason": "The sample ASL code spans pages 86-87; validate braces, Arg3 package handling, DPC operation-region access, Function 0Ch/0Dh dispatch, and _OST status extraction against the rendered pages."
+    },
+    {
+      "page": 88,
+      "reason": "Validate Function 0Dh's 16-bit BDF and bit-31 status encoding, reserved ranges, and Function 0Eh's split Arg3 Vendor ID/Feature ID fields against the rendered page."
+    },
+    {
+      "page": 89,
+      "reason": "Tables 4-11 and 4-12 contain broken source cross-references and package-versus-buffer wording; validate the UUID, revision, function indexes, Arg3 representation, and reserved range against the rendered page."
+    },
+    {
+      "page": 90,
+      "reason": "Validate every offset, width, and value in the common four-byte status field and confirm Function 0's {0x0F} supported-function buffer against rendered Tables 4-13 and surrounding text."
+    },
+    {
+      "page": 92,
+      "reason": "The LED-state bitmap spans Tables 4-14 through 4-18 on pages 91-94; validate bit names, control-versus-status terminology, reserved bits, and source typos such as 'Critial' against the rendered tables."
+    },
+    {
+      "page": 94,
+      "reason": "Function 3's input and output tables continue to page 95; validate the zero-bit success rule, returned resulting state, and Function-specific Error Code bit 0 semantics as one cross-page contract."
+    },
+    {
+      "page": 95,
+      "reason": "Validate Function 3 error-code Table 4-19 together with Tables 4-17 and 4-18 on page 94, and verify all eight `_ADR`/`_SUN` objects in the generic slot ASL example against the rendered page."
+    },
+    {
+      "page": 96,
+      "reason": "Review the legacy OSHP ownership handoff against `_OSC` preference and validate the SHPC ASL/GPE implementation example, register-access guidance, and signal-restoration wording on the rendered page."
+    },
+    {
+      "page": 97,
+      "reason": "The `_HPP` definition crosses pages 96-97; validate its four returned settings and inheritance boundary, plus `_HPX` precedence and the D3/_EJ0 hot-plug wording, against rendered pages."
+    },
+    {
+      "page": 99,
+      "reason": "Validate Figure 5-1 image chaining and the Expansion ROM header offsets, lengths, `55h AAh` byte order, reserved range, and little-endian PCIR pointer against the rendered page."
+    },
+    {
+      "page": 100,
+      "reason": "The PCI Data Structure field table and definitions span pages 100-102; validate every offset, width, revision condition, pointer base, Code Type, and Last Image bit as one rendered structure."
+    },
+    {
+      "page": 102,
+      "reason": "Validate the Device List Table offsets and `0000h` terminator, and verify whether the source's `DMTP CLP` spelling is an editorial error for `DMTF CLP`."
+    },
+    {
+      "page": 103,
+      "reason": "Neighboring POST text calls the ROM signature `AA55h` while the header stores bytes `55h AAh`; confirm this is word-value versus byte-order notation and validate the cross-page image-search procedure in the next batch."
+    },
+    {
+      "page": 104,
+      "reason": "The numbered POST Expansion ROM discovery and selection procedure spans pages 103-104; validate step boundaries, legacy-image preference, checksum size source, and copy-size wording as one rendered flow."
+    },
+    {
+      "page": 105,
+      "reason": "Figure 5-2 carries the image/header organization but text extraction contains only its caption; reconstruct the rendered figure before encoding its spatial relationships."
+    },
+    {
+      "page": 106,
+      "reason": "Validate every offset, length, and value in the Code Type 0 Expansion ROM header extension, plus the cross-page Revision 3 POST/INIT procedure, against rendered pages 106-107."
+    },
+    {
+      "page": 107,
+      "reason": "Validate Tables 5-2 and 5-3 register packing, argument numbering, run-time address units, PMM segment:offset order, and the printed legacy compatibility range against the rendered page."
+    },
+    {
+      "page": 108,
+      "reason": "The source alternates between `Initialization Size` and `Current Image Size` for offset 02h and describes pre-/post-INIT checksum ranges; verify terminology and lifecycle semantics against the rendered page."
+    },
+    {
+      "page": 110,
+      "reason": "Validate the E820/ACPI dual-reporting requirement, the printed `F FFFFh` boundary, and the Big Real Mode footnote; PMM allocation limits continue onto neighboring page 111."
+    },
+    {
+      "page": 112,
+      "reason": "The run-time relocation contract spans pages 111-112; validate Maximum Run-Time Image Length admission, fourth-argument units, non-overlap rules, interrupt-vector relocation, and the worked 64-KiB/16-KiB example against rendered pages."
+    },
+    {
+      "page": 113,
+      "reason": "Validate the printed placement ranges (`A 0000h` through `F FFFFh`, legacy `0C 0000h` through `0E 0000h`), duplicated write-protection sentence, VGA exception, and 512-byte versus 2-KiB alignment rules against the rendered page."
+    },
+    {
+      "page": 114,
+      "reason": "The EBDA fallback is a multi-step memory-moving procedure; validate the exact `40:0Eh`/`40:13h` accesses, initial allocation wording, interrupt exclusion, size units, and pointer-update ordering against the rendered page."
+    },
+    {
+      "page": 115,
+      "reason": "Validate every PMM flag bit and value in Table 5-4, including the source's `convention memory` wording, against the rendered table."
+    },
+    {
+      "page": 116,
+      "reason": "Validate the shared-interrupt ISR chain order, masking and EOI ownership, master/slave IRQ threshold, BIOS-version fallback, and 4-KiB stack requirements against the rendered page."
+    },
+    {
+      "page": 117,
+      "reason": "Configuration Utility lifecycle and Legacy/Hybrid/Delayed Execution modes span pages 116-118; validate the PCI Data Structure pointer reference, temporary-copy lifetime, checksum responsibility, and execution-mode boundaries against rendered pages."
+    },
+    {
+      "page": 118,
+      "reason": "Validate the configuration utility far-call register table, packed AL Device/Function fields, BL/BH bit meanings, PMM and run-time segment:offset ordering, and register-preservation wording against the rendered page."
+    },
+    {
+      "page": 119,
+      "reason": "Validate the Console Redirection restrictions and every offset, length, string boundary, and revision value in the Configuration Utility Code Header against the rendered page; header inclusion continues onto page 120."
+    },
+    {
+      "page": 120,
+      "reason": "Tables 5-5 and 5-6 form a cross-page SM CLP register contract on pages 120-121; validate BDF packing, segment:offset pointer register order, minimum buffer sizes, status/error overlays, and EAX bit fields against the rendered tables."
+    },
+    {
+      "page": 121,
+      "reason": "Validate SM CLP output status values, AH/EAX overlap, OEM flag and execution-code bit ranges, pointer/register preservation, required keyword=value output, and the printed OPTION NOT SUPPORTED wording against the rendered page."
+    }
+  ]
+}

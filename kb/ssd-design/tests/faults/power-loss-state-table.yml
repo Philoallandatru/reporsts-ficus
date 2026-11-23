@@ -1,0 +1,130 @@
+states:
+  - id: PLP-WIN-001
+    name: before_host_dma_complete
+    injection_window: power cut before host data DMA completes
+    visible_to_host: command has not completed successfully
+    persistent_evidence:
+      required: []
+      forbidden: [new_l2p_mapping, committed_journal_entry]
+    recovery_action: discard incomplete command context and keep old L2P entry
+    idempotency_rule: repeating recovery must keep old mapping unchanged
+    expected_result: old data remains visible; new data is not accepted
+    requirement: REQ-PLP-001
+    tests: [T4-001]
+
+  - id: PLP-WIN-002
+    name: after_dma_before_program
+    injection_window: power cut after host DMA completes but before NAND program starts
+    visible_to_host: command may be incomplete unless firmware already reported success under volatile-cache policy
+    persistent_evidence:
+      required: []
+      forbidden: [new_l2p_mapping, committed_journal_entry]
+    recovery_action: discard volatile buffer unless protected by PLP emergency flush record
+    idempotency_rule: old PPA remains authoritative if no complete journal entry exists
+    expected_result: old data remains valid; no partial new page is trusted
+    requirement: REQ-PLP-001
+    tests: [T4-001]
+
+  - id: PLP-WIN-003
+    name: nand_program_in_progress
+    injection_window: power cut while NAND program is in progress
+    visible_to_host: command success depends on completion policy; recovery must verify media evidence
+    persistent_evidence:
+      required: [page_metadata_crc_if_accepting_new_page]
+      forbidden: [blind_l2p_update]
+    recovery_action: validate page program status, page metadata, LPN and sequence; otherwise retain old mapping
+    idempotency_rule: repeated validation cannot alternate between old and new versions
+    expected_result: partial page is rejected; old mapping survives unless new page has complete evidence
+    requirement: REQ-PLP-001
+    tests: [T4-002]
+
+  - id: PLP-WIN-004
+    name: program_complete_before_journal
+    injection_window: power cut after NAND program succeeds but before mapping journal commit
+    visible_to_host: depends on whether host completion was issued before journal commit
+    persistent_evidence:
+      required_if_accepting_new_page: [valid_page_metadata, sequence_number, recovery_policy_allows_orphan_acceptance]
+      forbidden: [uncommitted_l2p_as_authoritative]
+    recovery_action: choose policy explicitly: keep old mapping, or accept orphan page only after P2L scan and sequence validation
+    idempotency_rule: same page/sequence must resolve to the same LPN version on every boot
+    expected_result: no acknowledged write is lost; no unacknowledged orphan corrupts old data
+    requirement: REQ-PLP-001
+    tests: [T4-002, T4-003]
+
+  - id: PLP-WIN-005
+    name: journal_half_written
+    injection_window: power cut while journal entry is partially written
+    visible_to_host: acknowledged writes require an earlier complete durable record or PLP emergency record
+    persistent_evidence:
+      required: [journal_crc, commit_marker, monotonic_sequence]
+      forbidden: [partial_entry_replay]
+    recovery_action: stop journal replay at first incomplete entry; preserve checkpoint state and earlier complete entries
+    idempotency_rule: replay boundary must be stable across repeated boots
+    expected_result: incomplete journal entry ignored; metadata remains consistent
+    requirement: REQ-PLP-001
+    tests: [T4-003]
+
+  - id: PLP-WIN-006
+    name: journal_committed_before_checkpoint
+    injection_window: power cut after journal commit but before checkpoint includes the change
+    visible_to_host: committed write must be recovered if it was reported successful
+    persistent_evidence:
+      required: [complete_journal_entry, data_page_metadata_crc, sequence_number]
+      forbidden: []
+    recovery_action: load previous checkpoint, replay committed journal entries in sequence order, update L2P/P2L/block table
+    idempotency_rule: replaying the same entry multiple times must not double-count valid pages or resurrect old PPA
+    expected_result: latest committed mapping is restored
+    requirement: REQ-PLP-001
+    tests: [T4-003]
+
+  - id: PLP-WIN-007
+    name: checkpoint_half_written
+    injection_window: power cut while checkpoint or superblock generation is partially written
+    visible_to_host: namespace must not be exposed until a valid generation is selected
+    persistent_evidence:
+      required: [checkpoint_crc, generation_number, complete_superblock_pointer]
+      forbidden: [new_generation_without_crc]
+    recovery_action: select highest valid checkpoint generation; fall back to previous generation and replay journal
+    idempotency_rule: active generation selection must be deterministic
+    expected_result: previous valid checkpoint is used; partial checkpoint ignored
+    requirement: REQ-PLP-001
+    tests: [T4-004]
+
+  - id: PLP-WIN-008
+    name: gc_move_before_l2p_switch
+    injection_window: power cut after GC copied a valid page but before L2P points to the copy
+    visible_to_host: host still sees old PPA as authoritative
+    persistent_evidence:
+      required: [old_page_still_valid]
+      forbidden: [erase_victim_before_commit]
+    recovery_action: discard or retire copied page if no committed mapping update exists
+    idempotency_rule: repeated recovery must not count both old and copied page as live
+    expected_result: valid data remains readable from old PPA
+    requirement: REQ-PLP-001
+    tests: [T4-005]
+
+  - id: PLP-WIN-009
+    name: gc_l2p_switched_before_old_invalidate
+    injection_window: power cut after L2P switches to GC copy but before old page/block retirement finishes
+    visible_to_host: new copy is authoritative after committed mapping update
+    persistent_evidence:
+      required: [complete_mapping_update, copied_page_metadata_crc, sequence_number]
+      forbidden: [old_page_resurrection]
+    recovery_action: replay mapping update, mark old PPA stale, repair valid-page counters
+    idempotency_rule: replay must be safe if old PPA is already stale
+    expected_result: latest mapping survives; old page is not resurrected
+    requirement: REQ-PLP-001
+    tests: [T4-005]
+
+  - id: PLP-WIN-010
+    name: gc_erase_boundary
+    injection_window: power cut at victim block erase boundary
+    visible_to_host: all valid pages must already have committed alternate locations
+    persistent_evidence:
+      required: [victim_retire_record, committed_relocation_entries]
+      forbidden: [erase_with_live_pages]
+    recovery_action: if retire record incomplete, treat victim block conservatively and rescan P2L; if complete, return erased block to free pool
+    idempotency_rule: block free/retired state must not oscillate between boots
+    expected_result: no valid data erased; free block pool rebuilt consistently
+    requirement: REQ-PLP-001
+    tests: [T4-005]

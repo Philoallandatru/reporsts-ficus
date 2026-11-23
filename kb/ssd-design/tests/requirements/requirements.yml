@@ -1,0 +1,185 @@
+requirements:
+  - id: REQ-NVME-001
+    title: NVMe enumeration and controller enable
+    tests: [T0-001, T1-001, T1-004]
+    design_pages:
+      - wiki/concepts/minimal-ssd-controller-roadmap.md
+      - wiki/concepts/controller-hardware-module-boundaries.md
+      - wiki/concepts/reset-boot-power-state.md
+    policy_assets:
+      - tests/requirements/reset-boot-power-state-matrix.yml
+
+  - id: REQ-NVME-002
+    title: I/O queue lifecycle
+    tests: [T0-002, T1-002, T1-003]
+    design_pages:
+      - wiki/concepts/nvme-command-lifecycle-in-ssd.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+    policy_assets:
+      - tests/requirements/hmb-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-DATA-001
+    title: Latest completed write is readable
+    tests: [T0-003, T2-001]
+    profiles:
+      - tests/profiles/fio/smoke-verify.fio
+    design_pages:
+      - wiki/concepts/firmware-ftl.md
+      - wiki/concepts/ftl-design-deep-dive.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+
+  - id: REQ-DATA-002
+    title: Flush/FUA persistence
+    tests: [T2-004]
+    profiles:
+      - tests/profiles/fio/flush-fua-powerfail.fio
+    design_pages:
+      - wiki/concepts/power-loss-recovery.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+
+  - id: REQ-FTL-001
+    title: FTL metadata and GC forward progress
+    tests: [T2-002]
+    profiles:
+      - tests/profiles/fio/steady-state-randwrite.fio
+    design_pages:
+      - wiki/concepts/ftl-design-deep-dive.md
+      - wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+    policy_assets:
+      - tests/requirements/gc-policy-matrix.yml
+      - tests/requirements/placement-policy-matrix.yml
+      - tests/requirements/hmb-policy-matrix.yml
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-FTL-002
+    title: GC and overwrite version safety
+    tests: [T2-003]
+    design_pages:
+      - wiki/concepts/ftl-design-deep-dive.md
+
+  - id: REQ-NAND-001
+    title: NAND parameters are fixed
+    tests: [T3-004]
+    design_pages:
+      - wiki/concepts/nand-media-parameter-guide.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+    policy_assets:
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-REL-001
+    title: Correctable read handling
+    tests: [T3-001, T3-003]
+    design_pages:
+      - wiki/concepts/ecc-ldpc-reliability.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+    policy_assets:
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/requirements/ldpc-pipeline-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-REL-002
+    title: Uncorrectable read handling
+    tests: [T3-002]
+    design_pages:
+      - wiki/concepts/ecc-ldpc-reliability.md
+      - wiki/concepts/fault-injection-catalog.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+    policy_assets:
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/requirements/ldpc-pipeline-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-PLP-001
+    title: Power-loss recovery consistency
+    tests: [T4-001, T4-002, T4-003, T4-004, T4-005]
+    design_pages:
+      - wiki/concepts/power-loss-recovery.md
+      - wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+      - wiki/concepts/firmware-update-rollback.md
+    policy_assets:
+      - tests/faults/firmware-update-state-table.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-PERF-001
+    title: Fresh vs steady-state performance reporting
+    tests: [T5-001, T5-003]
+    profiles:
+      - tests/profiles/fio/steady-state-randwrite.fio
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+      - tests/profiles/fio/hmb-mapping-miss-storm.fio
+    design_pages:
+      - wiki/concepts/performance-qos-write-amplification.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+    policy_assets:
+      - tests/requirements/gc-policy-matrix.yml
+      - tests/requirements/slc-cache-policy-matrix.yml
+      - tests/requirements/placement-policy-matrix.yml
+      - tests/requirements/hmb-policy-matrix.yml
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-QOS-001
+    title: Background work does not starve foreground reads
+    tests: [T5-002, T5-004]
+    profiles:
+      - tests/profiles/fio/mixed-read-write-qos.fio
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+      - tests/profiles/fio/hmb-mapping-miss-storm.fio
+    design_pages:
+      - wiki/concepts/performance-qos-write-amplification.md
+      - wiki/concepts/ssd-verification-matrix.md
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+      - wiki/concepts/fdp-streams-placement-hints.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+    policy_assets:
+      - tests/requirements/gc-policy-matrix.yml
+      - tests/requirements/slc-cache-policy-matrix.yml
+      - tests/requirements/placement-policy-matrix.yml
+      - tests/requirements/hmb-policy-matrix.yml
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/requirements/ldpc-pipeline-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+
+  - id: REQ-PROD-001
+    title: Production observability
+    tests: [T6-001, T6-002, T6-003]
+    design_pages:
+      - wiki/concepts/production-requirements-and-compliance.md
+      - wiki/concepts/firmware-update-rollback.md
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/ecc-ldpc-reliability.md
+      - wiki/concepts/reset-boot-power-state.md
+      - wiki/concepts/platform-compatibility-security.md
+      - wiki/concepts/telemetry-logging-field-debug.md
+    policy_assets:
+      - tests/requirements/firmware-update-policy-matrix.yml
+      - tests/faults/firmware-update-state-table.yml
+      - tests/requirements/ldpc-pipeline-policy-matrix.yml
+      - tests/requirements/emulator-hook-matrix.yml
+      - tests/requirements/reset-boot-power-state-matrix.yml
+      - tests/requirements/platform-compatibility-security-matrix.yml
+      - tests/requirements/telemetry-field-debug-matrix.yml
+
+  - id: REQ-TEST-001
+    title: Verification coverage
+    tests: [T7-001, T7-002]
+    design_pages:
+      - wiki/concepts/ssd-verification-matrix.md
+      - wiki/concepts/fault-injection-catalog.md
+      - wiki/concepts/fdp-streams-placement-hints.md
+    policy_assets:
+      - tests/requirements/emulator-hook-matrix.yml
+      - tests/requirements/open-source-reading-smoke-map.yml

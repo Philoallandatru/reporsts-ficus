@@ -1,0 +1,112 @@
+policies:
+  - id: GC-POL-001
+    name: greedy_victim_selection
+    category: victim-selection
+    objective: minimize immediate relocation writes by choosing blocks with the fewest valid pages
+    primary_metrics: [valid_page_count, waf, relocation_writes]
+    risks: [wear_skew, hot_cold_mixing, tail_latency_if_emergency]
+    requirements: [REQ-FTL-001, REQ-PERF-001]
+    tests: [T2-002, T5-001]
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/ftl-design-deep-dive.md
+
+  - id: GC-POL-002
+    name: cost_benefit_selection
+    category: victim-selection
+    objective: balance invalid ratio, data age, erase cost and expected relocation benefit
+    primary_metrics: [waf, victim_age, gc_duty_cycle, relocation_writes]
+    risks: [parameter_instability, unpredictable_tail_latency]
+    requirements: [REQ-FTL-001, REQ-PERF-001, REQ-QOS-001]
+    tests: [T2-002, T5-001, T5-002]
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: GC-POL-003
+    name: hot_cold_aware_gc
+    category: placement-and-temperature
+    objective: keep hot and cold data from sharing erase blocks so future relocation cost stays low
+    primary_metrics: [hot_cold_misclassification, future_relocation_writes, waf]
+    risks: [fragmentation, wrong_temperature_classification, namespace_stream_mismatch]
+    requirements: [REQ-FTL-001, REQ-PERF-001]
+    tests: [T2-002, T5-001, T5-003]
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: GC-POL-004
+    name: qos_aware_gc_budget
+    category: qos
+    objective: limit background relocation so foreground read p999 remains within budget
+    primary_metrics: [read_p999_during_gc, gc_budget_debt, gc_duty_cycle, foreground_starvation]
+    risks: [free_block_pressure, emergency_gc, host_write_throttling]
+    requirements: [REQ-QOS-001, REQ-FTL-001]
+    tests: [T5-002, T2-002]
+    profiles:
+      - tests/profiles/fio/mixed-read-write-qos.fio
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: GC-POL-005
+    name: dynamic_wear_leveling
+    category: wear-leveling
+    objective: bias active writes and GC choices toward lowering erase-count skew without extra cold-data relocation
+    primary_metrics: [erase_skew, min_erase_count, max_erase_count, waf]
+    risks: [short_term_waf_increase, victim_choice_conflict]
+    requirements: [REQ-FTL-001, REQ-PERF-001]
+    tests: [T2-002, T5-001]
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+
+  - id: GC-POL-006
+    name: static_wear_leveling
+    category: wear-leveling
+    objective: relocate long-lived cold data from low-erase blocks when erase-count skew exceeds a threshold
+    primary_metrics: [erase_skew, wear_leveling_writes, cold_data_age, waf]
+    risks: [waf_growth, read_tail_latency, cold_data_over_migration]
+    requirements: [REQ-FTL-001, REQ-QOS-001, REQ-PERF-001]
+    tests: [T2-002, T5-001, T5-002]
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/ecc-ldpc-reliability.md
+
+  - id: GC-POL-007
+    name: emergency_gc_and_write_throttle
+    category: forward-progress
+    objective: preserve free block reserve and guarantee host write forward progress under low OP or pathological random writes
+    primary_metrics: [free_block_watermark, emergency_gc_count, write_throttle_time, host_write_latency]
+    risks: [visible_write_cliff, timeout_if_throttle_policy_wrong]
+    requirements: [REQ-FTL-001, REQ-PERF-001, REQ-QOS-001]
+    tests: [T2-002, T5-003, T5-002]
+    profiles:
+      - tests/profiles/fio/steady-state-randwrite.fio
+    design_pages:
+      - wiki/concepts/gc-wear-leveling-policy.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+watermarks:
+  - state: normal
+    trigger: free_blocks_above_soft_watermark
+    behavior: proactive background GC only
+    host_impact: none_expected
+    tests: [T5-001]
+
+  - state: pressure
+    trigger: free_blocks_below_soft_watermark
+    behavior: increase GC budget and defer low-priority background work
+    host_impact: possible_write_latency_increase
+    tests: [T2-002, T5-001]
+
+  - state: critical
+    trigger: free_blocks_below_hard_watermark
+    behavior: foreground-assisted GC and limited host write throttling
+    host_impact: measurable_write_cliff
+    tests: [T2-002, T5-003]
+
+  - state: emergency
+    trigger: free_blocks_near_reserved_pool
+    behavior: stop nonessential writes and reclaim lowest-cost victim first
+    host_impact: strong_write_throttling_or_expected_timeout_budget
+    tests: [T2-002, T5-003]

@@ -1,0 +1,205 @@
+extraction_matrix:
+  id: NAND-PARAMETER-EXTRACTION-MATRIX
+  title: NAND vendor parameter extraction matrix for SSD controller models
+  review_date: 2026-08-12
+  purpose:
+    - Convert public vendor materials and restricted datasheets into repeatable NAND model inputs.
+    - Separate parameters that are safe to infer from public material from parameters that require a specific part-number datasheet.
+    - Feed flash scheduler, LDPC/read-retry, FTL geometry and reliability test assets.
+  verification_rules:
+    - fixed_public_artifacts artifact_id values must exist in sources/source-artifact-manifest.yml.
+    - fixed_public_artifacts artifact_id values must exist in sources/pdf-artifact-index.yml.
+    - fixed_public_artifacts local_file and sha256 must match the verified PDF artifact index.
+  global_fields:
+    required_for_all_sources:
+      - source_url
+      - access_date
+      - file_name
+      - document_version
+      - sha256_if_downloaded
+      - vendor
+      - part_number_or_family
+      - confidence
+    controller_model_fields:
+      - page_size
+      - spare_or_oob_size
+      - pages_per_block
+      - blocks_per_plane
+      - planes_per_die
+      - dies_per_package
+      - interface_standard
+      - bus_width
+      - timing_mode
+      - tR_us
+      - tPROG_us
+      - tBERS_us
+      - read_retry_support
+      - ecc_requirement
+      - bad_block_marker
+      - status_register_fail_bits
+      - endurance_cycles
+      - retention_condition
+      - operating_temperature
+  confidence_levels:
+    - id: direct_datasheet
+      description: Field is explicitly stated in a part-number datasheet or official parameter page.
+      usable_for: emulator default, RTL timing budget, verification assertion
+    - id: official_family
+      description: Field is stated for a vendor family or technology generation, but not for a concrete part number.
+      usable_for: architecture estimate, backlog planning
+    - id: standards_default
+      description: Field comes from ONFI/JESD-style interface definitions rather than a vendor part.
+      usable_for: interface model and parser, not media timing calibration
+    - id: inferred
+      description: Field is inferred from product class, paper, white paper or implementation examples.
+      usable_for: teaching model only
+  vendors:
+    - id: NAND-VENDOR-MICRON
+      vendor: Micron
+      public_entry:
+        - https://www.micron.com/support/technical-notes
+        - https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3Ae98bc653-e42d-45a7-9b8c-03cb3d488f05/renditions/original/as/nor-nand-flash-guide.pdf
+      fixed_public_artifacts:
+        - artifact_id: ART-MICRON-NAND-FLASH-GUIDE
+          local_file: sources/artifacts/vendors/micron/nor-nand-flash-guide.pdf
+          sha256: 791d5f24f9d5fa4fcf780dd82cd330d0cd388cccaae3dbf0b17101e5bc3c788f
+          page_count: 7
+          confidence: official_family
+          usable_fields:
+            - raw_nand_vs_managed_nand_boundary
+            - nor_vs_nand_tradeoffs
+            - ecc_bad_block_and_wear_leveling_responsibility
+            - application_class_context
+          blocked_fields_until_part_datasheet:
+            - page_size
+            - spare_or_oob_size
+            - pages_per_block
+            - blocks_per_plane
+            - planes_per_die
+            - timing_mode
+            - tR_us
+            - tPROG_us
+            - tBERS_us
+            - read_retry_support
+            - bad_block_marker
+      priority_documents:
+        - specific_part_datasheet
+        - NAND Flash 101 or equivalent technical note
+        - ECC, bad-block or read-retry application note if publicly available
+      expected_public_coverage:
+        geometry: direct_datasheet
+        timing: direct_datasheet
+        interface: direct_datasheet
+        ecc_requirement: direct_datasheet
+        read_retry: restricted_or_part_specific
+        reliability: official_family
+      extraction_notes:
+        - Use public technical notes for terminology and behavior.
+        - Do not copy read-retry tables from restricted datasheets into a public wiki.
+        - Record whether the target part is SLC, MLC, TLC or QLC before comparing timings.
+
+    - id: NAND-VENDOR-KIOXIA
+      vendor: Kioxia
+      public_entry:
+        - https://www.kioxia.com/en-jp/business/memory/technical-resources.html
+      priority_documents:
+        - BiCS FLASH technical resources
+        - product brief or datasheet for target part
+        - memory technology white paper
+      expected_public_coverage:
+        geometry: official_family
+        timing: restricted_or_part_specific
+        interface: restricted_or_part_specific
+        ecc_requirement: restricted_or_part_specific
+        read_retry: restricted_or_part_specific
+        reliability: official_family
+      extraction_notes:
+        - Keep BiCS generation notes separate from concrete timing assumptions.
+        - Use public material to classify technology, not to set emulator timings.
+
+    - id: NAND-VENDOR-SAMSUNG
+      vendor: Samsung Semiconductor
+      public_entry:
+        - https://semiconductor.samsung.com/
+      priority_documents:
+        - V-NAND technology material
+        - product brief for target flash or SSD class
+        - restricted datasheet if available
+      expected_public_coverage:
+        geometry: official_family
+        timing: restricted_or_part_specific
+        interface: restricted_or_part_specific
+        ecc_requirement: restricted_or_part_specific
+        read_retry: restricted_or_part_specific
+        reliability: official_family
+      extraction_notes:
+        - Product pages can explain generation and cell type, but should not be used as command timing tables.
+        - Split NAND technology material from SSD product-level features.
+
+    - id: NAND-VENDOR-SKHYNIX
+      vendor: SK hynix
+      public_entry:
+        - https://www.skhynix.com/
+      priority_documents:
+        - NAND product brief
+        - SSD or memory reliability material
+        - restricted datasheet if available
+      expected_public_coverage:
+        geometry: official_family
+        timing: restricted_or_part_specific
+        interface: restricted_or_part_specific
+        ecc_requirement: restricted_or_part_specific
+        read_retry: restricted_or_part_specific
+        reliability: official_family
+      extraction_notes:
+        - Treat news releases as landscape context only.
+        - Require a datasheet before filling timing, retry or status-register fields.
+
+    - id: NAND-VENDOR-YMTC
+      vendor: YMTC
+      public_entry:
+        - https://www.ymtc.com/
+      priority_documents:
+        - Xtacking technology introduction
+        - product family material
+        - restricted datasheet if available
+      expected_public_coverage:
+        geometry: official_family
+        timing: restricted_or_part_specific
+        interface: restricted_or_part_specific
+        ecc_requirement: restricted_or_part_specific
+        read_retry: restricted_or_part_specific
+        reliability: official_family
+      extraction_notes:
+        - Use public material to capture Xtacking terminology and generation boundaries.
+        - Do not assume controller timing from technology marketing pages.
+
+    - id: NAND-VENDOR-WDC-SANDISK
+      vendor: Western Digital / SanDisk
+      public_entry:
+        - https://documents.westerndigital.com/
+        - https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/white-paper/white-paper-the-application-of-ecc-dsp-to-flash-memory.pdf
+      priority_documents:
+        - ECC/DSP flash memory white paper
+        - target NAND or SSD technical document
+        - reliability and telemetry white papers
+      expected_public_coverage:
+        geometry: restricted_or_part_specific
+        timing: restricted_or_part_specific
+        interface: restricted_or_part_specific
+        ecc_requirement: official_family
+        read_retry: official_family
+        reliability: official_family
+      extraction_notes:
+        - Use ECC/DSP material to explain LDPC, signal processing and retry tradeoffs.
+        - Do not infer specific read threshold tables from white paper diagrams.
+  downstream_assets:
+    design_pages:
+      - wiki/concepts/nand-media-parameter-guide.md
+      - wiki/concepts/ecc-ldpc-reliability.md
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/hardware-controller-and-nand.md
+    test_assets:
+      - tests/requirements/ldpc-pipeline-policy-matrix.yml
+      - tests/requirements/flash-scheduler-policy-matrix.yml
+      - tests/faults/fault-injection.yml

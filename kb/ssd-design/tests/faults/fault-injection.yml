@@ -1,0 +1,104 @@
+faults:
+  - id: FI-HOST-001
+    category: host-interface
+    injection_point: invalid PRP address
+    expected: correct NVMe status; no wrong host memory write
+    tests: [T1-003]
+
+  - id: FI-HOST-006
+    category: host-interface
+    injection_point: controller reset during outstanding I/O
+    expected: outstanding context cleaned or isolated
+    tests: [T1-004]
+
+  - id: FI-FTL-002
+    category: ftl
+    injection_point: free block pool below watermark
+    expected: GC or host throttling
+    tests: [T2-002, T5-003]
+
+  - id: FI-FTL-003
+    category: ftl
+    injection_point: GC move races host overwrite
+    expected: old data is not resurrected
+    tests: [T2-003]
+
+  - id: FI-NAND-001
+    category: nand
+    injection_point: program fail
+    expected: remap page/block and keep old mapping valid
+    tests: [T3-001]
+
+  - id: FI-NAND-004
+    category: nand
+    injection_point: uncorrectable read
+    expected: retry/parity/recovery or correct NVMe error
+    tests: [T3-002]
+
+  - id: FI-PLP-001
+    category: power-loss
+    injection_point: power cut before NAND program
+    expected: no new write becomes visible
+    tests: [T4-001]
+    state_windows: [PLP-WIN-001, PLP-WIN-002]
+
+  - id: FI-PLP-003
+    category: power-loss
+    injection_point: power cut during program
+    expected: recovery does not trust partial page
+    tests: [T4-002]
+    state_windows: [PLP-WIN-003, PLP-WIN-004]
+
+  - id: FI-PLP-005
+    category: power-loss
+    injection_point: journal entry half-written
+    expected: incomplete entry ignored
+    tests: [T4-003]
+    state_windows: [PLP-WIN-005, PLP-WIN-006]
+
+  - id: FI-PLP-006
+    category: power-loss
+    injection_point: superblock switch interrupted
+    expected: previous valid generation used
+    tests: [T4-004]
+    state_windows: [PLP-WIN-007]
+
+  - id: FI-PLP-008
+    category: power-loss
+    injection_point: GC relocation or erase interrupted
+    expected: no valid data lost and no old page resurrected
+    tests: [T4-005]
+    state_windows: [PLP-WIN-008, PLP-WIN-009, PLP-WIN-010]
+
+  - id: FI-QOS-001
+    category: qos
+    injection_point: force GC active
+    expected: foreground read p999 within budget or documented throttle
+    tests: [T5-002]
+
+  - id: FI-QOS-002
+    category: qos
+    injection_point: ECC soft decode storm
+    expected: no global starvation
+    tests: [T5-004]
+
+  - id: FI-FWUP-001
+    category: firmware-update
+    injection_point: firmware download or slot table write interrupted
+    expected: active firmware remains deterministic and staged image state explainable
+    tests: [T6-002, T4-004]
+    state_windows: [FWUP-WIN-001, FWUP-WIN-002, FWUP-WIN-003]
+
+  - id: FI-FWUP-002
+    category: firmware-update
+    injection_point: activation or pending slot first boot interrupted
+    expected: pending activation is replayed or previous-good rollback occurs with event log
+    tests: [T6-002, T6-003]
+    state_windows: [FWUP-WIN-004, FWUP-WIN-005]
+
+  - id: FI-FWUP-003
+    category: firmware-update
+    injection_point: metadata migration or rollback record interrupted
+    expected: metadata layout remains old-consistent or new-consistent and rollback decision is deterministic
+    tests: [T6-002, T6-003, T4-004]
+    state_windows: [FWUP-WIN-006, FWUP-WIN-007, FWUP-WIN-008]

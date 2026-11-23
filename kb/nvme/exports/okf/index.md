@@ -1,0 +1,70 @@
+---
+okf_version: "0.1"
+---
+
+# Knowledge Bundle
+
+## Concepts
+
+* [队列对](/concepts/队列对.md) - NVMe中由提交队列和完成队列组成的基本通信单元，主机通过提交队列提交命令，控制器通过完成队列返回完成通知
+* [队列级别重置](/concepts/队列级别重置.md) - 基于内存的队列通过删除重建实现重置，Fabrics通过断开重连实现；共享完成队列需按特定顺序删除重建关联的提交队列
+* [发现控制器](/concepts/发现控制器.md) - NVMe-oF 架构中的特殊控制器，用于发现可用存储目标，支持变更通知和 Keep Alive Timeout 的动态调整，可预分配异步事件资源。
+* [管理队列配置](/concepts/管理队列配置.md) - 通过 AQA、ASQ、ACQ 三个寄存器配置管理提交队列和管理完成队列的地址与大小，用于承载所有 Admin 命令。
+* [基于内存的传输](/concepts/基于内存的传输.md) - 通过 MMIO 和 DMA 让控制器直接访问主机内存中提交队列、完成队列和数据缓冲区的传输模式，典型代表为 PCIe
+* [基于消息的传输](/concepts/基于消息的传输.md) - 通过封装的消息胶囊在主机和控制器之间交换命令和响应的传输模式，支持纯消息和消息/内存混合两种子类型
+* [加权轮询与紧急优先级仲裁](/concepts/加权轮询与紧急优先级仲裁.md) - 可选的高级仲裁机制，通过权重分配和时间片轮询满足不同优先级需求
+* [胶囊机制](/concepts/胶囊机制.md) - NVMe over Fabrics 中信息交换的基本封装单元，可包含命令/响应、SGL 及可选数据
+* [静态与动态控制器](/concepts/静态与动态控制器.md) - 静态控制器保留配置状态，动态控制器按需分配无历史状态；与传输协议相关（PCIe 为静态，Fabrics 可两者）
+* [控制器初始化](/concepts/控制器初始化.md) - NVMe 控制器依赖传输类型的启动过程，包括建立管理通道、配置参数、使能控制器、发现命令集与命名空间、创建 I/O 队列和启用异步事件通知等核心步骤。
+* [控制器类型](/concepts/控制器类型.md) - 分为 I/O 控制器、发现控制器和管理控制器三种，分别负责数据访问、服务发现和系统管理
+* [控制器四维分类模型](/concepts/控制器四维分类模型.md) - 从传输模型、分配模型、功能角色、资源角色四个维度描述控制器特性
+* [命令处理无序性](/concepts/命令处理无序性.md) - 控制器可按任意顺序处理同一提交队列或跨提交队列的命令，完成通知也无序，通过队列ID和命令ID进行关联
+* [命令集选择](/concepts/命令集选择.md) - 主机根据 CAP.CSS 能力寄存器选择 CC.CSS 配置值，决定控制器使用 NVM 命令集、I/O 命令集组合或无 I/O 命令集模式。
+* [命名空间](/concepts/命名空间.md) - 主机读写操作的逻辑存储对象，控制器通过访问命名空间来执行 I/O
+* [融合操作（Fused Operation）](/concepts/融合操作fused-operation.md) - 将两个命令绑定为原子执行单元的协议特性，两个命令要么都成功要么都不执行
+* [提交队列与完成队列](/concepts/提交队列与完成队列.md) - NVMe 命令处理的协作机制，主机通过提交队列提交命令，控制器通过完成队列返回结果
+* [提交队列与完成队列映射](/concepts/提交队列与完成队列映射.md) - 基于内存的传输支持多对一映射（多个SQ共享一个CQ），而NVMe over Fabrics必须一对一映射
+* [未完成命令（Outstanding Commands）](/concepts/未完成命令outstanding-commands.md) - 从提交到控制器到收到完成条目之间的命令状态，以及协议定义的终止条件
+* [循环缓冲区状态判断](/concepts/循环缓冲区状态判断.md) - 通过头尾指针关系和阶段标签翻转区分空、满、部分满状态，其中单槽未使用规则避免额外状态位
+* [异步事件通知](/concepts/异步事件通知.md) - 控制器向主机发送的异步事件通知（AEN），主机通过提交异步事件请求（AER）来订阅，可配置在控制器就绪后的任意时刻进行。
+* [影子门铃与事件索引缓冲区](/concepts/影子门铃与事件索引缓冲区.md) - 为准虚拟化控制器提供的优化机制，使用主机内存镜像避免MMIO写入开销，通过模运算协调门铃更新
+* [主从控制器](/concepts/主从控制器.md) - 虚拟化资源管理维度，从属控制器依赖主控制器管理虚拟队列和虚拟中断资源
+* [ANA非对称命名空间访问](/concepts/ana非对称命名空间访问.md) - 将访问建模为controller-to-group关系，组成员在同一Domain内共同变迁，状态包括Optimized/Non-Optimized/Inaccessible/Persistent Loss/瞬态Change
+* [Command Queue Mechanism](/concepts/command-queue-mechanism.md) - 包含 Submission Queue、Completion Queue、Command Arbitration、Fused Operation 等机制的命令提交与完成处理框架，是 NVMe 协议的核心 I/O 流程。
+* [Controller](/concepts/controller.md) - NVMe子系统中的核心逻辑实体，负责处理主机命令、管理队列对、配置属性及电源/热管理，支持静态/动态分配模型和多种类型（I/O/Administrative/Discovery）。
+* [Controller Migration](/concepts/controller-migration.md) - 主机管理的在线迁移能力，支持Suspend/Resume生命周期、分段状态传输、Queue Pair重建、change tracking及源/目的端状态同步。
+* [Controller类型与分类](/concepts/controller类型与分类.md) - Controller的两维分类体系：静态/动态分配模型 × I/O/Administrative/Discovery功能类型；内存型控制器为静态，发现控制器为动态
+* [ControllerMemoryWindow控制器内存窗口](/concepts/controllermemorywindow控制器内存窗口.md) - 内存型控制器暴露的两种独立窗口：CMB支持queue/list/data placement；PMR具备显式的readiness与persistence-barrier契约，两者已使能地址范围不得重叠
+* [DH-HMAC-CHAP Authentication](/concepts/dh-hmac-chap-authentication.md) - NVMe In-band 认证协议，通过协商 hash/DH 参数、controller challenge、host proof 及可选 subsystem 反向 proof 完成安全认证事务。
+* [Fabric Zoning](/concepts/fabric-zoning.md) - NVMe over Fabrics 的访问控制机制，通过 ZoneGroup、Zone、ZoneMember 实现成员间的通信规则强制与网络限制。
+* [Fabrics队列生命周期](/concepts/fabrics队列生命周期.md) - 基于消息的队列通过Connect/Disconnect命令创建和删除，需协商流量控制，支持认证隔离删除
+* [Fabrics发现与认证](/concepts/fabrics发现与认证.md) - IP fabric上通过DNS-SD PTR/SRV/TXT记录引导控制器地址，Discover Service在连接前指明可达子系统路径，secure-channel与in-band-authentication门控命令接受
+* [FabricZoningModel网络分域模型](/concepts/fabriczoningmodel网络分域模型.md) - 将配置态ZoneDBConfig与强制态ZoneDBActive分离，ZoneGroup是激活单元，Zone是访问控制单元，支持从NQN-only到NQN/IP/protocol/service/PortID的精确身份维度组合
+* [FlexibleDataPlacement灵活数据放置](/concepts/flexibledataplacement灵活数据放置.md) - 用host指定的Reclaim Group/Reclaim Unit placement替换Endurance Group内的NVM Set分支，命令通过namespace-local的Placement Handle与Reclaim Group选择数据放置位置
+* [I/O 队列创建顺序](/concepts/io-队列创建顺序.md) - NVMe 规范要求先创建完成队列（CQ）后创建提交队列（SQ），Fabrics 传输则通过 Connect 命令创建队列对（QP）。
+* [Mermaid 流程图模板](/concepts/mermaid-流程图模板.md) - NVMe 规范解释性重绘所采用的标准 Mermaid 语法模板及其适用场景
+* [Namespace and Namespace Identifier](/concepts/namespace-and-namespace-identifier.md) - 以 logical-block 形式呈现已格式化 NVM 的存储抽象；NSID 作为控制器命令句柄，作用域为 subsystem，区分命令句柄与持久化全局标识。
+* [Namespace Reservation Lifecycle](/concepts/namespace-reservation-lifecycle.md) - 多主机环境下命名空间预留机制，处理冲突时机、host-path身份、按类型划分权利、命令冲突矩阵、注册/抢占/清除与通知流程。
+* [NamespaceReservation命名空间预留](/concepts/namespacereservation命名空间预留.md) - 将访问权限绑定到Host Identifier而非controller路径的共享访问状态机，支持6种holder/registrant策略，命令处理时固化冲突决策
+* [NVM 子系统端口](/concepts/nvm-子系统端口.md) - 通过 NQN 和 16 位端口 ID 标识的协议接口，可聚合多个物理网络接口并支持多种传输协议
+* [NVM Subsystem](/concepts/nvm-subsystem.md) - NVMe 架构的核心边界，包含 controllers、ports、namespaces 及其底层 NVM 资源，提供 host 与非易失存储之间的接口抽象。
+* [NVMe 传输绑定 (Transport Binding)](/concepts/nvme-传输绑定-transport-binding.md) - NVMe 规范中定义的不同传输层实现（如 PCIe）与协议语义解耦的抽象机制
+* [NVMe 传输架构分层](/concepts/nvme-传输架构分层.md) - 将传输无关的核心协议与具体传输实现分离的架构设计，包含核心架构层、传输绑定层、NVMe 传输层和底层网络协议层
+* [NVMe 传输模型](/concepts/nvme-传输模型.md) - NVMe 规范定义的两种基本通信模型：基于内存的传输和基于消息的传输，分别适用于本地 PCIe 连接和网络存储场景
+* [NVMe 规范来源引用规范](/concepts/nvme-规范来源引用规范.md) - NVMe 页面编译时必须遵守的页码引用、文件级来源标注及 transport 细节边界规则
+* [NVMe 控制器](/concepts/nvme-控制器.md) - 主机访问 NVM 子系统的服务窗口，负责从提交队列取命令、协调数据访问并放入完成队列
+* [NVMe 控制器架构](/concepts/nvme-控制器架构.md) - NVMe 系统中 Host software、Controller、Namespace 之间的层级关系与职责划分
+* [NVMe 控制器生命周期](/concepts/nvme-控制器生命周期.md) - NVMe 控制器的初始化、命令执行、Reset、Shutdown 等状态转换路径
+* [NVMe 命令队列机制](/concepts/nvme-命令队列机制.md) - NVMe 中 Submission Queue (SQ) 与 Completion Queue (CQ) 构成的主机-控制器命令提交与完成模型
+* [NVMe 命令排序与独立性](/concepts/nvme-命令排序与独立性.md) - NVMe 协议中命令被视为相互独立的设计原则，命令提交顺序不强制决定处理或完成顺序
+* [NVMe 命名空间 (Namespace)](/concepts/nvme-命名空间-namespace.md) - NVMe 中将物理存储媒体抽象为逻辑块地址空间的资源管理单元
+* [NVMe 图文规范](/concepts/nvme-图文规范.md) - llmwiki 编译 NVMe 页面时关于图表类型选择、模板格式及来源标注的质量要求
+* [NVMe 仲裁机制](/concepts/nvme-仲裁机制.md) - 控制器从多个提交队列中选择命令进行处理的一套机制，包括多种仲裁策略
+* [NVMe Fabrics](/concepts/nvme-fabrics.md) - 基于消息传递的网络环境，支持控制器发现和服务定位，常配合发现控制器使用
+* [NVMe over Fabrics](/concepts/nvme-over-fabrics.md) - 将 NVMe 协议扩展到网络结构上的传输绑定规范，支持 RDMA、TCP 等底层网络协议实现远程存储访问
+* [NVMe-oF Fabrics 初始化](/concepts/nvme-of-fabrics-初始化.md) - 基于消息传输的控制器初始化方式，通过建立传输层连接、执行 Connect 命令创建 Admin 队列对、使用 Property Get/Set 访问属性，并在需要时执行身份认证。
+* [PCIe 控制器启动序列](/concepts/pcie-控制器启动序列.md) - 基于内存传输的 NVMe 控制器最小启动流程：等待 RDY=0 → 配置 AQA/ASQ/ACQ → 选择 CSS/AMS/MPS → 设置 EN=1 并等待 RDY=1 → 执行 Identify 和创建 I/O 队列。
+* [Predictable Latency Mode](/concepts/predictable-latency-mode.md) - NVM Set 运行模式，在 Deterministic Window（确定性延迟保证）与 Non-Deterministic Window（准备阶段）之间交替，以提供有界的 I/O 延迟。
+* [Queue Pair](/concepts/queue-pair.md) - NVMe核心的内存队列机制，由Submission Queue和Completion Queue组成，用于主机与控制器之间的异步命令提交与完成通知。
+* [Static and Dynamic Controller Models](/concepts/static-and-dynamic-controller-models.md) - 两种全子系统范围的控制器分配模型：Static 保留控制器身份与状态跨 reset 或 association；Dynamic 则按需分配、不保留先前状态。
+* [Transport Models](/concepts/transport-models.md) - NVMe传输层抽象模型，支持PCIe和Fabrics（包括RDMA/TCP/FC等）两种分类，定义capsule、port、flow control及消息队列传输契约。

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KVMem 架构图解</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #f7f5f0; --card: #fffdf9; --ink: #1d2825; --muted: #525d56;
+    --line: #dfded4; --accent: #2f6f5e; --dark: #215346; --tint: #e8f0e9;
+    --mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+    --serif: "DM Serif Display", "Noto Serif SC", "Songti SC", SimSun, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.62 Outfit, "Microsoft YaHei", "PingFang SC", sans-serif; }
+  a { color: var(--dark); text-underline-offset: .23em; }
+  a:hover { color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  code { font: .91em var(--mono); overflow-wrap: anywhere; }
+  h1, h2, h3, p, figure { margin: 0; }
+  h1, h2 { font-family: var(--serif); }
+  h1 { font-size: clamp(36px, 5.2vw, 62px); line-height: 1.12; letter-spacing: -.045em; }
+  h2 { font-size: clamp(25px, 3vw, 33px); line-height: 1.25; letter-spacing: -.02em; }
+  h3 { font-size: 16px; line-height: 1.4; }
+  .shell { width: min(1160px, 100% - 64px); margin-inline: auto; }
+  .top { border-bottom: 1px solid var(--line); }
+  .top .shell { min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { font-weight: 750; letter-spacing: -.02em; }
+  .top nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .top nav a { font-size: 13px; font-weight: 600; text-decoration: none; }
+  .hero { display: grid; grid-template-columns: 1.05fr .95fr; align-items: end; gap: 36px; padding-block: 38px 26px; }
+  .commit { color: var(--accent); font: 12px/1.55 var(--mono); margin-bottom: 9px; }
+  .hero > p { color: var(--muted); max-width: 43ch; padding-bottom: 3px; font-size: 16px; }
+  .hero strong { color: var(--dark); }
+  main { display: grid; gap: 46px; padding-bottom: 35px; }
+  .section-head { margin-bottom: 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
+  .section-head p { color: var(--muted); font-size: 13px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 4px 16px rgba(36, 57, 45, .045); }
+  .architecture { padding: 19px; display: grid; grid-template-columns: 1.45fr 1fr; gap: 17px; }
+  .control, .storage { padding: 16px; border-radius: 12px; background: #f3f1ea; }
+  .storage { background: var(--tint); }
+  .lane-title { color: var(--dark); font-size: 12px; font-weight: 750; margin-bottom: 10px; }
+  .node { border: 1px solid var(--line); background: var(--card); border-radius: 9px; padding: 10px 12px; }
+  .node.primary { border-color: #88aa9b; background: var(--tint); }
+  .node .label { font-weight: 750; display: block; color: var(--ink); }
+  .node p { margin-top: 2px; color: var(--muted); font-size: 13px; }
+  .node code { display: block; margin-top: 3px; color: var(--dark); }
+  .edge { display: flex; align-items: center; gap: 7px; min-height: 25px; padding-inline: 12px 0; color: var(--dark); font-size: 12px; }
+  .edge b { width: 16px; font-size: 17px; line-height: 1; }
+  .sources { padding: 9px 0 0; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; }
+  .sources span { font-weight: 700; }
+  .timeline { display: grid; grid-template-columns: 1fr 1.35fr 1fr; padding: 18px; list-style: none; margin: 0; }
+  .timeline > li { padding: 13px 14px 10px; position: relative; border-top: 2px solid #95b1a4; }
+  .timeline > li::before { content: ""; position: absolute; top: -6px; left: 14px; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+  .timeline .stage { font-weight: 750; color: var(--dark); font-size: 12px; margin-bottom: 3px; }
+  .timeline p { color: var(--muted); margin-top: 4px; font-size: 13px; }
+  .stack { display: grid; gap: 4px; margin-top: 10px; }
+  .stack span { padding: 5px 8px; border-radius: 5px; background: var(--tint); font-size: 12px; }
+  .stack span + span::before { content: '↓ '; color: var(--accent); font-weight: 800; }
+  .note { margin-top: 9px; font-size: 13px; color: var(--muted); }
+  .simulation { padding: 17px 19px; }
+  .state-control { margin: 0; padding: 0; border: 0; min-width: 0; }
+  .state-control legend { padding: 0; font-weight: 750; margin-bottom: 9px; }
+  .state-control input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .state-control label { display: inline-block; cursor: pointer; padding: 4px 12px; border: 1px solid var(--line); border-radius: 6px; margin: 0 4px 4px 0; font-size: 13px; }
+  .state-control label:hover { background: var(--tint); }
+  #before:checked + label, #after:checked + label { background: var(--dark); color: #fff; border-color: var(--dark); }
+  .state-control input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .view { display: none; margin-top: 9px; }
+  #before:checked ~ .before, #after:checked ~ .after { display: grid; gap: 8px; }
+  .blockrow { display: grid; grid-template-columns: 94px repeat(12, minmax(0, 1fr)); gap: 4px; align-items: center; }
+  .blockrow strong { font-size: 13px; }
+  .block { display: grid; place-items: center; min-height: 28px; border: 1px dashed #b6beb5; border-radius: 4px; background: #f7f6f1; color: var(--muted); font: 12px var(--mono); }
+  .block.on { background: var(--dark); border: 1px solid var(--dark); color: #fff; }
+  .block.new { background: #dcece0; border: 2px solid var(--dark); color: var(--dark); font-weight: 750; }
+  .block.old { text-decoration: line-through; }
+  .stage-detail { color: var(--muted); font-size: 13px; }
+  .stage-detail strong { color: var(--dark); }
+  .coordinates { display: grid; grid-template-columns: 1.06fr .94fr; gap: 16px; }
+  .coordinates .panel { padding: 15px 17px; }
+  table { width: 100%; border-collapse: collapse; text-align: left; }
+  caption { text-align: left; font-weight: 750; padding-bottom: 4px; }
+  th, td { padding: 8px 7px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--dark); font-size: 13px; }
+  td { color: var(--muted); font-size: 13px; }
+  tr:last-child > * { border-bottom: 0; }
+  .coords td { font-family: var(--mono); text-align: right; }
+  .coords th[scope="col"] { text-align: right; }
+  .coords tr:last-child { background: var(--tint); }
+  .transaction { margin: 7px 0 0; padding-left: 1.4em; font-size: 13px; }
+  .transaction li { padding: 3px 0; }
+  .transaction li::marker { color: var(--accent); font-family: var(--mono); }
+  .comparison { padding: 9px 16px; }
+  .comparison tbody th { white-space: nowrap; }
+  .comparison td:last-child { width: 27%; }
+  footer { border-top: 1px solid var(--line); padding: 14px 0 25px; color: var(--muted); font-size: 12px; }
+  @media (max-width: 760px) {
+    .shell { width: calc(100% - 32px); }
+    .top .shell { padding-block: 7px; align-items: start; }
+    .top nav { gap: 4px 10px; }
+    .hero, .architecture, .coordinates { grid-template-columns: 1fr; }
+    .hero { gap: 10px; padding-block: 23px 20px; }
+    main { gap: 32px; }
+    .architecture { padding: 11px; gap: 9px; }
+    .control, .storage { padding: 11px; }
+    .section-head { align-items: start; flex-direction: column; gap: 3px; }
+    .timeline { grid-template-columns: 1fr; padding: 14px; }
+    .timeline > li { padding: 0 3px 15px 14px; border-top: 0; border-left: 2px solid #95b1a4; }
+    .timeline > li:last-child { padding-bottom: 0; }
+    .timeline > li::before { top: 5px; left: -6px; }
+    .simulation { padding: 11px; }
+    .blockrow { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2px; }
+    .blockrow strong { grid-column: 1 / -1; }
+    .block { font-size: 11px; }
+    .comparison { padding: 8px; }
+    .comparison th, .comparison td { padding: 5px; }
+    .comparison tbody th { white-space: normal; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="shell">
+    <span class="wordmark">KVMem 源码分析</span>
+    <nav aria-label="图表导航"><a href="#architecture">架构</a><a href="#request">请求</a><a href="#swap">换页</a><a href="#backends">后端</a></nav>
+  </div>
+</header>
+<div class="hero shell">
+  <div><p class="commit">KVMem 2abbd503 · llama.cpp 主线</p><h1>KVMem 架构图解</h1></div>
+  <p>历史可保留在 <strong>RAM / SSD</strong>。模型实际使用的是 <strong>GPU 上的选中工作集</strong>，召回可能改变本轮输出。</p>
+</div>
+<main class="shell">
+  <section id="architecture" aria-labelledby="architecture-title">
+    <div class="section-head"><h2 id="architecture-title">架构与数据驻留</h2></div>
+    <figure>
+      <div class="architecture panel">
+        <div class="control">
+          <div class="lane-title">请求与工作集控制</div>
+          <div class="node"><span class="label">请求层</span><p>分配执行通道，找可恢复的前缀检查点</p><code>llama-kvmem-server · llama-kvmem-driver</code></div>
+          <div class="edge"><b aria-hidden="true">↓</b>交给宿主执行</div>
+          <div class="node primary"><span class="label">llama.cpp 适配层</span><p>从计算图采集 Q/K，读写原生 KV，安装新视图</p><code>llama_memory_kvmem</code></div>
+          <div class="edge"><b aria-hidden="true">↕</b>传块目录和统计，返回选块与迁移计划</div>
+          <div class="node"><span class="label">公共库</span><p>按预算选块，计算差集，协调换页和发布</p><code>KvMemStore · WorkingSetPlan · MemorySession</code></div>
+        </div>
+        <div class="storage">
+          <div class="lane-title">KV 字节驻留与搬运</div>
+          <div class="node"><span class="label">L0 · GPU</span><p>本轮可见的历史块，加上追加空间</p><code>llama_kv_cache</code></div>
+          <div class="edge"><b aria-hidden="true">↕</b>适配器收存或恢复原生 packed K/V</div>
+          <div class="node"><span class="label">L1 · RAM</span><p>长期历史的原生字节记录，按 payload 计费</p><code>RawKvStore · HostKvStorage</code></div>
+          <div class="edge"><b aria-hidden="true">↕</b>RAM 压力下按封存记录下沉，可按区间读取</div>
+          <div class="node"><span class="label">L2 · SSD</span><p>可选的进程内冷存储，文件区间受容量约束</p><code>SpillFile</code></div>
+        </div>
+      </div>
+      <figcaption class="sources"><span>源码入口</span><a href="../kvmem/tools/llama-kvmem-server.cpp#L2093">请求分配 2093</a><a href="../kvmem/src/adapter/llama-memory-kvmem.cpp#L909">内存工厂 909</a><a href="../kvmem/kvmem/include/kvmem/memory_contract.hpp#L171">公共契约 171</a><a href="../kvmem/kvmem/src/host/host_kv_storage.cpp#L99">存储换出 99</a></figcaption>
+    </figure>
+  </section>
+
+  <section id="request" aria-labelledby="request-title">
+    <div class="section-head"><h2 id="request-title">一次请求中的三个决策</h2></div>
+    <figure>
+      <ol class="timeline panel">
+        <li><p class="stage">请求到达</p><h3>前缀恢复</h3><p>决定从哪一行续算。</p><div class="stack"><span>匹配 token 和媒体前缀</span><span>选择可恢复的检查点</span><span>恢复失败则回退到更早的点或重算</span></div></li>
+        <li><p class="stage">预填充</p><h3>Query 召回</h3><p>决定这一轮可以读哪些旧历史。</p><div class="stack"><span>试算 Query 得到 Q，用历史 Mean-K 给块打分</span><span>满足准入且可见集合改变时，换入选中块并重放 Query</span></div></li>
+        <li><p class="stage">预填充与生成</p><h3>Pressure</h3><p>追加空间吃紧时收缩工作集。</p><div class="stack"><span>候选为当前驻留块与待追加块</span><span>释放槽位后继续计算</span></div></li>
+      </ol>
+      <p class="note">已驻留或视图未变时可跳过重放。工具续接可触发 Pressure，保持 Query 冻结。</p>
+      <figcaption class="sources"><span>源码入口</span><a href="../kvmem/tools/llama-kvmem-driver.cpp#L1328">前缀恢复 1328</a><a href="../kvmem/tools/llama-kvmem-driver.cpp#L1477">试算与重放 1477</a><a href="../kvmem/src/adapter/llama-memory-kvmem.cpp#L2676">追加压力 2676</a></figcaption>
+    </figure>
+  </section>
+
+  <section id="swap" aria-labelledby="swap-title">
+    <div class="section-head"><h2 id="swap-title">同一段历史，两次 GPU 视图</h2><p>示意历史有 12 块，本轮 GPU 历史工作集取 6 块</p></div>
+    <figure class="panel simulation">
+      <fieldset class="state-control">
+        <legend>观察 Query 召回前后的可见块</legend>
+        <input type="radio" name="view" id="before" checked><label for="before">召回前</label>
+        <input type="radio" name="view" id="after"><label for="after">召回后</label>
+        <div class="view before">
+          <div class="blockrow" aria-label="完整逻辑历史有 0 至 11 号块"><strong>完整历史</strong><span class="block">0</span><span class="block">1</span><span class="block">2</span><span class="block">3</span><span class="block">4</span><span class="block">5</span><span class="block">6</span><span class="block">7</span><span class="block">8</span><span class="block">9</span><span class="block">10</span><span class="block">11</span></div>
+          <div class="blockrow" aria-label="GPU 可见 0、7、8、9、10、11 号块"><strong>GPU 可见</strong><span class="block on">0</span><span class="block">1</span><span class="block">2</span><span class="block">3</span><span class="block">4</span><span class="block">5</span><span class="block">6</span><span class="block on">7</span><span class="block on">8</span><span class="block on">9</span><span class="block on">10</span><span class="block on">11</span></div>
+          <p class="stage-detail">示例中的 <strong>3 在 SSD，6 在 RAM</strong>，二者都还在逻辑历史中。</p>
+        </div>
+        <div class="view after">
+          <div class="blockrow" aria-label="完整逻辑历史仍有 0 至 11 号块"><strong>完整历史</strong><span class="block">0</span><span class="block">1</span><span class="block">2</span><span class="block">3</span><span class="block">4</span><span class="block">5</span><span class="block">6</span><span class="block">7</span><span class="block">8</span><span class="block">9</span><span class="block">10</span><span class="block">11</span></div>
+          <div class="blockrow" aria-label="GPU 保留 0、8、10、11，换入 3、6，换出 7、9"><strong>GPU 可见</strong><span class="block on">0</span><span class="block">1</span><span class="block">2</span><span class="block new">3</span><span class="block">4</span><span class="block">5</span><span class="block new">6</span><span class="block old">7</span><span class="block on">8</span><span class="block old">9</span><span class="block on">10</span><span class="block on">11</span></div>
+          <p class="stage-detail"><strong>换入 3、6</strong>。先确认 7、9 有有效 Host 副本，再让它们释放 GPU 槽位。</p>
+        </div>
+      </fieldset>
+    </figure>
+  </section>
+
+  <section aria-labelledby="positions-title">
+    <div class="section-head"><h2 id="positions-title">位置映射与切换顺序</h2></div>
+    <div class="coordinates">
+      <figure class="panel">
+        <table class="coords">
+          <caption>三个 128-token 块的坐标示例</caption>
+          <thead><tr><th scope="col">坐标</th><th scope="col">块 A</th><th scope="col">块 B</th><th scope="col">块 C</th></tr></thead>
+          <tbody><tr><th scope="row">原始起点</th><td>0</td><td>128</td><td>512</td></tr><tr><th scope="row">紧凑视图起点</th><td>0</td><td>128</td><td>256</td></tr><tr><th scope="row">示例 GPU 槽</th><td>5</td><td>2</td><td>7</td></tr></tbody>
+        </table>
+        <figcaption class="note">块 C 在紧凑视图从 256 开始。已有 K 仍保留原来的模型 RoPE 坐标。物理槽号由引擎分配。</figcaption>
+      </figure>
+      <div class="panel"><h3>公共事务如何安装新视图</h3>
+        <ol class="transaction"><li>核对版本并预留目标容量</li><li>补齐即将换出的 Host 副本</li><li>释放旧槽，换入新块并等待搬运完成</li><li>核对 cell 覆盖，发布新视图</li></ol>
+        <p class="note">llama.cpp 的 packed 路径满足条件时才走公共事务。旧槽位已被改动后若切换失败，当前会话可以失效。</p>
+      </div>
+    </div>
+    <div class="sources"><span>源码入口</span><a href="../kvmem/docs/memory-backend-contract.md#三种坐标">坐标契约 77</a><a href="../kvmem/src/adapter/llama-memory-kvmem.cpp#L2249">cell 恢复 2249</a><a href="../kvmem/src/adapter/llama-memory-kvmem.cpp#L6137">事务接入条件 6137</a><a href="../kvmem/src/adapter/llama-memory-kvmem.cpp#L6271">发布与失败清理 6271</a></div>
+  </section>
+
+  <section id="backends" aria-labelledby="backends-title">
+    <div class="section-head"><h2 id="backends-title">四个宿主的接入点</h2><p>公共契约共享工作集事务，原生页布局由宿主实现</p></div>
+    <div class="panel comparison">
+      <table>
+        <thead><tr><th scope="col">宿主</th><th scope="col">实际接线</th><th scope="col">源码入口</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">llama.cpp</th><td>符合条件的 packed 路径由 <code>NativeBackend</code> 驱动公共事务。</td><td><a href="../kvmem/src/adapter/llama-memory-kvmem.cpp#L6350">事务入口 6350</a></td></tr>
+          <tr><th scope="row">NInfer</th><td>普通窗口经 <code>WindowMemoryBackend</code>，逐层恢复另走原生搬运。</td><td><a href="../kvmem/backends/patches/ninfer-kvmem.patch#L9159">窗口事务 9159</a></td></tr>
+          <tr><th scope="row">PolyStrata</th><td>Query 与 Pressure 经 <code>exchange()</code> 调用公共事务。</td><td><a href="../kvmem/backends/patches/polystrata-kvmem.patch#L2720">接入补丁 2720</a></td></tr>
+          <tr><th scope="row">Radiance</th><td><code>StatisticsObserver</code> 驱动由原生 rank 内存聚合出的工作集事务。</td><td><a href="../kvmem/backends/radiance/adapter/statistics_observer.cpp#L1210">适配器 1210</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<footer><div class="shell">基于本地源码与固定版本补丁。块编号和坐标用于说明机制，吞吐与召回质量需另行实测。</div></footer>
+</body>
+</html>

@@ -1,0 +1,204 @@
+evidence_schema:
+  id: VERIFICATION-EVIDENCE-SCHEMA
+  title: SSD verification evidence schema for emulator hooks and test reports
+  review_date: 2026-08-12
+  purpose:
+    - Define the minimum evidence needed before a planned test can be called executable.
+    - Normalize logs across FEMU, SimpleSSD, MQSim, Cosmos+ and host-side tools.
+    - Pair hook_matrix entries with deterministic pass/fail decisions.
+  related_assets:
+    - tests/requirements/emulator-hook-matrix.yml
+    - tests/faults/fault-injection.yml
+    - tests/faults/power-loss-state-table.yml
+    - tests/faults/firmware-update-state-table.yml
+    - tests/requirements/ldpc-pipeline-policy-matrix.yml
+    - tests/requirements/flash-scheduler-policy-matrix.yml
+    - tests/requirements/hmb-policy-matrix.yml
+    - tests/requirements/nvme-command-spec-map.yml
+    - tests/requirements/nvme-cli-output-field-map.yml
+  record_types:
+    - type: run_header
+      required_fields:
+        - run_id
+        - timestamp_utc
+        - dut_kind
+        - dut_build_id
+        - host_os
+        - kernel_or_qemu_version
+        - tool_versions
+        - source_pin_ids
+        - random_seed
+        - workload_id
+        - namespace_size
+        - device_path_or_backend
+      pass_fail_use: establishes reproducibility context
+
+    - type: hook_event
+      required_fields:
+        - run_id
+        - hook_id
+        - test_id
+        - requirement_id
+        - timestamp_ns
+        - event_phase
+        - trigger_id
+        - command_id
+        - lba_range
+        - expected_outcome_id
+        - observed_outcome_id
+      pass_fail_use: connects a raw event to a specific hook/test/requirement
+
+    - type: fault_injection_event
+      required_fields:
+        - run_id
+        - fault_id
+        - injection_index
+        - injection_point
+        - injection_time_ns
+        - armed
+        - fired
+        - deterministic_counter_value
+        - recovery_started
+        - recovery_completed
+      pass_fail_use: proves the intended fault actually fired
+
+    - type: host_command_event
+      required_fields:
+        - run_id
+        - command_map_id
+        - test_id
+        - requirement_id
+        - timestamp_ns
+        - tool
+        - command_template
+        - command_argv
+        - safety_class
+        - device_path_or_backend
+        - exit_code
+        - expected_observations
+        - observed_fields
+        - raw_stdout_location
+        - raw_stderr_location
+        - spec_artifact_ids
+        - spec_topic_ids
+      pass_fail_use: connects host-side nvme-cli output to tests, requirements and verified specification artifacts
+
+    - type: pass_fail_decision
+      required_fields:
+        - run_id
+        - test_id
+        - hook_id
+        - decision
+        - decision_reason
+        - required_evidence_present
+        - forbidden_evidence_absent
+        - parser_version
+        - reviewer
+      allowed_decisions:
+        - pass
+        - fail
+        - inconclusive
+        - blocked
+      pass_fail_use: final machine-readable verdict
+  host_command_rules:
+    nvme_cli:
+      observed_field_rules:
+        - every observed_fields key must be registered in tests/requirements/nvme-cli-output-field-map.yml
+        - every observed_fields key must be bound to the same command_map_id as the host_command_event
+        - raw_stdout_location and raw_stderr_location must be safe relative paths under tests/evidence
+        - raw_stdout_location must exist and be non-empty
+        - observed_fields values must match key-value pairs parsed from raw_stdout_location
+      parser_scope:
+        - parse lines shaped as "field_name : value"
+        - ignore headings, free-text lines and sample_note markers
+        - accept decimal or 0x-prefixed numeric text for integer observed values
+  hook_specific_fields:
+    HOOK-PLP-001:
+      required_fields:
+        - plp_window_id
+        - old_ppa
+        - new_ppa
+        - journal_sequence
+        - checkpoint_generation
+        - page_metadata_crc
+        - recovery_decision
+        - l2p_after_recovery
+        - p2l_after_recovery
+      forbidden_evidence_examples:
+        - blind_l2p_update
+        - partial_entry_replay
+        - erase_with_live_pages
+      pass_conditions:
+        - old mapping remains authoritative unless complete durable evidence proves the new mapping.
+        - repeated recovery produces the same mapping and counters.
+
+    HOOK-LDPC-001:
+      required_fields:
+        - corrected_bits_per_codeword
+        - ldpc_iteration_count
+        - read_retry_count
+        - threshold_step
+        - soft_read_count
+        - ecc_engine_busy_us
+        - recovery_path_attempts
+        - final_read_status
+      pass_conditions:
+        - correctable errors return correct data and log correction/retry state.
+        - uncorrectable errors attempt bounded recovery and return precise host-visible status.
+        - retry storms do not starve unrelated foreground reads.
+
+    HOOK-FSCH-001:
+      required_fields:
+        - channel_utilization
+        - die_busy_histogram
+        - queue_depth_per_die
+        - request_age_max
+        - background_budget_debt
+        - ecc_retry_queue_depth
+        - read_p999
+      pass_conditions:
+        - foreground read p999 stays within budget or throttle is explicitly recorded.
+        - GC/destage/scrub forward progress continues.
+        - channel timeout recovery does not deadlock global controller state.
+
+    HOOK-HMB-001:
+      required_fields:
+        - hmb_generation
+        - hmb_hit_rate
+        - hmb_miss_rate
+        - hmb_dma_faults
+        - stale_generation_drops
+        - translation_page_reads
+        - reset_rebuild_time
+      pass_conditions:
+        - stale or revoked HMB descriptors are not trusted.
+        - dirty mapping state is durable before host-visible persistence is claimed.
+        - miss storms remain within QoS budget or expose an explicit throttle.
+
+    HOOK-FWUP-001:
+      required_fields:
+        - firmware_slot
+        - image_digest
+        - activation_state
+        - slot_table_generation
+        - metadata_format_version
+        - migration_sequence
+        - rollback_reason
+        - event_log_record
+      pass_conditions:
+        - interrupted update has deterministic active image selection.
+        - metadata migration is old-consistent or new-consistent, never mixed.
+        - rollback and event logs explain the final state.
+  report_requirements:
+    must_include:
+      - run_header
+      - at least_one_hook_event_or_host_command_event
+      - pass_fail_decision
+      - raw_log_location
+      - parser_version_or_manual_review_note
+    cannot_claim_pass_if:
+      - fault was armed but did not fire
+      - required evidence is missing
+      - expected and observed hook_id/test_id do not match
+      - command_map_id, test_id or requirement_id does not match the command spec map
+      - recovery result is inferred without raw event or parser evidence

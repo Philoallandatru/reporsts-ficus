@@ -1,0 +1,230 @@
+# 概念索引
+
+## 总览
+
+- [推理参数分类总览](wiki/concepts/inference-parameter-taxonomy.md)
+- [跨框架参数对照表](wiki/concepts/cross-framework-parameter-map.md)
+- [推理调参决策手册](wiki/concepts/inference-tuning-playbook.md)
+
+## 推理机制页
+
+- [KV cache 与 PagedAttention](wiki/concepts/kv-cache-and-paged-attention.md)
+- [跨框架参数对照表](wiki/concepts/cross-framework-parameter-map.md)
+- [Continuous batching 与推理调度](wiki/concepts/continuous-batching-and-scheduling.md)
+- [推理量化：权重、激活与 KV cache](wiki/concepts/inference-quantization.md)
+- [模型转换、量化与校准流水线](wiki/concepts/model-conversion-quantization-pipeline.md)
+- [GGUF 转换与 llama.cpp 量化工具链](wiki/concepts/gguf-conversion-and-llama-quantize.md)
+- [AWQ、GPTQ 与 FP8 量化工具链](wiki/concepts/awq-gptq-fp8-quantization-toolchain.md)
+- [Speculative decoding](wiki/concepts/speculative-decoding.md)
+- [采样与结构化输出](wiki/concepts/sampling-and-structured-output.md)
+- [Logits Processor、惩罚项与长度控制](wiki/concepts/logits-processors-penalties-and-length-control.md)
+- [推理性能指标与基准测试](wiki/concepts/inference-benchmarking-metrics.md)
+- [多 GPU 并行推理](wiki/concepts/distributed-parallel-inference.md)
+- [Attention kernel 与运行时优化](wiki/concepts/attention-kernels-and-runtime-optimization.md)
+- [长上下文推理](wiki/concepts/long-context-inference.md)
+- [MoE serving 与 expert parallel](wiki/concepts/moe-serving-and-expert-parallel.md)
+- [Offload 与内存层级](wiki/concepts/offload-and-memory-hierarchy.md)
+- [CPU/GPU 混合 Offload 与本地 MoE 推理](wiki/concepts/heterogeneous-cpu-gpu-offload-and-local-moe.md)
+- [生产服务与运维控制面](wiki/concepts/production-serving-operations.md)
+- [多模态推理与媒体 token 预算](wiki/concepts/multimodal-inference.md)
+- [LoRA 与 adapter serving](wiki/concepts/lora-and-adapter-serving.md)
+- [模型格式、加载与供应链边界](wiki/concepts/model-formats-and-loading.md)
+- [Tokenizer、chat template 与 token 预算](wiki/concepts/tokenizer-and-chat-templates.md)
+- [Tool/function calling 推理路径](wiki/concepts/tool-calling-inference.md)
+- [推理安全与多租户边界](wiki/concepts/inference-security-and-multitenancy.md)
+- [离线推理与批量推理](wiki/concepts/offline-and-batch-inference.md)
+- [Embedding、Reranker 与 Encoder 推理](wiki/concepts/embedding-and-reranker-inference.md)
+- [Disaggregated serving 与 KV transfer](wiki/concepts/disaggregated-serving-and-kv-transfer.md)
+- [推理容量规划公式](wiki/concepts/capacity-planning-formulas.md)
+- [推理排障手册](wiki/concepts/inference-troubleshooting-runbook.md)
+- [LLM 网关与路由层参数](wiki/concepts/llm-gateway-routing-parameters.md)
+- [GPU 拓扑、隔离与集群资源](wiki/concepts/gpu-topology-and-isolation.md)
+- [Kubernetes 模型服务部署](wiki/concepts/kubernetes-model-serving.md)
+- [推理观测、Metrics 与 Tracing](wiki/concepts/inference-observability-and-tracing.md)
+- [结构化解码库生态](wiki/concepts/constrained-decoding-libraries.md)
+- [推理负载建模与压测数据集](wiki/concepts/workload-modeling-and-load-testing.md)
+- [CPU、边缘与 NPU 推理](wiki/concepts/cpu-edge-npu-inference.md)
+- [WebLLM 参数模型](wiki/concepts/webllm-runtime-parameters.md)
+- [Transformers.js 参数模型](wiki/concepts/transformers-js-runtime-parameters.md)
+- [ONNX Runtime Web 参数模型](wiki/concepts/onnxruntime-web-parameters.md)
+- [图编译与 Engine 构建优化](wiki/concepts/graph-compilation-and-engine-build.md)
+- [推理缓存层：Response、Semantic、Prompt 与 KV](wiki/concepts/inference-caching-layers.md)
+- [OpenAI-compatible API 语义与兼容边界](wiki/concepts/openai-compatible-api-semantics.md)
+- [Autoscaling 与 Admission Control](wiki/concepts/autoscaling-and-admission-control.md)
+- [推理成本与效率模型](wiki/concepts/inference-cost-and-efficiency.md)
+- [NVIDIA Dynamo、LMCache 与 NIXL 参数模型](wiki/concepts/nvidia-dynamo-lmcache-nixl-parameters.md)
+- [Envoy AI Gateway 与 Gateway API Inference Extension](wiki/concepts/envoy-ai-gateway-and-inference-extension.md)
+- [Reasoning / Thinking Token 预算与 Parser](wiki/concepts/reasoning-token-budget-and-parser.md)
+- [Tokenization、Validation 与预处理性能](wiki/concepts/tokenization-validation-preprocessing.md)
+- [模型 Artifact 分发、缓存与冷启动](wiki/concepts/model-artifact-distribution-and-cold-start.md)
+- [模型生命周期、热切换与保活](wiki/concepts/model-lifecycle-hot-swap-and-keepalive.md)
+- [请求调度公平性、优先级与队列策略](wiki/concepts/request-scheduling-fairness-and-priority.md)
+- [Streaming、Backpressure、Timeout 与取消](wiki/concepts/streaming-backpressure-timeouts-cancellation.md)
+- [Reproducibility、Seed 与推理确定性](wiki/concepts/reproducibility-seeds-and-determinism.md)
+
+## 框架参数页
+
+- [llama.cpp 参数模型](wiki/concepts/llama-cpp-runtime-parameters.md)
+- [llama-cpp-python 参数模型](wiki/concepts/llama-cpp-python-runtime-parameters.md)
+- [vLLM Engine Args 参数模型](wiki/concepts/vllm-engine-parameters.md)
+- [SGLang Server Arguments 参数模型](wiki/concepts/sglang-server-parameters.md)
+- [Hugging Face TGI Launcher 参数模型](wiki/concepts/tgi-launcher-parameters.md)
+- [TensorRT-LLM Serving 参数模型](wiki/concepts/tensorrt-llm-serving-parameters.md)
+- [Ollama Modelfile 与服务参数](wiki/concepts/ollama-runtime-parameters.md)
+- [LMDeploy Serving 参数模型](wiki/concepts/lmdeploy-serving-parameters.md)
+- [DeepSpeed Inference / MII 参数模型](wiki/concepts/deepspeed-inference-mii-parameters.md)
+- [OpenVINO GenAI 参数模型](wiki/concepts/openvino-genai-parameters.md)
+- [Hugging Face Transformers Generation 参数模型](wiki/concepts/huggingface-transformers-generation-parameters.md)
+- [ONNX Runtime GenAI 参数模型](wiki/concepts/onnxruntime-genai-parameters.md)
+- [ONNX Runtime Web 参数模型](wiki/concepts/onnxruntime-web-parameters.md)
+- [MLC LLM 参数模型](wiki/concepts/mlc-llm-runtime-parameters.md)
+- [WebLLM 参数模型](wiki/concepts/webllm-runtime-parameters.md)
+- [Transformers.js 参数模型](wiki/concepts/transformers-js-runtime-parameters.md)
+- [NVIDIA Triton Inference Server LLM 参数模型](wiki/concepts/triton-inference-server-llm-parameters.md)
+- [MLX LM 参数模型](wiki/concepts/mlx-lm-runtime-parameters.md)
+- [CTranslate2 参数模型](wiki/concepts/ctranslate2-runtime-parameters.md)
+- [ExLlamaV2 参数模型](wiki/concepts/exllamav2-runtime-parameters.md)
+- [NVIDIA NIM for LLMs 参数模型](wiki/concepts/nvidia-nim-llm-parameters.md)
+- [AWS Neuron / Inferentia 推理参数模型](wiki/concepts/aws-neuron-inference-parameters.md)
+- [Google TPU 与 JetStream 推理](wiki/concepts/google-tpu-jetstream-inference.md)
+- [Intel IPEX-LLM 与 Optimum Intel 推理](wiki/concepts/intel-ipex-optimum-inference.md)
+- [SageMaker / DJL Serving LMI 参数模型](wiki/concepts/sagemaker-djl-lmi-parameters.md)
+- [FastChat 与 Sonar/Aphrodite 参数模型](wiki/concepts/fastchat-and-aphrodite-parameters.md)
+- [Hugging Face TEI 参数模型](wiki/concepts/huggingface-tei-parameters.md)
+- [Ray Serve LLM 参数模型](wiki/concepts/ray-serve-llm-parameters.md)
+- [BentoML / OpenLLM 参数模型](wiki/concepts/bentoml-openllm-parameters.md)
+- [KServe Generative Inference 参数模型](wiki/concepts/kserve-generative-inference-parameters.md)
+- [LocalAI 参数模型](wiki/concepts/localai-runtime-parameters.md)
+- [Xinference 参数模型](wiki/concepts/xinference-runtime-parameters.md)
+- [mistral.rs 参数模型](wiki/concepts/mistral-rs-runtime-parameters.md)
+- [KTransformers 参数模型](wiki/concepts/ktransformers-runtime-parameters.md)
+- [llamafile 参数模型](wiki/concepts/llamafile-runtime-parameters.md)
+- [TabbyAPI 参数模型](wiki/concepts/tabbyapi-runtime-parameters.md)
+- [KoboldCpp 参数模型](wiki/concepts/koboldcpp-runtime-parameters.md)
+
+## 参数主题
+
+- 模型加载：权重格式、tokenizer、revision、trust remote code、dtype、backend。
+- 跨框架对照：context、KV cache、batch、replica、parallel、sampling、streaming 的同义词和语义差异。
+- 上下文/KV cache：context length、KV dtype、block size、cache memory fraction、prefix cache。
+- 调度与并发：continuous batching、in-flight batching、max running requests、batch token budget。
+- 并行：tensor/pipeline/data/context/expert parallel，GPU layer offload。
+- 量化：权重量化、KV cache 量化、FP8/NVFP4/int8/int4。
+- 转换/校准：HF checkpoint、GGUF、AWQ、GPTQ、FP8、calibration dataset、imatrix、quantization_config。
+- GGUF 工具链：convert_hf_to_gguf、llama-quantize、llama-imatrix、quant type、metadata、mmproj、MTP。
+- AWQ/GPTQ/FP8 工具链：LLM Compressor、GPTQModel、AutoAWQ、AutoGPTQ legacy、TensorRT-LLM quantization。
+- 采样：temperature、top-k、top-p、min-p、penalties、stop、grammar/JSON schema。
+- Logits 处理：logit bias、bad words、no-repeat ngram、watermark、min/max tokens、stop/eos。
+- 服务：OpenAI-compatible API、host/port、API key、metrics、queue limits。
+- 运行时：attention backend、CUDA Graph、Triton kernel、warmup。
+- 内存层级：CPU offload、KV offload、pinned memory、PCIe/NVLink。
+- 异构 offload：CPU/GPU split、expert offload、NUMA、PCIe bandwidth、local MoE。
+- 长上下文：RoPE scaling、YaRN、sliding window、KV eviction、context parallel。
+- MoE：expert parallel、routing、all-to-all、DeepEP、专家负载均衡。
+- 多模态：image/video/audio token、vision projector、allowed media domains。
+- Adapter：LoRA rank、adapter cache、多 LoRA batching、量化兼容。
+- 模型加载：safetensors、GGUF、revision pinning、mmap/mlock、remote code。
+- Tokenizer/template：special tokens、chat template、tool messages、token budget。
+- Tool calling：function schema、parser、guided decoding、结构化输出。
+- 多租户安全：API key、CORS、请求限制、媒体来源限制、隔离。
+- 离线/批量：OpenAI Batch JSONL、数据分片、batch size、concurrency、重试与 checkpoint。
+- Embedding/rerank：pooling、normalize、truncate dim、max batch tokens、pair batch。
+- 分离式服务：prefill/decode disaggregation、KV transfer、NIXL/LMCache connector。
+- 容量规划：weights memory、KV cache bytes、live tokens、TTFT/TPOT、transfer bandwidth。
+- 排障：OOM 分型、cache thrashing、template mismatch、graph warmup、MoE imbalance、offload tail latency。
+- 编译/端侧：ONNX Runtime GenAI、MLC LLM、Execution Provider、model builder、model lib。
+- 模型服务器：Triton model config、dynamic batching、instance group、backend config。
+- 网关路由：model alias、fallback、retry、virtual key、budget、rate limit。
+- GPU/集群：MIG、MPS、NVLink/NCCL、Kubernetes device plugin、GPU Operator、DCGM。
+- 部署平台：KServe、Ray Serve/KubeRay、BentoML、权重缓存、autoscaling。
+- 观测：OpenTelemetry GenAI、Prometheus、TTFT/TPOT/ITL、GPU metrics、alerting。
+- 结构化解码库：Outlines、Guidance、LM Format Enforcer、XGrammar、GBNF。
+- 压测负载：ShareGPT、random/synthetic、open-loop、closed-loop、prefix sharing、goodput。
+- 本地/边缘：MLX LM、CTranslate2、ExLlamaV2、OpenVINO、QNN、Metal/WebGPU。
+- 浏览器推理：WebLLM、Transformers.js、ONNX Runtime Web、WASM、WebGPU、WebNN、IndexedDB/cache。
+- WebLLM：CreateMLCEngine、appConfig、model_list、cacheBackend、context_window_size、worker/service worker。
+- Transformers.js：pipeline、task、model、device、dtype、progress_callback、streamer、ONNX Runtime。
+- ONNX Runtime Web：InferenceSession、executionProviders、SessionOptions、WASM flags、WebGPU/WebNN、IO binding。
+- 图编译：TensorRT-LLM build、CUDA Graph、torch.compile、ONNX graph optimization、MLC compile。
+- 专用加速器/产品栈：NVIDIA NIM、AWS Neuron、Google TPU/JetStream、Intel IPEX/Optimum。
+- 缓存层：response cache、semantic cache、prompt/prefix cache、KV cache、KV offload/storage。
+- API 兼容：OpenAI-compatible endpoints、streaming chunks、tool parser、usage、error semantics。
+- 扩缩容/准入：queue time、ongoing requests、KPA、Ray Serve autoscaling、KEDA、max queue。
+- 成本效率：cost/token、cost/good-token、goodput、cache-adjusted cost、冷启动和重试成本。
+- SageMaker/DJL LMI：serving.properties、environment variables、rolling batch、tensor parallel、handler。
+- FastChat/Sonar：controller-worker-API server、Aphrodite/Sonar server args、quantization、OpenAI API。
+- TEI：model id、revision、dtype、pooling、prompt、max batch tokens、tokenization workers。
+- Ray Serve LLM：LLMConfig、model_loading_config、engine_kwargs、deployment_config、autoscaling。
+- Dynamo/LMCache/NIXL：KV-aware routing、multi-tier KV cache、connector、KV transfer、transport。
+- BentoML/OpenLLM：service、resources、traffic、workers、vLLM wrapper、BentoCloud。
+- KServe：InferenceService、ServingRuntime、storageUri、runtime args、GPU resources、autoscaling。
+- LocalAI：model YAML、backend、context_size、threads、gpu_layers、grammar、OpenAI-compatible API。
+- llama-cpp-python：`Llama(...)`、server settings、model_alias、chat_format、n_ctx、n_gpu_layers、n_batch。
+- Xinference：supervisor/worker、launch_model、model_engine、replica、replica_config、n_gpu、gpu_idx。
+- mistral.rs：serve CLI、ISQ、GGUF/GPTQ/AWQ、PagedAttention、device、adapter、多模态。
+- KTransformers：operator injection、kt-kernel、MoE expert offload、prefix cache、balance serve。
+- llamafile：single-file runtime、llama.cpp/ggml、local server、browser UI、offline deployment。
+- TabbyAPI：ExLlama-family server、config.yml、model load/unload、cache mode、LoRA、API keys。
+- KoboldCpp：GGUF、Web UI、Kobold API、context、threads、GPU layers、KV cache quant。
+- AI Gateway：Envoy AI Gateway、InferencePool、InferenceModel、Endpoint Picker、failover、rate limit。
+- Reasoning：reasoning effort、thinking budget、hidden tokens、reasoning parser、reasoning_content。
+- 预处理：tokenizer workers、validation workers、chat template render、max input tokens、media preprocessing。
+- 冷启动：HF cache、safetensors、storageUri、model artifact、NIM profile、engine build、warmup。
+- 模型生命周期：load/unload、keepalive、drain、model alias、revision、LoRA/adapters。
+- 调度公平性：priority、schedule policy、max queued requests、long/short request isolation、tenant fairness。
+- Streaming：SSE chunk、backpressure、idle timeout、request cancellation、partial retry。
+- 确定性：seed、GenerationConfig、temperature=0、CUDA/cuBLAS reproducibility、batch/scheduler nondeterminism。
+
+## 补充归档索引（Ficus-KB Synced）
+
+- [为什么 KV Cache 要分层：五条原理](ficus/kv-cache-ecosystem/00-why-tiering.md) — 容量、搬运收支、粒度取舍、可见历史与恢复条件
+- [架构差异的主轴与四家定位](ficus/kv-cache-ecosystem/01-architecture-axis.md) — 四家定位、请求时间线、交换粒度与状态可见性
+- [缓存布局与数值格式](ficus/kv-cache-ecosystem/02-cache-layout.md) — 页、块、chunk、整序列状态的区别与权威副本位置
+- [键语义与复用契约](ficus/kv-cache-ecosystem/03-key-semantics.md) — 前缀哈希链 vs 内容摘要；精确复用 vs 相似度召回
+- [淘汰、租约与生命周期](ficus/kv-cache-ecosystem/04-eviction-lifecycle.md) — 先说清淘汰的是谁，再比较算法；hybrid recurrent 另算
+- [传输路径](ficus/kv-cache-ecosystem/05-transfer-paths.md) — 缺页调入、工作集切换、chunk 恢复与网络数据面
+- [集成形态与上游最小缺口](ficus/kv-cache-ecosystem/06-integration-and-gaps.md) — 三种集成形态、llama.cpp 缺哪几个原语
+- [对 llama.cpp 三级缓存的落地建议](ficus/kv-cache-ecosystem/07-llamacpp-implications.md) — 能抄什么、不能抄什么，本工作区原型的改造顺序
+- [生态与衍生项目地图](ficus/kv-cache-ecosystem/08-ecosystem-map.md) — 谁被谁接入、哪些仓库已改名或迁移
+- [四家速查档案](ficus/kv-cache-ecosystem/09-project-profiles.md) — 横向速查与一页一家的定位、许可证、关键文件
+- [附录：关键源码位置与测试契约](ficus/kv-cache-ecosystem/appendix-evidence.md) — 每个结论的 file:line 入口与对应测试断言
+- [KV Cache 开源生态四家框架对比](ficus/kv-cache-ecosystem-framework-comparison.md) — Strata、KVMem、LMCache、Mooncake 的层次分工、交换对象与关键取舍，以及生态接入的核验结果。
+- [KV Cache 分层的五条原理](ficus/kv-cache-tiering-principles.md) — 为什么显存装不下就想分层，以及搬不搬、搬多少、何时能省，四家框架的分歧都源于这五条原理。
+- [C++ KV Cache、vLLM 与 SGLang 学习路线](ficus/kv-cache-vllm-sglang-learning.md) — 从实现、索引、调度和指标学习 KV Cache 复用。
+- [KVMem 在 27B Dense 与 MoE 下的上下文、并发与极限思考实测](ficus/kvmem-dense-vs-moe-and-extreme-thinking.md) — 基于自编译 llama-kvmem-server.exe 的 27B Dense vs 35B-A3B MoE 多上下文/并发对比、Nsight MemOps 剖析、256K 极限压力与思考强度测试，以及主机内存变慢与稀疏召回原理。
+- [llama.cpp 的 KV 缓存上游最小缺口](ficus/llamacpp-kv-cache-upstream-gaps.md) — 外部 KV 缓存要落地，llama.cpp 缺哪几个原语，以及哪些改动上游不会要。
+- [AI Infra、KV Cache 与 llama.cpp Prompt Cache 学习地图](ficus/llamacpp-research/ai-infra-kv-cache-llamacpp-learning.md) — 日期：2026-09-02
+- [C++ KV Cache、vLLM 与 SGLang 学习方向](ficus/llamacpp-research/kv-cache-vllm-sglang.md) — Date: 2026-09-02
+- [轻量级真实代码库基准测试选项](ficus/llamacpp-research/lightweight-real-codebase-benchmark-options.md) — 日期：2026-09-01
+- [llama.cpp 架构导读（从一次前向传播看懂整个仓库）](ficus/llamacpp-research/llama-cpp-architecture.md) — ┌─────────────────────────────────────────────────┐
+- [llama.cpp 参数完全指南（小白也能看懂）](ficus/llamacpp-research/llama-cpp-params-guide.md) — 你可以把 llama.cpp 想象成一家“餐厅后厨”：
+- [llama.cpp 完整公共参数注册表](ficus/llamacpp-research/llamacpp-all-parameters-catalog.md) — 版本：`f5e85d43a048f3d5adefb4c5e29867d8077fba62`。本表逐项覆盖 `common/arg.cpp` 的 **357 个注册定义**，共 **551 个不重复命令行拼写**。同名但按工具分别注册的参数保
+- [llama.cpp 在单卡 RTX 5080 上对 Qwen3.8-27B 的缓存基准测试方案](ficus/llamacpp-research/llamacpp-cache-benchmark-plan.md) — 日期：2026-08-29
+- [llama.cpp 缓存基准测试结果：Qwen3.8-27B on 单卡 RTX 5080](ficus/llamacpp-research/llamacpp-cache-benchmark-results.md) — 日期：2026-08-29
+- [7 天读懂 llama.cpp 文件专家缓存](ficus/llamacpp-research/llamacpp-file-expert-7-day-plan.zh-CN.md) — 这是一份配合教程使用的动手学习计划，目标不是背 API，而是做到三件事：
+- [从一次 decode 到 SSD：llama.cpp 文件专家源入门](ficus/llamacpp-research/llamacpp-file-expert-beginner.zh-CN.md) — 这不是一篇“让 llama.cpp 变得更快”的教程，而是一篇解释 **容量路径** 的教程。
+- [llama.cpp 官方基准测试结果](ficus/llamacpp-research/llamacpp-official-bench-results.md) — 日期：2026-09-01
+- [llama.cpp 推理性能参数：源码证据与调参边界](ficus/llamacpp-research/llamacpp-parameter-performance-evidence.md) — 基准版本：本地 `llama.cpp` 的干净 HEAD `f5e85d43a048f3d5adefb4c5e29867d8077fba62`；检查日期 2026-09-22。以下结论绑定这个提交，而不是所有历史版本。此文为参数指南的研究底
+- [llama.cpp 参数说明与性能图解](ficus/llamacpp-research/llamacpp-parameters-handbook.zh-CN.md) — <a id='guide'></a>
+- [llama.cpp 参数说明与性能图解](ficus/llamacpp-research/llamacpp-parameters-performance-guide.md) — 编写日期：2026-09-22～23。核对基线：本工作区 `llama.cpp` 的 **`f5e85d43a048f3d5adefb4c5e29867d8077fba62`**，提交日期 2026-08-28，`b10669-4-gf5e
+- [真实场景 llama.cpp 缓存冒烟测试方案](ficus/llamacpp-research/llamacpp-realistic-cache-smoke-plan.md) — 日期：2026-08-29
+- [llama.cpp 通用 completion 请求参数完整注册表](ficus/llamacpp-research/llamacpp-request-parameters.md) — 版本基线：`f5e85d43a048f3d5adefb4c5e29867d8077fba62`，核对日期 2026-09-22。本表依据 `tools/server/server-schema.cpp` 的 `make_llama_cmpl
+- [llama.cpp Slot、Prompt Cache 与同文档反复提问图解](ficus/llamacpp-research/llamacpp-slot-cache-visual-guide.md) — 日期：2026-09-02
+- [借鉴 Strata 的 llama.cpp 超内存模型推理实现计划](ficus/llamacpp-research/llamacpp-strata-out-of-core-plan-20261109.zh-CN.md) — 日期：2026-11-09。状态：源码调研与实现计划，尚未修改引擎、更新 checkout 或运行新 benchmark。
+- [面向本机 llama.cpp 的工作集驱动多级缓存设计](ficus/llamacpp-research/llamacpp-tiered-cache-design.md) — 日期：2026-09-11。范围：本机 Qwen3.8-27B GGUF、coding-agent / 多会话长前缀复用。本文是设计与容量推导；本轮读取了硬件、GGUF 元数据、历史实测和源码，没有运行新的推理性能测试。
+- [llama.cpp 类三级缓存：收益验证与调度实现](ficus/llamacpp-research/llamacpp-tiered-cache-evaluation-and-implementation.md) — 日期：2026-09-13。本文基于本目录历史实测、本地源码和官方资料制定方案。初稿之后已完成固定前缀状态基准，执行进展见文末；尚未修改推理引擎。
+- [llama.cpp 三级缓存方案：独立第二意见审查](ficus/llamacpp-research/llamacpp-tiered-cache-independent-review.zh-CN.md) — 日期：2026-09-27。审查对象是本目录中主要由另一个模型完成的方案、源码审计与实测（下文统称“原研究”）。本轮只读：没有修改任何已有文件，没有启动 llama-server、GPU 基准或长时间进程。所有结论都重新追到本地源码、本地实
+- [llama.cpp 多级缓存：源码能力与实现边界审计](ficus/llamacpp-research/llamacpp-tiered-cache-source-audit.md) — 审计日期：2026-09-11。仅阅读源码与官方资料，没有修改 llama.cpp，也没有运行推理或性能测试。硬件与工作负载实测由主报告另行核实。
+- [llama.cpp 独立工具参数补编](ficus/llamacpp-research/llamacpp-tool-parameters.md) — 本补编实际核对本地源码 commit `f5e85d43a048f3d5adefb4c5e29867d8077fba62`，涵盖 `llama-bench`、`llama-quantize`、`llama-gguf-split`、`rpc-
+- [llama.cpp 131K TPS 扫描结果](ficus/llamacpp-research/llamacpp_131k_tps_sweep_summary.md) — 日期：2026-09-01 02:15:06
+- [真实场景 llama.cpp 缓存冒烟测试结果](ficus/llamacpp-research/llamacpp_realistic_cache_smoke_summary.md) — 日期：2026-09-01 01:09:45
+- [LMCache 的生产角色及与 llama.cpp 的类比](ficus/llamacpp-research/lmcache-llamacpp-kv-cache.md) — 日期：2026-08-29
+- [Strata 与 llama.cpp 综合源码区别分析](ficus/llamacpp-research/strata-vs-llamacpp-source-analysis-20261112.zh-CN.md) — 分析日期：2026-11-12。本文面向需要阅读、修改推理引擎和评估分层缓存的开发者。范围包括模型加载、执行图、MoE 权重、prefill、KV/会话状态、投机解码、服务调度、后端和本工作区的实验补丁。
+- [Strata 与 llama.cpp 源码区别图解（新手向）](ficus/llamacpp-research/strata-vs-llamacpp-visual-guide.zh-CN.md) — 日期：2026-11-13。定位：从问答看懂计算、权重与状态。
+- [大模型推理入门：Prefill、Decode、TTFT 与 KV Cache](ficus/llm-inference-basics-and-kv-cache.md) — 面向新手的大模型本地推理基础课：讲清楚为什么模型要分两阶段运行、各个速度指标代表什么，以及 KV 缓存为什么会占满显存。
+- [电脑硬件与推理数据流入门：SSD、内存、PCIe 与显存](ficus/memory-hierarchy-and-pcie-offloading.md) — 用厨房类比讲透大模型运行时数据如何从硬盘流向显卡：mmap、缺页中断、Page Cache、PCIe 带宽瓶颈，以及 Nsight Profiling 在看什么。
+- [Dense 稠密模型 vs MoE 专家模型 & 思考强度与投机解码入门](ficus/moe-vs-dense-and-reasoning-models.md) — 新手入门指南：搞懂为什么 35B/120B 的 MoE 模型反而比 27B Dense 跑得快、MoE 缓存命中率怎么影响速度，以及 Thinking 思考强度和 MTP 投机解码的原理。
+- [千问 3.8 的 GDN 与 QSA 混合注意力原理解析](ficus/qwen38-gdn-qsa-hybrid-architecture.md) — 解析 Qwen3.8 3:1 混合架构中 GDN 线性注意力与 QSA 注意力的分工，以及为什么 120B+ MoE 在本地平台上能开比 27B Dense 更大的上下文且保持较高速度。
+- [Strata 与 llama.cpp 多场景实测、Nsight Profiling 与模块学习路线](ficus/strata-vs-llamacpp-profiling-and-scenarios.md) — 基于 RTX 5080 的 Strata 与 llama.cpp 全链路数据流对比、Nsight Systems 显微级 CUDA API/Kernel 差异分析，以及各项目源码测试与学习路线。
+- [LLMWIKI](LLMWIKI.md) — 
+- [SOURCES](SOURCES.md) — 

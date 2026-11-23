@@ -1,0 +1,88 @@
+states:
+  - id: FWUP-WIN-001
+    name: download_chunk_half_written
+    injection_window: power cut while a firmware download chunk is partially written to staging
+    recovery_action: discard incomplete chunk and keep active firmware unchanged
+    persistent_evidence:
+      required: [chunk_crc_if_accepting_chunk]
+      forbidden: [activation_record]
+    expected_result: staging remains incomplete; device boots active slot
+    requirements: [REQ-PROD-001, REQ-PLP-001]
+    tests: [T6-002, T4-004]
+
+  - id: FWUP-WIN-002
+    name: image_verified_before_commit
+    injection_window: power cut after image hash/signature verification but before Firmware Commit record
+    recovery_action: keep image staged but not active; require host commit or policy cleanup
+    persistent_evidence:
+      required: [complete_image_hash, signature_result]
+      forbidden: [pending_slot_commit_marker]
+    expected_result: active slot unchanged; staged image status explainable
+    requirements: [REQ-PROD-001]
+    tests: [T6-002]
+
+  - id: FWUP-WIN-003
+    name: slot_table_half_written
+    injection_window: power cut while pending slot table generation is partially written
+    recovery_action: select highest valid slot table generation and ignore partial update
+    persistent_evidence:
+      required: [slot_table_crc, generation_number]
+      forbidden: [partial_slot_generation_as_authoritative]
+    expected_result: active slot remains deterministic
+    requirements: [REQ-PROD-001, REQ-PLP-001]
+    tests: [T6-002, T4-004]
+
+  - id: FWUP-WIN-004
+    name: activation_record_committed_before_reset
+    injection_window: power cut after activation record commits but before required reset or activation
+    recovery_action: bootloader sees pending activation and either activates pending slot or honors reset-required policy
+    persistent_evidence:
+      required: [activation_record_crc, pending_slot, commit_action]
+      forbidden: []
+    expected_result: pending activation is not lost
+    requirements: [REQ-PROD-001]
+    tests: [T6-002]
+
+  - id: FWUP-WIN-005
+    name: pending_slot_boot_failure
+    injection_window: reset or power loss while pending firmware attempts first boot
+    recovery_action: increment boot failure counter; fallback to previous-good when threshold or self-test failure triggers
+    persistent_evidence:
+      required: [boot_attempt_record, previous_good_slot]
+      forbidden: [mark_good_before_health_gate]
+    expected_result: device boots previous-good or recovery mode; failure reason logged
+    requirements: [REQ-PROD-001]
+    tests: [T6-002, T6-003]
+
+  - id: FWUP-WIN-006
+    name: metadata_migration_half_written
+    injection_window: power cut while new firmware migrates metadata layout
+    recovery_action: replay or roll back migration journal according to migration boundary
+    persistent_evidence:
+      required: [migration_journal_crc, migration_id, layout_version]
+      forbidden: [mixed_layout_without_boundary_record]
+    expected_result: metadata layout is either old-consistent or new-consistent
+    requirements: [REQ-PROD-001, REQ-PLP-001]
+    tests: [T6-002, T4-004]
+
+  - id: FWUP-WIN-007
+    name: new_layout_committed_before_previous_good_update
+    injection_window: power cut after metadata layout commit but before previous-good slot/history update
+    recovery_action: treat rollback eligibility according to committed layout; do not boot old firmware if incompatible
+    persistent_evidence:
+      required: [layout_commit_record, compatibility_manifest]
+      forbidden: [unsafe_previous_good_boot]
+    expected_result: device boots compatible firmware or recovery mode
+    requirements: [REQ-PROD-001]
+    tests: [T6-002]
+
+  - id: FWUP-WIN-008
+    name: rollback_record_half_written
+    injection_window: power cut while rollback reason or target slot record is partially written
+    recovery_action: select slot by valid slot table and boot counters; repair or append rollback event log
+    persistent_evidence:
+      required: [slot_table_crc]
+      forbidden: [partial_rollback_record_as_authoritative]
+    expected_result: rollback decision remains deterministic and auditable
+    requirements: [REQ-PROD-001]
+    tests: [T6-002, T6-003]

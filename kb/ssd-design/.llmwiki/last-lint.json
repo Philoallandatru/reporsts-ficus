@@ -1,0 +1,9 @@
+{
+  "warnings": 95,
+  "errors": 0,
+  "at": "2026-08-16T06:09:40.291Z",
+  "freshness": {
+    "stalePages": 0,
+    "orphanedPages": 0
+  }
+}

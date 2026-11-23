@@ -1,0 +1,6 @@
+Smart Log for NVME device:nvme0 namespace-id:ffffffff
+critical_warning                    : 0
+media_errors                        : 0
+num_err_log_entries                 : 0
+
+sample_note: synthetic nvme-cli stdout for schema validation only

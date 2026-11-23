@@ -1,0 +1,115 @@
+policies:
+  - id: FSCH-POL-001
+    name: read_priority_with_aging
+    category: arbitration
+    objective: prioritize foreground read and read retry while aging writes and GC so they do not starve
+    primary_metrics: [read_p999, write_starvation_count, request_age_max]
+    risks: [gc_starvation, free_block_pressure]
+    requirements: [REQ-QOS-001, REQ-FTL-001]
+    tests: [T5-002, T2-002]
+    profiles:
+      - tests/profiles/fio/mixed-read-write-qos.fio
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: FSCH-POL-002
+    name: background_budgeted_gc_destage
+    category: background-budget
+    objective: bound GC, SLC destage, wear leveling and scrub usage of channel/die resources
+    primary_metrics: [background_budget_debt, gc_duty_cycle, destage_backlog, read_p999]
+    risks: [cache_full_cliff, emergency_gc, read_tail_latency]
+    requirements: [REQ-QOS-001, REQ-PERF-001]
+    tests: [T5-002, T5-003]
+    profiles:
+      - tests/profiles/fio/slc-cache-write-cliff.fio
+      - tests/profiles/fio/mixed-read-write-qos.fio
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/slc-cache-write-cliff-destage.md
+
+  - id: FSCH-POL-003
+    name: die_channel_fairness
+    category: resource-fairness
+    objective: balance busy time and outstanding request depth across channel and die resources
+    primary_metrics: [channel_utilization, die_busy_histogram, queue_depth_per_die]
+    risks: [hot_die_bottleneck, placement_conflict, poor_parallelism]
+    requirements: [REQ-PERF-001, REQ-FTL-001]
+    tests: [T5-001, T2-002]
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/hardware-controller-and-nand.md
+
+  - id: FSCH-POL-004
+    name: program_erase_suspend_for_reads
+    category: suspend-resume
+    objective: allow urgent reads to preempt long program or erase operations when NAND supports safe suspend/resume
+    primary_metrics: [suspend_count, read_p999, resumed_program_failures]
+    risks: [program_disturb, suspend_overuse, timeout_complexity]
+    requirements: [REQ-QOS-001, REQ-REL-001]
+    tests: [T5-002, T3-001]
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/ecc-ldpc-reliability.md
+
+  - id: FSCH-POL-005
+    name: multi_plane_constraint_checker
+    category: plane-arbitration
+    objective: issue multi-plane operations only when address, block state, bad block and metadata constraints match
+    primary_metrics: [multi_plane_success_rate, plane_mismatch_rejections, program_fail_count]
+    risks: [wrong_plane_program, metadata_mismatch, bad_block_pairing]
+    requirements: [REQ-NAND-001, REQ-DATA-001]
+    tests: [T3-004, T2-001]
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/nand-media-parameter-guide.md
+
+  - id: FSCH-POL-006
+    name: ecc_retry_storm_limiter
+    category: reliability-qos
+    objective: limit concurrent read retry or soft decode work so ECC recovery does not starve normal foreground I/O
+    primary_metrics: [ecc_retry_queue_depth, soft_decode_busy_time, read_p999]
+    risks: [uncorrectable_escalation_delay, global_starvation]
+    requirements: [REQ-QOS-001, REQ-REL-002]
+    tests: [T5-004, T3-002]
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/ecc-ldpc-reliability.md
+
+  - id: FSCH-POL-007
+    name: channel_timeout_recovery
+    category: fault-recovery
+    objective: recover or isolate a channel/die timeout without deadlocking the entire controller
+    primary_metrics: [channel_timeout_count, abort_success_count, recovered_requests]
+    risks: [global_controller_hang, duplicate_completion, lost_mapping_update]
+    requirements: [REQ-REL-002, REQ-TEST-001]
+    tests: [T3-002, T7-001]
+    design_pages:
+      - wiki/concepts/flash-scheduler-arbitration.md
+      - wiki/concepts/fault-injection-catalog.md
+
+states:
+  - state: normal_arbitration
+    trigger: all queues within budget and no urgent retry/read
+    behavior: weighted channel/die arbitration with placement awareness
+    tests: [T5-001]
+
+  - state: read_urgent
+    trigger: foreground read age or retry priority exceeds threshold
+    behavior: prioritize read, optionally suspend background program/erase
+    tests: [T5-002]
+
+  - state: background_pressure
+    trigger: gc_destage_or_scrub_budget_debt_exceeds_threshold
+    behavior: increase background budget while preserving read SLA
+    tests: [T5-002, T5-003]
+
+  - state: retry_storm
+    trigger: ecc_retry_queue_depth_or_soft_decode_busy_time_high
+    behavior: limit retry concurrency and reserve resources for normal reads
+    tests: [T5-004]
+
+  - state: channel_fault
+    trigger: channel_timeout_or_die_not_ready
+    behavior: abort, reset or isolate affected resource and report to firmware
+    tests: [T3-002]

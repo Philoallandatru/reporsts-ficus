@@ -1,0 +1,22 @@
+---
+source: "PCI_Firmware_v3.3_20210120_NCB.pdf"
+page: 31
+headings: ["2.9. Return Code List"]
+---
+
+# Source page 31
+
+TRADITIONAL PCI BIOS
+PCI FIRMWARE SPECIFICATION
+REVISION 3.3
+JANUARY 20, 2021  31
+2.9. Return Code List
+Table 2-4:  Return Code List
+Return Codes AH
+SUCCESSFUL 00h
+FUNC_NOT_SUPPORTED 81h
+BAD_VENDOR_ID 83h
+DEVICE_NOT_FOUND 86h
+BAD_REGISTER_NUMBER 87h
+SET_FAILED 88h
+BUFFER_TOO_SMALL 89h

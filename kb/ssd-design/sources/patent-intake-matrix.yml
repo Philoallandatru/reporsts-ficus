@@ -1,0 +1,136 @@
+patents:
+  id: SSD-PATENT-INTAKE-MATRIX
+  title: SSD patent family intake matrix
+  review_date: 2026-08-12
+  purpose:
+    - Turn the patent index into a tracked family intake queue.
+    - Record what each patent family can and cannot support in the knowledge base.
+    - Keep patent family metadata separate from claim language summaries.
+  required_fields:
+    - topic
+    - search_query
+    - assignee_targets
+    - claim_summary_focus
+    - family_count_target
+    - intake_status
+    - related_concepts
+  intake_rules:
+    - Each direction should collect at least five families before being treated as broad coverage.
+    - Patent claim language can inspire design vocabulary, but it does not prove implementation details.
+    - Legal status and validity must not be inferred from the intake matrix.
+  directions:
+    - topic: FTL metadata recovery
+      search_query: '"flash translation layer" "metadata" "power loss"'
+      assignee_targets:
+        - Samsung
+        - Western Digital
+        - Kioxia
+        - Micron
+        - SK hynix
+      claim_summary_focus:
+        - checkpoint
+        - journal
+        - P2L
+        - superblock
+        - mapping rebuild
+      family_count_target: 5
+      intake_status: seed_only
+      related_concepts:
+        - wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+        - wiki/concepts/power-loss-recovery.md
+
+    - topic: PLP backup
+      search_query: '"solid state drive" "power loss protection" volatile memory'
+      assignee_targets:
+        - Samsung
+        - Western Digital
+        - Kioxia
+        - Phison
+        - Silicon Motion
+      claim_summary_focus:
+        - capacitor
+        - flush ordering
+        - read-only fallback
+        - backup window
+      family_count_target: 5
+      intake_status: seed_only
+      related_concepts:
+        - wiki/concepts/power-loss-recovery.md
+        - wiki/concepts/production-requirements-and-compliance.md
+
+    - topic: LDPC soft decoding
+      search_query: '"NAND flash" "LDPC" "soft decoding" "read threshold"'
+      assignee_targets:
+        - Western Digital
+        - Samsung
+        - Micron
+        - SK hynix
+      claim_summary_focus:
+        - LLR
+        - read retry
+        - threshold voltage
+        - hard/soft escalation
+      family_count_target: 5
+      intake_status: seed_only
+      related_concepts:
+        - wiki/concepts/ecc-ldpc-reliability.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+
+    - topic: SLC cache destage
+      search_query: '"solid state drive" "SLC cache" destage'
+      assignee_targets:
+        - Samsung
+        - Western Digital
+        - Micron
+        - Phison
+        - Silicon Motion
+      claim_summary_focus:
+        - cache admission
+        - TLC/QLC fold
+        - write cliff
+        - background destage
+      family_count_target: 5
+      intake_status: seed_only
+      related_concepts:
+        - wiki/concepts/slc-cache-write-cliff-destage.md
+        - wiki/concepts/performance-qos-write-amplification.md
+
+    - topic: Placement and streams
+      search_query: '"NVMe" streams "flash translation layer"'
+      assignee_targets:
+        - Western Digital
+        - Samsung
+        - Kioxia
+        - Meta
+        - Microsoft
+      claim_summary_focus:
+        - stream ID
+        - FDP
+        - ZNS
+        - tenant placement
+        - GC isolation
+      family_count_target: 5
+      intake_status: seed_only
+      related_concepts:
+        - wiki/concepts/fdp-streams-placement-hints.md
+        - wiki/concepts/ssd-verification-matrix.md
+
+    - topic: Controller hardware acceleration
+      search_query: '"SSD controller" "flash translation layer" hardware accelerator'
+      assignee_targets:
+        - Samsung
+        - Kioxia
+        - Western Digital
+        - Marvell
+        - Microchip
+      claim_summary_focus:
+        - DMA
+        - queue manager
+        - address translation engine
+        - ECC offload
+      family_count_target: 5
+      intake_status: seed_only
+      related_concepts:
+        - wiki/concepts/controller-hardware-module-boundaries.md
+        - wiki/concepts/controller-rtl-ip-reference.md
+

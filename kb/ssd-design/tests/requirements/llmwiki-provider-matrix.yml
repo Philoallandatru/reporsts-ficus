@@ -1,0 +1,228 @@
+providers:
+  - id: anthropic
+    default_model: claude-sonnet-4-6
+    provider_route: anthropic-native
+    provider_route_description: native Anthropic API with API key or auth token
+    provider_route_compatible: anthropic-compatible
+    provider_route_description_compatible: MiniMax Anthropic-compatible gateway
+    auth:
+      - ANTHROPIC_API_KEY
+      - ANTHROPIC_AUTH_TOKEN
+    endpoint:
+      default: https://api.anthropic.com
+      compatible_base_url: https://api.minimaxi.com/anthropic
+    notes:
+      - supports Anthropic-compatible gateways through ANTHROPIC_BASE_URL
+      - China-region MiniMax Anthropic-compatible gateway is https://api.minimaxi.com/anthropic
+      - International MiniMax Anthropic-compatible gateway may use https://api.minimax.io/anthropic
+    self_test_status: covered
+    self_test_cases:
+      - name: anthropic missing key
+        env:
+          LLMWIKI_PROVIDER: anthropic
+        expect:
+          provider: anthropic
+          provider_route: anthropic-native
+          provider_route_description: native Anthropic API with API key or auth token
+          provider_route_description_compatible: null
+          ready_for_compile: false
+          missing:
+            - ANTHROPIC_API_KEY or ANTHROPIC_AUTH_TOKEN
+      - name: anthropic native ready
+        env:
+          LLMWIKI_PROVIDER: anthropic
+          ANTHROPIC_API_KEY: test-key
+        expect:
+          provider: anthropic
+          provider_route: anthropic-native
+          provider_route_description: native Anthropic API with API key or auth token
+          provider_route_description_compatible: null
+          ready_for_compile: true
+          missing: []
+      - name: anthropic compatible ready
+        env:
+          LLMWIKI_PROVIDER: anthropic
+          ANTHROPIC_BASE_URL: https://api.minimaxi.com/anthropic
+          ANTHROPIC_API_KEY: test-key
+          LLMWIKI_MODEL: MiniMax-M2.7
+        expect:
+          provider: anthropic
+          model: MiniMax-M2.7
+          provider_route: anthropic-compatible
+          provider_route_description: MiniMax Anthropic-compatible gateway
+          provider_route_description_compatible: MiniMax Anthropic-compatible gateway
+          ready_for_compile: true
+          missing: []
+          notes:
+            - using Anthropic-compatible custom base URL
+      - name: anthropic compatible token ready
+        env:
+          LLMWIKI_PROVIDER: anthropic
+          ANTHROPIC_BASE_URL: https://api.minimaxi.com/anthropic
+          ANTHROPIC_AUTH_TOKEN: test-token
+          LLMWIKI_MODEL: MiniMax-M2.7
+        expect:
+          provider: anthropic
+          model: MiniMax-M2.7
+          provider_route: anthropic-compatible
+          provider_route_description: MiniMax Anthropic-compatible gateway
+          provider_route_description_compatible: MiniMax Anthropic-compatible gateway
+          ready_for_compile: true
+          missing: []
+          notes:
+            - using Anthropic-compatible custom base URL
+
+  - id: claude-agent
+    default_model: claude-sonnet-4-6
+    provider_route: local-claude-code
+    provider_route_description: local Claude Code login
+    auth:
+      - local_claude_code_login
+    endpoint:
+      default: local_claude_code_runtime
+    notes:
+      - compile depends on local Claude Code login rather than an API key
+    self_test_status: covered
+    self_test_cases:
+      - name: claude agent login
+        env:
+          LLMWIKI_PROVIDER: claude-agent
+        expect:
+          provider: claude-agent
+          provider_route: local-claude-code
+          provider_route_description: local Claude Code login
+          ready_for_compile: true
+          missing: []
+          notes:
+            - compile depends on local Claude Code login rather than API key
+
+  - id: openai
+    default_model: gpt-5-mini
+    provider_route: openai-compatible
+    provider_route_description: OpenAI-compatible API key or base URL
+    auth:
+      - OPENAI_API_KEY
+    endpoint:
+      default: https://api.openai.com/v1
+      compatible_base_url: optional
+    notes:
+      - supports OpenAI-compatible custom base URLs
+    self_test_status: covered
+    self_test_cases:
+      - name: openai missing auth
+        env:
+          LLMWIKI_PROVIDER: openai
+        expect:
+          provider: openai
+          provider_route: openai-compatible
+          provider_route_description: OpenAI-compatible API key or base URL
+          ready_for_compile: false
+          missing:
+            - OPENAI_API_KEY
+      - name: openai ready
+        env:
+          LLMWIKI_PROVIDER: openai
+          OPENAI_API_KEY: test-key
+          OPENAI_BASE_URL: https://example.invalid/v1
+        expect:
+          provider: openai
+          provider_route: openai-compatible
+          provider_route_description: OpenAI-compatible API key or base URL
+          ready_for_compile: true
+          missing: []
+          notes:
+            - supports OpenAI-compatible custom base URLs
+            - using OpenAI-compatible custom base URL
+
+  - id: ollama
+    default_model: llama3.1
+    provider_route: local-ollama
+    provider_route_description: local Ollama endpoint
+    auth: []
+    endpoint:
+      default: http://localhost:11434
+    notes:
+      - compile depends on local Ollama reachability
+    self_test_status: documented_only
+    self_test_cases:
+      - name: ollama ready
+        env:
+          LLMWIKI_PROVIDER: ollama
+        expect:
+          provider: ollama
+          provider_route: local-ollama
+          provider_route_description: local Ollama endpoint
+          ready_for_compile: true
+          missing: []
+          notes:
+            - compile depends on local Ollama reachability
+
+  - id: minimax
+    default_model: MiniMax-M2.7
+    provider_route: minimax-native
+    provider_route_description: native MiniMax API key
+    auth:
+      - MINIMAX_API_KEY
+    endpoint:
+      default: https://api.minimax.io/v1
+    notes:
+      - native provider uses llmwiki built-in MiniMax endpoint
+    self_test_status: covered
+    self_test_cases:
+      - name: minimax missing key
+        env:
+          LLMWIKI_PROVIDER: minimax
+        expect:
+          provider: minimax
+          provider_route: minimax-native
+          provider_route_description: native MiniMax API key
+          ready_for_compile: false
+          missing:
+            - MINIMAX_API_KEY
+      - name: minimax ready
+        env:
+          LLMWIKI_PROVIDER: minimax
+          MINIMAX_API_KEY: test-key
+        expect:
+          provider: minimax
+          provider_route: minimax-native
+          provider_route_description: native MiniMax API key
+          ready_for_compile: true
+          missing: []
+          notes:
+            - native provider uses llmwiki built-in MiniMax endpoint
+
+  - id: copilot
+    default_model: gpt-4o
+    provider_route: github-copilot
+    provider_route_description: GitHub Copilot or Claude Code session access
+    auth:
+      - GITHUB_TOKEN
+    endpoint:
+      default: github_copilot_runtime
+    notes:
+      - compile depends on GitHub Copilot or Claude Code session access
+    self_test_status: covered
+    self_test_cases:
+      - name: copilot missing auth
+        env:
+          LLMWIKI_PROVIDER: copilot
+        expect:
+          provider: copilot
+          provider_route: github-copilot
+          provider_route_description: GitHub Copilot or Claude Code session access
+          ready_for_compile: false
+          missing:
+            - GITHUB_TOKEN
+      - name: copilot ready
+        env:
+          LLMWIKI_PROVIDER: copilot
+          GITHUB_TOKEN: test-token
+        expect:
+          provider: copilot
+          provider_route: github-copilot
+          provider_route_description: GitHub Copilot or Claude Code session access
+          ready_for_compile: true
+          missing: []
+          notes:
+            - compile depends on GitHub Copilot or Claude Code session access

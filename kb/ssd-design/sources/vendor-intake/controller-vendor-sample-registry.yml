@@ -1,0 +1,57 @@
+sample_registry:
+  id: CONTROLLER-VENDOR-SAMPLE-REGISTRY
+  title: SSD controller vendor sample intake registry
+  review_date: 2026-08-12
+  purpose:
+    - Collect the first fixed sample intake notes for the controller vendor research stream.
+    - Make it easy to see which vendor families already have a sample record and what remains to be version-pinned.
+    - Tie sample notes back to the extraction matrix and the main public-material intake page.
+  samples:
+    - id: SAMPLE-AMD-PG329-NVMETC
+      vendor: AMD / Xilinx
+      intake_file: sources/vendor-intake/amd-pg329-nvmetc-intake.md
+      official_entry: https://docs.amd.com/r/en-US/pg329-nvme-target-controller
+      status: sample_fixed
+      next_step: Pin the product guide version and capture a downloadable artifact hash if available.
+    - id: SAMPLE-MICROCHIP-FLASHTEC
+      vendor: Microchip
+      intake_file: sources/vendor-intake/microchip-flashtec-nvme-intake.md
+      official_entry: https://www.microchip.com/en-us/products/storage/flashtec-nvme-controllers
+      status: sample_fixed
+      next_step: Add a concrete product brief or PDF version pin when a downloadable artifact is identified.
+    - id: SAMPLE-MARVELL-SSD
+      vendor: Marvell
+      intake_file: sources/vendor-intake/marvell-ssd-controllers-intake.md
+      official_entry: https://www.marvell.com/products/ssd-controllers.html
+      status: sample_fixed
+      next_step: Capture a specific product family brief or data sheet.
+    - id: SAMPLE-SILICONMOTION-SSD
+      vendor: Silicon Motion
+      intake_file: sources/vendor-intake/silicon-motion-ssd-controller-intake.md
+      official_entry: https://www.siliconmotion.com/products/client/detail
+      status: sample_fixed
+      next_step: Pin the product page snapshot or a product brief PDF for the controller family.
+    - id: SAMPLE-PHISON-SSD
+      vendor: Phison
+      intake_file: sources/vendor-intake/phison-ssd-controller-intake.md
+      official_entry: https://www.phison.com/solutions/ssd/
+      status: sample_fixed
+      next_step: Pin a specific controller family brief, especially E28 or E31T.
+    - id: SAMPLE-INNOGRIT-SSD
+      vendor: InnoGrit
+      intake_file: sources/vendor-intake/innogrit-ssd-controller-intake.md
+      official_entry: https://www.innogritcorp.com/
+      status: sample_fixed
+      next_step: Pin IG5222 and IG5636 product briefs or downloadable PDFs.
+    - id: SAMPLE-MAXIO-SSD
+      vendor: Maxio
+      intake_file: sources/vendor-intake/maxio-ssd-controller-intake.md
+      official_entry: https://www.maxio-tech.com/product/
+      status: sample_fixed
+      next_step: Pin the relevant PCIe / SATA controller product pages and any downloadable brief.
+  related_assets:
+    - sources/vendor-intake/controller-vendor-public-materials.md
+    - sources/vendor-intake/controller-vendor-extraction-matrix.yml
+    - sources/source-catalog.md
+    - sources/research-source-catalog.md
+    - VERSIONED_SOURCES.md

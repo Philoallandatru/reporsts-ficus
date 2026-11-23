@@ -1,0 +1,121 @@
+nvme_cli_output_field_map:
+  id: NVME-CLI-OUTPUT-FIELD-MAP
+  title: nvme-cli output field map for host command evidence
+  query_date: 2026-08-12
+  purpose:
+    - Define which parsed nvme-cli output fields may appear in host_command_event.observed_fields.
+    - Bind observed fields to command-map entries, tests, requirements and specification topic locators.
+    - Keep synthetic sample fields separate from reviewed specification field extracts.
+  related_assets:
+    - tests/requirements/nvme-command-spec-map.yml
+    - tests/requirements/verification-evidence-schema.yml
+    - tests/evidence/sample-nvme-cli-readonly-pass.jsonl
+    - tests/evidence/raw/sample-nvme-cli-id-ctrl.txt
+    - tests/evidence/raw/sample-nvme-cli-smart-log.txt
+    - sources/pdf-topic-locator.yml
+  field_sources:
+    - id: nvme_id_ctrl
+      command_map_id: NVME-CMD-ID-CTRL
+      parser_scope: read_only_controller_identity
+      raw_stdout_example: tests/evidence/raw/sample-nvme-cli-id-ctrl.txt
+    - id: nvme_smart_log
+      command_map_id: NVME-CMD-SMART-LOG
+      parser_scope: read_only_health_and_error_counters
+      raw_stdout_example: tests/evidence/raw/sample-nvme-cli-smart-log.txt
+  fields:
+    - id: vid
+      command_map_id: NVME-CMD-ID-CTRL
+      source_command: nvme id-ctrl /dev/nvmeX
+      value_kind: hex_string
+      sample_value: "0x1d1d"
+      evidence_use:
+        - controller_identify_data_returned
+      tests: [T0-001]
+      requirements: [REQ-NVME-001]
+      spec_topics: [identify-controller]
+      spec_artifacts: [ART-NVME-BASE-2-4]
+      review_status: sample_field_only
+
+    - id: mn
+      command_map_id: NVME-CMD-ID-CTRL
+      source_command: nvme id-ctrl /dev/nvmeX
+      value_kind: string
+      sample_value: Sample NVMe Controller
+      evidence_use:
+        - controller_identify_data_returned
+      tests: [T0-001]
+      requirements: [REQ-NVME-001]
+      spec_topics: [identify-controller]
+      spec_artifacts: [ART-NVME-BASE-2-4]
+      review_status: sample_field_only
+
+    - id: fr
+      command_map_id: NVME-CMD-ID-CTRL
+      source_command: nvme id-ctrl /dev/nvmeX
+      value_kind: string
+      sample_value: sample-fw
+      evidence_use:
+        - firmware_revision_visible
+      tests: [T0-001, T6-002]
+      requirements: [REQ-NVME-001, REQ-PROD-001]
+      spec_topics: [identify-controller, firmware-commit]
+      spec_artifacts: [ART-NVME-BASE-2-4]
+      review_status: sample_field_only
+
+    - id: oacs
+      command_map_id: NVME-CMD-ID-CTRL
+      source_command: nvme id-ctrl /dev/nvmeX
+      value_kind: hex_bitmask
+      sample_value: "0x0017"
+      evidence_use:
+        - optional_feature_bits_recorded
+      tests: [T0-001, T6-002]
+      requirements: [REQ-NVME-001, REQ-PROD-001]
+      spec_topics: [identify-controller, firmware-commit, sanitize]
+      spec_artifacts: [ART-NVME-BASE-2-4, ART-NVME-NVM-1-3]
+      review_status: sample_field_only
+
+    - id: critical_warning
+      command_map_id: NVME-CMD-SMART-LOG
+      source_command: nvme smart-log /dev/nvmeX
+      value_kind: integer
+      sample_value: 0
+      evidence_use:
+        - health_counters_returned
+      tests: [T6-001]
+      requirements: [REQ-PROD-001]
+      spec_topics: [telemetry]
+      spec_artifacts: [ART-NVME-BASE-2-4]
+      review_status: sample_field_only
+
+    - id: media_errors
+      command_map_id: NVME-CMD-SMART-LOG
+      source_command: nvme smart-log /dev/nvmeX
+      value_kind: integer
+      sample_value: 0
+      evidence_use:
+        - media_error_counters_recorded
+      tests: [T6-001, T6-003]
+      requirements: [REQ-PROD-001]
+      spec_topics: [telemetry]
+      spec_artifacts: [ART-NVME-BASE-2-4, ART-NVME-MI-2-2]
+      review_status: sample_field_only
+
+    - id: num_err_log_entries
+      command_map_id: NVME-CMD-SMART-LOG
+      source_command: nvme smart-log /dev/nvmeX
+      value_kind: integer
+      sample_value: 0
+      evidence_use:
+        - media_error_counters_recorded
+      tests: [T6-001, T6-003]
+      requirements: [REQ-PROD-001]
+      spec_topics: [telemetry]
+      spec_artifacts: [ART-NVME-BASE-2-4]
+      review_status: sample_field_only
+  planned_fields:
+    - id_ns_capacity_and_lba_format
+    - error_log_status_code_and_sqid
+    - firmware_slot_and_revision_history
+    - sanitize_status_and_progress
+    - format_lba_format_and_metadata_settings

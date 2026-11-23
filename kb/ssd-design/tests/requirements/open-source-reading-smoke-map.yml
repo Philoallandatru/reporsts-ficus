@@ -1,0 +1,156 @@
+matrix:
+  id: OPEN-SOURCE-READING-SMOKE-MAP
+  title: Reading-to-smoke-test map for SSD/NVMe open-source implementation references
+  review_date: 2026-08-12
+  purpose:
+    - Connect reading focus in the source-code guide to local reproducibility checkpoints.
+    - Keep host-stack, emulator, simulator and FPGA references distinct.
+    - Give each reference a minimal next step that can be converted into a smoke test or indexing task.
+  design_pages:
+    - wiki/concepts/opensource-implementation-index.md
+    - wiki/concepts/source-code-reading-guide.md
+    - wiki/concepts/verification-and-emulation.md
+    - wiki/concepts/ssd-verification-matrix.md
+  references:
+    - id: SRC-COSMOS
+      focus:
+        - firmware request lifecycle
+        - buffer management
+        - NAND request scheduler
+        - GreedyFTL
+      smoke_goal:
+        - record checkout path
+        - identify scheduler, buffer manager and FTL entry files
+        - document board-dependent build availability
+      follow_up_concepts:
+        - wiki/concepts/controller-hardware-module-boundaries.md
+        - wiki/concepts/nvme-command-lifecycle-in-ssd.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+
+    - id: SRC-FEMU
+      focus:
+        - NVMe device emulation
+        - BlackBox/WhiteBox/OpenChannel/ZNS modes
+        - timing model
+        - host stack interaction
+      smoke_goal:
+        - boot a minimal VM with a FEMU NVMe device
+        - run nvme list and nvme id-ctrl in the guest
+        - capture emulator logs
+      follow_up_concepts:
+        - wiki/concepts/verification-and-emulation.md
+        - tests/requirements/emulator-hook-matrix.yml
+        - tests/evidence/sample-plp-pass.jsonl
+
+    - id: SRC-SIMPLESSD
+      focus:
+        - controller/FTL/PAL layering
+        - NAND timing configuration
+        - address translation
+        - latency model
+      smoke_goal:
+        - build the simulator
+        - run the smallest included example or config
+        - emit controller, FTL and PAL statistics
+      follow_up_concepts:
+        - wiki/concepts/nand-media-parameter-guide.md
+        - wiki/concepts/ftl-page-mapping.md
+        - wiki/concepts/gc-wear-leveling-policy.md
+
+    - id: SRC-MQSIM
+      focus:
+        - SSD configuration
+        - channel/package/die/plane model
+        - transaction scheduling
+        - steady-state latency
+      smoke_goal:
+        - build the simulator
+        - run one sample SSD configuration and workload
+        - capture response-time, bandwidth and queue statistics
+      follow_up_concepts:
+        - wiki/concepts/performance-qos-write-amplification.md
+        - wiki/concepts/flash-scheduler-arbitration.md
+        - tests/profiles/fio/steady-state-randwrite.fio
+
+    - id: SRC-SPDK
+      focus:
+        - lib/nvme queue pairs and polling
+        - bdev layer
+        - lib/ftl metadata and relocation
+        - recovery logic
+      smoke_goal:
+        - build SPDK
+        - run unit tests or an nvme identify example against a safe backend
+        - keep production NVMe namespaces untouched
+      follow_up_concepts:
+        - wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+        - wiki/concepts/power-loss-recovery.md
+        - wiki/concepts/source-code-reading-guide.md
+
+    - id: SRC-LINUX-NVME
+      focus:
+        - PCI host driver lifecycle
+        - controller reset and queue setup
+        - namespace scan
+        - NVMe target and endpoint behavior
+      smoke_goal:
+        - index drivers/nvme at the pinned commit
+        - record host, core, target and fabrics entry files
+        - note doc-build limitation or success
+      follow_up_concepts:
+        - wiki/concepts/nvme-command-lifecycle-in-ssd.md
+        - wiki/concepts/production-requirements-and-compliance.md
+        - tests/profiles/nvme-cli/basic-admin-commands.md
+
+    - id: SRC-NVME-CLI
+      focus:
+        - identify
+        - log pages
+        - firmware download/commit
+        - format/sanitize/self-test
+      smoke_goal:
+        - build nvme-cli
+        - run nvme --version and nvme help
+        - run identify only against an emulator or test namespace
+      follow_up_concepts:
+        - tests/profiles/nvme-cli/basic-admin-commands.md
+        - wiki/concepts/firmware-update-rollback.md
+
+    - id: SRC-LIBNVME
+      focus:
+        - NVMe command helpers
+        - identify/log structure definitions
+        - status and feature helper APIs
+      smoke_goal:
+        - build libnvme
+        - run available tests or a minimal include/link smoke program
+        - confirm identify/log structures are exposed
+      follow_up_concepts:
+        - tests/requirements/verification-evidence-schema.yml
+        - tests/profiles/nvme-cli/basic-admin-commands.md
+
+    - id: SRC-OPENCHANNEL-QEMU
+      focus:
+        - open-channel geometry
+        - host-managed FTL boundary
+        - legacy NVMe emulation
+      smoke_goal:
+        - checkout the pinned commit
+        - index open-channel geometry and device model files
+        - build only if legacy dependencies are readily available
+      follow_up_concepts:
+        - wiki/concepts/fdp-streams-placement-hints.md
+        - wiki/concepts/opensource-implementation-index.md
+
+    - id: SRC-FLASHSIM-FORK
+      focus:
+        - legacy FTL simulation structure
+        - DFTL / FAST-era model context
+      smoke_goal:
+        - checkout the accessible fork
+        - locate simulator entry points and FTL mapping examples
+        - build only if dependencies are low risk
+      follow_up_concepts:
+        - wiki/concepts/ftl-dftl-demand-based-mapping.md
+        - BIBLIOGRAPHY.md
+

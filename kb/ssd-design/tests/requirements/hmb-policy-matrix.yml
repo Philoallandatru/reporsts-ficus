@@ -1,0 +1,100 @@
+policies:
+  - id: HMB-POL-001
+    name: clean_mapping_cache_only
+    category: mapping-cache
+    objective: store only clean and reconstructable L2P or translation page cache entries in HMB
+    primary_metrics: [hmb_hit_rate, mapping_miss_latency, stale_entry_rejections]
+    risks: [stale_mapping, trusting_host_memory_after_reset]
+    requirements: [REQ-FTL-001, REQ-DATA-001]
+    tests: [T2-001, T2-002]
+    design_pages:
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/ftl-dftl-demand-based-mapping.md
+
+  - id: HMB-POL-002
+    name: dirty_mapping_journal_before_completion
+    category: persistence
+    objective: prevent dirty mapping deltas from existing only in HMB when host-visible persistence is required
+    primary_metrics: [dirty_hmb_entries, journal_commit_latency, flush_latency]
+    risks: [lost_completed_write, flush_fua_violation]
+    requirements: [REQ-DATA-002, REQ-PLP-001, REQ-FTL-001]
+    tests: [T2-004, T4-003]
+    design_pages:
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/power-loss-recovery.md
+
+  - id: HMB-POL-003
+    name: descriptor_validation_and_dma_fault_fallback
+    category: host-interface
+    objective: validate HMB descriptors and fall back safely when DMA faults or descriptors are revoked
+    primary_metrics: [hmb_dma_faults, fallback_to_nand_reads, invalid_descriptor_rejections]
+    risks: [host_memory_corruption, device_timeout, wrong_data_returned]
+    requirements: [REQ-NVME-002, REQ-QOS-001]
+    tests: [T1-003, T5-002]
+    design_pages:
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/nvme-command-lifecycle-in-ssd.md
+
+  - id: HMB-POL-004
+    name: reset_generation_invalidation
+    category: reset-recovery
+    objective: discard HMB cache state on controller reset, FLR, disable-enable and power loss unless revalidated
+    primary_metrics: [hmb_generation, reset_rebuild_time, stale_generation_drops]
+    risks: [stale_descriptor_reuse, stale_mapping_after_reset]
+    requirements: [REQ-NVME-001, REQ-PLP-001]
+    tests: [T1-001, T1-004, T4-004]
+    design_pages:
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/power-loss-recovery.md
+
+  - id: HMB-POL-005
+    name: miss_storm_qos_budget
+    category: qos
+    objective: limit translation page reads caused by HMB miss storms so foreground reads are not starved
+    primary_metrics: [hmb_miss_rate, translation_page_reads, read_p999, mapping_request_queue_depth]
+    risks: [read_tail_latency, gc_mapping_contention, queue_starvation]
+    requirements: [REQ-QOS-001, REQ-PERF-001]
+    tests: [T5-002, T5-001]
+    profiles:
+      - tests/profiles/fio/hmb-mapping-miss-storm.fio
+    design_pages:
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/performance-qos-write-amplification.md
+
+  - id: HMB-POL-006
+    name: namespace_tenant_cache_tags
+    category: security-isolation
+    objective: tag HMB entries with namespace, tenant or controller generation to prevent cross-context leakage
+    primary_metrics: [tag_mismatch_drops, namespace_cache_flushes, hmb_reuse_events]
+    risks: [cross_namespace_data_leak, stale_read_cache]
+    requirements: [REQ-PROD-001, REQ-DATA-001]
+    tests: [T6-003, T2-001]
+    design_pages:
+      - wiki/concepts/dram-less-hmb-ssd.md
+      - wiki/concepts/production-requirements-and-compliance.md
+
+states:
+  - state: hmb_disabled
+    trigger: host has not enabled HMB or descriptors invalid
+    behavior: use SRAM plus NAND translation pages only
+    tests: [T5-001]
+
+  - state: hmb_enabled_clean
+    trigger: descriptors valid and cache contains clean reconstructable entries
+    behavior: serve mapping hits from HMB with version checks
+    tests: [T2-001, T5-001]
+
+  - state: hmb_miss_pressure
+    trigger: hmb_miss_rate or mapping queue depth exceeds threshold
+    behavior: throttle prefetch, prioritize foreground reads and schedule translation page reads
+    tests: [T5-002]
+
+  - state: hmb_faulted
+    trigger: DMA fault, descriptor revoke or reset event
+    behavior: stop HMB DMA, drop cache generation and fall back to SRAM/NAND
+    tests: [T1-003, T1-004]
+
+  - state: recovery_rebuild
+    trigger: power loss or controller boot
+    behavior: ignore HMB contents and rebuild authoritative mapping from persistent metadata
+    tests: [T4-004]

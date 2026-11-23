@@ -1,0 +1,16 @@
+[global]
+filename=/dev/nvmeXnY
+direct=1
+ioengine=libaio
+time_based=0
+verify=crc32c
+verify_fatal=1
+group_reporting=1
+
+[write_verify_1g]
+rw=randwrite
+bs=4k
+iodepth=16
+numjobs=1
+size=1g
+do_verify=1

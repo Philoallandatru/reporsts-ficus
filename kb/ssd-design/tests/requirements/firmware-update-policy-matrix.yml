@@ -1,0 +1,81 @@
+policies:
+  - id: FW-POL-001
+    name: signed_image_staging
+    category: image-integrity
+    objective: stage firmware image chunks without changing active firmware until full hash/signature and manifest validation pass
+    primary_metrics: [staged_bytes, chunk_crc_failures, signature_failures]
+    risks: [partial_image_acceptance, wrong_sku_image]
+    requirements: [REQ-PROD-001]
+    tests: [T6-002]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+
+  - id: FW-POL-002
+    name: atomic_slot_commit
+    category: slot-management
+    objective: switch pending firmware slot using generationed slot table and activation record
+    primary_metrics: [slot_generation, pending_activation_count, activation_failures]
+    risks: [slot_table_corruption, lost_pending_activation]
+    requirements: [REQ-PROD-001, REQ-PLP-001]
+    tests: [T6-002, T4-004]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+      - wiki/concepts/power-loss-recovery.md
+
+  - id: FW-POL-003
+    name: metadata_compatibility_gate
+    category: metadata-compatibility
+    objective: reject or stage updates whose firmware metadata manifest is incompatible with current on-media layout
+    primary_metrics: [metadata_layout_version, migration_required, rejected_incompatible_images]
+    risks: [unbootable_namespace, unsafe_rollback]
+    requirements: [REQ-PROD-001, REQ-PLP-001]
+    tests: [T6-002]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+      - wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+
+  - id: FW-POL-004
+    name: migration_journal
+    category: metadata-migration
+    objective: make one-way or multi-step metadata layout migration replayable, abortable or explicitly committed
+    primary_metrics: [migration_progress, migration_replay_count, layout_commit_record]
+    risks: [mixed_layout, rollback_after_one_way_migration, long_boot_time]
+    requirements: [REQ-PROD-001, REQ-PLP-001]
+    tests: [T6-002, T4-004]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+      - wiki/concepts/power-loss-recovery.md
+
+  - id: FW-POL-005
+    name: previous_good_rollback
+    category: rollback
+    objective: automatically or explicitly return to previous-good firmware when pending firmware fails health gate
+    primary_metrics: [boot_failure_count, rollback_count, rollback_reason]
+    risks: [panic_loop, rollback_to_incompatible_layout, lost_event_log]
+    requirements: [REQ-PROD-001]
+    tests: [T6-002, T6-003]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+
+  - id: FW-POL-006
+    name: anti_rollback_security_version
+    category: security
+    objective: enforce signed firmware and security version policy without blocking documented recovery paths
+    primary_metrics: [security_version, downgrade_rejections, recovery_mode_entries]
+    risks: [field_recovery_blocked, insecure_downgrade]
+    requirements: [REQ-PROD-001]
+    tests: [T6-002, T6-003]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+
+  - id: FW-POL-007
+    name: update_observability
+    category: telemetry
+    objective: expose firmware update history, active slot, previous-good slot, migration status and failure reason
+    primary_metrics: [firmware_history_entries, persistent_event_log_entries, migration_status]
+    risks: [field_failure_without_root_cause, ambiguous_active_version]
+    requirements: [REQ-PROD-001]
+    tests: [T6-001, T6-002, T6-003]
+    design_pages:
+      - wiki/concepts/firmware-update-rollback.md
+      - wiki/concepts/production-requirements-and-compliance.md

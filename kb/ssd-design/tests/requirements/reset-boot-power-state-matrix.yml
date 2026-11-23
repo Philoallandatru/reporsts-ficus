@@ -1,0 +1,108 @@
+matrix:
+  id: RESET-BOOT-POWER-STATE-MATRIX
+  title: Reset, boot and power-state boundary matrix for SSD design verification assets
+  review_date: 2026-08-12
+  purpose:
+    - Keep controller reset, FLR, PERST#, power cycle, shutdown and firmware activation separate.
+    - Provide a machine-readable reference for host-interoperability and recovery-oriented tests.
+    - Tie platform compatibility behavior to observable boot and power-transition fields.
+  design_pages:
+    - wiki/concepts/reset-boot-power-state.md
+    - wiki/concepts/platform-compatibility-security.md
+    - wiki/concepts/nvme-register-queue-state.md
+    - wiki/concepts/firmware-update-rollback.md
+    - wiki/concepts/power-loss-recovery.md
+  states:
+    - id: BOOT-STATE-001
+      name: cold_boot
+      trigger: power on after true power loss
+      expected_behavior:
+        - rebuild host-visible register state from scratch
+        - recover authoritative metadata before ready
+        - mark reset_reason as power_loss or equivalent
+      observability:
+        - boot_generation
+        - reset_reason
+        - init_stage
+        - firmware_slot_active
+      related_tests: [T1-001, T4-004, T6-001]
+
+    - id: BOOT-STATE-002
+      name: warm_reset
+      trigger: controller reset or driver reload
+      expected_behavior:
+        - clear volatile queue and command context
+        - preserve non-volatile metadata and valid slot table state
+        - make reset completion visible before I/O resume
+      observability:
+        - reset_reason
+        - queue_recovery_state
+        - firmware_slot_active
+        - event_log_tail
+      related_tests: [T1-001, T1-002, T1-004]
+
+    - id: BOOT-STATE-003
+      name: function_level_reset
+      trigger: FLR from host or platform
+      expected_behavior:
+        - isolate function-scoped state from shared subsystem state
+        - rebuild queue manager without cross-function contamination
+        - keep power-loss recovery metadata intact
+      observability:
+        - reset_reason
+        - queue_recovery_state
+        - boot_generation
+      related_tests: [T1-004, T6-001]
+
+    - id: BOOT-STATE-004
+      name: low_power_transition
+      trigger: idle, standby or shutdown preparation
+      expected_behavior:
+        - record power_transition_reason
+        - preserve the recovery contract for outstanding writes
+        - stop background work that cannot survive the transition
+      observability:
+        - power_transition_reason
+        - queue_recovery_state
+        - event_log_tail
+      related_tests: [T1-001, T4-003, T6-001]
+
+    - id: BOOT-STATE-005
+      name: firmware_activation_boot
+      trigger: first boot after commit or activation request
+      expected_behavior:
+        - choose active, pending or previous-good slot deterministically
+        - reject unhealthy or incompatible images
+        - expose rollback outcome in telemetry
+      observability:
+        - firmware_slot_active
+        - firmware_slot_pending
+        - boot_generation
+        - event_log_tail
+      related_tests: [T6-002, T6-003]
+
+  scenarios:
+    - id: SCN-WIN-001
+      name: uefi_early_enumeration
+      platform: UEFI
+      focus: identify and controller-ready timing
+      pass_condition:
+        - device enumerates with stable host-visible register behavior
+        - no stale queue or HMB state is reused
+
+    - id: SCN-WIN-002
+      name: windows_power_resume
+      platform: Windows
+      focus: power management and queue reconstruction
+      pass_condition:
+        - resume path exposes an explicit and explainable power-transition result
+        - queue recovery state is rebuilt before I/O resumes
+
+    - id: SCN-WIN-003
+      name: hotplug_or_external_box_reset
+      platform: Linux or Windows
+      focus: link retrain and device rediscovery
+      pass_condition:
+        - reset timing is visible and deterministic enough for field diagnosis
+        - event log records the most recent reset or power event
+

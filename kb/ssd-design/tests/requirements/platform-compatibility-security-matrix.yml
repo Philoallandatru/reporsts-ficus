@@ -1,0 +1,93 @@
+matrix:
+  id: PLATFORM-COMPATIBILITY-SECURITY-MATRIX
+  title: Platform compatibility and security-erase boundary matrix for SSD design verification assets
+  review_date: 2026-08-12
+  purpose:
+    - Keep BIOS/UEFI, Linux, Windows, hot-plug and external enclosure behavior separate.
+    - Define observable security-erase and firmware-signing expectations in a machine-readable way.
+    - Tie platform semantics to reset, power-state and telemetry fields.
+  design_pages:
+    - wiki/concepts/platform-compatibility-security.md
+    - wiki/concepts/reset-boot-power-state.md
+    - wiki/concepts/production-requirements-and-compliance.md
+    - wiki/concepts/telemetry-logging-field-debug.md
+    - wiki/concepts/firmware-update-rollback.md
+  scenarios:
+    - id: PCLS-001
+      name: bios_uefi_enumeration
+      platform: UEFI
+      focus: early enumeration and controller-ready timing
+      expected_behavior:
+        - device enumerates with stable identify and queue setup behavior
+        - boot path does not depend on stale HMB or volatile mapping state
+      observability:
+        - boot_generation
+        - reset_reason
+        - init_stage
+      related_tests: [T1-001, T6-001]
+
+    - id: PCLS-002
+      name: windows_driver_and_resume
+      platform: Windows
+      focus: driver load, power management and resume behavior
+      expected_behavior:
+        - driver can rebuild queue state after reset or sleep resume
+        - power-state transition is explicit and explainable
+      observability:
+        - power_transition_reason
+        - queue_recovery_state
+        - event_log_tail
+      related_tests: [T1-001, T1-004, T6-001]
+
+    - id: PCLS-003
+      name: linux_interop_reset_and_sanitize
+      platform: Linux
+      focus: reset, sanitize, multipath and log visibility
+      expected_behavior:
+        - reset and sanitize results are consistent with NVMe semantics
+        - event log records the most recent maintenance action
+      observability:
+        - reset_reason
+        - event_log_tail
+        - firmware_slot_active
+      related_tests: [T1-001, T6-001, T6-003]
+
+    - id: PCLS-004
+      name: hotplug_and_external_enclosure
+      platform: Hot-plug / external enclosure
+      focus: link retrain, power ramp and rediscovery
+      expected_behavior:
+        - device can be rediscovered after link or power disturbance
+        - reset timing is visible enough for field diagnosis
+      observability:
+        - reset_reason
+        - boot_generation
+        - event_log_tail
+      related_tests: [T1-004, T6-001]
+
+    - id: PCLS-005
+      name: secure_erase_and_crypto_erase
+      platform: Host tool / management path
+      focus: format, sanitize, crypto erase and key-destroy semantics
+      expected_behavior:
+        - data destruction action has a clear completion or failure signal
+        - secure erase does not rely on weak volatile state clearing
+        - firmware signing and recovery slots remain policy-consistent
+      observability:
+        - event_log_tail
+        - firmware_slot_active
+        - firmware_slot_pending
+      related_tests: [T6-002, T6-003]
+
+    - id: PCLS-006
+      name: tcg_opal_policy
+      platform: TCG / Opal capable device
+      focus: key management and erase policy
+      expected_behavior:
+        - key discard or policy change is reflected in observable state
+        - recovery and rollback paths remain defined
+      observability:
+        - event_log_tail
+        - boot_generation
+      related_tests: [T6-002, T6-003]
+

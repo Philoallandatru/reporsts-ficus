@@ -1,0 +1,117 @@
+---
+type: concept
+x-llmwiki:
+  schemaVersion: "0.1"
+  contentHash: c72980315eb1af7c3e4544e9fcc3d60854478d3aa503f58b2adb9031cce4fa0f
+  pageDirectory: concepts
+  sources:
+    - nvme-controller.md
+  confidence: 0.95
+  provenanceState: extracted
+  freshnessStatus: fresh
+  aliases:
+    - nvme-控制器
+  citations:
+    - file: nvme-controller.md
+      start: 3
+      end: 3
+    - file: nvme-controller.md
+      start: 7
+      end: 13
+    - file: nvme-controller.md
+      start: 15
+      end: 19
+    - file: nvme-controller.md
+      start: 21
+      end: 29
+    - file: nvme-controller.md
+      start: 31
+      end: 42
+    - file: nvme-controller.md
+      start: 48
+      end: 57
+    - file: nvme-controller.md
+      start: 59
+      end: 61
+title: NVMe 控制器
+description: 主机访问 NVM 子系统的服务窗口，负责从提交队列取命令、协调数据访问并放入完成队列
+tags:
+  - NVMe
+  - 存储架构
+  - 控制器
+timestamp: "2026-08-16T06:22:08.947Z"
+---
+
+# NVMe 控制器
+
+NVMe 控制器是主机进入 NVM 子系统的“服务窗口”。它从主机提交的队列中取命令，协调数据访问，再把结果放入完成队列；主机不会直接操作底层闪存。^[nvme-controller.md:3]
+
+## 工作原理
+
+一次典型的读操作流程如下：
+
+```
+主机应用 --> 驱动 --> 提交队列 --> 控制器 --> [[命名空间|命名空间]]/存储资源
+                                   |
+                                   +--> 完成队列 --> 驱动 --> 应用
+```
+
+控制器负责命令处理和队列协作；[命名空间](/concepts/命名空间.md)才是主机读写的逻辑存储对象。^[nvme-controller.md:7-13]
+
+### 写入示例
+
+以数据库写入为例：NVMe 驱动将命令放入提交队列并通知控制器；控制器执行后写入完成队列。驱动通过命令 ID 找到原请求，再通知数据库“写入已完成”。因此，“控制器很快”并不仅是介质快，它还要能正确管理并行队列、命令状态和完成通知。^[nvme-controller.md:15-19]
+
+## 控制器的三种角色
+
+| 类型 | 功能 | 能否处理用户 I/O |
+|------|------|------------------|
+| I/O 控制器 | 访问命名空间，也可承担管理工作 | 可以 |
+| [发现控制器](/concepts/发现控制器.md) | 帮助主机在 Fabrics 环境中发现服务 | 不可以 |
+| 管理控制器 | 管理命名空间、虚拟化、健康或子系统操作 | 不可以 |
+
+三种控制器都需要一对管理队列。控制器通过 Identify [Controller](/concepts/controller.md) 数据结构的 `CNTRLTYPE` 报告类型。^[nvme-controller.md:21-29]
+
+## [静态与动态控制器](/concepts/静态与动态控制器.md)
+
+控制器的分配模型决定了连接断开后的状态保留方式：
+
+- **静态控制器**：固定 ID，保存的配置可在控制器级重置后保留。典型于 PCIe 接口（基于内存）。
+- **动态控制器**：按需分配，新的会话从没有历史状态开始。常见于 Fabrics 环境（基于消息），发现控制器也采用动态方式。
+
+动态并不表示性能更差，而是表示连接生命周期与状态保留方式不同。^[nvme-controller.md:31-42]
+
+## 分类维度
+
+评估 NVMe 控制器时，需要从四个维度综合考量：
+
+| 维度 | 可选值 | 回答的问题 |
+|------|--------|------------|
+| 传输模型 | 基于内存 / 基于消息 | 命令和数据怎样传递？ |
+| 分配模型 | 静态 / 动态 | 控制器何时创建、状态是否保留？ |
+| 功能角色 | I/O / 发现 / 管理 | 它能提供什么服务？ |
+| 资源角色 | 主控制器 / 从属控制器 | 虚拟化资源怎样管理？ |
+
+例如，“使用 PCIe 的静态 I/O 控制器”同时占据了前三个维度，并不是一个新的单独类型。^[nvme-controller.md:48-57]
+
+## 进阶说明
+
+管理控制器可以管理子系统级对象，甚至可以存在于没有命名空间或非易失性介质的子系统中。主从控制器则是虚拟化资源管理维度：从属控制器依赖主控制器管理虚拟队列和虚拟中断资源。^[nvme-controller.md:59-61]
+
+## Sources
+
+- [控制器、队列与命令处理，PDF 第 29 页](../_source/pages/page-029.md)
+- [静态与动态控制器，PDF 第 58 页](../_source/pages/page-058.md)
+- [控制器类型与管理队列，PDF 第 59-62 页](../_source/pages/page-059.md)
+- [控制器类型和资源管理术语，PDF 第 28-35 页](../_source/pages/page-028.md)
+- [控制器与资源管理，PDF 第 34-35 页](../_source/pages/page-034.md)
+
+# Citations
+
+1. [nvme-controller.md:3-3](/references/nvme-controller-f4073d6a.md)
+2. [nvme-controller.md:7-13](/references/nvme-controller-f4073d6a.md)
+3. [nvme-controller.md:15-19](/references/nvme-controller-f4073d6a.md)
+4. [nvme-controller.md:21-29](/references/nvme-controller-f4073d6a.md)
+5. [nvme-controller.md:31-42](/references/nvme-controller-f4073d6a.md)
+6. [nvme-controller.md:48-57](/references/nvme-controller-f4073d6a.md)
+7. [nvme-controller.md:59-61](/references/nvme-controller-f4073d6a.md)

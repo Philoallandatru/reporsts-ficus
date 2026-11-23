@@ -1,0 +1,198 @@
+nvme_command_spec_map:
+  id: NVME-COMMAND-SPEC-MAP
+  title: nvme-cli command to verified NVM Express specification map
+  query_date: 2026-08-12
+  purpose:
+    - Connect host-side nvme-cli probes to verified PDF artifacts and topic-locator pages.
+    - Make protocol tests traceable to local source artifacts before detailed field extraction.
+    - Separate safe read-only probes from destructive or test-environment-only commands.
+  source_assets:
+    - sources/source-artifact-manifest.yml
+    - sources/pdf-artifact-index.yml
+    - sources/pdf-topic-locator.yml
+    - tests/profiles/nvme-cli/basic-admin-commands.md
+  safety_classes:
+    - id: read_only
+      description: Expected not to modify namespace or controller media state.
+    - id: reset_or_stateful
+      description: Changes controller state and requires an emulator or isolated DUT.
+    - id: destructive_or_media_changing
+      description: Can erase, format, sanitize or otherwise change media state; never run on production devices.
+  commands:
+    - id: NVME-CMD-LIST
+      command_template: nvme list
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T0-001]
+      requirements: [REQ-NVME-001]
+      spec_topics:
+        - identify-controller
+        - namespace-management
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+      expected_observations:
+        - controller_path_present
+        - namespace_path_present_if_namespace_created
+      next_extraction:
+        - map Linux/nvme-cli fields to Identify Controller and namespace discovery structures
+
+    - id: NVME-CMD-ID-CTRL
+      command_template: nvme id-ctrl /dev/nvmeX
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T0-001, T1-001]
+      requirements: [REQ-NVME-001]
+      spec_topics:
+        - identify-controller
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+        - ART-NVME-NVM-1-3
+      expected_observations:
+        - controller_identify_data_returned
+        - firmware_revision_visible
+        - optional_feature_bits_recorded
+      next_extraction:
+        - extract controller identify fields needed by smoke reports
+
+    - id: NVME-CMD-ID-NS
+      command_template: nvme id-ns /dev/nvmeXnY
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T0-001]
+      requirements: [REQ-NVME-001]
+      spec_topics:
+        - namespace-management
+        - identify-controller
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+        - ART-NVME-NVM-1-3
+      expected_observations:
+        - namespace_identify_data_returned
+        - capacity_and_lba_format_visible
+      next_extraction:
+        - extract namespace identify fields used by format and workload profiles
+
+    - id: NVME-CMD-GET-FEATURE-NUM-QUEUES
+      command_template: nvme get-feature /dev/nvmeX -f 0x06
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T1-002]
+      requirements: [REQ-NVME-002]
+      spec_topics:
+        - identify-controller
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+      expected_observations:
+        - number_of_queues_feature_returned
+        - queue_count_consistent_with_test_environment
+      next_extraction:
+        - bind feature identifier 0x06 to queue lifecycle tests
+
+    - id: NVME-CMD-SMART-LOG
+      command_template: nvme smart-log /dev/nvmeX
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T6-001]
+      requirements: [REQ-PROD-001]
+      spec_topics:
+        - telemetry
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+        - ART-NVME-MI-2-2
+      expected_observations:
+        - health_counters_returned
+        - media_error_counters_recorded
+      next_extraction:
+        - map SMART/health fields into production observability evidence
+
+    - id: NVME-CMD-ERROR-LOG
+      command_template: nvme error-log /dev/nvmeX
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T1-003, T6-003]
+      requirements: [REQ-NVME-002, REQ-PROD-001]
+      spec_topics:
+        - telemetry
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+      expected_observations:
+        - error_log_entries_returned_or_empty
+        - invalid_command_tests_create_expected_status
+      next_extraction:
+        - map CQE status and error-log fields to invalid opcode tests
+
+    - id: NVME-CMD-FW-LOG
+      command_template: nvme fw-log /dev/nvmeX
+      safety_class: read_only
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T6-002]
+      requirements: [REQ-PROD-001]
+      spec_topics:
+        - firmware-commit
+        - telemetry
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+        - ART-NVME-MI-2-2
+      expected_observations:
+        - active_firmware_slot_visible
+        - firmware_revision_history_recorded_if_supported
+      next_extraction:
+        - map firmware log fields to firmware-update-policy-matrix.yml
+
+    - id: NVME-CMD-RESET
+      command_template: nvme reset /dev/nvmeX
+      safety_class: reset_or_stateful
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T1-001, T1-004]
+      requirements: [REQ-NVME-001, REQ-NVME-002]
+      spec_topics:
+        - identify-controller
+        - namespace-management
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+      expected_observations:
+        - controller_reenabled_after_reset
+        - queues_recreated_or_expected_failures_reported
+      next_extraction:
+        - map controller enable/disable and reset lifecycle fields to T1 tests
+
+    - id: NVME-CMD-FORMAT
+      command_template: nvme format /dev/nvmeXnY --lbaf=0
+      safety_class: destructive_or_media_changing
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T1-003, T6-001]
+      requirements: [REQ-NVME-002, REQ-PROD-001]
+      spec_topics:
+        - namespace-management
+        - sanitize
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+        - ART-NVME-NVM-1-3
+      expected_observations:
+        - format_only_runs_on_isolated_backend
+        - namespace_lba_format_changes_or_expected_status_returned
+      next_extraction:
+        - separate format behavior from sanitize behavior in production tests
+
+    - id: NVME-CMD-SANITIZE
+      command_template: nvme sanitize /dev/nvmeX --sanact=2
+      safety_class: destructive_or_media_changing
+      profile_source: tests/profiles/nvme-cli/basic-admin-commands.md
+      tests: [T6-001, T6-003]
+      requirements: [REQ-PROD-001]
+      spec_topics:
+        - sanitize
+        - telemetry
+      primary_artifacts:
+        - ART-NVME-BASE-2-4
+        - ART-NVME-NVM-1-3
+      expected_observations:
+        - sanitize_only_runs_on_isolated_backend
+        - sanitize_status_and_event_logs_recorded_if_supported
+      next_extraction:
+        - map sanitize action values and status fields into a destructive-test profile
+
+  planned_extensions:
+    - Add firmware download and firmware commit command templates after an isolated firmware-update backend exists.
+    - Add FDP and ZNS command templates once nvme-cli support and target emulator support are selected.
+    - Add HMB feature command templates for HMB policy tests.

@@ -1,0 +1,212 @@
+extraction_matrix:
+  id: CONTROLLER-VENDOR-EXTRACTION-MATRIX
+  title: SSD controller vendor public material extraction matrix
+  review_date: 2026-08-12
+  purpose:
+    - Convert controller brief, product guide and white paper language into repeatable vendor intake records.
+    - Separate product claims from module-level implementation hints.
+    - Feed platform compatibility, telemetry, security, firmware lifecycle and hardware boundary pages.
+  verification_rules:
+    - fixed_public_artifacts artifact_id values must exist in sources/source-artifact-manifest.yml when a downloadable PDF is available.
+    - fixed_public_artifacts artifact_id values must exist in sources/pdf-artifact-index.yml when a downloadable PDF is available.
+    - local_file and sha256 should be recorded when the vendor source is a downloadable artifact.
+  global_fields:
+    required_for_all_sources:
+      - source_url
+      - access_date
+      - file_name
+      - document_version
+      - sha256_if_downloaded
+      - vendor
+      - product_family
+      - confidence
+    controller_model_fields:
+      - host_interface
+      - pcie_generation
+      - nvme_version
+      - lane_count
+      - form_factor
+      - nand_interface
+      - nand_support
+      - memory_architecture
+      - reliability
+      - security
+      - telemetry
+      - firmware_lifecycle
+      - validation_clue
+  confidence_levels:
+    - id: explicit_product_brief
+      description: The page or PDF explicitly states the feature, interface or family-level claim.
+      usable_for: vendor intake, backlog triage, concept page wording
+    - id: guide_level
+      description: The source is a product guide or technical guide with concrete interface or module boundaries.
+      usable_for: vendor intake and module boundary review
+    - id: marketing_language
+      description: The source only states positioning, family naming or high-level selling points.
+      usable_for: taxonomy and exploratory backlog only
+    - id: inferred
+      description: The value is inferred from product naming, market segment or public comparisons.
+      usable_for: exploration only
+  vendors:
+    - id: CTRL-VENDOR-AMD
+      vendor: AMD / Xilinx
+      public_entry:
+        - https://www.amd.com/en/products/adaptive-socs-and-fpgas/intellectual-property/ef-di-nvmetc.html
+        - https://docs.amd.com/r/en-US/pg329-nvme-target-controller
+      priority_documents:
+        - NVMe target controller product guide
+        - FPGA IP page
+        - register map or interface checklist
+      expected_public_coverage:
+        host_interface: guide_level
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: guide_level
+        nand_interface: inferred
+        memory_architecture: guide_level
+        reliability: marketing_language
+        security: marketing_language
+        telemetry: guide_level
+        firmware_lifecycle: marketing_language
+      extraction_notes:
+        - Treat AMD as a front-end NVMe controller/IP reference, not as a full SSD implementation.
+        - Use it to bound queue, PRP/SGL, DMA and endpoint terminology.
+
+    - id: CTRL-VENDOR-MICROCHIP
+      vendor: Microchip
+      public_entry:
+        - https://www.microchip.com/
+      priority_documents:
+        - Flashtec NVMe controller product page or brief
+        - security or enterprise feature brief
+      expected_public_coverage:
+        host_interface: explicit_product_brief
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: explicit_product_brief
+        nand_interface: marketing_language
+        memory_architecture: marketing_language
+        reliability: explicit_product_brief
+        security: explicit_product_brief
+        telemetry: explicit_product_brief
+        firmware_lifecycle: explicit_product_brief
+      extraction_notes:
+        - Record family naming and enterprise feature language separately from implementation assumptions.
+        - Use public materials to anchor security and management vocabulary.
+
+    - id: CTRL-VENDOR-MARVELL
+      vendor: Marvell
+      public_entry:
+        - https://www.marvell.com/products/storage/storage-controllers.html
+      priority_documents:
+        - storage controller product page
+        - data center SSD controller brief
+      expected_public_coverage:
+        host_interface: explicit_product_brief
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: explicit_product_brief
+        nand_interface: marketing_language
+        memory_architecture: marketing_language
+        reliability: explicit_product_brief
+        security: explicit_product_brief
+        telemetry: explicit_product_brief
+        firmware_lifecycle: explicit_product_brief
+      extraction_notes:
+        - Keep marketing block names separate from realizable module boundaries.
+
+    - id: CTRL-VENDOR-SILICON-MOTION
+      vendor: Silicon Motion
+      public_entry:
+        - https://www.siliconmotion.com/
+      priority_documents:
+        - NVMe controller product page
+        - client and enterprise controller brief
+      expected_public_coverage:
+        host_interface: explicit_product_brief
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: explicit_product_brief
+        nand_interface: marketing_language
+        memory_architecture: explicit_product_brief
+        reliability: explicit_product_brief
+        security: explicit_product_brief
+        telemetry: marketing_language
+        firmware_lifecycle: explicit_product_brief
+      extraction_notes:
+        - Use product briefs to distinguish DRAM-less, HMB and client versus enterprise positioning.
+
+    - id: CTRL-VENDOR-PHISON
+      vendor: Phison
+      public_entry:
+        - https://www.phison.com/
+      priority_documents:
+        - consumer or enterprise SSD controller page
+        - thermal or firmware feature brief
+      expected_public_coverage:
+        host_interface: explicit_product_brief
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: explicit_product_brief
+        nand_interface: marketing_language
+        memory_architecture: marketing_language
+        reliability: explicit_product_brief
+        security: explicit_product_brief
+        telemetry: marketing_language
+        firmware_lifecycle: explicit_product_brief
+      extraction_notes:
+        - Separate client/consumer positioning from enterprise product claims.
+
+    - id: CTRL-VENDOR-INNOGRIT
+      vendor: Innogrit
+      public_entry:
+        - https://www.innogritcorp.com/
+      priority_documents:
+        - NVMe SSD controller product page
+        - controller family brief
+      expected_public_coverage:
+        host_interface: explicit_product_brief
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: explicit_product_brief
+        nand_interface: marketing_language
+        memory_architecture: marketing_language
+        reliability: explicit_product_brief
+        security: marketing_language
+        telemetry: marketing_language
+        firmware_lifecycle: marketing_language
+      extraction_notes:
+        - Treat most public material as family-level context until a guide or brief is fixed.
+
+    - id: CTRL-VENDOR-MAXIO
+      vendor: Maxio
+      public_entry:
+        - https://www.maxio-tech.com/
+      priority_documents:
+        - client NVMe controller product page
+        - DRAM-less controller brief
+      expected_public_coverage:
+        host_interface: explicit_product_brief
+        pcie_generation: explicit_product_brief
+        nvme_version: explicit_product_brief
+        lane_count: explicit_product_brief
+        nand_interface: marketing_language
+        memory_architecture: explicit_product_brief
+        reliability: marketing_language
+        security: marketing_language
+        telemetry: marketing_language
+        firmware_lifecycle: marketing_language
+      extraction_notes:
+        - Use for client SSD taxonomy and DRAM-less positioning.
+  downstream_assets:
+    design_pages:
+      - wiki/concepts/controller-vendor-data-acquisition.md
+      - wiki/concepts/controller-hardware-module-boundaries.md
+      - wiki/concepts/controller-rtl-ip-reference.md
+      - wiki/concepts/platform-compatibility-security.md
+      - wiki/concepts/telemetry-logging-field-debug.md
+      - wiki/concepts/production-requirements-and-compliance.md
+    test_assets:
+      - tests/requirements/platform-compatibility-security-matrix.yml
+      - tests/requirements/telemetry-field-debug-matrix.yml
+      - tests/requirements/firmware-update-policy-matrix.yml

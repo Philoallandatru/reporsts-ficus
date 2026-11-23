@@ -1,0 +1,128 @@
+policy_matrix:
+  id: LDPC-PIPELINE-POLICY-MATRIX
+  title: LDPC hard/soft decode, read retry and reliability escalation policy matrix
+  scope:
+    - NAND read error correction
+    - read retry and threshold tuning
+    - soft-decision LDPC decode
+    - scrub/refresh trigger
+    - uncorrectable read escalation and telemetry
+  design_pages:
+    - wiki/concepts/ecc-ldpc-reliability.md
+    - wiki/concepts/flash-scheduler-arbitration.md
+    - wiki/concepts/nand-media-parameter-guide.md
+  states:
+    - id: fast_path
+      description: Hard-decision read and bounded LDPC iterations.
+    - id: retry_path
+      description: Vendor read-retry ladder adjusts read thresholds and re-reads the page.
+    - id: soft_decode
+      description: Multiple reads generate soft information or LLRs for stronger LDPC decode.
+    - id: recovery_path
+      description: Firmware tries parity, mirrored metadata copies or higher-level recovery.
+    - id: scrub_refresh
+      description: Corrected-but-risky data is relocated before it becomes uncorrectable.
+    - id: fail_escalation
+      description: Host-visible failure, persistent event log and telemetry are emitted.
+  policies:
+    - id: LDPC-POL-001
+      name: fast_path_hard_decode
+      requirement_ids: [REQ-REL-001]
+      tests: [T3-001]
+      trigger: Normal host read from healthy or mildly worn blocks.
+      action: Decode with hard-decision samples and a strict iteration cap before completing the read.
+      metrics:
+        - corrected_bits_per_codeword
+        - ldpc_iteration_count
+        - fast_path_read_latency_us
+      risks:
+        - Too low an iteration cap raises avoidable read retry rate.
+        - Too high an iteration cap hides media aging until tail latency grows.
+
+    - id: LDPC-POL-002
+      name: read_retry_ladder
+      requirement_ids: [REQ-REL-001, REQ-REL-002]
+      tests: [T3-001, T3-002]
+      trigger: Fast-path decode fails or correction margin drops below threshold.
+      action: Walk a bounded read-retry table, adjust threshold voltage, and stop once data is corrected or retry budget is exhausted.
+      metrics:
+        - read_retry_count
+        - threshold_step
+        - retry_path_latency_us
+      risks:
+        - Vendor-specific retry tables can be misapplied to the wrong NAND generation.
+        - Aggressive retry can occupy channel resources and delay foreground reads.
+
+    - id: LDPC-POL-003
+      name: soft_decode_llr_budget
+      requirement_ids: [REQ-REL-002, REQ-QOS-001]
+      tests: [T3-002, T5-004]
+      trigger: Hard retry ladder cannot decode but the block is still inside allowed recovery policy.
+      action: Issue bounded soft-read samples, build reliability information, and run LDPC soft decode under an ECC-engine time budget.
+      metrics:
+        - soft_read_count
+        - llr_sample_count
+        - ecc_engine_busy_us
+        - soft_decode_success_rate
+      risks:
+        - Soft decode can create ECC engine head-of-line blocking.
+        - Excessive soft reads increase read disturb and foreground tail latency.
+
+    - id: LDPC-POL-004
+      name: ecc_retry_storm_qos_guard
+      requirement_ids: [REQ-QOS-001]
+      tests: [T5-004, T5-002]
+      trigger: Many reads enter retry_path or soft_decode at the same time.
+      action: Limit concurrent retry/soft-decode jobs, reserve fast-read slots, and hand pressure signals to the flash scheduler.
+      metrics:
+        - active_retry_jobs
+        - active_soft_decode_jobs
+        - foreground_read_p999_us
+        - retry_queue_depth
+      risks:
+        - Unlimited retries can starve healthy reads.
+        - Over-throttling retries can convert recoverable reads into host-visible failures.
+
+    - id: LDPC-POL-005
+      name: proactive_refresh_scrub_trigger
+      requirement_ids: [REQ-REL-001]
+      tests: [T3-001, T3-003]
+      trigger: Corrected bit count, retry count, read count, retention age or temperature exposure crosses scrub threshold.
+      action: Schedule low-priority relocation or refresh for at-risk pages and retire blocks if margin continues to degrade.
+      metrics:
+        - scrub_candidates
+        - refresh_moves
+        - corrected_bit_histogram
+        - read_disturb_count
+      risks:
+        - Missing scrub windows increases future uncorrectable errors.
+        - Over-eager scrub increases write amplification and consumes free blocks.
+
+    - id: LDPC-POL-006
+      name: metadata_ecc_priority
+      requirement_ids: [REQ-PLP-001, REQ-REL-002]
+      tests: [T4-003, T4-004, T3-002]
+      trigger: Read or recovery touches mapping pages, journals, checkpoints, superblocks or bad-block tables.
+      action: Prioritize metadata decode, require checksum/version validation, and fall back to mirrored copies before accepting data.
+      metrics:
+        - metadata_retry_count
+        - metadata_copy_fallback_count
+        - metadata_checksum_failures
+      risks:
+        - User data may remain intact while metadata loss makes it unreachable.
+        - Accepting a stale metadata copy can resurrect old mappings.
+
+    - id: LDPC-POL-007
+      name: uncorrectable_escalation_and_telemetry
+      requirement_ids: [REQ-REL-002, REQ-PROD-001]
+      tests: [T3-002, T6-003]
+      trigger: Retry, soft decode and parity/copy recovery fail or exceed policy budget.
+      action: Return a precise host status, quarantine the physical location if appropriate, and persist telemetry for diagnosis.
+      metrics:
+        - uncorrectable_read_count
+        - affected_lba_count
+        - failed_physical_address
+        - recovery_path_attempts
+      risks:
+        - Vague errors prevent field diagnosis.
+        - Retrying a failed location without quarantine can amplify latency and wear.

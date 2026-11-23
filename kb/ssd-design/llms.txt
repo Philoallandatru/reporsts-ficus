@@ -1,0 +1,57 @@
+# SSD 固件与硬件设计知识库
+
+这是一个中文 SSD controller/firmware/hardware 设计知识库，聚焦 NVMe SSD 内部实现：FTL、NAND、ECC/LDPC、掉电恢复、性能/QoS、验证和量产要求。
+
+## Start Here
+
+- README: README.md
+- Wiki index: wiki/index.md
+- Knowledge map: KNOWLEDGE_MAP.md
+- Provider setup: LLMWIKI.md and tests/README.md
+- Sources: SOURCES.md
+- Glossary: GLOSSARY.md
+- Traceability matrix: TRACEABILITY_MATRIX.md
+- Test plan: TEST_PLAN.md
+
+## Quick Routes
+
+- Learn the controller model: wiki/concepts/ssd-system-architecture.md
+- Trace a host command: wiki/concepts/nvme-command-lifecycle-in-ssd.md
+- Design firmware state and recovery: wiki/concepts/firmware-ftl.md and wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+- Review hardware boundaries and RTL interfaces: wiki/concepts/controller-hardware-module-boundaries.md and wiki/concepts/controller-rtl-ip-reference.md
+- Plan validation and evidence: wiki/concepts/ssd-verification-matrix.md and wiki/concepts/verification-evidence-and-fault-bridge.md
+- Check implementation references: sources/implementation-smoke-test-matrix.yml and sources/open-source-implementation-pins.yml
+
+## Core Concepts
+
+- SSD architecture: wiki/concepts/ssd-system-architecture.md
+- Minimal controller roadmap: wiki/concepts/minimal-ssd-controller-roadmap.md
+- NVMe command lifecycle inside SSD: wiki/concepts/nvme-command-lifecycle-in-ssd.md
+- Controller hardware module boundaries: wiki/concepts/controller-hardware-module-boundaries.md
+- NAND media parameter guide: wiki/concepts/nand-media-parameter-guide.md
+- Firmware and FTL: wiki/concepts/firmware-ftl.md
+- FTL deep dive: wiki/concepts/ftl-design-deep-dive.md
+- FTL metadata format and recovery conventions: wiki/concepts/ftl-metadata-format-and-recovery-conventions.md
+- ECC/LDPC reliability: wiki/concepts/ecc-ldpc-reliability.md
+- Power-loss recovery: wiki/concepts/power-loss-recovery.md
+- Performance/QoS/WAF: wiki/concepts/performance-qos-write-amplification.md
+- Verification matrix: wiki/concepts/ssd-verification-matrix.md
+- Fault injection catalog: wiki/concepts/fault-injection-catalog.md
+- Production requirements: wiki/concepts/production-requirements-and-compliance.md
+- Source code reading guide: wiki/concepts/source-code-reading-guide.md
+
+## Diagrams
+
+- Architecture overview: maps/architecture-overview.md
+- Write/read path: maps/write-read-path.md
+- Recovery flow: maps/recovery-flow.md
+
+## Maintenance
+
+- Run checks from repository root: `python tools/check_ssd_wiki.py`
+- llmwiki setup: LLMWIKI.md
+- Verification evidence bridge: wiki/concepts/verification-evidence-and-fault-bridge.md
+- Implementation smoke-test matrix: sources/implementation-smoke-test-matrix.yml
+- Provider matrix: tests/requirements/llmwiki-provider-matrix.yml
+- Source intake template: templates/source-intake-template.md
+- Concept page template: templates/concept-page-template.md

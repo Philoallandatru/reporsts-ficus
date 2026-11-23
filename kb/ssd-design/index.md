@@ -1,0 +1,71 @@
+# ssd-design-wiki 索引
+
+## 补充归档索引（Governance Auto-Synced）
+
+- [控制器硬件模块边界](wiki/concepts/controller-hardware-module-boundaries.md) — SSD 控制器硬件不是一个单一 DMA 加 NAND 控制器。为了让固件可控、性能可预测、错误可恢复，硬件模块之间要有清楚边界和可观测状态。
+- [控制器 RTL / IP 参考](wiki/concepts/controller-rtl-ip-reference.md) — 控制器硬件边界已经能把模块分开，但如果要真正落到 RTL、FPGA 原型或 ASIC 方案，还需要一层更细的参考：哪些接口是标准化的，哪些是常见 IP 习惯，哪些只是公开资料里的产品表述。
+- [控制器厂商数据采集与建模](wiki/concepts/controller-vendor-data-acquisition.md) — 控制器厂商公开资料往往不是一份完整规格书，而是一组分散的产品页、brief、guide、white paper 和应用说明。要把这些材料变成 SSD 控制器知识库能用的输入，需要一套稳定的采集流程。
+- [CPC 专利分类体系与 SSD 领域映射](wiki/concepts/cpc-专利分类体系与-ssd-领域映射.md) — CPC（Cooperative Patent Classification，合作专利分类）是由美国专利商标局（USPTO）和欧洲专利局（EPO）联合管理的专利分类体系，广泛用于 SSD 控制器、固件、介质管理与可靠性领域的专利检索与归类。本页面整理 CPC 主干分类与 SSD 各子领域之间的对应关系，为知识库的专利检索入口提供结构化参考。 ^[rese...
+- [DRAM-less SSD 与 Host Memory Buffer](wiki/concepts/dram-less-hmb-ssd.md) — DRAM-less SSD 通过减少外部 DRAM 降低成本、功耗和封装复杂度，但代价是 FTL mapping、write buffer、read cache、GC buffer 和 telemetry buffer 都要重新设计。Host Memory Buffer 是一种把部分主机内存借给 NVMe controller 使用的机制，但 HMB...
+- [ECC、LDPC 与可靠性管理](wiki/concepts/ecc-ldpc-reliability.md) — NAND flash 的原始误码率会随 P/E cycle、保持时间、温度、读干扰和 cell density 上升。SSD 控制器必须用 ECC/LDPC、read retry、scrub、refresh、RAID-like parity 和元数据保护，把不稳定介质呈现成可用的块设备。
+- [故障注入目录](wiki/concepts/fault-injection-catalog.md) — SSD 的危险 bug 通常出现在“命令、DMA、FTL、NAND、掉电、reset、GC、ECC”交叠处。故障注入目录用于把这些交叠系统化。
+- [FDP、Streams、Placement Hint 与内部 FTL](wiki/concepts/fdp-streams-placement-hints.md) — FDP、streams、placement hint、ZNS 和 hot/cold data hint 都在回答同一个工程问题：主机能不能把“哪些数据应该放在一起、哪些数据生命周期相近”告诉 SSD，从而降低内部 GC 搬迁和写放大。它们的语义强度不同，FTL 不能把 host hint 当成绝对真理。
+- [FTL 与固件职责](wiki/concepts/firmware-ftl.md) — FTL 是 SSD 固件中最核心的抽象层。主机以连续 LBA 访问设备，但 NAND 只能以 page program、block erase 的方式工作，并且 page 不能原地覆盖。FTL 负责把 overwrite-heavy 的块接口转成 append-style 的 flash 写入。
+- [Firmware Update、Metadata Compatibility 与 Rollback](wiki/concepts/firmware-update-rollback.md) — Firmware update 是 SSD 产品生命周期中最容易把协议、FTL metadata、安全、掉电恢复和现场可维护性缠在一起的路径。一个能执行 NVMe Firmware Download/Commit 的控制器，不等于有安全的升级和回滚设计。
+- [Flash Scheduler、Channel/Die/Plane Arbitration 与 Read Priority](wiki/concepts/flash-scheduler-arbitration.md) — Flash scheduler 是 SSD 后端的调度中枢。它把 FTL、GC、SLC destage、read retry、refresh/scrub 和 host I/O 产生的 NAND request 排到 channel、die/LUN、plane 和 ECC pipeline 上执行。好的 scheduler 不是只追求吞吐，而是在并行度、...
+- [FTL 设计深水区](wiki/concepts/ftl-design-deep-dive.md) — FTL 的难点不是“把 LBA 映射到物理页”这一句话，而是在有限 DRAM、有限空闲块、有限擦写寿命和严格掉电恢复要求下，让随机写、顺序写、读延迟、GC、热管理和固件重启都同时可控。
+- [DFTL / Demand-based Mapping](wiki/concepts/ftl-dftl-demand-based-mapping.md) — DFTL 将 page-level mapping 保留为逻辑模型，但不要求整张 L2P 表常驻 DRAM。它把 mapping table 拆成 translation pages 存在 flash 上，在 DRAM 中只缓存热的 mapping entries 或 translation pages。
+- [FTL Hybrid / Log-block Mapping](wiki/concepts/ftl-hybrid-log-block-mapping.md) — Hybrid mapping 把粗粒度 data block mapping 和细粒度 log block mapping 结合起来。核心思路是：稳定顺序数据保留在 data block，小随机覆盖写先追加到 log block，之后通过 merge 把 log block 和 data block 合并成新的 data block。
+- [FTL 元数据格式与恢复约定](wiki/concepts/ftl-metadata-format-and-recovery-conventions.md) — 本页给出教学/原型 SSD 可采用的 FTL 元数据布局与恢复约定。真实产品会更复杂，但这一版已经足够把“哪些状态必须持久化、哪些状态可以重建、掉电后怎么恢复”讲清楚。
+- [FTL 元数据格式与恢复约定](wiki/concepts/ftl-metadata-format-sketch.md) — FTL 元数据格式与恢复约定 概念与规范说明。
+- [FTL Page Mapping](wiki/concepts/ftl-page-mapping.md) — Page mapping 是最直接、随机写最友好的 FTL 映射策略：每个 logical page number 都独立映射到一个 physical page。主机覆盖写不会原地改 NAND，而是写入新 physical page，再把旧 physical page 标记为 invalid。
+- [GC Victim Selection 与 Wear Leveling 策略](wiki/concepts/gc-wear-leveling-policy.md) — GC 的核心问题不是“找一个 invalid page 多的 block 擦掉”这么简单。真实控制器要同时管理 free block 前向进展、写放大、读尾延迟、erase count 分布、冷热数据隔离、后台任务预算和掉电恢复边界。
+- [控制器硬件与 NAND 接口](wiki/concepts/hardware-controller-and-nand.md) — SSD 控制器硬件把 NVMe/PCIe 前端、内部存储结构和 NAND flash 后端连接起来。固件决定策略，硬件提供足够快、足够可恢复的数据通路。
+- [Host FTL 与 Open-Channel SSD](wiki/concepts/host-ftl-与-open-channel-ssd.md) — Host FTL（Host-Based Flash Translation Layer）和 Open-Channel SSD 是将传统 SSD 控制器中的 FTL 职责上移至主机侧的两条技术路径。它们允许操作系统或应用直接感知和管理 NAND 介质的物理特性，从而在特定场景下实现更高的可控性和性能优化。^[research-source-catalog...
+- [JEDEC SSD 耐久性标准体系](wiki/concepts/jedec-ssd-耐久性标准体系.md) — JEDEC（Joint Electron Device Engineering Council）制定了一套针对固态存储设备的耐久性评级与测试标准体系，旨在为 NAND Flash 介质和 SSD 产品提供统一的 endurance 衡量方法。该体系的核心文件包括 JESD218、JESD219 和 JESD230G，分别覆盖评级方法论、工作负载定义和介...
+- [Linux NVMe 内核驱动架构](wiki/concepts/linux-nvme-内核驱动架构.md) — Linux NVMe 内核驱动架构是 Linux 内核中负责与 NVMe 设备交互的核心软件框架。它位于块设备层之下，通过 PCIe 传输层与 NVMe 控制器硬件通信，支持 Admin 命令与 I/O 命令的发送与接收，并提供多队列、命名空间管理、中断处理、热插拔等企业级功能。
+- [最小 SSD 控制器实现路线](wiki/concepts/minimal-ssd-controller-roadmap.md) — 如果目标是做一个教学或原型 SSD 控制器，不要一开始就实现完整 FTL、ECC、PLP 和多 namespace。更稳的路线是先让 host 能枚举和读写，再逐层替换内部存储模型。
+- [MQSim 多队列 SSD 模拟器](wiki/concepts/mqsim-多队列-ssd-模拟器.md) — MQSim 是由卡内基梅隆大学 SAFARI 研究组开发的一款开源 NVMe/SATA SSD 模拟器，专注于现代多队列存储系统的性能建模与实验评估。该项目托管于 GitHub，其核心设计成果发表于 USENIX FAST '18 会议。
+- [NAND 数据采集与建模](wiki/concepts/nand-data-acquisition-and-modeling.md) — NAND 相关资料最容易出现的问题，不是没有信息，而是信息分散在技术说明、产品 brief、datasheet、规范和白皮书里。要把这些材料变成可用的 SSD 模型，最好用一套固定的采集与建模流程。
+- [NAND 介质参数手册](wiki/concepts/nand-media-parameter-guide.md) — SSD 设计需要把 NAND 当成有约束的并行介质，而不是一个慢一点的块设备。做 FTL、调度、ECC、PLP 和性能模型前，应先固定一组介质参数。
+- [NAND 参数抽取与建模流程](wiki/concepts/nand-parameter-extraction-workflow.md) — NAND 参数不是“有个 datasheet 就行”。要把它变成 SSD 控制器、FTL、flash scheduler 和 ECC 可用的输入，需要先抽字段，再分级，再落入模型。这个流程页就是给这件事定一个可重复的工作流。
+- [NAND Vendor Public Material Intake](wiki/concepts/nand-vendor-public-material-intake.md) — 本页面记录 SSD 控制器知识库在采购公开 NAND 厂商资料时的采集策略、入口节点、可用理由及已知局限。采集目标不是替代私有数据手册，而是建立一组可比较、可追溯的字段，用于后续与硬件边界、平台兼容、遥测和量产页面的交叉验证。
+- [NAND 供应商公开资料采集方法论](wiki/concepts/nand-供应商公开资料采集方法论.md) — NAND 供应商公开资料往往不是完整的控制器规格书，而是一组分散的产品页、brief、datasheet、技术说明和白皮书。本页定义一套结构化的采集流程，把分散的公开资料变成可比较、可追溯的知识库字段输入。
+- [NAND 厂商资料 Intake 标签体系](wiki/concepts/nand-厂商资料-intake-标签体系.md) — 本文档定义用于采集和分类 NAND 闪存原厂公开资料的一套标签体系。标签体系覆盖主要 NAND 原厂的公开资料入口、CPC 专利分类入口，以及与 SSD 固件/控制器设计直接相关的专题标签。^[research-nand-controller-patent-notes-53079fdd.md:1-12]
+- [NVMe 2.4 规范版本状态](wiki/concepts/nvme-24-规范版本状态.md) — 截至 2026-08-12，官方资料明确指出 **NVMe 2.4** 已于 **2026-08-04** 正式发布。^[research-source-catalog.md:12]
+- [SSD 内部的 NVMe 命令生命周期](wiki/concepts/nvme-command-lifecycle-in-ssd.md) — NVMe 规范定义 host-visible 命令和队列行为；SSD 内部需要把这些行为落到 queue manager、DMA、firmware scheduler、FTL、NAND backend 和 completion path 上。
+- [NVMe 寄存器、队列与状态机](wiki/concepts/nvme-register-queue-state.md) — SSD 控制器对主机最直接的可见面，不是 NAND，也不是 FTL，而是 NVMe 寄存器、submission/completion queue 和一组明确的状态转换。把这层讲清楚，才谈得上后面固件、FTL 和掉电恢复。
+- [NVMe 规范体系](wiki/concepts/nvme-规范体系.md) — NVMe（Non-Volatile Memory Express）规范体系是定义固态存储设备与主机系统之间通信协议的核心标准集合。该体系不仅涵盖 NVMe 协议本身，还包括 ONFI、JEDEC、PCI-SIG、OCP 等相关标准组织发布的配套规范，共同构成完整的 SSD 软硬件设计参考框架。
+- [NVMe/IP FPGA 商业实现生态](wiki/concepts/nvmeip-fpga-商业实现生态.md) — FPGA 平台是 NVMe SSD 控制器研究、原型开发和商业实现的重要分支。与 ASIC 实现相比，FPGA 可在流片前完成算法验证、系统集成和性能评估，因此在学术研究、小批量定制和快速迭代场景中具有独特价值。本页整理 NVMe/IP 相关的商业 IP、开源参考设计和配套工具链，为在 FPGA 上构建 NVMe SSD 控制器或 NVMe 主机端方案...
+- [OCP Data Center NVMe SSD 规范](wiki/concepts/ocp-data-center-nvme-ssd-规范.md) — OCP Data Center NVMe SSD 规范（OCP Data Center NVMe SSD Specification）是由开放计算项目（Open Compute Project, OCP）制定的一套面向数据中心场景的 NVMe SSD 设计与验证要求。该规范在 NVMe 基础协议之上，增加了针对企业级和数据中心工作负载的功能、可靠性和可...
+- [OCP 数据中心 NVMe SSD 规范](wiki/concepts/ocp-数据中心-nvme-ssd-规范.md) — OCP（Open Compute Project）数据中心 NVMe SSD 规范是一组由 OCP 制定的面向数据中心场景的 NVMe SSD 相关技术文档与要求。该规范旨在补充 NVMe 基础协议，为数据中心级 SSD 的功能、可靠性、可管理性和互操作性提供额外的约束和指导。
+- [ONFI 闪存接口规范](wiki/concepts/onfi-闪存接口规范.md) — ONFI（Open NAND Flash Interface）是一套由 ONFI 工作组制定的开放标准，旨在标准化 NAND Flash 器件的命令、地址、数据传输、电气特性和时序模型。 ^[source-catalog-3e9312b0.md:18-19]
+- [开源实现索引](wiki/concepts/opensource-implementation-index.md) — 机器可读 commit 固定清单与构建冒烟验证口径索引。
+- [性能、QoS 与写放大](wiki/concepts/performance-qos-write-amplification.md) — SSD 性能不是一个 IOPS 数字。真正需要管理的是前端队列、后端 NAND 并行、FTL 后台写、ECC retry、热/电源限制共同作用下的延迟分布和写放大。
+- [平台兼容与安全擦除](wiki/concepts/platform-compatibility-security.md) — SSD 设计不只是在实验室里跑通命令。真正交付时，设备还要在 BIOS/UEFI、Linux、Windows、热插拔、固件升级和数据销毁路径上表现得可解释、可维护、可复现。
+- [掉电保护与恢复](wiki/concepts/power-loss-recovery.md) — 掉电保护不是单独的电容问题，而是硬件能量、固件持久化协议、FTL 元数据顺序和 NVMe 可见语义共同组成的系统设计。
+- [量产需求与合规](wiki/concepts/production-requirements-and-compliance.md) — 工程原型能读写不代表 SSD 产品可发布。量产 SSD 需要在规范合规、互操作、可靠性、可制造性、可维护性和现场诊断上闭环。
+- [Reset、Boot 与 Power State 边界](wiki/concepts/reset-boot-power-state.md) — SSD 设计里最容易混乱的地方之一，不是正常 I/O，而是 reset、boot、power state、firmware activation、sanitize 和掉电恢复交叠时到底谁该负责什么。这个页面把这些边界单独拆开，方便做控制器状态机、主机互操作和异常恢复设计。
+- [SLC Cache、Write Cliff 与 Destage 策略](wiki/concepts/slc-cache-write-cliff-destage.md) — 很多 TLC/QLC SSD 会把一部分 NAND 以 SLC 或 pseudo-SLC 模式使用，用来吸收短 burst 写入并降低前台写延迟。SLC cache 不是单纯的“高速缓存”；它会改变 FTL 映射、free block pool、GC、wear leveling、PLP 和稳态性能。
+- [源码导读](wiki/concepts/source-code-reading-guide.md) — 读 SSD 相关开源项目时，先明确“这个项目模拟或实现的是哪一层”。把 host driver、NVMe emulator、SSD simulator、FTL library 和 FPGA firmware 混在一起看，很容易得出错误边界。
+- [SPDK FTL 库与主机侧闪存管理](wiki/concepts/spdk-ftl-库与主机侧闪存管理.md) — SPDK（Storage Performance Development Kit）提供了可在主机侧运行的 FTL（Flash Translation Layer）库，使应用程序能够直接在用户空间管理裸 NAND 闪存或虚拟闪存介质，而无需依赖传统 SSD 固件中的 FTL 实现。该库是 SPDK bdev（block device）子系统的一部分，其核...
+- [SPDK/Linux 作为 SSD 主机侧验证参考](wiki/concepts/spdklinux-作为-ssd-主机侧验证参考.md) — SPDK（Storage Performance Development Kit）和 Linux 内核 NVMe 栈是 SSD 主机侧行为的核心开源参考，用于验证 NVMe 控制器的队列管理、命令处理、复位流程和互操作性。两者分别代表用户态高性能路径和内核态标准路径，可以相互补充。
+- [SSD 系统架构](wiki/concepts/ssd-system-architecture.md) — SSD 可以看成一个嵌入式存储系统：前端接受主机命令，后端管理 NAND 介质，中间由固件把块接口转换成可恢复、可磨损均衡、可并行执行的 flash 操作。
+- [SSD 验证矩阵](wiki/concepts/ssd-verification-matrix.md) — SSD 验证应覆盖协议、数据一致性、FTL、NAND 错误、掉电、性能和长期稳定性。只跑 fio 顺序读写远远不够；很多严重问题只在 reset、GC、flush、掉电和错误恢复交叠时出现。
+- [SSD 仿真与模拟平台生态](wiki/concepts/ssd-仿真与模拟平台生态.md) — SSD 固件与控制器的开发涉及多层次的仿真与模拟平台，从纯软件模拟到 FPGA 原型，涵盖不同保真度、开发阶段和验证目标。本页整理当前公开可用的 SSD 仿真与模拟平台资源，帮助开发者和研究者选择合适的工具链。
+- [SSD 子系统设计文档模板](wiki/concepts/ssd-子系统设计文档模板.md) — 本文档定义 SSD 固件子系统设计文档的标准结构与内容要求。每个子系统（例如 FTL 前端、Flash Scheduler、ECC/LDPC 引擎、DRAM/SRAM 管理、掉电保护等）均应使用此模板编写设计文档，以保证团队内部的文档一致性和可追溯性。
+- [SSD 学术研究经典论文索引](wiki/concepts/ssd-学术研究经典论文索引.md) — 本页面汇集了 SSD 固件与硬件设计领域最具影响力的学术论文、技术标准和参考实现，按主题分类组织，便于研究者和工程师快速定位关键文献。
+- [SSD 技术专利检索工具链](wiki/concepts/ssd-技术专利检索工具链.md) — 本文档整理 SSD 控制器与 NAND 相关技术专利检索的工具链，包括检索入口、CPC 分类体系、典型查询模板和厂商公开资料采集路径。目标是为固件/硬件设计团队提供一套可追溯、可复用的专利情报采集流程。
+- [SSD 技术领域专利查询模板](wiki/concepts/ssd-技术领域专利查询模板.md) — 本页面整理了针对 SSD 控制器固件、FTL、NAND 可靠性和数据放置等领域的专利查询起点。包括检索工具入口、CPC 分类锚点、可复用查询模板和摄取标签约定，适用于 FTL 元数据格式与恢复约定 和 ECC、LDPC 与可靠性管理 等方向的专利态势分析。^[research-nand-controller-patent-notes-53079fdd.md]
+- [SSD 经典研究论文索引](wiki/concepts/ssd-经典研究论文索引.md) — 本页面收录 SSD 设计与固件领域的高影响力学术论文，按主题与发表会议组织，便于查阅核心概念与关键技术来源。^[source-catalog-3e9312b0.md]
+- [SSD 领域专利查询启动器](wiki/concepts/ssd-领域专利查询启动器.md) — 本页面整理了 SSD 固件与硬件设计背景下的专利查询入口、分类体系和可复用查询语句。其目标是帮助研究者在进入具体专利挖掘之前，先建立一套有结构的起点，而不是随机浏览专利数据库。
+- [SSD/Flash 专利 CPC 分类体系](wiki/concepts/ssdflash-专利-cpc-分类体系.md) — CPC（Cooperative Patent Classification）是美国专利商标局（USPTO）与欧洲专利局（EPO）联合管理的专利分类体系。对于 SSD 和 NAND Flash 相关专利，CPC 提供了一套层次化的分类词汇，用于定位控制器、固件、介质、纠错和数据放置等不同技术方向的发明。
+- [遥测、日志与现场调试](wiki/concepts/telemetry-logging-field-debug.md) — SSD 一旦离开实验室，最值钱的能力往往不是“还能不能跑”，而是“出了问题能不能解释”。遥测、日志和现场调试就是把控制器内部状态变成可追踪证据的那一层。
+- [仿真、验证与测试平台](wiki/concepts/verification-and-emulation.md) — SSD 设计验证需要分层：协议互操作、固件状态机、FTL 策略、NAND 错误模型、性能/QoS 和掉电恢复无法靠单一工具覆盖。
+- [验证证据与故障注入闭环](wiki/concepts/verification-evidence-and-fault-bridge.md) — 验证资产如果只停留在矩阵和样例日志，最后会变成“知道要测什么，但不知道怎么判定”。这一页把故障注入、hook、证据 schema 和 pass/fail 判定连成一条闭环。
+- [WD 与 Sandisk 企业分离后的闪存资料归属](wiki/concepts/wd-与-sandisk-企业分离后的闪存资料归属.md) — Western Digital（以下简称 WD）与 Sandisk 的企业分离于 2025 年 2 月 24 日正式完成。此次分离明确了 Western Digital 与 Sandisk 在闪存资料上的各自归属，对知识库的资料采集、来源追溯和版本管理具有直接影响。
+- [Western Digital 与 Sandisk 2025 年拆分事件](wiki/concepts/western-digital-与-sandisk-2025-年拆分事件.md) — Western Digital 与 Sandisk 的企业拆分（spin-off）是指 Western Digital 将其闪存业务正式分拆为独立上市公司的过程。2025 年 2 月 24 日，Western Digital 宣布拆分完成，闪存业务以 **Sandisk** 品牌独立运营。^[research-nand-controller-paten...
+- [YMTC Xtacking 架构](wiki/concepts/ymtc-xtacking-架构.md) — YMTC Xtacking 是长江存储（Yangtze Memory Technologies Co., Ltd.）为其 3D NAND 闪存开发的一种核心架构技术。该架构通过将 NAND Cell Array（存储阵列）和 CMOS Peripheral Circuit（CMOS 外围电路）在晶圆级别分离制造后进行键合，实现了两部分电路的独立优化。^...
+- [专利检索入口工具链](wiki/concepts/专利检索入口工具链.md) — 本文档整理 SSD 控制器固件 / 硬件研究场景下的专利检索入口工具链，包括检索工具、CPC 分类体系、种子专利和可复用查询模板。
+- [主流 NAND 技术路线图](wiki/concepts/主流-nand-技术路线图.md) — 本文整理目前公开资料中主流 NAND 原厂的技术路线图，重点覆盖 3D NAND 的层数演进、接口速率、架构创新和主要厂商的技术定位。所有事实均来自各厂商官方发布页面、官方新闻稿或官方专利/技术说明页面；未进入公开资料的内容不做推断。
+- [开源 SSD 仿真平台](wiki/concepts/开源-ssd-仿真平台.md) — 开源 SSD 仿真平台是 SSD 固件与硬件设计知识体系中的重要基础设施，用于在无需实际硬件的情况下模拟 SSD 行为、验证 FTL 算法、评估性能与 QoS 特性，以及进行错误注入和恢复路径测试。根据源目录记录，当前主流的开源 SSD 仿真项目主要包括 Cosmos+ OpenSSD、FEMU、SimpleSSD、MQSim 和 Open-Chann...

@@ -1,0 +1,107 @@
+matrix:
+  id: TELEMETRY-FIELD-DEBUG-MATRIX
+  title: Telemetry, logging and field-debug boundary matrix for SSD design verification assets
+  review_date: 2026-08-12
+  purpose:
+    - Define the minimum observable fields needed to explain reset, power, firmware and reliability events.
+    - Keep runtime counters, event logs, crash dumps and field debug packages separate.
+    - Tie field debug expectations to production-observability requirements.
+  design_pages:
+    - wiki/concepts/telemetry-logging-field-debug.md
+    - wiki/concepts/production-requirements-and-compliance.md
+    - wiki/concepts/reset-boot-power-state.md
+    - wiki/concepts/firmware-update-rollback.md
+    - wiki/concepts/ecc-ldpc-reliability.md
+  record_layers:
+    - id: TELEMETRY-LAYER-001
+      name: runtime_counter
+      expected_use:
+        - high-frequency statistics
+        - queue and channel utilization
+        - ECC counters and retry activity
+      retention:
+        - volatile_or_ring_buffer
+      observable_fields:
+        - build_id
+        - channel_utilization
+        - queue_depth
+        - corrected_bits_per_codeword
+        - read_retry_count
+      related_tests: [T5-001, T5-002, T6-001]
+
+    - id: TELEMETRY-LAYER-002
+      name: persistent_event_log
+      expected_use:
+        - firmware update history
+        - sanitize and secure erase history
+        - reset and power-loss history
+        - panic and thermal events
+      retention:
+        - non_volatile
+      observable_fields:
+        - boot_generation
+        - reset_reason
+        - power_transition_reason
+        - firmware_slot_active
+        - firmware_slot_pending
+      related_tests: [T4-004, T6-001, T6-002, T6-003]
+
+    - id: TELEMETRY-LAYER-003
+      name: crash_dump
+      expected_use:
+        - last known command context
+        - queue manager state
+        - FTL journal and checkpoint state
+        - recent ECC or LDPC failure context
+      retention:
+        - opt_in_or_policy_controlled
+      observable_fields:
+        - command_id
+        - queue_recovery_state
+        - journal_sequence
+        - checkpoint_generation
+        - failed_physical_address
+      related_tests: [T4-003, T4-004, T6-001, T6-003]
+
+    - id: TELEMETRY-LAYER-004
+      name: field_debug_package
+      expected_use:
+        - customer support export
+        - manufacturing triage
+        - cross-platform diagnosis
+      retention:
+        - exported_on_demand
+      observable_fields:
+        - build_id
+        - firmware_slot_active
+        - event_log_tail
+        - power_loss_counter
+        - media_errors
+        - num_err_log_entries
+      related_tests: [T6-001, T6-003]
+
+  scenarios:
+    - id: TD-001
+      name: reset_and_recovery_trace
+      focus: explain the path from reset or power loss to ready
+      expected_behavior:
+        - log records the last reset reason and boot generation
+        - queue recovery state is visible
+        - field debug export can reconstruct the event chain
+
+    - id: TD-002
+      name: firmware_update_trace
+      focus: explain staging, activation and rollback
+      expected_behavior:
+        - event log records slot transitions and failure reasons
+        - crash dump preserves the last activation state if available
+        - field debug export shows active and pending slot
+
+    - id: TD-003
+      name: reliability_trace
+      focus: explain ECC retries, uncorrectable reads and media degradation
+      expected_behavior:
+        - counters capture retry and correction activity
+        - crash dump exposes the last failed physical address
+        - event log can separate transient from persistent error growth
+

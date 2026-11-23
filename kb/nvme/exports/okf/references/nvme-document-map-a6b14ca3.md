@@ -1,0 +1,216 @@
+# 文档图（Document map）
+
+- 介绍与定义：PDF pp. 23-38
+  - [规范族与适用范围](../concepts/specification-family-and-scope.md)：家族适用性、协议边界、需求语言（pp. 23-25）
+  - [数据表示](../concepts/data-representation.md)：数值、字符串、单位与字节序约定（pp. 25-28）
+  - [导出与底层 NVM 资源](../concepts/exported-and-underlying-resources.md)：逻辑导出拓扑与底层资源（pp. 30-31, 35-36）
+  - [命名空间访问模型](../concepts/namespace-access-models.md)：private、shared、dispersed 与命令选定 namespace（pp. 30, 33-35）
+  - controller、queue、transport、storage-placement 与 retry 术语（pp. 31-36）
+- Theory of Operation：PDF pp. 39-57
+  - [传输模型](../concepts/transport-models.md)：分类、Fabrics 分层、port 与 capsule 传输（pp. 39-46）
+  - [Queue Pair](../concepts/queue-pair.md)：内存队列机制与 Fabrics 映射/流控差异（pp. 41-43）
+  - [命令集](../concepts/command-sets.md)：Admin、I/O 与 Fabrics 分类及路由（p. 41）
+  - [Fabrics 发现与认证](../concepts/fabrics-discovery-and-authentication.md)：发现与命令接受门控（pp. 45-46）
+  - [存储资源层级](../concepts/storage-resource-hierarchy.md)：存储实体、可选的 Endurance Group 组织方式、configuration 与示例（pp. 46-53）
+  - [命令集](../concepts/command-sets.md)：namespace 到 I/O Command Set 的生命周期绑定（p. 52）
+  - [命名空间访问模型](../concepts/namespace-access-models.md)：多路径 I/O 与 namespace-sharing 边界（p. 54）
+- NVM Express Architecture：PDF pp. 58-154
+  - [命名空间访问模型](../concepts/namespace-access-models.md)：shared NSID/身份规则、并发、独立 port、SR-IOV 与非对称访问（pp. 55-57）
+  - [Controller](../concepts/controller.md)：静态/动态分配模型与 I/O/Administrative/Discovery 类型（pp. 58-62）
+  - [关联与命令生命周期](../concepts/association-and-command-lifecycle.md)：Fabrics association 建立、身份与终止（pp. 58-59）
+  - [Queue Pair](../concepts/queue-pair.md)：处理/完成顺序、队列优先级、关联以及 I/O queue 创建（pp. 59-60）
+  - [控制器属性](../concepts/controller-properties.md)：公共属性映射、transport 访问、CAP 约束、VS、中断屏蔽以及 CC 配置前置条件（pp. 71-79）
+  - [控制器使能、关机与复位](../concepts/controller-enable-shutdown-reset.md)：CC/CSTS 生命周期、Admin Queue bootstrap、NSSD 范围以及 CRTO 选择（pp. 79-92）
+  - [控制器内存窗口](../concepts/controller-memory-windows.md)：CMB placement/寻址与 PMR readiness、持久化、健康与性能属性（pp. 86-94）
+  - [Boot Partitions](../concepts/boot-partitions.md)：Boot Partition 选择、传输与状态属性（pp. 88-89）
+  - [存储资源层级](../concepts/storage-resource-hierarchy.md)：FDP Reclaim Unit Handle 间接寻址与重新指向（pp. 103-104）
+  - [Domain 与 Division](../concepts/domains-and-divisions.md)：共享状态/故障边界、标识符与 reservation 恢复（pp. 104-107）
+  - [Queue Pair](../concepts/queue-pair.md)：建立顺序、循环缓冲流控、abort 与 Fabrics 队列通道（pp. 107-110）
+  - [传输模型](../concepts/transport-models.md)：message queue capsule 大小与 SGL 传输契约（p. 110）
+  - [传输模型](../concepts/transport-models.md)：command/response capsule 布局与 in-capsule 数据放置对比内存数据放置（pp. 111-114）
+  - [Queue Pair](../concepts/queue-pair.md)：Fabrics Connect/认证状态、单条删除、SQ 流控与 CQ 大小（pp. 114-119）
+  - [关联与命令生命周期](../concepts/association-and-command-lifecycle.md)：基于消息的 association 创建与 queue 删除范围（pp. 114-117）
+  - [Queue Pair](../concepts/queue-pair.md)：transport 可靠性/顺序保证、队列大小、标识符、优先级与协调（pp. 119-120）
+  - [命令排序与仲裁](../concepts/command-ordering-and-arbitration.md)：独立排序、fused operations、仲裁与 outstanding command 边界（pp. 120-124）
+  - [Controller Initialization](../concepts/controller-initialization.md)：PCIe 与 Fabrics bootstrap、capability 选择、发现与 I/O queue 创建（pp. 124-127）
+  - [Controller Ready Modes and Timeouts](../concepts/controller-ready-modes.md)：ready 契约、与介质相关的错误、超时映射与失败上报（pp. 128-132）
+  - [控制器使能、关机与复位](../concepts/controller-enable-shutdown-reset.md)：shutdown 交互状态、PCIe/Fabrics 流程、重启与 outstanding command 边界（pp. 132-135）
+  - [控制器使能、关机与复位](../concepts/controller-enable-shutdown-reset.md)：subsystem/Domain shutdown 完成与 NVM Subsystem/Controller Level Reset 范围（pp. 135-141）
+  - [Queue Pair](../concepts/queue-pair.md)：按 transport 划分的 queue-level reset（p. 141）
+  - [NVM Capacity Model](../concepts/nvm-capacity-model.md)：容量分配/上报、Media Unit、Channel 与组织权衡（pp. 141-146）
+  - [Keep Alive](../concepts/keep-alive.md)：watchdog 配置、command/traffic 模式、host 节奏与超时清理（pp. 146-151）
+  - [Firmware Update Lifecycle](../concepts/firmware-update-lifecycle.md)：串行化的 download/commit 与立即/复位激活（pp. 152-154）
+- Data Structures：PDF pp. 155-190
+  - [Common Command Format](../concepts/common-command-format.md)：通用 64 字节 Admin/I/O SQE、CDW0、NSID、MPTR 与 PRP/SGL data pointer（pp. 155-159）
+  - [Completion Queue Entry and Status](../concepts/completion-queue-entry-and-status.md)：CQE、status 族、Command/I/O/Fabrics 分支、path retry 含义与 Phase Tag 生命周期（pp. 160-173）
+  - [Data Pointer Layouts](../concepts/data-pointer-layouts.md)：PRP entry 对齐、packed/chained PRP List、SGL 描述符图、Bit Bucket 示例与 Metadata Region 边界（pp. 173-181）
+  - [Feature Values and Scope](../concepts/feature-values-and-scope.md)：default/current/saved 值、reset 恢复、Feature scope 与 NSID 选择子（pp. 181-183）
+  - [Identity, Name, and List Formats](../concepts/identity-name-and-list-formats.md)：identifier 字节序、namespace 身份、NQN 形式、有序列表与 UTF-8 处理（pp. 183-190）
+- Admin Command Set：PDF pp. 191-470
+  - [Admin Command Model](../concepts/admin-command-model.md)：opcode/transport 分类与 Format/Sanitize 命令门控（pp. 191-193）
+  - [Command Abort Semantics](../concepts/command-abort-semantics.md)：target 选择、immediate/deferred abort、CQE 结果与 effects barrier（pp. 194-195）
+  - [Asynchronous Event Reporting](../concepts/asynchronous-event-reporting.md)：outstanding 请求、屏蔽/清除、CQE 编码与事件族（pp. 195-202）
+  - [Capacity Management Operations](../concepts/capacity-management-operations.md)：固定/可变 capacity configuration 与 Endurance Group/NVM Set 创建-删除行为（pp. 203-206）
+  - [Controller Data Queues](../concepts/controller-data-queues.md)：host-memory CDQ 生命周期与 User Data Migration Queue（pp. 206-210）
+  - [Device Self-test](../concepts/device-self-test.md)：namespace 范围、操作变迁与结果日志（pp. 210-212）
+  - [Directive Exchange](../concepts/directive-exchange.md)：由 type/operation 选定的 Send/Receive 信封（pp. 212-214）
+  - [Firmware Update Lifecycle](../concepts/firmware-update-lifecycle.md)：Firmware Commit 动作、slot、Boot Partitions 与重叠上报（pp. 214-215）
+  - [Firmware Update Lifecycle](../concepts/firmware-update-lifecycle.md)：Commit 状态与 Firmware Image Download 范围/粒度契约（pp. 216-217）
+  - [Format NVM Lifecycle](../concepts/format-nvm-lifecycle.md)：namespace 范围、安全擦除、format 字段与并发（pp. 217-220）
+  - [Feature Values and Scope](../concepts/feature-values-and-scope.md)：Get Features 选择子、UUID 下标、Feature identifier 与 capability bit（pp. 220-223）
+  - [Controller Data Queues](../concepts/controller-data-queues.md)：host-memory queue 创建/删除与 migration 日志（pp. 206-210）
+  - [Device Self-test](../concepts/device-self-test.md)：范围选择、动作码与进行中状态的变迁（pp. 210-212）
+  - [Directive Exchange](../concepts/directive-exchange.md)：成对的 Receive/Send 命令信封（pp. 212-214）
+  - [Firmware Update Lifecycle](../concepts/firmware-update-lifecycle.md)：Commit 动作编码、Domain 范围与重叠上报（pp. 214-215）
+  - [Log Page Retrieval](../concepts/log-page-retrieval.md)：检索字段、byte/index 偏移、范围分类与支持发现（pp. 223-228）
+  - [Error and Health Logs](../concepts/error-and-health-logs.md)：Error Information 记录与 SMART/Health 范围及预警（pp. 229-231）
+  - [Error and Health Logs](../concepts/error-and-health-logs.md)：寿命计数器、shutdown/error 核算与 thermal 历史（pp. 232-234）
+  - [Firmware Update Lifecycle](../concepts/firmware-update-lifecycle.md)：active/pending firmware slot 与 revision 清单（p. 235）
+  - [Namespace Identifiers](../concepts/namespace-identifiers.md)：changed-attached namespace 列表与溢出恢复（p. 235）
+  - [Command Effects and Support](../concepts/command-effects-and-support.md)：opcode 目录、影响范围、并发建议与变更标志（pp. 236-238）
+  - [Device Self-test](../concepts/device-self-test.md)：当前进度与最新优先的结果历史（pp. 238-239）
+  - [Device Self-test](../concepts/device-self-test.md)：逐结果 outcome 与 validity-gated 的失败诊断（pp. 240-241）
+  - [Telemetry Capture Logs](../concepts/telemetry-capture-logs.md)：host/controller 触发的捕获、512 字节区域、保留期与应答（pp. 241-246）
+  - [NVM Sets and Endurance Groups](../concepts/nvm-sets-and-endurance-groups.md)：Endurance Group Information log 选择子与寿命范围（p. 246）
+  - [NVM Sets and Endurance Groups](../concepts/nvm-sets-and-endurance-groups.md)：group 预警、耐久度/活动核算、错误与容量（pp. 247-248）
+  - [Predictable Latency Mode](../concepts/predictable-latency-mode.md)：按 NVM Set 的窗口、静态边界、动态估算与事件聚合（pp. 248-250）
+  - [Namespace Access Models](../concepts/namespace-access-models.md)：ANA group 快照、index 检索、change count、state 与 NSID 成员（pp. 250-252）
+  - [Persistent Event Log](../concepts/persistent-event-log.md)：保留的事件历史与 reporting-context 一致性协议（pp. 252-255）
+  - [Persistent Event Log](../concepts/persistent-event-log.md)：快照头、context 所有权、support-event 位图、事件 framing、初始记录与最早的硬件错误族（pp. 255-263）
+  - [Persistent Event Log](../concepts/persistent-event-log.md)：硬件错误证据与 namespace/Format/Sanitize/Feature 变更日志（pp. 263-271）
+  - [Persistent Event Log](../concepts/persistent-event-log.md)：telemetry、thermal、media-verification、vendor 与 TCG 扩展事件（pp. 271-275）
+  - [NVM Sets and Endurance Groups](../concepts/nvm-sets-and-endurance-groups.md)：Endurance Group 事件聚合与应答（p. 275）
+  - [NVM Capacity Model](../concepts/nvm-capacity-model.md)：Domain 范围内的 Media Unit 清单与 supported capacity configuration 层级（pp. 276-279）
+  - [NVM Capacity Model](../concepts/nvm-capacity-model.md)：嵌套的 Endurance Group、NVM Set、Channel 与 Media Unit configuration 描述符（pp. 279-281）
+  - [Command Effects and Support](../concepts/command-effects-and-support.md)：接口特定的 Feature 与 NVMe-MI opcode 支持、范围及 effects（pp. 281-284）
+  - [Command and Feature Lockdown](../concepts/command-and-feature-lockdown.md)：按路径与范围给出的 lockable/currently prohibited identifier 列表（pp. 284-286）
+  - [Boot Partitions](../concepts/boot-partitions.md)：只读日志选择子、header 与分区数据通路（pp. 286-287）
+  - [Resource and Management Inventory Logs](../concepts/resource-and-management-inventory-logs.md)：rotational-media 机制与管理端点清单（pp. 287-289）
+  - [Namespace Topology and Change Logs](../concepts/namespace-topology-and-change-logs.md)：分散参与者、reachability 层级/快照与 allocated-namespace 变更（pp. 288-293）
+  - [Flexible Data Placement Configurations](../concepts/flexible-data-placement-configurations.md)：Endurance Group configuration 目录、Placement Identifier 编码、运行时 handle usage、统计与事件历史（pp. 294-301）
+  - [Reservation Notification Log](../concepts/reservation-notification-log.md)：destructive-read 的 reservation-change 队列及可感知丢失的序号核算（pp. 301-302）
+  - [Sanitize Operation Status](../concepts/sanitize-operation-status.md)：持久化进度、完整结果编码、估算与当前/失败状态细节（pp. 302-305）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：Discovery log 过滤、快照、subsystem/host/AVE 清单与 pull-model DDC 请求（pp. 306-317）
+  - [Identify Command Model](../concepts/identify-command-model.md)：4 KiB 结果契约、CNS/CSI 选择、条件限定与 Identify Controller capability 轮廓（pp. 317-326）
+  - [Identify Command Model](../concepts/identify-command-model.md)：controller/FRU 身份、管理面、可选 Admin/log/firmware 门控、power/thermal 限制、host memory、capacity 与 RPMB 依赖（pp. 327-334）
+  - [Identify Command Model](../concepts/identify-command-model.md)：self-test、firmware、thermal、Sanitize、ANA、quiesce、queue geometry、namespace 范围与 aggregate optional I/O 支持（pp. 335-342）
+  - [Identify Command Model](../concepts/identify-command-model.md)：Format/cache/atomicity、protection、Copy/SGL、attachment/refresh、migration/CDQ、NQN 与 Fabrics 属姓（pp. 343-350）
+  - [Power State Descriptors](../concepts/power-state-descriptors.md)：operational state、transition latency、relative performance、功率估算与 power-loss 时序（pp. 350-353）
+  - [Identify Command Model](../concepts/identify-command-model.md)：active NSID/identifier/NVM Set 列表与 CSI-specific/independent namespace-controller 视图（pp. 353-358）
+  - [Identify Command Model](../concepts/identify-command-model.md)：namespace 运行时状态/resource 成员关系、allocated/topology/resource 目录、I/O Command Set 组合与 controller-state format 发现（pp. 359-366）
+  - [Controller Virtualization Resources](../concepts/controller-virtualization-resources.md)：primary VQ/VI 池与 secondary controller state/resource 目录（pp. 366-368）
+  - [Exported and Underlying NVM Resources](../concepts/exported-and-underlying-resources.md)：带 generation 计数的 Underlying Namespace 与 Fabrics Port 目录（pp. 368-370）
+  - [Command and Feature Lockdown](../concepts/command-and-feature-lockdown.md)：写入侧的 prohibit/allow 命令、接口/范围选择与状态规则（pp. 370-372）
+  - [Controller Migration](../concepts/controller-migration.md)：Receive 侧快照一致性、Suspend/Resume 生命周期、分段 Set Controller State 与 SQ/CQ 重建（pp. 372-383）
+  - [Controller Migration](../concepts/controller-migration.md)：Suspend/Resume 生命周期、分段 Set Controller State 传输、queue-state 镜像、校验与提交（pp. 375-383）
+  - [Namespace Management Lifecycle](../concepts/namespace-management-lifecycle.md)：持久化挂接/解挂、create/delete 分配、限制、事件与错误定位（pp. 383-387）
+  - [Sanitize Operation Lifecycle](../concepts/sanitize-operation-lifecycle.md)：后台擦除启动、verification 变迁、选项依赖与启动串行化（pp. 387-390）
+  - [Security Protocol Exchange](../concepts/security-protocol-exchange.md)：Security Send/Receive 信封、协议发现与 NVMe EAh/RPMB 选择（pp. 390-392）
+  - [Feature Values and Scope](../concepts/feature-values-and-scope.md)：Set Features save/UUID/buffer 契约、范围目录、顺序与重新发现边界（pp. 392-395）
+  - [Common Controller Features](../concepts/common-controller-features.md)：arbitration、power-state 选择、temperature threshold/hysteresis 与 volatile cache 策略（pp. 395-398）
+  - [Asynchronous Event Reporting](../concepts/asynchronous-event-reporting.md)：Feature 级别对 Discovery、namespace、reachability、health、firmware 与 resource log 的事件族启用（pp. 399-400）
+  - [Common Controller Features](../concepts/common-controller-features.md)：autonomous/non-operational 电源交互、timestamp 连续性、host 热管理与读恢复范围（pp. 400-405）
+  - [Keep Alive](../concepts/keep-alive.md)：Set Features timeout 单位、默认值与 transport-owned 需求（p. 403）
+  - [Predictable Latency Mode](../concepts/predictable-latency-mode.md)：NVM Set 模式使能、warning threshold 与 DTWIN/NDWIN 选择（pp. 405-407）
+  - [Feature Values and Scope](../concepts/feature-values-and-scope.md)：针对 retry、telemetry、dispersed namespace 与 Copy format 的 host-behavior 能力协商（pp. 407-409）
+  - [Sanitize Operation Lifecycle](../concepts/sanitize-operation-lifecycle.md)：subsystem no-deallocate 错误 vs. warning 策略（p. 409）
+  - [NVM Sets and Endurance Groups](../concepts/nvm-sets-and-endurance-groups.md)：按组的 critical-warning 事件配置（p. 410）
+  - [Command Sets](../concepts/command-sets.md)：active I/O Command Set 组合轮廓选择（pp. 410-411）
+  - [Common Controller Features](../concepts/common-controller-features.md)：rotational-media spinup 与 power-loss signaling 模式（pp. 411-412）
+  - [Flexible Data Placement Configurations](../concepts/flexible-data-placement-configurations.md)：saved FDP configuration 激活与按 handle 的事件选择（pp. 412-414）
+  - [Identity, Name, and List Formats](../concepts/identity-name-and-list-formats.md)：可保存的人类可读 Namespace Admin Label（pp. 414-415）
+  - [Controller Data Queues](../concepts/controller-data-queues.md)：host 头端释放与一次性 tail-trigger 事件配置（pp. 415-416）
+  - [Host Metadata and Management Addresses](../concepts/host-metadata-and-management-addresses.md)：system/host 管理 URI 与原子类型化 metadata 集（pp. 416-422）
+  - [Common Controller Features](../concepts/common-controller-features.md)：持久化饱和 Software Progress Marker（p. 422）
+  - [Identity, Name, and List Formats](../concepts/identity-name-and-list-formats.md)：Host Identifier 大小、关联、复位与替换规则（pp. 422-423）
+  - [Reservation Notification Log](../concepts/reservation-notification-log.md)：通知屏蔽与 persist-through-power-loss 状态（pp. 424-425）
+  - [Namespace Write Protection](../concepts/namespace-write-protection.md)：namespace protection 变迁门控（pp. 425-426）
+  - [Boot Partitions](../concepts/boot-partitions.md)：按分区的 write-protection 状态（pp. 426-427）
+  - [Namespace Access Models](../concepts/namespace-access-models.md)：informative ANA 路径选择、变迁恢复与 All Paths Down 探测（pp. 503-505）
+  - [Boot Partitions](../concepts/boot-partitions.md)：属性读取、安全镜像更新与 Set Features/RPMB protection 状态机（pp. 505-511）
+  - [Boot Partitions](../concepts/boot-partitions.md)：双机制控制切换与锁旁路防护（pp. 511-513）
+  - [Capacity Management Operations](../concepts/capacity-management-operations.md)：运行时核算、有序删除级联与固定/可变分配流程（pp. 513-515）
+  - [Command and Feature Lockdown](../concepts/command-and-feature-lockdown.md)：按接口的 subsystem 强制与持久化（p. 516）
+  - [Controller Data Queues](../concepts/controller-data-queues.md)：环形所有权、消费、触发与 phase-tag 协议（pp. 517-518）
+  - [Device Self-test](../concepts/device-self-test.md)：后台 segment 执行与命令 suspend（pp. 518-519）
+  - [Device Self-test](../concepts/device-self-test.md)：短/扩展 reset 持久化与 Format/Sanitize abort 边界（pp. 519-520）
+  - [Directive Exchange](../concepts/directive-exchange.md)：支持/启用协调、I/O 解释与 Streams 资源模型（pp. 520-527）
+  - [Directive Exchange](../concepts/directive-exchange.md)：Streams 参数/状态结构、分配/释放操作与 Data Placement 边界（pp. 528-531）
+  - [Dispersed Namespace Lifecycle](../concepts/dispersed-namespace-lifecycle.md)：迁移/复制拓扑、管理与全局身份（pp. 531-535）
+  - [Dispersed Namespace Lifecycle](../concepts/dispersed-namespace-lifecycle.md)：host 访问门控、ANA path 身份与跨 participant reservation（pp. 535-538）
+  - [Flexible Data Placement Configurations](../concepts/flexible-data-placement-configurations.md)：Endurance Group 启用、Placement Handle 到 RUH 映射、隔离与 reset 恢复（pp. 538-543）
+  - [Device Self-test](../concepts/device-self-test.md)：Host-Initiated Refresh 范围、进度与 abort 边界（pp. 543-544）
+  - [Controller Migration](../concepts/controller-migration.md)：host-managed live-migration 角色、change tracking、源 suspend、状态传输与目的 resume（pp. 544-548）
+  - [Key Per I/O](../concepts/key-per-io.md)：按命令的 namespace 加密密钥 tag 选择（pp. 548-549）
+  - [Host Metadata and Management Addresses](../concepts/host-metadata-and-management-addresses.md)：已配置的 agent 位置与接口特定 Lockdown（pp. 549-550）
+  - [Namespace Management Lifecycle](../concepts/namespace-management-lifecycle.md)：capability 门控、分配 selector 矩阵、host 工作流、删除通知与 exported-subsystem 边界（pp. 550-553）
+  - [Namespace Write Protection](../concepts/namespace-write-protection.md)：持久化状态机、subsystem-wide 强制与命令交互边界（pp. 553-556）
+  - [Power State Descriptors](../concepts/power-state-descriptors.md)：host/static/dynamic 策略、变迁时机、non-operational 执行与 APST 进入/唤醒规则（pp. 556-558）
+  - [Power State Descriptors](../concepts/power-state-descriptors.md)：Runtime D3cold 进入/恢复策略（p. 559）
+  - [Common Controller Features](../concepts/common-controller-features.md)：HCTM threshold、缓解与恢复行为（pp. 559-561）
+  - [Predictable Latency Mode](../concepts/predictable-latency-mode.md)：NVM Set 隔离、DTWIN 预算、NDWIN 维护与事件（pp. 561-565）
+  - [Namespace Topology and Change Logs](../concepts/namespace-topology-and-change-logs.md)：运行时 Reachability Group/Association 语义（pp. 565-567）
+  - [Namespace Topology and Change Logs](../concepts/namespace-topology-and-change-logs.md)：reachability 通知失效与日志刷新（pp. 567-568）
+  - [Common Controller Features](../concepts/common-controller-features.md)：Read Recovery Level 排序、继承与必需级别（pp. 568-569）
+  - [Replay Protected Memory Block](../concepts/replay-protected-memory-block.md)：authenticated target 模型、Device Configuration Block、frame/result 格式与密钥写入（pp. 569-575）
+  - [Replay Protected Memory Block](../concepts/replay-protected-memory-block.md)：counter、数据读/写以及独立的 Device Configuration Block 操作（pp. 575-580）
+  - [Namespace Reservation Lifecycle](../concepts/namespace-reservation-lifecycle.md)：冲突时机、host-path 身份、支持契约与按类型划分的权利（pp. 580-583）
+  - [Namespace Reservation Lifecycle](../concepts/namespace-reservation-lifecycle.md)：命令冲突矩阵、注册、抢占/中止、清除与通知（pp. 583-588）
+  - [Resource and Management Inventory Logs](../concepts/resource-and-management-inventory-logs.md)：rotational-media 支持与 reset 时 spinup 生命周期（pp. 588-589）
+  - [Sanitize Operation Lifecycle](../concepts/sanitize-operation-lifecycle.md)：target 覆盖、verification、deallocation 位置、持久化与事件路由（pp. 589-591）
+  - [Sanitize Operation Lifecycle](../concepts/sanitize-operation-lifecycle.md)：操作 capability、overwrite 行为、状态观测与处理/失败状态变迁（pp. 591-599）
+  - [Sanitize Operation Lifecycle](../concepts/sanitize-operation-lifecycle.md)：失败恢复、verification/deallocation 变迁、命令限制与 exported effects（pp. 599-603）
+  - [Predictable Latency Mode](../concepts/predictable-latency-mode.md)：可选的 SQ 到 NVM Set 关联 hint（pp. 603-604）
+  - [Common Command Format](../concepts/common-command-format.md)：标准 vendor-specific 传输信封（p. 604）
+  - [Telemetry Capture Logs](../concepts/telemetry-capture-logs.md)：分阶段 payload、一致性协议与累计区示例（pp. 604-607）
+  - [Telemetry Capture Logs](../concepts/telemetry-capture-logs.md)：稀疏/等边界累计区示例（pp. 607-608）
+  - [Identity, Name, and List Formats](../concepts/identity-name-and-list-formats.md)：UUID 选定的 vendor 定义与 firmware-stable 下标（pp. 608-611）
+  - [Controller Memory Windows](../concepts/controller-memory-windows.md)：CMB 地址/placement 顺序与 PMR 持久化/屏障（pp. 611-615）
+  - [Host Memory Buffer](../concepts/host-memory-buffer.md)：可选容量、所有权归还与 reset/RTD3 复用（p. 613）
+  - [Power Loss Signaling](../concepts/power-loss-signaling.md)：Domain configuration、PLN/PLA 握手、状态机、FQ 与 EPF（pp. 615-622）
+  - [Controller Virtualization Resources](../concepts/controller-virtualization-resources.md)：flexible/private 分配拓扑与标识符范围（pp. 622-623）
+  - [Controller Virtualization Resources](../concepts/controller-virtualization-resources.md)：VQ/VI 资源下限、secondary Online/Offline 生命周期与 SR-IOV PF/VF 映射（pp. 624-626）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：IP-fabric DNS-SD bootstrap、记录以及 host/DDC/CDC 行为（pp. 626-631）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：集中式发现、push/pull 注册与 kickstart discovery（pp. 632-637）
+  - [Fabric Zoning Model](../concepts/fabric-zoning-model.md)：ZoneDBConfig/Active、ZoneGroup identity、Zone 布局、成员匹配维度、ZoneAlias、properties，以及 push/pull GAZ、AAZ、RAZ 的锁定、分片与提交（pp. 637-654）
+  - [Fabric Zoning Model](../concepts/fabric-zoning-model.md)：pull-model RAZ 完成、统一 operation status 与 Discovery-log request（pp. 655-657）
+  - [Exported and Underlying NVM Resources](../concepts/exported-and-underlying-resources.md)：underlying resource 发现、export 配置、host access 与删除/清除顺序（pp. 657-661）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：fabric secure channel 与 Connect 后 in-band authentication 的双门（pp. 661-662）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：Discovery NQN 认证、重认证/超时、TLS PSK concatenation 与公共认证消息（pp. 663-670）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：DH-HMAC-CHAP 协商、单/双向状态机、hash/DH 选择、消息验证与失败断连（pp. 671-678）
+  - [Queue Pair](../concepts/queue-pair.md)：queue count 协商与中断合并（pp. 427-429）
+  - [Host Memory Buffer](../concepts/host-memory-buffer.md)：所有权与非运行态访问限制（pp. 429-431）
+  - [Host Memory Buffer](../concepts/host-memory-buffer.md)：描述符 entry 与当前属性检索（pp. 431-432）
+  - [Migration Change Tracking](../concepts/migration-change-tracking.md)：Track Receive/Send、UDMQ 日志、host memory 范围 tracking 与消费规则（pp. 433-438）
+  - [Migration Change Tracking](../concepts/migration-change-tracking.md)：request 描述符、回退容量与地址稳定性风险（pp. 439-440）
+  - [Queue Pair](../concepts/queue-pair.md)：PCIe I/O queue 创建/删除与 Shadow Doorbell/EventIdx buffer（pp. 441-446）
+  - [Controller Virtualization Resources](../concepts/controller-virtualization-resources.md)：primary 分配与 secondary Offline/Assign/Online 生命周期（pp. 446-447）
+  - [Exported and Underlying NVM Resources](../concepts/exported-and-underlying-resources.md)：exported-subsystem 创建、访问模式初始化与 configuration 清除（pp. 448-449）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：带 key 的 discovery 注册、反注册、atomic update 与扩展条目 framing（pp. 449-455）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：扩展属性的适用范围、类型与长度规则（pp. 455-457）
+  - [Fabric Zoning Data Transfer](../concepts/fabric-zoning-data-transfer.md)：key 查询、key/transaction context 以及分片 receive/send（pp. 457-460）
+  - [Exported and Underlying NVM Resources](../concepts/exported-and-underlying-resources.md)：exported namespace 关联/解关联与 subsystem 删除门控（pp. 460-463）
+  - [Exported and Underlying NVM Resources](../concepts/exported-and-underlying-resources.md)：exported-subsystem 访问列表与 exported-port 生命周期（pp. 463-469）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：CDC 到 pull-DDC 的 discovery log 投递与更新注册（pp. 469-470）
+  - [Fabrics Discovery and Authentication](../concepts/fabrics-discovery-and-authentication.md)：Fabrics 命令矩阵与 Authentication Send/Receive（pp. 471-473）
+  - [Association and Command Lifecycle](../concepts/association-and-command-lifecycle.md)：Connect 控制器分配与身份继承（pp. 473-477）
+  - [Queue Pair](../concepts/queue-pair.md)：Connect 的 SQ-flow-control 协商与 Disconnect 的 final-response barrier（pp. 474-479）
+  - [Controller Properties](../concepts/controller-properties.md)：Fabrics Property Get/Set 访问机制（pp. 479-481）
+  - [Common I/O Control Commands](../concepts/common-io-control-commands.md)：通用 I/O opcode 平面、Cancel、Flush 与 I/O Management Receive（pp. 482-487）
+  - [Common I/O Control Commands](../concepts/common-io-control-commands.md)：Reclaim Unit Handle Update 与 partial/concurrent effects（pp. 487-489）
+  - [Namespace Reservation Lifecycle](../concepts/namespace-reservation-lifecycle.md)：acquire/register/release/report 命令与 dispersed-namespace 握手（pp. 489-495）
+  - [Namespace Reservation Lifecycle](../concepts/namespace-reservation-lifecycle.md)：basic 与 extended registrant record 完成（pp. 495-496）
+  - [Namespace Access Models](../concepts/namespace-access-models.md)：ANA group、controller-relative 状态、通知与命令 effects（pp. 497-503）
+- Fabrics Command Set：PDF pp. 471-481
+- I/O Commands：PDF pp. 482-496
+- Extended Capabilities：PDF pp. 497-689
+- Error Reporting and Recovery：PDF pp. 690-695
+  - [Communication Loss and Command Retry](../concepts/communication-loss-and-command-retry.md)：queue/controller 错误恢复、CFS reset 升级、停止处理屏障与三类 retry（pp. 690-695）
+- Informative annexes：PDF pp. 696-707
+  - [Sanitize Operation Lifecycle](../concepts/sanitize-operation-lifecycle.md)：隐藏介质、integrity-check 与 forensic audit 边界（pp. 696-697）
+  - [Queue Pair](../concepts/queue-pair.md)：host 构建命令、非连续 I/O SQ 与 Shadow Doorbell 模运算（pp. 698-699, 702）
+  - [命令排序与仲裁](../concepts/command-ordering-and-arbitration.md)：Compare+Write fused pair 示例（pp. 699-701）
+  - [Asynchronous Event Reporting](../concepts/asynchronous-event-reporting.md)：host 读取 log、重配事件与补交 AER 的推荐循环（p. 701）
+  - [Communication Loss and Command Retry](../concepts/communication-loss-and-command-retry.md)：错误 retry 导致数据覆盖与重复 namespace 的反例（pp. 702-703）
+  - [Communication Loss and Command Retry](../concepts/communication-loss-and-command-retry.md)：retry status 不能证明原命令失败，以及跨 host 延迟重写的协调风险（pp. 704-705）
+  - [Common Controller Features](../concepts/common-controller-features.md)：controller-scope 电源管理的控制、capability、热交互与运行时报告面（pp. 706-707）

@@ -1,0 +1,228 @@
+hook_matrix:
+  id: EMULATOR-HOOK-MATRIX
+  title: Emulator and source-code hook matrix for SSD design verification assets
+  review_date: 2026-08-12
+  purpose:
+    - Bind abstract tests, fault windows and policy matrices to concrete emulator or source-code investigation hooks.
+    - Prioritize where to add instrumentation before building a runnable SSD verification harness.
+    - Keep historical reading references separate from primary experiment targets.
+  source_pins:
+    - sources/open-source-implementation-pins.yml
+  primary_targets:
+    - id: SRC-FEMU
+      role: primary system-level NVMe emulator target
+    - id: SRC-SIMPLESSD
+      role: primary SSD simulator target for FTL/PAL/NAND timing experiments
+    - id: SRC-MQSIM
+      role: architecture-level scheduler and QoS model target
+    - id: SRC-COSMOS
+      role: firmware/FPGA reference for request queues and NAND scheduler structure
+  support_targets:
+    - id: SRC-SPDK
+      role: host-side FTL and NVMe userspace behavior reference
+    - id: SRC-LINUX-NVME
+      role: host driver expectation and reset/error behavior reference
+    - id: SRC-NVME-CLI
+      role: admin command and telemetry probing tool reference
+    - id: SRC-LIBNVME
+      role: future host-side test utility reference
+  hooks:
+    - id: HOOK-PLP-001
+      name: write_path_power_cut_windows
+      category: power-loss
+      priority: P0
+      requirements: [REQ-PLP-001, REQ-DATA-001, REQ-DATA-002]
+      tests: [T4-001, T4-002, T4-003, T4-004, T4-005]
+      faults: [FI-PLP-001, FI-PLP-003, FI-PLP-005, FI-PLP-006, FI-PLP-008]
+      state_windows:
+        - PLP-WIN-001
+        - PLP-WIN-002
+        - PLP-WIN-003
+        - PLP-WIN-004
+        - PLP-WIN-005
+        - PLP-WIN-006
+        - PLP-WIN-007
+        - PLP-WIN-008
+        - PLP-WIN-009
+        - PLP-WIN-010
+      target_projects:
+        - SRC-FEMU
+        - SRC-SIMPLESSD
+        - SRC-COSMOS
+        - SRC-SPDK
+      hook_points:
+        - host DMA completion boundary
+        - NAND program start and completion callback
+        - mapping journal append and commit marker write
+        - checkpoint or superblock generation switch
+        - GC relocation and victim erase boundary
+      required_observability:
+        - command_id
+        - lba_range
+        - old_ppa
+        - new_ppa
+        - journal_sequence
+        - checkpoint_generation
+        - page_metadata_crc
+        - recovery_decision
+      next_action: Add deterministic crash-trigger counters and replay-result assertions to the primary emulator.
+
+    - id: HOOK-LDPC-001
+      name: read_error_and_ldpc_retry_pipeline
+      category: reliability
+      priority: P0
+      requirements: [REQ-REL-001, REQ-REL-002, REQ-QOS-001, REQ-PROD-001]
+      tests: [T3-001, T3-002, T3-003, T5-004, T6-003]
+      faults: [FI-NAND-001, FI-NAND-004, FI-QOS-002]
+      policies:
+        - LDPC-POL-001
+        - LDPC-POL-002
+        - LDPC-POL-003
+        - LDPC-POL-004
+        - LDPC-POL-005
+        - LDPC-POL-006
+        - LDPC-POL-007
+      target_projects:
+        - SRC-FEMU
+        - SRC-SIMPLESSD
+        - SRC-MQSIM
+        - SRC-COSMOS
+      hook_points:
+        - NAND read completion path
+        - bit-error injection model
+        - read-retry ladder state transition
+        - soft-decode budget gate
+        - scrub/refresh scheduler enqueue
+        - uncorrectable read status and telemetry emission
+      required_observability:
+        - corrected_bits_per_codeword
+        - read_retry_count
+        - threshold_step
+        - soft_read_count
+        - ecc_engine_busy_us
+        - uncorrectable_read_count
+        - affected_lba_count
+        - failed_physical_address
+      next_action: Implement a deterministic error model that can force fast-path success, retry success, soft-decode success and final failure.
+
+    - id: HOOK-FSCH-001
+      name: flash_scheduler_resource_arbitration
+      category: scheduler-qos
+      priority: P1
+      requirements: [REQ-QOS-001, REQ-PERF-001, REQ-FTL-001, REQ-NAND-001]
+      tests: [T2-002, T3-004, T5-001, T5-002, T5-003, T5-004]
+      faults: [FI-FTL-002, FI-QOS-001, FI-QOS-002]
+      policies:
+        - FSCH-POL-001
+        - FSCH-POL-002
+        - FSCH-POL-003
+        - FSCH-POL-004
+        - FSCH-POL-005
+        - FSCH-POL-006
+        - FSCH-POL-007
+      target_projects:
+        - SRC-SIMPLESSD
+        - SRC-MQSIM
+        - SRC-FEMU
+        - SRC-COSMOS
+      hook_points:
+        - channel arbitration decision
+        - die busy state transition
+        - program/erase suspend and resume
+        - GC/destage/scrub background budget update
+        - ECC retry storm limiter
+        - channel timeout recovery path
+      required_observability:
+        - channel_utilization
+        - die_busy_histogram
+        - request_age_max
+        - background_budget_debt
+        - ecc_retry_queue_depth
+        - read_p999
+        - channel_timeout_count
+      next_action: Add scheduler trace events that can be aggregated into per-channel and per-die fairness metrics.
+
+    - id: HOOK-HMB-001
+      name: dram_less_hmb_mapping_cache_faults
+      category: host-memory-buffer
+      priority: P1
+      requirements: [REQ-NVME-001, REQ-NVME-002, REQ-FTL-001, REQ-DATA-001, REQ-DATA-002, REQ-QOS-001]
+      tests: [T1-001, T1-003, T1-004, T2-001, T2-002, T2-004, T4-003, T4-004, T5-001, T5-002]
+      policies:
+        - HMB-POL-001
+        - HMB-POL-002
+        - HMB-POL-003
+        - HMB-POL-004
+        - HMB-POL-005
+        - HMB-POL-006
+      target_projects:
+        - SRC-FEMU
+        - SRC-LINUX-NVME
+        - SRC-NVME-CLI
+        - SRC-LIBNVME
+        - SRC-SIMPLESSD
+      hook_points:
+        - HMB feature enable and disable
+        - descriptor validation
+        - HMB DMA fault path
+        - mapping cache lookup and miss path
+        - reset generation invalidation
+        - recovery rebuild path
+      required_observability:
+        - hmb_generation
+        - hmb_hit_rate
+        - hmb_miss_rate
+        - hmb_dma_faults
+        - stale_generation_drops
+        - translation_page_reads
+        - read_p999
+      next_action: Extend nvme-cli/libnvme command profile to configure HMB and inject descriptor revoke/reset scenarios.
+
+    - id: HOOK-FWUP-001
+      name: firmware_update_activation_and_rollback_hooks
+      category: firmware-update
+      priority: P1
+      requirements: [REQ-PLP-001, REQ-PROD-001]
+      tests: [T6-002, T6-003, T4-004]
+      faults: [FI-FWUP-001, FI-FWUP-002, FI-FWUP-003]
+      state_windows:
+        - FWUP-WIN-001
+        - FWUP-WIN-002
+        - FWUP-WIN-003
+        - FWUP-WIN-004
+        - FWUP-WIN-005
+        - FWUP-WIN-006
+        - FWUP-WIN-007
+        - FWUP-WIN-008
+      target_projects:
+        - SRC-FEMU
+        - SRC-NVME-CLI
+        - SRC-LIBNVME
+        - SRC-LINUX-NVME
+      hook_points:
+        - firmware image download chunk boundary
+        - slot table commit
+        - activation pending flag update
+        - first boot after activation
+        - metadata migration journal
+        - rollback record write
+      required_observability:
+        - firmware_slot
+        - image_digest
+        - activation_state
+        - metadata_format_version
+        - migration_sequence
+        - rollback_reason
+        - event_log_record
+      next_action: Add host command scripts for firmware download/commit/activation and pair them with crash-trigger windows.
+
+  implementation_order:
+    - HOOK-PLP-001
+    - HOOK-LDPC-001
+    - HOOK-FSCH-001
+    - HOOK-HMB-001
+    - HOOK-FWUP-001
+  completion_rule:
+    - Each P0 hook needs at least one deterministic injection trigger.
+    - Each hook needs machine-readable expected evidence and a log parser before it can be called executable.
+    - Historical references can explain behavior but cannot satisfy pass/fail evidence without a runnable harness.
