@@ -1,0 +1,3594 @@
+{
+  "kvmem-8k-fp16": {
+    "mode": "kvmem-8k-fp16",
+    "pid": 15584,
+    "drops": [],
+    "phases": {
+      "engine.admission_policy": {
+        "wall_ms": 3.21,
+        "kernels_total": 0,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 0,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 0.0,
+        "kernel_union_ms": 0.0,
+        "copy_union_ms": 0.0,
+        "gpu_busy_pct": 0.08,
+        "sync_api_union_ms": 0.0,
+        "sync_api_calls": 0,
+        "top_apis": [
+          {
+            "api": "cudaMemsetAsync",
+            "count": 98,
+            "sum_ms": 0.8
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 8,
+            "sum_ms": 0.06
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 8,
+            "mib": 0.0,
+            "sum_ms": 0.0
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 7,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 56,
+            "count": 1,
+            "total_mib": 0.0
+          }
+        ],
+        "top_kernels": [],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 3
+          },
+          "SM Issue": {
+            "n": 3,
+            "mean_pct": 0.33,
+            "p95_pct": 1
+          },
+          "Tensor Active": {
+            "n": 3,
+            "mean_pct": 0,
+            "p95_pct": 0
+          },
+          "DRAM Read Bandwidth": {
+            "n": 3,
+            "mean_pct": 0.33,
+            "p95_pct": 1
+          },
+          "DRAM Write Bandwidth": {
+            "n": 3,
+            "mean_pct": 4.33,
+            "p95_pct": 13
+          },
+          "PCIe RX Throughput": {
+            "n": 3,
+            "mean_pct": 0.33,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 1
+          }
+        }
+      },
+      "generate": {
+        "wall_ms": 5070.95,
+        "kernels_total": 88474,
+        "graph_kernel_nodes": 70633,
+        "unique_streams": 4,
+        "graph_launch_calls": 61,
+        "kernel_sum_ms": 4515.96,
+        "kernel_union_ms": 4515.9,
+        "copy_union_ms": 26.16,
+        "gpu_busy_pct": 89.57,
+        "sync_api_union_ms": 3205.42,
+        "sync_api_calls": 262,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 262,
+            "sum_ms": 3205.42
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 13640,
+            "sum_ms": 762.71
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 2724,
+            "sum_ms": 244.32
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 20,
+            "sum_ms": 193.91
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 1477,
+            "sum_ms": 116.96
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 5,
+            "sum_ms": 51.11
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 61,
+            "sum_ms": 42.21
+          },
+          {
+            "api": "cuLaunchKernelEx",
+            "count": 1477,
+            "sum_ms": 39.43
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 251,
+            "mib": 0.34,
+            "sum_ms": 0.18
+          },
+          "D2D": {
+            "count": 481,
+            "mib": 252.43,
+            "sum_ms": 0.51
+          },
+          "D2H": {
+            "count": 1105,
+            "mib": 620.04,
+            "sum_ms": 25.47
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 192,
+            "total_mib": 1.88
+          },
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 192,
+            "total_mib": 11.25
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 192,
+            "total_mib": 288.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 49152,
+            "count": 150,
+            "total_mib": 7.03
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 117,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1900544,
+            "count": 102,
+            "total_mib": 184.88
+          },
+          {
+            "kind": "D2H",
+            "bytes": 59392,
+            "count": 102,
+            "total_mib": 5.78
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 68,
+            "total_mib": 4.25
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "mul_mat_q",
+            "count": 3116,
+            "sum_ms": 2650.46
+          },
+          {
+            "name": "kernel",
+            "count": 27600,
+            "sum_ms": 1157.83
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_256x80x64_2_64x40x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 1038,
+            "sum_ms": 171.16
+          },
+          {
+            "name": "store_plane_kernel",
+            "count": 656,
+            "sum_ms": 82.25
+          },
+          {
+            "name": "causal_attention_prompt_i8_fast_kernel",
+            "count": 112,
+            "sum_ms": 75.06
+          },
+          {
+            "name": "chunk_recurrence_kernel",
+            "count": 336,
+            "sum_ms": 46.86
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 1305,
+            "sum_ms": 37.37
+          },
+          {
+            "name": "quantize_matrix_kernel",
+            "count": 2419,
+            "sum_ms": 32.01
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 5071,
+            "mean_pct": 83.69,
+            "p95_pct": 100
+          },
+          "SM Issue": {
+            "n": 5071,
+            "mean_pct": 35.71,
+            "p95_pct": 50
+          },
+          "Tensor Active": {
+            "n": 5071,
+            "mean_pct": 26.44,
+            "p95_pct": 54
+          },
+          "DRAM Read Bandwidth": {
+            "n": 5071,
+            "mean_pct": 18.48,
+            "p95_pct": 76
+          },
+          "DRAM Write Bandwidth": {
+            "n": 5071,
+            "mean_pct": 3.95,
+            "p95_pct": 9
+          },
+          "PCIe RX Throughput": {
+            "n": 5071,
+            "mean_pct": 0.67,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 5071,
+            "mean_pct": 1.2,
+            "p95_pct": 1
+          }
+        }
+      },
+      "decode_8k_fp16": {
+        "wall_ms": 1392.29,
+        "kernels_total": 70775,
+        "graph_kernel_nodes": 70633,
+        "unique_streams": 4,
+        "graph_launch_calls": 61,
+        "kernel_sum_ms": 1258.43,
+        "kernel_union_ms": 1258.37,
+        "copy_union_ms": 5.57,
+        "gpu_busy_pct": 90.78,
+        "sync_api_union_ms": 1294.45,
+        "sync_api_calls": 212,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 212,
+            "sum_ms": 1294.45
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 61,
+            "sum_ms": 42.21
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 328,
+            "sum_ms": 14.08
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 1,
+            "sum_ms": 9.13
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 142,
+            "sum_ms": 4.07
+          },
+          {
+            "api": "cudaGraphExecUpdate",
+            "count": 3,
+            "sum_ms": 3.22
+          },
+          {
+            "api": "cudaEventRecord",
+            "count": 89,
+            "sum_ms": 0.48
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 68,
+            "sum_ms": 0.4
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 143,
+            "mib": 0.28,
+            "sum_ms": 0.14
+          },
+          "D2D": {
+            "count": 427,
+            "mib": 11.14,
+            "sum_ms": 0.3
+          },
+          "D2H": {
+            "count": 375,
+            "mib": 142.56,
+            "sum_ms": 5.14
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 183,
+            "total_mib": 1.79
+          },
+          {
+            "kind": "D2D",
+            "bytes": 49152,
+            "count": 150,
+            "total_mib": 7.03
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 82,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4864,
+            "count": 61,
+            "total_mib": 0.28
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2624,
+            "count": 61,
+            "total_mib": 0.15
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1048576,
+            "count": 61,
+            "total_mib": 61.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 16,
+            "count": 50,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 48,
+            "total_mib": 2.81
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 25939,
+            "sum_ms": 1095.14
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 1237,
+            "sum_ms": 35.86
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 2928,
+            "sum_ms": 25.76
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 393,
+            "sum_ms": 22.35
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 16939,
+            "sum_ms": 17.18
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 2928,
+            "sum_ms": 12.61
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 61,
+            "sum_ms": 9.37
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 6161,
+            "sum_ms": 8.86
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 1393,
+            "mean_pct": 82.38,
+            "p95_pct": 93
+          },
+          "SM Issue": {
+            "n": 1393,
+            "mean_pct": 32.89,
+            "p95_pct": 39
+          },
+          "Tensor Active": {
+            "n": 1393,
+            "mean_pct": 1.08,
+            "p95_pct": 1
+          },
+          "DRAM Read Bandwidth": {
+            "n": 1393,
+            "mean_pct": 52.97,
+            "p95_pct": 86
+          },
+          "DRAM Write Bandwidth": {
+            "n": 1393,
+            "mean_pct": 1.27,
+            "p95_pct": 4
+          },
+          "PCIe RX Throughput": {
+            "n": 1393,
+            "mean_pct": 0.32,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 1393,
+            "mean_pct": 1.14,
+            "p95_pct": 1
+          }
+        }
+      },
+      "prefill_8k_fp16": {
+        "wall_ms": 3799.87,
+        "kernels_total": 17699,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 1,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 3257.53,
+        "kernel_union_ms": 3257.53,
+        "copy_union_ms": 20.59,
+        "gpu_busy_pct": 86.27,
+        "sync_api_union_ms": 1910.97,
+        "sync_api_calls": 50,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 50,
+            "sum_ms": 1910.97
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 13498,
+            "sum_ms": 758.63
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 2724,
+            "sum_ms": 244.32
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 20,
+            "sum_ms": 193.91
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 1477,
+            "sum_ms": 116.96
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 4,
+            "sum_ms": 41.98
+          },
+          {
+            "api": "cuLaunchKernelEx",
+            "count": 1477,
+            "sum_ms": 39.43
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 484,
+            "sum_ms": 16.72
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 108,
+            "mib": 0.06,
+            "sum_ms": 0.05
+          },
+          "D2D": {
+            "count": 54,
+            "mib": 241.29,
+            "sum_ms": 0.21
+          },
+          "D2H": {
+            "count": 730,
+            "mib": 477.47,
+            "sum_ms": 20.33
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 144,
+            "total_mib": 8.44
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 144,
+            "total_mib": 216.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1900544,
+            "count": 102,
+            "total_mib": 184.88
+          },
+          {
+            "kind": "D2H",
+            "bytes": 59392,
+            "count": 102,
+            "total_mib": 5.78
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 68,
+            "total_mib": 4.25
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2048,
+            "count": 68,
+            "total_mib": 0.13
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 35,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1376256,
+            "count": 34,
+            "total_mib": 44.62
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "mul_mat_q",
+            "count": 2723,
+            "sum_ms": 2628.1
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_256x80x64_2_64x40x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 1038,
+            "sum_ms": 171.16
+          },
+          {
+            "name": "store_plane_kernel",
+            "count": 595,
+            "sum_ms": 82.12
+          },
+          {
+            "name": "causal_attention_prompt_i8_fast_kernel",
+            "count": 112,
+            "sum_ms": 75.06
+          },
+          {
+            "name": "kernel",
+            "count": 1661,
+            "sum_ms": 62.68
+          },
+          {
+            "name": "chunk_recurrence_kernel",
+            "count": 336,
+            "sum_ms": 46.86
+          },
+          {
+            "name": "quantize_matrix_kernel",
+            "count": 2114,
+            "sum_ms": 31.7
+          },
+          {
+            "name": "dequantize_rows_kernel",
+            "count": 1502,
+            "sum_ms": 26.0
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 3799,
+            "mean_pct": 81.51,
+            "p95_pct": 100
+          },
+          "SM Issue": {
+            "n": 3799,
+            "mean_pct": 35.61,
+            "p95_pct": 52
+          },
+          "Tensor Active": {
+            "n": 3799,
+            "mean_pct": 34.9,
+            "p95_pct": 61
+          },
+          "DRAM Read Bandwidth": {
+            "n": 3799,
+            "mean_pct": 5.24,
+            "p95_pct": 17
+          },
+          "DRAM Write Bandwidth": {
+            "n": 3799,
+            "mean_pct": 4.81,
+            "p95_pct": 10
+          },
+          "PCIe RX Throughput": {
+            "n": 3799,
+            "mean_pct": 0.77,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 3799,
+            "mean_pct": 1.21,
+            "p95_pct": 1
+          }
+        }
+      }
+    },
+    "client_timing": {
+      "mode": "kvmem-8k-fp16",
+      "runs": [
+        {
+          "ttft_ms": 3799.87,
+          "decode_ms": 1392.35,
+          "total_ms": 5192.22,
+          "chunk_gaps": {
+            "n_events": 61,
+            "mean_ms": 22.5,
+            "p50_ms": 22.17,
+            "p95_ms": 23.91,
+            "p99_ms": 36.28,
+            "max_ms": 36.28,
+            "top5_ms": [
+              36.28,
+              24.51,
+              23.99,
+              23.91,
+              23.46
+            ]
+          },
+          "text": "The provided text consists of a repetitive loop describing a \"system telemetry ledger verification record\" for memory residency and cache eviction audits. It does not describe specific hardware mechanisms, circuit designs, or physical components. Instead, it outlines the logical data fields tracked within this audit benchmark: page boundaries, slot identity, host staging quota, and PCIe transfer cost.\n\nThese entries serve as metadata for monitoring how memory pages are managed and how data is transferred between the host system and peripheral devices via the Peripheral Component Interconnect Express (PCIe) bus. The \"host staging quota\" implies a resource allocation mechanism for buffering data before transfer, while \"PCIe transfer cost\" tracks the bandwidth or latency overhead associated with moving data. The \"slot identity\" likely refers to specific hardware slots or device addresses. Ultimately, the",
+          "usage": {
+            "completion_tokens": 160,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "prompt_tokens": 6860,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 7020
+          }
+        }
+      ]
+    },
+    "server_log": [
+      "KVMEM_CONFIG SinkTokens: 0 -> 64 tokens (block alignment)",
+      "2026-11-26 13:33:38.812  INFO  build 0.19.ninfer1+kvmem-89c6698-ninfer-bb98e6d4-sm120a",
+      "2026-11-26 13:33:38.975  INFO  starting engine",
+      "2026-11-26 13:33:39.002  INFO  engine | KVMEM_SCORING scorer=page-softmax agg=mean lrfu=0 lambda=0.5 top_frac=0.90000000000000002 graph_alpha=0.20000000000000001",
+      "2026-11-26 13:33:39.002  INFO  engine | KVMEM_LIMITS query_max_tokens=512 query_replay_max_tokens=2048",
+      "2026-11-26 13:33:39.145  INFO  engine | device profile nvidia-geforce-rtx-5080-sm120: 78 routed keys (built in: RTX 5080 at 360 W, 2026-10-16)",
+      "2026-11-26 13:33:39.730  INFO  loading weights | 8.49 GiB",
+      "2026-11-26 13:33:42.308  INFO  weights ready | 8.49 GiB | 2.6s | 3.29 GiB/s",
+      "2026-11-26 13:33:42.314  INFO  engine | CUDA graph probe starting",
+      "2026-11-26 13:33:45.098  INFO  engine | CUDA graph probe measured 28.0 MiB; planning allowance 256.0 MiB (second not needed)",
+      "2026-11-26 13:33:45.586  INFO  CUDA graphs ready | 334 ms",
+      "2026-11-26 13:33:45.587  INFO  engine ready | swift-1.5-qwen3.8-27b-gsq-rco-iq2xs | total 6.6s | weights 8.49 GiB | CUDA sync auto",
+      "2026-11-26 13:33:45.587  INFO  capacity | KV 9,216 tokens, int8, explicit | pages 144/144 | runtime 1.04 GiB | free 5.31 GiB",
+      "2026-11-26 13:33:45.587  INFO  context cache | root only",
+      "2026-11-26 13:33:45.835  INFO  listening on http://127.0.0.1:18110 | model swift15 | auth disabled",
+      "2026-11-26 13:33:45.835  INFO  api base http://127.0.0.1:18110/v1",
+      "2026-11-26 13:33:45.933  INFO  req#1 started | openai-chat stream | 1 message | max output 16 | thinking off",
+      "2026-11-26 13:33:46.387  INFO  req#1 done | openai-chat | stop token | prompt 21 | output 4 | cache 0 (0.0%) | TTFT 404 ms | total 466 ms | prefill 53.6 tok/s | decode 70.4 tok/s | mtp accepted 3/6 (50.0%)",
+      "2026-11-26 13:33:49.822  INFO  req#2 started | openai-chat stream | 1 message | max output 160 | thinking off",
+      "2026-11-26 13:33:50.839  INFO  throughput | 5.0s | prefill 208.8 tok/s (1,045 tok) | decode 0.6 tok/s (3 tok) | running 1 (prefill 1) | batch 1.00 | host 18.1% (908 ms)",
+      "2026-11-26 13:33:54.893  INFO  req#2 done | openai-chat | output limit | prompt 6,860 | output 160 | cache 0 (0.0%) | TTFT 3.8s | total 5.2s | prefill 1.87k tok/s | decode 117.9 tok/s | mixed speculation accepted 98/202 (48.5%) | ngram 2/15 accepted, 1 rounds",
+      "2026-11-26 13:33:55.847  INFO  throughput | 5.0s | prefill 1.17k tok/s (5,836 tok) | decode 31.8 tok/s (159 tok) | running 0 | batch 1.00 | host 26.4% (1.3s)"
+    ]
+  },
+  "kvmem-24k-fp16": {
+    "mode": "kvmem-24k-fp16",
+    "pid": 32184,
+    "drops": [],
+    "phases": {
+      "decode_22k_fp16_recall": {
+        "wall_ms": 193.16,
+        "kernels_total": 9203,
+        "graph_kernel_nodes": 9184,
+        "unique_streams": 3,
+        "graph_launch_calls": 8,
+        "kernel_sum_ms": 168.4,
+        "kernel_union_ms": 168.39,
+        "copy_union_ms": 2.59,
+        "gpu_busy_pct": 88.52,
+        "sync_api_union_ms": 173.66,
+        "sync_api_calls": 29,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 29,
+            "sum_ms": 173.66
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 8,
+            "sum_ms": 4.58
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 127,
+            "sum_ms": 2.57
+          },
+          {
+            "api": "cudaGraphExecUpdate",
+            "count": 1,
+            "sum_ms": 1.5
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 17,
+            "sum_ms": 0.73
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 68,
+            "sum_ms": 0.64
+          },
+          {
+            "api": "cudaEventRecord",
+            "count": 12,
+            "sum_ms": 0.05
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 2,
+            "sum_ms": 0.02
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 19,
+            "mib": 0.04,
+            "sum_ms": 0.02
+          },
+          "D2D": {
+            "count": 56,
+            "mib": 1.46,
+            "sum_ms": 0.04
+          },
+          "D2H": {
+            "count": 192,
+            "mib": 87.23,
+            "sum_ms": 2.53
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 48,
+            "total_mib": 2.81
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 48,
+            "total_mib": 72.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 131072,
+            "count": 34,
+            "total_mib": 4.25
+          },
+          {
+            "kind": "D2H",
+            "bytes": 4096,
+            "count": 34,
+            "total_mib": 0.13
+          },
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 24,
+            "total_mib": 0.23
+          },
+          {
+            "kind": "D2D",
+            "bytes": 49152,
+            "count": 15,
+            "total_mib": 0.7
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 11,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 61440,
+            "count": 9,
+            "total_mib": 0.53
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 3448,
+            "sum_ms": 151.08
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 160,
+            "sum_ms": 3.56
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 384,
+            "sum_ms": 3.47
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 2248,
+            "sum_ms": 2.34
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 384,
+            "sum_ms": 1.66
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 8,
+            "sum_ms": 1.34
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 808,
+            "sum_ms": 1.18
+          },
+          {
+            "name": "gdn_projected_conv_kernel",
+            "count": 384,
+            "sum_ms": 0.9
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 193,
+            "mean_pct": 79.18,
+            "p95_pct": 93
+          },
+          "SM Issue": {
+            "n": 193,
+            "mean_pct": 32.41,
+            "p95_pct": 41
+          },
+          "Tensor Active": {
+            "n": 193,
+            "mean_pct": 0.82,
+            "p95_pct": 1
+          },
+          "DRAM Read Bandwidth": {
+            "n": 193,
+            "mean_pct": 49.7,
+            "p95_pct": 85
+          },
+          "DRAM Write Bandwidth": {
+            "n": 193,
+            "mean_pct": 1.25,
+            "p95_pct": 3
+          },
+          "PCIe RX Throughput": {
+            "n": 193,
+            "mean_pct": 0.36,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 193,
+            "mean_pct": 1.75,
+            "p95_pct": 2
+          }
+        }
+      },
+      "engine.admission_policy": {
+        "wall_ms": 24.03,
+        "kernels_total": 25,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 1,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 0.48,
+        "kernel_union_ms": 0.48,
+        "copy_union_ms": 6.35,
+        "gpu_busy_pct": 28.39,
+        "sync_api_union_ms": 5.04,
+        "sync_api_calls": 6,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 6,
+            "sum_ms": 5.04
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 272,
+            "sum_ms": 1.84
+          },
+          {
+            "api": "cudaMemsetAsync",
+            "count": 98,
+            "sum_ms": 0.63
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 110,
+            "sum_ms": 0.62
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 18,
+            "sum_ms": 0.26
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 7,
+            "sum_ms": 0.03
+          },
+          {
+            "api": "cuKernelGetName",
+            "count": 18,
+            "sum_ms": 0.02
+          },
+          {
+            "api": "cudaEventRecord",
+            "count": 2,
+            "sum_ms": 0.01
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 314,
+            "mib": 232.6,
+            "sum_ms": 6.26
+          },
+          "D2H": {
+            "count": 68,
+            "mib": 2.19,
+            "sum_ms": 0.08
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "H2D",
+            "bytes": 1900544,
+            "count": 68,
+            "total_mib": 123.25
+          },
+          {
+            "kind": "H2D",
+            "bytes": 59392,
+            "count": 68,
+            "total_mib": 3.85
+          },
+          {
+            "kind": "H2D",
+            "bytes": 61440,
+            "count": 48,
+            "total_mib": 2.81
+          },
+          {
+            "kind": "H2D",
+            "bytes": 1572864,
+            "count": 48,
+            "total_mib": 72.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 917504,
+            "count": 34,
+            "total_mib": 29.75
+          },
+          {
+            "kind": "H2D",
+            "bytes": 28672,
+            "count": 34,
+            "total_mib": 0.93
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 34,
+            "total_mib": 2.12
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2048,
+            "count": 34,
+            "total_mib": 0.07
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 5,
+            "sum_ms": 0.43
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 1,
+            "sum_ms": 0.02
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 5,
+            "sum_ms": 0.01
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 5,
+            "sum_ms": 0.01
+          },
+          {
+            "name": "causal_attention_small_t_reduce_output_kernel",
+            "count": 1,
+            "sum_ms": 0.0
+          },
+          {
+            "name": "rmsnorm_warp_bf16x2_kernel",
+            "count": 2,
+            "sum_ms": 0.0
+          },
+          {
+            "name": "dequantize_rows_kernel",
+            "count": 1,
+            "sum_ms": 0.0
+          },
+          {
+            "name": "rope_fixed_kernel",
+            "count": 1,
+            "sum_ms": 0.0
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 24,
+            "mean_pct": 2.38,
+            "p95_pct": 12
+          },
+          "SM Issue": {
+            "n": 24,
+            "mean_pct": 0.71,
+            "p95_pct": 5
+          },
+          "Tensor Active": {
+            "n": 24,
+            "mean_pct": 0.04,
+            "p95_pct": 0
+          },
+          "DRAM Read Bandwidth": {
+            "n": 24,
+            "mean_pct": 2.46,
+            "p95_pct": 11
+          },
+          "DRAM Write Bandwidth": {
+            "n": 24,
+            "mean_pct": 1.46,
+            "p95_pct": 4
+          },
+          "PCIe RX Throughput": {
+            "n": 24,
+            "mean_pct": 18.21,
+            "p95_pct": 71
+          },
+          "PCIe TX Throughput": {
+            "n": 24,
+            "mean_pct": 1.71,
+            "p95_pct": 4
+          }
+        }
+      },
+      "decode_22k_fp16_t1": {
+        "wall_ms": 45.52,
+        "kernels_total": 1151,
+        "graph_kernel_nodes": 1148,
+        "unique_streams": 2,
+        "graph_launch_calls": 1,
+        "kernel_sum_ms": 19.26,
+        "kernel_union_ms": 19.26,
+        "copy_union_ms": 2.44,
+        "gpu_busy_pct": 47.66,
+        "sync_api_union_ms": 22.09,
+        "sync_api_calls": 5,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 5,
+            "sum_ms": 22.09
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 1,
+            "sum_ms": 9.33
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 100,
+            "sum_ms": 0.51
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 1,
+            "sum_ms": 0.5
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 68,
+            "sum_ms": 0.36
+          },
+          {
+            "api": "cudaGraphExecUpdate",
+            "count": 1,
+            "sum_ms": 0.05
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 1,
+            "sum_ms": 0.04
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 2,
+            "sum_ms": 0.02
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 2,
+            "mib": 0.0,
+            "sum_ms": 0.0
+          },
+          "D2D": {
+            "count": 7,
+            "mib": 0.17,
+            "sum_ms": 0.0
+          },
+          "D2H": {
+            "count": 168,
+            "mib": 78.02,
+            "sum_ms": 2.43
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 48,
+            "total_mib": 2.81
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 48,
+            "total_mib": 72.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 34,
+            "total_mib": 2.12
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2048,
+            "count": 34,
+            "total_mib": 0.07
+          },
+          {
+            "kind": "D2D",
+            "bytes": 49152,
+            "count": 3,
+            "total_mib": 0.14
+          },
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 3,
+            "total_mib": 0.03
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4864,
+            "count": 1,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 16,
+            "count": 1,
+            "total_mib": 0.0
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 431,
+            "sum_ms": 17.24
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 20,
+            "sum_ms": 0.43
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 48,
+            "sum_ms": 0.39
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 281,
+            "sum_ms": 0.27
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 48,
+            "sum_ms": 0.2
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 1,
+            "sum_ms": 0.15
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 101,
+            "sum_ms": 0.14
+          },
+          {
+            "name": "causal_attention_small_t_reduce_output_kernel",
+            "count": 20,
+            "sum_ms": 0.11
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 45,
+            "mean_pct": 38.38,
+            "p95_pct": 92
+          },
+          "SM Issue": {
+            "n": 45,
+            "mean_pct": 14.71,
+            "p95_pct": 37
+          },
+          "Tensor Active": {
+            "n": 45,
+            "mean_pct": 0.42,
+            "p95_pct": 1
+          },
+          "DRAM Read Bandwidth": {
+            "n": 45,
+            "mean_pct": 26.62,
+            "p95_pct": 85
+          },
+          "DRAM Write Bandwidth": {
+            "n": 45,
+            "mean_pct": 0.87,
+            "p95_pct": 1
+          },
+          "PCIe RX Throughput": {
+            "n": 45,
+            "mean_pct": 0.31,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 45,
+            "mean_pct": 3.98,
+            "p95_pct": 29
+          }
+        }
+      },
+      "prefill_22k_fp16_evict": {
+        "wall_ms": 10648.9,
+        "kernels_total": 48634,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 2,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 9443.76,
+        "kernel_union_ms": 9443.76,
+        "copy_union_ms": 96.96,
+        "gpu_busy_pct": 89.59,
+        "sync_api_union_ms": 5768.0,
+        "sync_api_calls": 317,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 317,
+            "sum_ms": 5768.0
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 37332,
+            "sum_ms": 2567.57
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 6871,
+            "sum_ms": 678.51
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 23,
+            "sum_ms": 187.53
+          },
+          {
+            "api": "cuLaunchKernelEx",
+            "count": 4415,
+            "sum_ms": 171.77
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 4415,
+            "sum_ms": 100.32
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 1059,
+            "sum_ms": 59.69
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 4626,
+            "sum_ms": 31.62
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 3823,
+            "mib": 2424.22,
+            "sum_ms": 63.67
+          },
+          "D2D": {
+            "count": 119,
+            "mib": 703.29,
+            "sum_ms": 0.53
+          },
+          "D2H": {
+            "count": 1743,
+            "mib": 1040.01,
+            "sum_ms": 32.76
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "H2D",
+            "bytes": 1900544,
+            "count": 1088,
+            "total_mib": 1972.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 59392,
+            "count": 1088,
+            "total_mib": 61.62
+          },
+          {
+            "kind": "H2D",
+            "bytes": 393216,
+            "count": 544,
+            "total_mib": 204.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 12288,
+            "count": 544,
+            "total_mib": 6.38
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1048576,
+            "count": 442,
+            "total_mib": 442.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 32768,
+            "count": 442,
+            "total_mib": 13.81
+          },
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 144,
+            "total_mib": 8.44
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 144,
+            "total_mib": 216.0
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "mul_mat_q",
+            "count": 8947,
+            "sum_ms": 7649.28
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_256x80x64_2_64x40x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 3114,
+            "sum_ms": 505.13
+          },
+          {
+            "name": "causal_attention_prompt_i8_fast_kernel",
+            "count": 336,
+            "sum_ms": 262.17
+          },
+          {
+            "name": "store_plane_kernel",
+            "count": 1905,
+            "sum_ms": 234.54
+          },
+          {
+            "name": "chunk_recurrence_kernel",
+            "count": 1104,
+            "sum_ms": 136.63
+          },
+          {
+            "name": "quantize_matrix_kernel",
+            "count": 6946,
+            "sum_ms": 91.58
+          },
+          {
+            "name": "dequantize_rows_kernel",
+            "count": 4488,
+            "sum_ms": 80.89
+          },
+          {
+            "name": "kernel",
+            "count": 1781,
+            "sum_ms": 63.55
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 10648,
+            "mean_pct": 84.1,
+            "p95_pct": 100
+          },
+          "SM Issue": {
+            "n": 10648,
+            "mean_pct": 37.02,
+            "p95_pct": 52
+          },
+          "Tensor Active": {
+            "n": 10648,
+            "mean_pct": 36.28,
+            "p95_pct": 62
+          },
+          "DRAM Read Bandwidth": {
+            "n": 10648,
+            "mean_pct": 4.65,
+            "p95_pct": 17
+          },
+          "DRAM Write Bandwidth": {
+            "n": 10648,
+            "mean_pct": 4.93,
+            "p95_pct": 10
+          },
+          "PCIe RX Throughput": {
+            "n": 10648,
+            "mean_pct": 1.22,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 10648,
+            "mean_pct": 1.18,
+            "p95_pct": 1
+          }
+        }
+      },
+      "generate": {
+        "wall_ms": 486.09,
+        "kernels_total": 18519,
+        "graph_kernel_nodes": 9184,
+        "unique_streams": 4,
+        "graph_launch_calls": 8,
+        "kernel_sum_ms": 332.41,
+        "kernel_union_ms": 332.4,
+        "copy_union_ms": 22.4,
+        "gpu_busy_pct": 72.99,
+        "sync_api_union_ms": 282.74,
+        "sync_api_calls": 78,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 78,
+            "sum_ms": 282.74
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 7810,
+            "sum_ms": 69.04
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 1525,
+            "sum_ms": 14.55
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 1,
+            "sum_ms": 8.97
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 730,
+            "sum_ms": 8.31
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 749,
+            "sum_ms": 5.18
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 8,
+            "sum_ms": 4.58
+          },
+          {
+            "api": "cudaGraphExecUpdate",
+            "count": 1,
+            "sum_ms": 1.5
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 690,
+            "mib": 460.75,
+            "sum_ms": 12.24
+          },
+          "D2H": {
+            "count": 766,
+            "mib": 331.46,
+            "sum_ms": 10.09
+          },
+          "D2D": {
+            "count": 95,
+            "mib": 3.7,
+            "sum_ms": 0.07
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 192,
+            "total_mib": 11.25
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 192,
+            "total_mib": 288.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 1900544,
+            "count": 136,
+            "total_mib": 246.5
+          },
+          {
+            "kind": "H2D",
+            "bytes": 59392,
+            "count": 136,
+            "total_mib": 7.7
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 136,
+            "total_mib": 8.5
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2048,
+            "count": 136,
+            "total_mib": 0.27
+          },
+          {
+            "kind": "H2D",
+            "bytes": 61440,
+            "count": 96,
+            "total_mib": 5.62
+          },
+          {
+            "kind": "H2D",
+            "bytes": 1572864,
+            "count": 96,
+            "total_mib": 144.0
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 5703,
+            "sum_ms": 235.94
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 778,
+            "sum_ms": 55.68
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 341,
+            "sum_ms": 7.85
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 3753,
+            "sum_ms": 4.04
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 720,
+            "sum_ms": 3.77
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 384,
+            "sum_ms": 3.47
+          },
+          {
+            "name": "capture_rows",
+            "count": 112,
+            "sum_ms": 2.92
+          },
+          {
+            "name": "mul_mat_q_stream_k_fixup",
+            "count": 692,
+            "sum_ms": 2.28
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 486,
+            "mean_pct": 61.4,
+            "p95_pct": 91
+          },
+          "SM Issue": {
+            "n": 486,
+            "mean_pct": 25.53,
+            "p95_pct": 39
+          },
+          "Tensor Active": {
+            "n": 486,
+            "mean_pct": 3.13,
+            "p95_pct": 18
+          },
+          "DRAM Read Bandwidth": {
+            "n": 486,
+            "mean_pct": 32.57,
+            "p95_pct": 81
+          },
+          "DRAM Write Bandwidth": {
+            "n": 486,
+            "mean_pct": 1.22,
+            "p95_pct": 2
+          },
+          "PCIe RX Throughput": {
+            "n": 486,
+            "mean_pct": 2.37,
+            "p95_pct": 2
+          },
+          "PCIe TX Throughput": {
+            "n": 486,
+            "mean_pct": 2.2,
+            "p95_pct": 2
+          }
+        }
+      },
+      "prefill_22k_fp16_recall": {
+        "wall_ms": 335.77,
+        "kernels_total": 9316,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 2,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 164.01,
+        "kernel_union_ms": 164.01,
+        "copy_union_ms": 19.82,
+        "gpu_busy_pct": 54.75,
+        "sync_api_union_ms": 109.08,
+        "sync_api_calls": 49,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 49,
+            "sum_ms": 109.08
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 7793,
+            "sum_ms": 68.31
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 1523,
+            "sum_ms": 14.53
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 1,
+            "sum_ms": 8.97
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 603,
+            "sum_ms": 5.75
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 681,
+            "sum_ms": 4.54
+          },
+          {
+            "api": "cuKernelGetName",
+            "count": 7793,
+            "sum_ms": 1.17
+          },
+          {
+            "api": "cudaMemsetAsync",
+            "count": 103,
+            "sum_ms": 0.69
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 671,
+            "mib": 460.71,
+            "sum_ms": 12.22
+          },
+          "D2H": {
+            "count": 574,
+            "mib": 244.23,
+            "sum_ms": 7.56
+          },
+          "D2D": {
+            "count": 39,
+            "mib": 2.23,
+            "sum_ms": 0.03
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 144,
+            "total_mib": 8.44
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1572864,
+            "count": 144,
+            "total_mib": 216.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 1900544,
+            "count": 136,
+            "total_mib": 246.5
+          },
+          {
+            "kind": "H2D",
+            "bytes": 59392,
+            "count": 136,
+            "total_mib": 7.7
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 136,
+            "total_mib": 8.5
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2048,
+            "count": 136,
+            "total_mib": 0.27
+          },
+          {
+            "kind": "H2D",
+            "bytes": 61440,
+            "count": 96,
+            "total_mib": 5.62
+          },
+          {
+            "kind": "H2D",
+            "bytes": 1572864,
+            "count": 96,
+            "total_mib": 144.0
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 2255,
+            "sum_ms": 84.86
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 778,
+            "sum_ms": 55.68
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 181,
+            "sum_ms": 4.29
+          },
+          {
+            "name": "capture_rows",
+            "count": 112,
+            "sum_ms": 2.92
+          },
+          {
+            "name": "mul_mat_q_stream_k_fixup",
+            "count": 692,
+            "sum_ms": 2.28
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 336,
+            "sum_ms": 2.1
+          },
+          {
+            "name": "recurrent_bf16_direct_kernel",
+            "count": 240,
+            "sum_ms": 1.79
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 1505,
+            "sum_ms": 1.7
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 336,
+            "mean_pct": 43.33,
+            "p95_pct": 82
+          },
+          "SM Issue": {
+            "n": 336,
+            "mean_pct": 18.31,
+            "p95_pct": 35
+          },
+          "Tensor Active": {
+            "n": 336,
+            "mean_pct": 4.06,
+            "p95_pct": 19
+          },
+          "DRAM Read Bandwidth": {
+            "n": 336,
+            "mean_pct": 18.58,
+            "p95_pct": 50
+          },
+          "DRAM Write Bandwidth": {
+            "n": 336,
+            "mean_pct": 1.05,
+            "p95_pct": 2
+          },
+          "PCIe RX Throughput": {
+            "n": 336,
+            "mean_pct": 3.25,
+            "p95_pct": 18
+          },
+          "PCIe TX Throughput": {
+            "n": 336,
+            "mean_pct": 2.31,
+            "p95_pct": 4
+          }
+        }
+      }
+    },
+    "client_timing": {
+      "mode": "kvmem-24k-fp16",
+      "runs": [
+        {
+          "ttft_ms": 10648.79,
+          "decode_ms": 45.93,
+          "total_ms": 10694.73,
+          "chunk_gaps": {
+            "n_events": 1,
+            "mean_ms": 21.62,
+            "p50_ms": 21.62,
+            "p95_ms": 21.62,
+            "p99_ms": 21.62,
+            "max_ms": 21.62,
+            "top5_ms": [
+              21.62
+            ]
+          },
+          "text": "Receipt acknowledged.",
+          "usage": {
+            "completion_tokens": 4,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "prompt_tokens": 19479,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 19483
+          }
+        },
+        {
+          "ttft_ms": 335.78,
+          "decode_ms": 193.22,
+          "total_ms": 529.0,
+          "chunk_gaps": {
+            "n_events": 7,
+            "mean_ms": 22.9,
+            "p50_ms": 22.65,
+            "p95_ms": 25.1,
+            "p99_ms": 25.1,
+            "max_ms": 25.1,
+            "top5_ms": [
+              25.1,
+              23.56,
+              22.86,
+              22.65,
+              22.14
+            ]
+          },
+          "text": "The exact CONFIDENTIAL AUDIT ANCHOR CODE stored in the ledger is **ALPHA-7742-ZETA**.",
+          "usage": {
+            "completion_tokens": 28,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "prompt_tokens": 19515,
+            "prompt_tokens_details": {
+              "cached_tokens": 19482
+            },
+            "total_tokens": 19543
+          }
+        }
+      ]
+    },
+    "server_log": [
+      "KVMEM_CONFIG SinkTokens: 0 -> 64 tokens (block alignment)",
+      "2026-11-26 13:34:29.453  INFO  build 0.19.ninfer1+kvmem-89c6698-ninfer-bb98e6d4-sm120a",
+      "2026-11-26 13:34:29.620  INFO  starting engine",
+      "2026-11-26 13:34:29.648  INFO  engine | KVMEM_SCORING scorer=page-softmax agg=mean lrfu=0 lambda=0.5 top_frac=0.90000000000000002 graph_alpha=0.20000000000000001",
+      "2026-11-26 13:34:29.648  INFO  engine | KVMEM_LIMITS query_max_tokens=512 query_replay_max_tokens=2048",
+      "2026-11-26 13:34:29.795  INFO  engine | device profile nvidia-geforce-rtx-5080-sm120: 78 routed keys (built in: RTX 5080 at 360 W, 2026-10-16)",
+      "2026-11-26 13:34:30.372  INFO  loading weights | 8.49 GiB",
+      "2026-11-26 13:34:32.914  INFO  weights ready | 8.49 GiB | 2.5s | 3.34 GiB/s",
+      "2026-11-26 13:34:32.919  INFO  engine | CUDA graph probe starting",
+      "2026-11-26 13:34:35.684  INFO  engine | CUDA graph probe measured 28.0 MiB; planning allowance 256.0 MiB (second not needed)",
+      "2026-11-26 13:34:36.143  INFO  CUDA graphs ready | 307 ms",
+      "2026-11-26 13:34:36.144  INFO  engine ready | swift-1.5-qwen3.8-27b-gsq-rco-iq2xs | total 6.5s | weights 8.49 GiB | CUDA sync auto",
+      "2026-11-26 13:34:36.144  INFO  capacity | KV 5,120 tokens, int8, explicit | pages 80/80 | runtime 928.8 MiB | free 5.45 GiB",
+      "2026-11-26 13:34:36.144  INFO  context cache | root only",
+      "2026-11-26 13:34:36.396  INFO  warmup complete | 252 ms",
+      "2026-11-26 13:34:36.396  INFO  listening on http://127.0.0.1:18111 | model swift15 | auth disabled",
+      "2026-11-26 13:34:36.396  INFO  api base http://127.0.0.1:18111/v1",
+      "2026-11-26 13:34:36.605  INFO  req#1 started | openai-chat stream | 1 message | max output 16 | thinking off",
+      "2026-11-26 13:34:37.066  INFO  req#1 done | openai-chat | stop token | prompt 21 | output 4 | cache 0 (0.0%) | TTFT 412 ms | total 472 ms | prefill 52.6 tok/s | decode 70.4 tok/s | mtp accepted 3/6 (50.0%)",
+      "2026-11-26 13:34:40.388  INFO  req#2 started | openai-chat stream | 1 message | max output 32 | thinking off",
+      "2026-11-26 13:34:41.409  INFO  throughput | 5.0s | prefill 208.5 tok/s (1,045 tok) | decode 0.6 tok/s (3 tok) | running 1 (prefill 1) | batch 1.00 | host 18.2% (913 ms)",
+      "2026-11-26 13:34:46.400  INFO  throughput | 5.0s | prefill 2.05k tok/s (10,240 tok) | running 1 (prefill 1) | host 40.1% (2.0s)",
+      "2026-11-26 13:34:50.953  INFO  req#2 done | openai-chat | stop token | prompt 19,479 | output 4 | cache 0 (0.0%) | TTFT 10.6s | total 10.7s | prefill 1.85k tok/s | decode 141.3 tok/s | mtp accepted 3/3 (100.0%)",
+      "2026-11-26 13:34:50.996  INFO  req#3 started | openai-chat stream | 3 messages | max output 96 | thinking off",
+      "2026-11-26 13:34:51.409  INFO  throughput | 5.0s | prefill 1.65k tok/s (8,248 tok) | decode 4.6 tok/s (23 tok) | running 1 (decode-ready 1) | batch 1.00 | host 50.8% (2.5s)",
+      "2026-11-26 13:34:51.482  INFO  req#3 done | openai-chat | stop token | prompt 19,515 | output 28 | cache 19,482 (99.8%, private endpoint) | TTFT 312 ms | total 505 ms | queue 24.2 ms | prefill 113.4 tok/s | decode 149.9 tok/s | mtp accepted 23/27 (85.2%)",
+      "2026-11-26 13:34:56.408  INFO  throughput | 5.0s | decode 1.4 tok/s (7 tok) | running 0 | batch 1.00 | host 0.3% (13.3 ms)"
+    ]
+  },
+  "gen-nowrap-base": {
+    "mode": "gen-nowrap-base",
+    "pid": 7124,
+    "drops": [],
+    "phases": {
+      "engine.admission_policy": {
+        "wall_ms": 2.89,
+        "kernels_total": 0,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 0,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 0.0,
+        "kernel_union_ms": 0.0,
+        "copy_union_ms": 0.01,
+        "gpu_busy_pct": 0.21,
+        "sync_api_union_ms": 0.0,
+        "sync_api_calls": 0,
+        "top_apis": [
+          {
+            "api": "cudaMemsetAsync",
+            "count": 98,
+            "sum_ms": 1.0
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 10,
+            "sum_ms": 0.13
+          },
+          {
+            "api": "cudaEventQuery",
+            "count": 2,
+            "sum_ms": 0.01
+          },
+          {
+            "api": "cudaEventRecord",
+            "count": 2,
+            "sum_ms": 0.01
+          },
+          {
+            "api": "cudaStreamIsCapturing",
+            "count": 4,
+            "sum_ms": 0.0
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 10,
+            "mib": 0.0,
+            "sum_ms": 0.01
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 7,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 92,
+            "count": 2,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 56,
+            "count": 1,
+            "total_mib": 0.0
+          }
+        ],
+        "top_kernels": [],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 3,
+            "mean_pct": 4.33,
+            "p95_pct": 6
+          },
+          "SM Issue": {
+            "n": 3,
+            "mean_pct": 1.33,
+            "p95_pct": 2
+          },
+          "Tensor Active": {
+            "n": 3,
+            "mean_pct": 0.33,
+            "p95_pct": 1
+          },
+          "DRAM Read Bandwidth": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 1
+          },
+          "DRAM Write Bandwidth": {
+            "n": 3,
+            "mean_pct": 12,
+            "p95_pct": 26
+          },
+          "PCIe RX Throughput": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 1
+          }
+        }
+      },
+      "generate": {
+        "wall_ms": 10457.1,
+        "kernels_total": 525992,
+        "graph_kernel_nodes": 519915,
+        "unique_streams": 4,
+        "graph_launch_calls": 449,
+        "kernel_sum_ms": 9807.36,
+        "kernel_union_ms": 9806.23,
+        "copy_union_ms": 9.65,
+        "gpu_busy_pct": 93.87,
+        "sync_api_union_ms": 9355.02,
+        "sync_api_calls": 453,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 451,
+            "sum_ms": 9335.74
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 449,
+            "sum_ms": 343.75
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 17,
+            "sum_ms": 190.8
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 4874,
+            "sum_ms": 150.27
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 422,
+            "sum_ms": 96.21
+          },
+          {
+            "api": "cudaEventSynchronize",
+            "count": 2,
+            "sum_ms": 19.27
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 781,
+            "sum_ms": 9.53
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 631,
+            "sum_ms": 6.77
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 579,
+            "mib": 2.09,
+            "sum_ms": 0.93
+          },
+          "D2D": {
+            "count": 1520,
+            "mib": 162.24,
+            "sum_ms": 1.43
+          },
+          "D2H": {
+            "count": 746,
+            "mib": 208.25,
+            "sum_ms": 7.29
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 1355,
+            "total_mib": 13.23
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4864,
+            "count": 449,
+            "total_mib": 2.08
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2624,
+            "count": 449,
+            "total_mib": 1.12
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 121,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 68,
+            "total_mib": 3.98
+          },
+          {
+            "kind": "D2D",
+            "bytes": 61440,
+            "count": 48,
+            "total_mib": 2.81
+          },
+          {
+            "kind": "D2D",
+            "bytes": 3145728,
+            "count": 48,
+            "total_mib": 144.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 65536,
+            "count": 34,
+            "total_mib": 2.12
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 178468,
+            "sum_ms": 7163.92
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 18066,
+            "sum_ms": 1520.84
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 21552,
+            "sum_ms": 232.46
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 449,
+            "sum_ms": 148.67
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 9747,
+            "sum_ms": 143.74
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 117568,
+            "sum_ms": 108.76
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 21600,
+            "sum_ms": 88.65
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 45714,
+            "sum_ms": 58.86
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 10457,
+            "mean_pct": 86.68,
+            "p95_pct": 95
+          },
+          "SM Issue": {
+            "n": 10457,
+            "mean_pct": 31.65,
+            "p95_pct": 42
+          },
+          "Tensor Active": {
+            "n": 10457,
+            "mean_pct": 4.92,
+            "p95_pct": 35
+          },
+          "DRAM Read Bandwidth": {
+            "n": 10457,
+            "mean_pct": 52.2,
+            "p95_pct": 87
+          },
+          "DRAM Write Bandwidth": {
+            "n": 10457,
+            "mean_pct": 1.98,
+            "p95_pct": 9
+          },
+          "PCIe RX Throughput": {
+            "n": 10457,
+            "mean_pct": 0.36,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 10457,
+            "mean_pct": 1.04,
+            "p95_pct": 1
+          }
+        }
+      },
+      "prefill_wrap": {
+        "wall_ms": 1241.4,
+        "kernels_total": 5536,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 1,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 789.85,
+        "kernel_union_ms": 789.85,
+        "copy_union_ms": 0.31,
+        "gpu_busy_pct": 63.65,
+        "sync_api_union_ms": 390.94,
+        "sync_api_calls": 4,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 2,
+            "sum_ms": 375.21
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 17,
+            "sum_ms": 190.8
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 4425,
+            "sum_ms": 112.88
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 422,
+            "sum_ms": 96.21
+          },
+          {
+            "api": "cudaEventSynchronize",
+            "count": 2,
+            "sum_ms": 15.72
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 781,
+            "sum_ms": 9.53
+          },
+          {
+            "api": "cuLaunchKernelEx",
+            "count": 422,
+            "sum_ms": 3.54
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 129,
+            "sum_ms": 1.43
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 22,
+            "mib": 0.01,
+            "sum_ms": 0.01
+          },
+          "D2D": {
+            "count": 101,
+            "mib": 146.85,
+            "sum_ms": 0.3
+          },
+          "D2H": {
+            "count": 1,
+            "mib": 0.0,
+            "sum_ms": 0.0
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 61440,
+            "count": 48,
+            "total_mib": 2.81
+          },
+          {
+            "kind": "D2D",
+            "bytes": 3145728,
+            "count": 48,
+            "total_mib": 144.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 13,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 4,
+            "total_mib": 0.04
+          },
+          {
+            "kind": "H2D",
+            "bytes": 92,
+            "count": 2,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 3584,
+            "count": 2,
+            "total_mib": 0.01
+          },
+          {
+            "kind": "H2D",
+            "bytes": 2104,
+            "count": 2,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 56,
+            "count": 1,
+            "total_mib": 0.0
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "mul_mat_q",
+            "count": 1167,
+            "sum_ms": 659.2
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_64x128x64_4_64x16x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 173,
+            "sum_ms": 27.44
+          },
+          {
+            "name": "store_plane_kernel",
+            "count": 230,
+            "sum_ms": 19.11
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_176x64x64_3_176x8x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 180,
+            "sum_ms": 18.34
+          },
+          {
+            "name": "chunk_recurrence_kernel",
+            "count": 96,
+            "sum_ms": 11.22
+          },
+          {
+            "name": "dequantize_rows_kernel",
+            "count": 428,
+            "sum_ms": 8.5
+          },
+          {
+            "name": "quantize_matrix_kernel",
+            "count": 906,
+            "sum_ms": 7.55
+          },
+          {
+            "name": "mul_mat_q_stream_k_fixup",
+            "count": 781,
+            "sum_ms": 7.47
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 1241,
+            "mean_pct": 60.95,
+            "p95_pct": 100
+          },
+          "SM Issue": {
+            "n": 1241,
+            "mean_pct": 27.0,
+            "p95_pct": 50
+          },
+          "Tensor Active": {
+            "n": 1241,
+            "mean_pct": 26.3,
+            "p95_pct": 53
+          },
+          "DRAM Read Bandwidth": {
+            "n": 1241,
+            "mean_pct": 4.0,
+            "p95_pct": 16
+          },
+          "DRAM Write Bandwidth": {
+            "n": 1241,
+            "mean_pct": 3.87,
+            "p95_pct": 11
+          },
+          "PCIe RX Throughput": {
+            "n": 1241,
+            "mean_pct": 0.63,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 1241,
+            "mean_pct": 1,
+            "p95_pct": 1
+          }
+        }
+      },
+      "decode_wrap": {
+        "wall_ms": 9421.99,
+        "kernels_total": 520457,
+        "graph_kernel_nodes": 519915,
+        "unique_streams": 4,
+        "graph_launch_calls": 449,
+        "kernel_sum_ms": 9017.47,
+        "kernel_union_ms": 9016.34,
+        "copy_union_ms": 10.07,
+        "gpu_busy_pct": 95.8,
+        "sync_api_union_ms": 8964.04,
+        "sync_api_calls": 450,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 449,
+            "sum_ms": 8960.53
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 449,
+            "sum_ms": 343.75
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 449,
+            "sum_ms": 37.38
+          },
+          {
+            "api": "cudaGraphExecUpdate",
+            "count": 5,
+            "sum_ms": 5.8
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 502,
+            "sum_ms": 5.33
+          },
+          {
+            "api": "cudaEventSynchronize",
+            "count": 1,
+            "sum_ms": 3.51
+          },
+          {
+            "api": "cudaEventRecord",
+            "count": 563,
+            "sum_ms": 3.44
+          },
+          {
+            "api": "cudaMemcpy2DAsync",
+            "count": 272,
+            "sum_ms": 1.42
+          }
+        ],
+        "copies": {
+          "D2D": {
+            "count": 1419,
+            "mib": 15.38,
+            "sum_ms": 1.13
+          },
+          "D2H": {
+            "count": 772,
+            "mib": 232.72,
+            "sum_ms": 8.02
+          },
+          "H2D": {
+            "count": 557,
+            "mib": 2.08,
+            "sum_ms": 0.92
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 1351,
+            "total_mib": 13.19
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4864,
+            "count": 449,
+            "total_mib": 2.08
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2624,
+            "count": 449,
+            "total_mib": 1.12
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 108,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 76,
+            "total_mib": 4.45
+          },
+          {
+            "kind": "D2D",
+            "bytes": 65536,
+            "count": 34,
+            "total_mib": 2.12
+          },
+          {
+            "kind": "D2D",
+            "bytes": 2048,
+            "count": 34,
+            "total_mib": 0.07
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 34,
+            "total_mib": 2.12
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 178404,
+            "sum_ms": 7161.1
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 16899,
+            "sum_ms": 861.64
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 21552,
+            "sum_ms": 232.46
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 449,
+            "sum_ms": 148.67
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 9714,
+            "sum_ms": 143.35
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 117503,
+            "sum_ms": 108.69
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 21552,
+            "sum_ms": 88.32
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 45365,
+            "sum_ms": 57.07
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 9422,
+            "mean_pct": 88.17,
+            "p95_pct": 95
+          },
+          "SM Issue": {
+            "n": 9422,
+            "mean_pct": 31.57,
+            "p95_pct": 39
+          },
+          "Tensor Active": {
+            "n": 9422,
+            "mean_pct": 2.0,
+            "p95_pct": 10
+          },
+          "DRAM Read Bandwidth": {
+            "n": 9422,
+            "mean_pct": 57.4,
+            "p95_pct": 87
+          },
+          "DRAM Write Bandwidth": {
+            "n": 9422,
+            "mean_pct": 1.7,
+            "p95_pct": 7
+          },
+          "PCIe RX Throughput": {
+            "n": 9422,
+            "mean_pct": 0.32,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 9422,
+            "mean_pct": 1.05,
+            "p95_pct": 1
+          }
+        }
+      }
+    },
+    "client_timing": {
+      "mode": "gen-nowrap-base",
+      "runs": [
+        {
+          "ttft_ms": 1241.39,
+          "decode_ms": 9422.07,
+          "total_ms": 10663.47,
+          "chunk_gaps": {
+            "n_events": 449,
+            "mean_ms": 20.98,
+            "p50_ms": 20.08,
+            "p95_ms": 30.7,
+            "p99_ms": 31.0,
+            "max_ms": 32.25,
+            "top5_ms": [
+              32.25,
+              31.99,
+              31.06,
+              31.01,
+              31.0
+            ]
+          },
+          "text": "#001 | RESIDENT | 0x0000 | 1.2 | PASS\n#002 | EVICTED | 0x0040 | 3.5 | PASS\n#003 | RESIDENT | 0x0080 | 1.1 | PASS\n#004 | STAGING | 0x00C0 | 2.8 | PASS\n#005 | RESIDENT | 0x0100 | 1.3 | PASS\n#006 | EVICTED | 0x0140 | 4.1 | PASS\n#007 | RESIDENT | 0x0180 | 1.0 | PASS\n#008 | STAGING | 0x01C0 | 2.9 | PASS\n#009 | RESIDENT | 0x0200 | 1.4 | PASS\n#010 | EVICTED | 0x0240 | 3.7 | PASS\n#011 | RESIDENT | 0x0280 | 1.2 | PASS\n#012 | STAGING | 0x02C0 | 2.7 | PASS\n#013 | RESIDENT | 0x0300 | 1.1 | PASS\n#014 | EVICTED | 0x0340 | 4.0 | PASS\n#015 | RESIDENT | 0x0380 | 1.3 | PASS\n#016 | STAGING | 0x03C0 | 2.8 | PASS\n#017 | RESIDENT | 0x0400 | 1.0 | PASS\n#018 | EVICTED | 0x0440 | 3.6 | PASS\n#019 | RESIDENT | 0x0480 | 1.2 | PASS\n#020 | STAGING | 0x04C0 | 2.9 | PASS\n#021 | RESIDENT | 0x0500 | 1.1 | PASS\n#022 | EVICTED | 0x0540 | 4.2 | PASS\n#023 | RESIDENT | 0x0580 | 1.3 | PASS\n#024 | STAGING | 0x05C0 | 2.7 | PASS\n#025 | RESIDENT | 0x0600 | 1.0 | PASS\n#026 | EVICTED | 0x0640 | 3.8 | PASS\n#027 | RESIDENT | 0x0680 | 1.2 | PASS\n#028 | STAGING | 0x06C0 | 2.8 | PASS\n#029 | RESIDENT | 0x0700 | 1.1 | PASS\n#030 | EVICTED | 0x0740 | 4.1 | PASS\n#031 | RESIDENT | 0x0780 | 1.3 | PASS\n#032 | STAGING | 0x07C0 | 2.9 | PASS\n#033 | RESIDENT | 0x0800 | 1.0 | PASS\n#034 | EVICTED | 0x0840 | 3.7 | PASS\n#035 | RESIDENT | 0x0880 | 1.2 | PASS\n#036 | STAGING | 0x08C0 | 2.7 | PASS\n#037 | RESIDENT | 0x0900 | 1.1 | PASS\n#038 | EVICTED | 0x0940 | 4.0 | PASS\n#039 | RESIDENT | 0x0980 | 1.3 | PASS\n#040 | STAGING | 0x09C0 | 2.8 | PASS\n#041 | RESIDENT | 0x0A00 | 1.0 | PASS\n#042 | EVICTED | 0x0A40 | 3.6 | PASS\n#043 | RESIDENT | 0x0A80 | 1.2 | PASS\n#044 | STAGING | 0x0AC0 | 2.9 | PASS\n#045 | RESIDENT | 0x0B00 | 1.1 | PASS\n#046 | EVICTED | 0x0B40 | 4.2 | PASS\n#047 | RESIDENT | 0x0B80 | 1.3 | PASS\n#048 | STAGING | 0x0BC0 | 2.7 | PASS\n#049 | RESIDENT | 0x0C00 | 1.0 | PASS\n#050 | EVICTED | 0x0C40 | 3.8 | PASS\n#051 | RESIDENT | 0x0C80 | 1.2 | PASS\n#052 | STAGING | 0x0CC0 | 2.8 | PASS\n#053 | RESIDENT | 0x0D00 | 1.1 | PASS\n#054 | EVICTED | 0x0D40 | 4.1 | PASS\n#055 | RESIDENT | 0x0D80 | 1.3 | PASS\n#056 | STAGING | 0x0DC0 | 2.9 | PASS\n#057 | RESIDENT | 0x0E00 | 1.0 | PASS\n#058 | EVICTED | 0x0E40 | 3.7 | PASS\n#059 | RESIDENT | 0x0E80 | 1.2 | PASS\n#060 | STAGING | 0x0EC0 | 2.7 | PASS\n#061 | RESIDENT | 0x0F00 | 1.1 | PASS\n#062 | EVICTED | 0x0F40 | 4.0 | PASS\n#063 | RESIDENT | 0x0F80 | 1.3 | PASS\n#064 | STAGING | 0x0FC0 | 2.8 | PASS\n#065 | RESIDENT | 0x1000 | 1.0 | PASS\n#066 | EVICTED | 0x1040 | 3.6 | PASS\n#067 | RESIDENT | 0x1080 | 1.2 | PASS\n#068 | STAGING | 0x10C0 | 2.9 | PASS\n#069 | RESIDENT | 0x1100 | 1.1 | PASS\n#0",
+          "usage": {
+            "completion_tokens": 1600,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "prompt_tokens": 1431,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 3031
+          }
+        }
+      ]
+    },
+    "server_log": [
+      "2026-11-26 13:35:26.594  INFO  build 0.19.ninfer1+kvmem-89c6698-ninfer-bb98e6d4-sm120a",
+      "2026-11-26 13:35:26.756  INFO  starting engine",
+      "2026-11-26 13:35:26.927  INFO  engine | device profile nvidia-geforce-rtx-5080-sm120: 78 routed keys (built in: RTX 5080 at 360 W, 2026-10-16)",
+      "2026-11-26 13:35:27.527  INFO  loading weights | 8.49 GiB",
+      "2026-11-26 13:35:29.775  INFO  weights ready | 8.49 GiB | 2.2s | 3.78 GiB/s",
+      "2026-11-26 13:35:29.781  INFO  engine | CUDA graph probe starting",
+      "2026-11-26 13:35:33.204  INFO  engine | CUDA graph probe measured 28.0 MiB; planning allowance 256.0 MiB (second not needed)",
+      "2026-11-26 13:35:33.918  INFO  CUDA graphs ready | 354 ms",
+      "2026-11-26 13:35:33.918  INFO  pinning host KV | 2.00 GiB",
+      "2026-11-26 13:35:34.157  INFO  host KV pinned | 2.00 GiB | 239 ms",
+      "2026-11-26 13:35:34.227  INFO  engine ready | swift-1.5-qwen3.8-27b-gsq-rco-iq2xs | total 7.5s | weights 8.49 GiB | CUDA sync auto",
+      "2026-11-26 13:35:34.227  INFO  capacity | KV 124,864 tokens, int8, auto | pages 1,951/33,554,431 | runtime 5.11 GiB | free 1.25 GiB",
+      "2026-11-26 13:35:34.227  INFO  context cache | 1 active + 2 cached device states | host 0 states, 0 B KV | private 1 | shared 0 | anchors 0",
+      "2026-11-26 13:35:34.227  INFO  host cache budget | 2.00 GiB total | 146.8 MiB per state image | 2.06 MiB per host KV page group | 0 anchors per continuation | state capped at half",
+      "2026-11-26 13:35:34.468  INFO  listening on http://127.0.0.1:18112 | model swift15 | auth disabled",
+      "2026-11-26 13:35:34.468  INFO  api base http://127.0.0.1:18112/v1",
+      "2026-11-26 13:35:34.823  INFO  req#1 started | openai-chat stream | 1 message | max output 16 | thinking off",
+      "2026-11-26 13:35:34.919  INFO  req#1 done | openai-chat | stop token | prompt 21 | output 4 | cache 0 (0.0%) | TTFT 60.8 ms | total 107 ms | prefill 431.2 tok/s | decode 70.0 tok/s | mtp accepted 3/6 (50.0%)",
+      "2026-11-26 13:35:38.268  INFO  req#2 started | openai-chat stream | 1 message | max output 1,600 | thinking off",
+      "2026-11-26 13:35:39.473  INFO  throughput | 5.0s | prefill 290.1 tok/s (1,452 tok) | decode 4.8 tok/s (24 tok) | running 1 (decode-ready 1) | batch 1.00 | host 14.0% (700 ms)",
+      "2026-11-26 13:35:44.475  INFO  throughput | 5.0s | decode 169.3 tok/s (847 tok) | running 1 (decode-ready 1) | batch 1.00 | host 4.9% (243 ms)",
+      "2026-11-26 13:35:48.725  INFO  req#2 done | openai-chat | output limit | prompt 1,431 | output 1,600 | cache 0 (0.0%) | TTFT 1.2s | total 10.6s | prefill 1.38k tok/s | decode 170.4 tok/s | mixed speculation accepted 1,150/2,162 (53.2%) | ngram 5/645 accepted, 43 rounds",
+      "2026-11-26 13:35:49.477  INFO  throughput | 5.0s | decode 146.2 tok/s (731 tok) | running 0 | batch 1.00 | host 3.8% (189 ms)"
+    ]
+  },
+  "gen-wrap-kvmem": {
+    "mode": "gen-wrap-kvmem",
+    "pid": 20656,
+    "drops": [],
+    "phases": {
+      "engine.admission_policy": {
+        "wall_ms": 3.0,
+        "kernels_total": 0,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 0,
+        "graph_launch_calls": 0,
+        "kernel_sum_ms": 0.0,
+        "kernel_union_ms": 0.0,
+        "copy_union_ms": 0.0,
+        "gpu_busy_pct": 0.1,
+        "sync_api_union_ms": 0.0,
+        "sync_api_calls": 0,
+        "top_apis": [
+          {
+            "api": "cudaMemsetAsync",
+            "count": 98,
+            "sum_ms": 1.07
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 8,
+            "sum_ms": 0.1
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 8,
+            "mib": 0.0,
+            "sum_ms": 0.0
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 7,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 56,
+            "count": 1,
+            "total_mib": 0.0
+          }
+        ],
+        "top_kernels": [],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 3,
+            "mean_pct": 2,
+            "p95_pct": 5
+          },
+          "SM Issue": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 2
+          },
+          "Tensor Active": {
+            "n": 3,
+            "mean_pct": 0,
+            "p95_pct": 0
+          },
+          "DRAM Read Bandwidth": {
+            "n": 3,
+            "mean_pct": 0.67,
+            "p95_pct": 1
+          },
+          "DRAM Write Bandwidth": {
+            "n": 3,
+            "mean_pct": 8.67,
+            "p95_pct": 22
+          },
+          "PCIe RX Throughput": {
+            "n": 3,
+            "mean_pct": 0.67,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 3,
+            "mean_pct": 1,
+            "p95_pct": 1
+          }
+        }
+      },
+      "generate": {
+        "wall_ms": 10681.95,
+        "kernels_total": 530518,
+        "graph_kernel_nodes": 519159,
+        "unique_streams": 4,
+        "graph_launch_calls": 438,
+        "kernel_sum_ms": 9480.06,
+        "kernel_union_ms": 9478.08,
+        "copy_union_ms": 52.0,
+        "gpu_busy_pct": 89.22,
+        "sync_api_union_ms": 9148.18,
+        "sync_api_calls": 1643,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 1643,
+            "sum_ms": 9148.18
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 438,
+            "sum_ms": 327.55
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 18,
+            "sum_ms": 220.69
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 2520,
+            "sum_ms": 179.62
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 8997,
+            "sum_ms": 175.38
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 6,
+            "sum_ms": 131.25
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 617,
+            "sum_ms": 64.9
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 1729,
+            "sum_ms": 43.18
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 1480,
+            "mib": 72.17,
+            "sum_ms": 3.59
+          },
+          "D2D": {
+            "count": 3104,
+            "mib": 148.67,
+            "sum_ms": 2.03
+          },
+          "D2H": {
+            "count": 2354,
+            "mib": 1144.33,
+            "sum_ms": 46.38
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 1323,
+            "total_mib": 12.92
+          },
+          {
+            "kind": "D2D",
+            "bytes": 61440,
+            "count": 1062,
+            "total_mib": 62.23
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 875,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4864,
+            "count": 438,
+            "total_mib": 2.03
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2624,
+            "count": 438,
+            "total_mib": 1.1
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1048576,
+            "count": 438,
+            "total_mib": 438.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 20,
+            "count": 354,
+            "total_mib": 0.01
+          },
+          {
+            "kind": "D2H",
+            "bytes": 160,
+            "count": 300,
+            "total_mib": 0.05
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 180935,
+            "sum_ms": 7257.56
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 11778,
+            "sum_ms": 1135.63
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 21024,
+            "sum_ms": 218.99
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 438,
+            "sum_ms": 145.12
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 9287,
+            "sum_ms": 131.74
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 118685,
+            "sum_ms": 110.33
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 21216,
+            "sum_ms": 84.87
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 44987,
+            "sum_ms": 57.84
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 10681,
+            "mean_pct": 81.6,
+            "p95_pct": 94
+          },
+          "SM Issue": {
+            "n": 10681,
+            "mean_pct": 29.84,
+            "p95_pct": 40
+          },
+          "Tensor Active": {
+            "n": 10681,
+            "mean_pct": 3.99,
+            "p95_pct": 32
+          },
+          "DRAM Read Bandwidth": {
+            "n": 10681,
+            "mean_pct": 50.28,
+            "p95_pct": 87
+          },
+          "DRAM Write Bandwidth": {
+            "n": 10681,
+            "mean_pct": 1.95,
+            "p95_pct": 9
+          },
+          "PCIe RX Throughput": {
+            "n": 10681,
+            "mean_pct": 0.43,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 10681,
+            "mean_pct": 1.15,
+            "p95_pct": 1
+          }
+        }
+      },
+      "prefill_wrap": {
+        "wall_ms": 1338.95,
+        "kernels_total": 10030,
+        "graph_kernel_nodes": 0,
+        "unique_streams": 1,
+        "graph_launch_calls": 1,
+        "kernel_sum_ms": 774.87,
+        "kernel_union_ms": 774.87,
+        "copy_union_ms": 21.48,
+        "gpu_busy_pct": 59.48,
+        "sync_api_union_ms": 460.64,
+        "sync_api_calls": 27,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 27,
+            "sum_ms": 460.64
+          },
+          {
+            "api": "cuLibraryLoadData",
+            "count": 18,
+            "sum_ms": 220.69
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 7668,
+            "sum_ms": 142.64
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 4,
+            "sum_ms": 91.18
+          },
+          {
+            "api": "cuKernelSetAttribute",
+            "count": 617,
+            "sum_ms": 64.9
+          },
+          {
+            "api": "cudaLaunchKernelExC",
+            "count": 1729,
+            "sum_ms": 43.18
+          },
+          {
+            "api": "cuKernelGetFunction",
+            "count": 16,
+            "sum_ms": 6.38
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 396,
+            "sum_ms": 4.18
+          }
+        ],
+        "copies": {
+          "H2D": {
+            "count": 52,
+            "mib": 0.01,
+            "sum_ms": 0.02
+          },
+          "D2D": {
+            "count": 38,
+            "mib": 50.4,
+            "sum_ms": 0.07
+          },
+          "D2H": {
+            "count": 510,
+            "mib": 499.2,
+            "sum_ms": 21.39
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2H",
+            "bytes": 61440,
+            "count": 144,
+            "total_mib": 8.44
+          },
+          {
+            "kind": "D2H",
+            "bytes": 3145728,
+            "count": 144,
+            "total_mib": 432.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 65536,
+            "count": 68,
+            "total_mib": 4.25
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2048,
+            "count": 68,
+            "total_mib": 0.13
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1507328,
+            "count": 34,
+            "total_mib": 48.88
+          },
+          {
+            "kind": "D2H",
+            "bytes": 47104,
+            "count": 34,
+            "total_mib": 1.53
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 23,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2D",
+            "bytes": 36864,
+            "count": 9,
+            "total_mib": 0.32
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "mul_mat_q",
+            "count": 1167,
+            "sum_ms": 594.34
+          },
+          {
+            "name": "kernel",
+            "count": 1661,
+            "sum_ms": 59.77
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_80x64x64_5_80x8x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 346,
+            "sum_ms": 28.85
+          },
+          {
+            "name": "store_plane_kernel",
+            "count": 255,
+            "sum_ms": 17.83
+          },
+          {
+            "name": "nvjet_sm120_tss_mma_128x64x64_4_32x32x64_tmaAB_alignCD4_bz_TNNN",
+            "count": 173,
+            "sum_ms": 11.46
+          },
+          {
+            "name": "dequantize_rows_kernel",
+            "count": 650,
+            "sum_ms": 10.92
+          },
+          {
+            "name": "chunk_recurrence_kernel",
+            "count": 144,
+            "sum_ms": 9.9
+          },
+          {
+            "name": "quantize_matrix_kernel",
+            "count": 906,
+            "sum_ms": 6.21
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 1339,
+            "mean_pct": 53.81,
+            "p95_pct": 94
+          },
+          "SM Issue": {
+            "n": 1339,
+            "mean_pct": 22.44,
+            "p95_pct": 46
+          },
+          "Tensor Active": {
+            "n": 1339,
+            "mean_pct": 20.78,
+            "p95_pct": 47
+          },
+          "DRAM Read Bandwidth": {
+            "n": 1339,
+            "mean_pct": 7.19,
+            "p95_pct": 47
+          },
+          "DRAM Write Bandwidth": {
+            "n": 1339,
+            "mean_pct": 3.87,
+            "p95_pct": 12
+          },
+          "PCIe RX Throughput": {
+            "n": 1339,
+            "mean_pct": 0.7,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 1339,
+            "mean_pct": 1.64,
+            "p95_pct": 1
+          }
+        }
+      },
+      "decode_wrap": {
+        "wall_ms": 9451.48,
+        "kernels_total": 520488,
+        "graph_kernel_nodes": 519159,
+        "unique_streams": 4,
+        "graph_launch_calls": 438,
+        "kernel_sum_ms": 8705.19,
+        "kernel_union_ms": 8703.21,
+        "copy_union_ms": 30.52,
+        "gpu_busy_pct": 92.41,
+        "sync_api_union_ms": 8687.54,
+        "sync_api_calls": 1616,
+        "top_apis": [
+          {
+            "api": "cudaStreamSynchronize",
+            "count": 1616,
+            "sum_ms": 8687.54
+          },
+          {
+            "api": "cudaGraphLaunch",
+            "count": 438,
+            "sum_ms": 327.47
+          },
+          {
+            "api": "cudaMemcpyAsync",
+            "count": 2124,
+            "sum_ms": 175.44
+          },
+          {
+            "api": "cudaHostAlloc",
+            "count": 2,
+            "sum_ms": 40.06
+          },
+          {
+            "api": "cudaLaunchKernel",
+            "count": 1329,
+            "sum_ms": 32.74
+          },
+          {
+            "api": "cudaGraphExecUpdate",
+            "count": 6,
+            "sum_ms": 6.67
+          },
+          {
+            "api": "cudaFreeHost",
+            "count": 1,
+            "sum_ms": 6.42
+          },
+          {
+            "api": "cudaEventRecord",
+            "count": 697,
+            "sum_ms": 4.38
+          }
+        ],
+        "copies": {
+          "D2D": {
+            "count": 3066,
+            "mib": 98.27,
+            "sum_ms": 1.96
+          },
+          "D2H": {
+            "count": 1844,
+            "mib": 645.14,
+            "sum_ms": 24.99
+          },
+          "H2D": {
+            "count": 1427,
+            "mib": 72.16,
+            "sum_ms": 3.56
+          }
+        },
+        "top_copy_sizes": [
+          {
+            "kind": "D2D",
+            "bytes": 10240,
+            "count": 1314,
+            "total_mib": 12.83
+          },
+          {
+            "kind": "D2D",
+            "bytes": 61440,
+            "count": 1062,
+            "total_mib": 62.23
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4,
+            "count": 852,
+            "total_mib": 0.0
+          },
+          {
+            "kind": "D2H",
+            "bytes": 2624,
+            "count": 438,
+            "total_mib": 1.1
+          },
+          {
+            "kind": "D2H",
+            "bytes": 1048576,
+            "count": 438,
+            "total_mib": 438.0
+          },
+          {
+            "kind": "H2D",
+            "bytes": 4864,
+            "count": 437,
+            "total_mib": 2.03
+          },
+          {
+            "kind": "D2D",
+            "bytes": 20,
+            "count": 354,
+            "total_mib": 0.01
+          },
+          {
+            "kind": "D2H",
+            "bytes": 160,
+            "count": 297,
+            "total_mib": 0.05
+          }
+        ],
+        "top_kernels": [
+          {
+            "name": "kernel",
+            "count": 179274,
+            "sum_ms": 7197.78
+          },
+          {
+            "name": "mul_mat_q",
+            "count": 10611,
+            "sum_ms": 541.29
+          },
+          {
+            "name": "recurrent_record_kernel",
+            "count": 21024,
+            "sum_ms": 218.99
+          },
+          {
+            "name": "recurrent_fold_kernel",
+            "count": 438,
+            "sum_ms": 145.12
+          },
+          {
+            "name": "causal_attention_small_t_i8_tiled_kernel",
+            "count": 9219,
+            "sum_ms": 131.04
+          },
+          {
+            "name": "quantize_vector_kernel",
+            "count": 117624,
+            "sum_ms": 109.31
+          },
+          {
+            "name": "gdn_norm_gating_27_simt",
+            "count": 21024,
+            "sum_ms": 84.11
+          },
+          {
+            "name": "rmsnorm_cta_bf16x2_kernel",
+            "count": 44238,
+            "sum_ms": 55.56
+          }
+        ],
+        "board_metrics": {
+          "SMs Active": {
+            "n": 9451,
+            "mean_pct": 84.59,
+            "p95_pct": 94
+          },
+          "SM Issue": {
+            "n": 9451,
+            "mean_pct": 30.54,
+            "p95_pct": 39
+          },
+          "Tensor Active": {
+            "n": 9451,
+            "mean_pct": 1.56,
+            "p95_pct": 9
+          },
+          "DRAM Read Bandwidth": {
+            "n": 9451,
+            "mean_pct": 55.8,
+            "p95_pct": 87
+          },
+          "DRAM Write Bandwidth": {
+            "n": 9451,
+            "mean_pct": 1.66,
+            "p95_pct": 6
+          },
+          "PCIe RX Throughput": {
+            "n": 9451,
+            "mean_pct": 0.39,
+            "p95_pct": 1
+          },
+          "PCIe TX Throughput": {
+            "n": 9451,
+            "mean_pct": 1.08,
+            "p95_pct": 1
+          }
+        }
+      }
+    },
+    "client_timing": {
+      "mode": "gen-wrap-kvmem",
+      "runs": [
+        {
+          "ttft_ms": 1338.95,
+          "decode_ms": 9451.56,
+          "total_ms": 10790.51,
+          "chunk_gaps": {
+            "n_events": 438,
+            "mean_ms": 21.46,
+            "p50_ms": 20.67,
+            "p95_ms": 31.04,
+            "p99_ms": 31.96,
+            "max_ms": 58.01,
+            "top5_ms": [
+              58.01,
+              34.58,
+              33.93,
+              32.11,
+              31.96
+            ]
+          },
+          "text": "#001 | RESIDENT | 0x0000 | 0.42 ms | PASS\n#002 | EVICTED | 0x0001 | 1.15 ms | FAIL\n#003 | RESIDENT | 0x0002 | 0.38 ms | PASS\n#004 | STAGING | 0x0003 | 2.10 ms | WARN\n#005 | RESIDENT | 0x0004 | 0.45 ms | PASS\n#006 | EVICTED | 0x0005 | 1.22 ms | FAIL\n#007 | RESIDENT | 0x0006 | 0.41 ms | PASS\n#008 | STAGING | 0x0007 | 1.95 ms | WARN\n#009 | RESIDENT | 0x0008 | 0.39 ms | PASS\n#010 | EVICTED | 0x0009 | 1.18 ms | FAIL\n#011 | RESIDENT | 0x000A | 0.44 ms | PASS\n#012 | STAGING | 0x000B | 2.05 ms | WARN\n#013 | RESIDENT | 0x000C | 0.40 ms | PASS\n#014 | EVICTED | 0x000D | 1.25 ms | FAIL\n#015 | RESIDENT | 0x000E | 0.43 ms | PASS\n#016 | STAGING | 0x000F | 1.98 ms | WARN\n#017 | RESIDENT | 0x0010 | 0.37 ms | PASS\n#018 | EVICTED | 0x0011 | 1.12 ms | FAIL\n#019 | RESIDENT | 0x0012 | 0.46 ms | PASS\n#020 | STAGING | 0x0013 | 2.12 ms | WARN\n#021 | RESIDENT | 0x0014 | 0.41 ms | PASS\n#022 | EVICTED | 0x0015 | 1.20 ms | FAIL\n#023 | RESIDENT | 0x0016 | 0.39 ms | PASS\n#024 | STAGING | 0x0017 | 1.96 ms | WARN\n#025 | RESIDENT | 0x0018 | 0.44 ms | PASS\n#026 | EVICTED | 0x0019 | 1.17 ms | FAIL\n#027 | RESIDENT | 0x001A | 0.42 ms | PASS\n#028 | STAGING | 0x001B | 2.08 ms | WARN\n#029 | RESIDENT | 0x001C | 0.38 ms | PASS\n#030 | EVICTED | 0x001D | 1.23 ms | FAIL\n#031 | RESIDENT | 0x001E | 0.45 ms | PASS\n#032 | STAGING | 0x001F | 1.99 ms | WARN\n#033 | RESIDENT | 0x0020 | 0.40 ms | PASS\n#034 | EVICTED | 0x0021 | 1.14 ms | FAIL\n#035 | RESIDENT | 0x0022 | 0.43 ms | PASS\n#036 | STAGING | 0x0023 | 2.11 ms | WARN\n#037 | RESIDENT | 0x0024 | 0.39 ms | PASS\n#038 | EVICTED | 0x0025 | 1.21 ms | FAIL\n#039 | RESIDENT | 0x0026 | 0.46 ms | PASS\n#040 | STAGING | 0x0027 | 1.97 ms | WARN\n#041 | RESIDENT | 0x0028 | 0.41 ms | PASS\n#042 | EVICTED | 0x0029 | 1.19 ms | FAIL\n#043 | RESIDENT | 0x002A | 0.38 ms | PASS\n#044 | STAGING | 0x002B | 2.06 ms | WARN\n#045 | RESIDENT | 0x002C | 0.44 ms | PASS\n#046 | EVICTED | 0x002D | 1.16 ms | FAIL\n#047 | RESIDENT | 0x002E | 0.42 ms | PASS\n#048 | STAGING | 0x002F | 2.13 ms | WARN\n#049 | RESIDENT | 0x0030 | 0.37 ms | PASS\n#050 | EVICTED | 0x0031 | 1.24 ms | FAIL\n#051 | RESIDENT | 0x0032 | 0.45 ms | PASS\n#052 | STAGING | 0x0033 | 1.98 ms | WARN\n#053 | RESIDENT | 0x0034 | 0.40 ms | PASS\n#054 | EVICTED | 0x0035 | 1.13 ms | FAIL\n#055 | RESIDENT | 0x0036 | 0.43 ms | PASS\n#056 | STAGING | 0x0037 | 2.10 ms | WARN\n#057 | RESIDENT | 0x0038 | 0.39 ms | PASS\n#058 | EVICTED | 0x0039 | 1.22 ms | FAIL\n#059 | RESIDENT | 0x003A | 0.46 ms | PASS\n#060 | STAGING | 0x003B | 1.96 ms | WARN\n#061 | RESIDENT | 0x003C | 0.41 ms | PASS\n#062 | EVICTED | 0x003D | 1.18 ms | FAIL\n#063 | RESIDENT | 0x003E | 0.38 ms | PASS\n#064 | STAGING | ",
+          "usage": {
+            "completion_tokens": 1600,
+            "completion_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "prompt_tokens": 1431,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 3031
+          }
+        }
+      ]
+    },
+    "server_log": [
+      "KVMEM_CONFIG SinkTokens: 0 -> 64 tokens (block alignment)",
+      "KVMEM_CONFIG Prefill: 1024 -> 512 tokens (prefill alignment and Reserve limit)",
+      "2026-11-26 13:36:32.039  INFO  build 0.19.ninfer1+kvmem-89c6698-ninfer-bb98e6d4-sm120a",
+      "2026-11-26 13:36:32.223  INFO  starting engine",
+      "2026-11-26 13:36:32.252  INFO  engine | KVMEM_SCORING scorer=page-softmax agg=mean lrfu=0 lambda=0.5 top_frac=0.90000000000000002 graph_alpha=0.20000000000000001",
+      "2026-11-26 13:36:32.252  INFO  engine | KVMEM_LIMITS query_max_tokens=512 query_replay_max_tokens=2048",
+      "2026-11-26 13:36:32.399  INFO  engine | device profile nvidia-geforce-rtx-5080-sm120: 78 routed keys (built in: RTX 5080 at 360 W, 2026-10-16)",
+      "2026-11-26 13:36:33.107  INFO  loading weights | 8.49 GiB",
+      "2026-11-26 13:36:35.411  INFO  weights ready | 8.49 GiB | 2.3s | 3.68 GiB/s",
+      "2026-11-26 13:36:35.416  INFO  engine | CUDA graph probe starting",
+      "2026-11-26 13:36:38.127  INFO  engine | CUDA graph probe measured 28.0 MiB; planning allowance 256.0 MiB (second not needed)",
+      "2026-11-26 13:36:38.529  INFO  CUDA graphs ready | 321 ms",
+      "2026-11-26 13:36:38.530  INFO  engine ready | swift-1.5-qwen3.8-27b-gsq-rco-iq2xs | total 6.3s | weights 8.49 GiB | CUDA sync auto",
+      "2026-11-26 13:36:38.530  INFO  capacity | KV 2,560 tokens, int8, explicit | pages 40/40 | runtime 781.8 MiB | free 5.59 GiB",
+      "2026-11-26 13:36:38.530  INFO  context cache | root only",
+      "2026-11-26 13:36:38.773  INFO  listening on http://127.0.0.1:18113 | model swift15 | auth disabled",
+      "2026-11-26 13:36:38.773  INFO  api base http://127.0.0.1:18113/v1",
+      "2026-11-26 13:36:39.227  INFO  req#1 started | openai-chat stream | 1 message | max output 16 | thinking off",
+      "2026-11-26 13:36:39.728  INFO  req#1 done | openai-chat | stop token | prompt 21 | output 4 | cache 0 (0.0%) | TTFT 440 ms | total 512 ms | prefill 49.1 tok/s | decode 78.0 tok/s | mtp accepted 3/6 (50.0%)",
+      "2026-11-26 13:36:43.259  INFO  req#2 started | openai-chat stream | 1 message | max output 1,600 | thinking off",
+      "2026-11-26 13:36:43.787  INFO  throughput | 5.0s | prefill 4.2 tok/s (21 tok) | decode 0.6 tok/s (3 tok) | running 1 (prefill 1) | batch 1.00 | host 8.4% (423 ms)",
+      "2026-11-26 13:36:48.774  INFO  throughput | 5.0s | prefill 287.0 tok/s (1,431 tok) | decode 151.6 tok/s (756 tok) | running 1 (decode-ready 1) | batch 1.00 | host 22.1% (1.1s)",
+      "2026-11-26 13:36:53.785  INFO  throughput | 5.0s | decode 165.4 tok/s (829 tok) | running 1 (decode-ready 1) | batch 1.00 | host 7.9% (396 ms)",
+      "2026-11-26 13:36:53.941  INFO  req#2 done | openai-chat | output limit | prompt 1,431 | output 1,600 | cache 0 (0.0%) | TTFT 1.3s | total 10.8s | prefill 1.17k tok/s | decode 175.6 tok/s | mixed speculation accepted 1,161/1,978 (58.7%) | ngram 0/396 accepted, 27 rounds",
+      "2026-11-26 13:36:58.774  INFO  throughput | 5.0s | decode 2.8 tok/s (14 tok) | running 0 | batch 1.00 | host 1.1% (55.9 ms)"
+    ]
+  }
+}

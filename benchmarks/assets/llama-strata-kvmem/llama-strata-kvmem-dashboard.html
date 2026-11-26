@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>llama.cpp vs Strata &amp; KVMem 全景实测与 Profiling 仪表盘（审核订正版）</title>
+  <!-- 仅依赖外部 allowlisted gstatic Tailwind CSS 与宿主注入 CSS 语义主题变量 -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .tab-btn { transition: all 0.15s ease; }
+    svg text { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+    #tooltip {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.1s ease;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased m-0 p-4 md:p-6">
+  <div id="tooltip" class="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-xs shadow-lg max-w-sm"></div>
+
+  <div class="max-w-7xl mx-auto space-y-5">
+    <!-- Header -->
+    <header class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 md:p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <div class="text-xs font-medium text-[var(--primary)] tracking-wide">RTX 5080 (16,303 MiB = 15.92 GiB) · Windows 11 · Core Ultra 7 270K Plus · 87.35 GiB RAM</div>
+        <h1 class="text-lg md:text-xl font-bold mt-1">原版 llama.cpp vs Strata、KVMem 协同与 L0/L1/L2 全景可视化（审校修正版）</h1>
+        <p class="text-xs text-[var(--muted-foreground)] mt-1">数据综合自各引擎实测记录、Nsight Systems 2026.1.3 零丢包提取、ETW/SMART 设备计数器及 NInfer 实机日志；每张图表均为单一量纲、零基准横轴，并附带可展开的精确数据明细表。</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs shrink-0">
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2">
+          <div class="text-[var(--muted-foreground)]">IQ2_XS 同预算无 MTP</div>
+          <div class="font-bold text-sm mono mt-0.5 text-[var(--chart-1)]">60.89 vs 94.70</div>
+          <div class="text-[var(--muted-foreground)]">1.56× (MTP 1.92×)</div>
+        </div>
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2">
+          <div class="text-[var(--muted-foreground)]">Q5 同约束 3 轮中位数</div>
+          <div class="font-bold text-sm mono mt-0.5 text-[var(--chart-2)]">P6 2.359 &gt; Strata 2.207</div>
+          <div class="text-[var(--muted-foreground)]">P6 vs 原生 +35.1%</div>
+        </div>
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2">
+          <div class="text-[var(--muted-foreground)]">PolyStrata 220K (n=1)</div>
+          <div class="font-bold text-sm mono mt-0.5 text-[var(--chart-3)]">Decode 2.83×</div>
+          <div class="text-[var(--muted-foreground)]">TTFT -34.97% | E2E 1.60×</div>
+        </div>
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2">
+          <div class="text-[var(--muted-foreground)]">NInfer 22K T2 召回</div>
+          <div class="font-bold text-sm mono mt-0.5 text-[var(--chart-4)]">29.28× (FP16 31.7×)</div>
+          <div class="text-[var(--muted-foreground)]">369.77 / 335.77 ms</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="flex flex-wrap gap-2 border-b border-[var(--border)] pb-3" id="tabs">
+      <button data-tab="moe" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-[var(--border)]">1. llama.cpp vs Strata (IQ2 &amp; Q5 OOC)</button>
+      <button data-tab="nsight" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-[var(--border)]">2. Nsight 显微剖析 (MoE &amp; NInfer)</button>
+      <button data-tab="kvmem" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-[var(--border)]">3. KVMem 拐点与 27B/35B-A3B</button>
+      <button data-tab="ninfer" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-[var(--border)]">4. NInfer 7 组对比 &amp; PI Agent</button>
+      <button data-tab="tiered" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-[var(--border)]">5. L0/L1/L2 前缀与 Hybrid 体积比</button>
+    </nav>
+
+    <main id="panel-container" class="space-y-4"></main>
+  </div>
+
+  <script>
+    const tooltip = document.getElementById('tooltip');
+
+    function cssVar(name, fallback) {
+      const val = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return val || fallback;
+    }
+
+    function palette() {
+      return {
+        fg: cssVar('--foreground', '#e5e7eb'),
+        muted: cssVar('--muted-foreground', '#9ca3af'),
+        border: cssVar('--border', '#374151'),
+        card: cssVar('--card', '#111827'),
+        bg: cssVar('--background', '#030712'),
+        c1: cssVar('--chart-1', '#3b82f6'),
+        c2: cssVar('--chart-2', '#10b981'),
+        c3: cssVar('--chart-3', '#f59e0b'),
+        c4: cssVar('--chart-4', '#ef4444'),
+        c5: cssVar('--chart-5', '#8b5cf6'),
+        c6: cssVar('--chart-6', '#06b6d4'),
+      };
+    }
+
+    function bindTooltip(el, html) {
+      el.addEventListener('mouseenter', () => { tooltip.innerHTML = html; tooltip.style.opacity = '1'; });
+      el.addEventListener('mousemove', (e) => {
+        tooltip.style.left = Math.min(window.innerWidth - 360, e.clientX + 14) + 'px';
+        tooltip.style.top = Math.min(window.innerHeight - 150, e.clientY + 14) + 'px';
+      });
+      el.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+      el.setAttribute('tabindex', '0');
+      el.addEventListener('focus', (e) => {
+        const rect = el.getBoundingClientRect();
+        tooltip.innerHTML = html;
+        tooltip.style.opacity = '1';
+        tooltip.style.left = Math.min(window.innerWidth - 360, rect.left + 12) + 'px';
+        tooltip.style.top = Math.max(8, rect.top - 50) + 'px';
+      });
+      el.addEventListener('blur', () => { tooltip.style.opacity = '0'; });
+    }
+
+    function svgEl(tag, attrs = {}) {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+      return el;
+    }
+
+    // Strict zero-baseline horizontal bar chart with accessible details table & zero double-unit bug
+    function renderHBarChart(container, { title, subtitle, unit, maxVal, groups, colspan2 = false }) {
+      const P = palette();
+      const card = document.createElement('div');
+      card.className = `bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-2 ${colspan2 ? 'lg:col-span-2' : ''}`;
+      card.innerHTML = `
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 class="text-sm font-semibold">${title}</h3>
+          <span class="text-xs text-[var(--muted-foreground)]">${subtitle || ''}</span>
+        </div>
+      `;
+
+      const seriesMap = new Map();
+      groups.forEach(g => g.bars.forEach(b => { if (!seriesMap.has(b.series)) seriesMap.set(b.series, b.color); }));
+      if (seriesMap.size > 1) {
+        const leg = document.createElement('div');
+        leg.className = 'flex flex-wrap gap-3 text-xs text-[var(--muted-foreground)] pb-1';
+        seriesMap.forEach((col, name) => {
+          leg.innerHTML += `<span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:${col}"></span>${name}</span>`;
+        });
+        card.appendChild(leg);
+      }
+
+      const labelW = 215;
+      const rightPad = 115;
+      const W = 720;
+      const plotW = W - labelW - rightPad;
+      const barH = 18;
+      const barGap = 5;
+      const groupGap = 14;
+      let curY = 12;
+      const groupCoords = groups.map(g => {
+        const yStart = curY;
+        const h = g.bars.length * (barH + barGap) - barGap;
+        curY += h + groupGap;
+        return { g, yStart, h };
+      });
+      const H = curY + 20;
+
+      const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, class: 'w-full h-auto overflow-visible', role: 'img', 'aria-label': title });
+
+      for (let i = 0; i <= 4; i++) {
+        const val = (maxVal / 4) * i;
+        const x = labelW + (val / maxVal) * plotW;
+        svg.appendChild(svgEl('line', { x1: x, y1: 6, x2: x, y2: H - 20, stroke: P.border, 'stroke-dasharray': i === 0 ? '' : '3,3', 'stroke-opacity': '0.6' }));
+        const t = svgEl('text', { x: x, y: H - 4, fill: P.muted, 'font-size': '11', 'text-anchor': 'middle' });
+        t.textContent = Number.isInteger(val) ? val : val.toFixed(1);
+        svg.appendChild(t);
+      }
+
+      groupCoords.forEach(({ g, yStart, h }) => {
+        const lbl = svgEl('text', { x: labelW - 10, y: yStart + h / 2 + 4, fill: P.fg, 'font-size': '11.5', 'text-anchor': 'end', 'font-weight': '500' });
+        lbl.textContent = g.label;
+        svg.appendChild(lbl);
+
+        g.bars.forEach((b, bi) => {
+          const y = yStart + bi * (barH + barGap);
+          const textStr = b.labelText ? b.labelText : `${b.value} ${unit}`;
+          if (b.missing || b.value === null) {
+            const box = svgEl('rect', { x: labelW, y: y, width: 120, height: barH, rx: 3, fill: 'none', stroke: b.color, 'stroke-dasharray': '4,3', style: 'cursor:pointer' });
+            bindTooltip(box, `<div class="font-semibold">${g.label} · ${b.series}</div><div class="mono mt-1 font-bold" style="color:${b.color}">${textStr}</div>${b.note ? `<div class="text-[var(--muted-foreground)] mt-1">${b.note}</div>` : ''}`);
+            svg.appendChild(box);
+            const valTxt = svgEl('text', { x: labelW + 6, y: y + 13, fill: b.color, 'font-size': '11', class: 'mono' });
+            valTxt.textContent = textStr;
+            svg.appendChild(valTxt);
+          } else {
+            const w = Math.max(2, (b.value / maxVal) * plotW);
+            const rect = svgEl('rect', { x: labelW, y: y, width: w, height: barH, rx: 3, fill: b.color, opacity: '0.92', style: 'cursor:pointer' });
+            bindTooltip(rect, `<div class="font-semibold">${g.label} · ${b.series}</div><div class="mono mt-1 font-bold" style="color:${b.color}">${textStr}</div>${b.note ? `<div class="text-[var(--muted-foreground)] mt-1">${b.note}</div>` : ''}`);
+            svg.appendChild(rect);
+            const valTxt = svgEl('text', { x: labelW + w + 6, y: y + 13, fill: P.fg, 'font-size': '11', class: 'mono' });
+            valTxt.textContent = textStr;
+            svg.appendChild(valTxt);
+          }
+        });
+      });
+
+      card.appendChild(svg);
+
+      // Keyboard-accessible data table
+      const det = document.createElement('details');
+      det.className = 'text-xs pt-1';
+      let rows = '';
+      groups.forEach(g => g.bars.forEach(b => {
+        const textStr = b.labelText ? b.labelText : `${b.value} ${unit}`;
+        rows += `<tr class="border-t border-[var(--border)]"><td class="py-1 pr-2">${g.label}</td><td class="py-1 pr-2 text-[var(--muted-foreground)]">${b.series}</td><td class="py-1 pr-2 mono">${textStr}</td><td class="py-1 text-[var(--muted-foreground)]">${b.note || '—'}</td></tr>`;
+      }));
+      det.innerHTML = `<summary class="cursor-pointer text-[var(--muted-foreground)] hover:text-[var(--foreground)] select-none">展开数值与口径明细</summary>
+        <div class="overflow-x-auto mt-2"><table class="w-full text-left border-collapse"><thead><tr class="text-[var(--muted-foreground)]"><th class="pb-1 pr-2">项目</th><th class="pb-1 pr-2">分组</th><th class="pb-1 pr-2">数值</th><th class="pb-1">边界说明</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      card.appendChild(det);
+
+      container.appendChild(card);
+    }
+
+    function renderLogAxisLineChart(container, { title, subtitle, xLabels, xPositions, yLabel, maxVal, series }) {
+      const P = palette();
+      const card = document.createElement('div');
+      card.className = 'bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-2';
+      card.innerHTML = `<div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="text-sm font-semibold">${title}</h3><span class="text-xs text-[var(--muted-foreground)]">${subtitle || ''}</span></div>`;
+
+      const leg = document.createElement('div');
+      leg.className = 'flex flex-wrap gap-4 text-xs text-[var(--muted-foreground)]';
+      series.forEach(s => leg.innerHTML += `<span class="inline-flex items-center gap-1.5"><span class="w-3 h-0.5 inline-block" style="background:${s.color};height:3px"></span>${s.name}</span>`);
+      card.appendChild(leg);
+
+      const W = 680, H = 255;
+      const padL = 56, padR = 32, padT = 20, padB = 38;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, class: 'w-full h-auto overflow-visible', role: 'img', 'aria-label': title });
+
+      for (let i = 0; i <= 4; i++) {
+        const v = (maxVal / 4) * i;
+        const y = padT + plotH - (v / maxVal) * plotH;
+        svg.appendChild(svgEl('line', { x1: padL, y1: y, x2: W - padR, y2: y, stroke: P.border, 'stroke-dasharray': i === 0 ? '' : '3,3', 'stroke-opacity': '0.6' }));
+        const t = svgEl('text', { x: padL - 8, y: y + 4, fill: P.muted, 'font-size': '11', 'text-anchor': 'end' });
+        t.textContent = Number.isInteger(v) ? v : v.toFixed(0);
+        svg.appendChild(t);
+      }
+
+      const logMin = Math.log10(xPositions[0]), logMax = Math.log10(xPositions[xPositions.length - 1]);
+      xPositions.forEach((pos, idx) => {
+        const frac = (Math.log10(pos) - logMin) / Math.max(1e-6, logMax - logMin);
+        const x = padL + frac * plotW;
+        const t = svgEl('text', { x, y: H - 10, fill: P.fg, 'font-size': '11.5', 'text-anchor': 'middle', 'font-weight': '500' });
+        t.textContent = xLabels[idx];
+        svg.appendChild(t);
+      });
+
+      series.forEach(s => {
+        const pts = s.values.map((v, idx) => {
+          const frac = (Math.log10(xPositions[idx]) - logMin) / Math.max(1e-6, logMax - logMin);
+          const x = padL + frac * plotW;
+          const y = padT + plotH - (v / maxVal) * plotH;
+          return { x, y, v, lbl: xLabels[idx], note: s.notes ? s.notes[idx] : '' };
+        });
+        const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+        svg.appendChild(svgEl('path', { d, fill: 'none', stroke: s.color, 'stroke-width': '2.6' }));
+        pts.forEach(p => {
+          const c = svgEl('circle', { cx: p.x, cy: p.y, r: 5.5, fill: p.color || s.color, stroke: P.card, 'stroke-width': '2', style: 'cursor:pointer' });
+          bindTooltip(c, `<div class="font-semibold">${s.name} @ ${p.lbl}</div><div class="mono font-bold mt-1" style="color:${s.color}">${p.v} ${yLabel}</div>${p.note ? `<div class="text-[var(--muted-foreground)] mt-1">${p.note}</div>` : ''}`);
+          svg.appendChild(c);
+          const lbl = svgEl('text', { x: p.x, y: p.y - 10, fill: P.fg, 'font-size': '11', 'text-anchor': 'middle', class: 'mono' });
+          lbl.textContent = p.v;
+          svg.appendChild(lbl);
+        });
+      });
+
+      card.appendChild(svg);
+      container.appendChild(card);
+    }
+
+    function renderTab(tab) {
+      const P = palette();
+      const root = document.getElementById('panel-container');
+      root.innerHTML = '';
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.className = `tab-btn px-3.5 py-2 rounded-lg text-xs font-medium border ${
+          active
+            ? 'bg-[var(--primary)] text-[var(--primary-foreground)] border-[var(--primary)]'
+            : 'bg-[var(--card)] text-[var(--muted-foreground)] border-[var(--border)] hover:text-[var(--foreground)]'
+        }`;
+      });
+
+      if (tab === 'moe') {
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4';
+        root.appendChild(grid);
+
+        renderHBarChart(grid, {
+          title: 'IQ2_XS Decode：256 输出阶梯消融 vs 768 输出同预算对测',
+          subtitle: '区分独立 256-out 无 MTP 阶梯与 768-out 15,000 MiB 跨引擎对照',
+          unit: 'tok/s',
+          maxVal: 135,
+          groups: [
+            { label: '256输出 · 无MTP 无缓存基线', bars: [{ series: 'Decode (无MTP)', value: 27.03, color: P.c4, note: '注: TILED_MM 跌至 10.8; OFFLOAD_MIN_BATCH=1 仅 27.05' }] },
+            { label: '256输出 · 无MTP 阶梯 2/3/5G 档', bars: [
+              { series: '1,998 MiB (62.4% 命中)', value: 44.6, color: P.c1 },
+              { series: '2,997 MiB (70.3% 命中)', value: 48.0, color: P.c1, note: '加 cpu-share=0.5 跌至 31.7 tok/s' },
+              { series: '4,999 MiB (80.2% 命中)', value: 52.4, color: P.c1 }
+            ]},
+            { label: '768输出 · 15G 目标 (无 MTP)', bars: [
+              { series: 'llama.cpp (9.08 GiB / 90.0%)', value: 60.89, color: P.c1, note: 'CPU 0.96 核 / GPU 72%' },
+              { series: 'Strata 0.1.58', value: 94.70, color: P.c2, note: '1.56× | CPU 15.55 核 / GPU 97%' }
+            ]},
+            { label: '768输出 · 15G 目标 (开启 MTP)', bars: [
+              { series: 'llama.cpp (6.54 GiB / 80.3%)', value: 62.21, color: P.c1, note: '草稿权重 2,305.68 MiB 使少配 ~2.54 GiB 缓存；CPU 0.97 核' },
+              { series: 'Strata 0.1.58', value: 119.25, color: P.c2, note: '1.92× | CPU 14.46 核 / GPU 98% | MTP 64.1% vs 72.3%' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'IQ2_XS 长提示与监控场景 (区分 TTFT 与引擎阶段)',
+          subtitle: '1560 英文 (无MTP) 与 long-28k (9,801 tok) 端到端/TTFT',
+          unit: 's',
+          maxVal: 110,
+          groups: [
+            { label: '1560 英文 (无MTP) 客户端 TTFT', bars: [
+              { series: 'llama.cpp (331 tok/s 区间)', value: 4.73, color: P.c1, note: '另一开 MTP 轮为 4.51 s (349 tok/s)' },
+              { series: 'Strata (1,851 tok/s 区间)', value: 0.86, color: P.c2, note: '另一开 MTP 轮为 1.12 s (1,440 tok/s)' }
+            ]},
+            { label: 'long-28k (9,801 in) 客户端 TTFT', bars: [
+              { series: 'llama.cpp (E2E 1.20 tok/s)', value: 100.74, color: P.c4, note: '引擎 Prefill 97.30 tok/s / Decode 21.22 tok/s' },
+              { series: 'Strata (E2E 6.34 tok/s)', value: 17.10, color: P.c2, note: '端到端 5.28× | 引擎 Prefill 577.6 tok/s / Decode 39.9 tok/s' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'UD-Q5_K_XL (147.416 GiB) 同约束 3 轮 Decode 中位数与 I/O 深度筛选',
+          subtitle: '24 GiB WS / ~4G GPU / MTP=0 / tail_skip=0 (P6与Strata 16G RAM池; 原生mmap)',
+          unit: 'tok/s',
+          maxVal: 3.0,
+          groups: [
+            { label: '三方同约束 · Native llama', bars: [{ series: '3 轮中位数', value: 1.747, color: P.c4, note: '算术均值 1.752 tok/s | QD/I 0/0' }] },
+            { label: '三方同约束 · llama.cpp P6', bars: [{ series: '3 轮中位数 (+35.1%)', value: 2.359, color: P.c2, note: '算术均值 2.372 | 对 Strata 一负两胜 | QD/I 0/0' }] },
+            { label: '三方同约束 · Strata 0.1.58', bars: [{ series: '3 轮中位数', value: 2.207, color: P.c3, note: '范围 0.76–2.54；第1轮慢段拉低均值至 1.837 | QD/I 5/18' }] },
+            { label: 'P6 深度筛选 (2 轮中位数)', bars: [
+              { series: 'depth = 1', value: 1.34, color: P.c5, note: '两轮 2.01 / 0.67 (补采出现 13.42s 慢步)' },
+              { series: 'depth = 2 (默认)', value: 2.29, color: P.c5, note: '2.28 / 2.30' },
+              { series: 'depth = 4', value: 2.48, color: P.c5, note: '2.44 / 2.53 (第2轮 p99 升 15.6%)' },
+              { series: 'depth = 8 (候选)', value: 2.60, color: P.c2, note: '2.51 / 2.69 (+13.5%, QD/I 0/1)' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'UD-Q5_K_XL 启动就绪、READY 后 TTFT 与 ETW 物理盘读',
+          subtitle: '分面单量纲展示时间 (s) 与 ETW 物理读 (MiB/tok)',
+          unit: 's',
+          maxVal: 85,
+          groups: [
+            { label: 'READY 后首字 TTFT (s)', bars: [
+              { series: 'Native (READY 5.86s)', value: 76.96, color: P.c4 },
+              { series: 'P6 (READY 2.63s, 估总 32.0s)', value: 28.97, color: P.c1 },
+              { series: 'Strata (READY 22.32s, 估总 33.6s)', value: 11.28, color: P.c2 }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'UD-Q5_K_XL 每步物理读盘 (ETW Q5 分片 127 步均摊)',
+          subtitle: '严格纯设备/分片 ETW 物理读 (非应用逻辑字节)',
+          unit: 'MiB/tok',
+          maxVal: 650,
+          colspan2: true,
+          groups: [
+            { label: 'Native llama (mmap 命中页缓存)', bars: [{ series: 'ETW 物理读', value: 129.9, color: P.c4, note: '64 KiB 随机缺页读；其余热页由工作集外系统缓存满足' }] },
+            { label: 'llama.cpp P6 (角色精确分组)', bars: [{ series: 'ETW 物理读', value: 461.2, color: P.c1, note: '1.1 MiB 级对齐直读' }] },
+            { label: 'Strata 0.1.58 (gap<=1M 合并)', bars: [{ series: 'ETW 物理读', value: 574.4, color: P.c3, note: '包含合并跨区间隙与高队列并发 (QD p50/p95=5/18)' }] }
+          ]
+        });
+      }
+
+      if (tab === 'nsight') {
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4';
+        root.appendChild(grid);
+
+        renderHBarChart(grid, {
+          title: 'Nsight 256-tok 解码阶段墙钟与同步/空洞区间分解 (`llama.cpp` vs `Strata`)',
+          subtitle: '零截断真实 0–5,500 ms 刻度轴：1.674× 真实比例完整保留',
+          unit: 'ms',
+          maxVal: 5500,
+          groups: [
+            { label: 'NVTX Decode 墙钟耗时', bars: [
+              { series: 'llama.cpp (12,351 Graph, 63流)', value: 4955.0, color: P.c4, note: '无 MTP | 4,955 ms (4.955s)' },
+              { series: 'Strata 0.1.58 (250 Graph, 4流)', value: 2961.0, color: P.c2, note: '无 MTP | 2,961 ms (2.961s)，比例 1.674×' }
+            ]},
+            { label: 'cudaStream/EventSynchronize 并集', bars: [
+              { series: 'llama.cpp (36,377 次 Sync)', value: 2745.35, color: P.c4, note: '含与 GPU 重叠 2,433.74 ms，纯未重叠仅 311.61 ms (占墙钟 6.29%)' },
+              { series: 'Strata (688 次: 626 Stream+62 Event)', value: 141.50, color: P.c2, note: '纯未重叠 28 ms' }
+            ]},
+            { label: 'GPU 无已记录 CUDA 活动空洞', bars: [
+              { series: 'llama.cpp (7,878 空洞 >=50us)', value: 2047.0, color: P.c4, note: '占墙钟 41.3%' },
+              { series: 'Strata (空洞 12.3%)', value: 363.0, color: P.c2, note: '图内另有 382.7 ms 纯轮询 wait_flag' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'Nsight 256-tok 主力 Kernel 累计时长分解 (注意各流可重叠，不可直接相加成墙钟)',
+          subtitle: '来自 kernels.csv (llama 791,128 事件 vs Strata 472,339 事件)',
+          unit: 'ms',
+          maxVal: 1200,
+          groups: [
+            { label: 'llama.cpp Top Kernels', bars: [
+              { series: 'mul_mat_vec_q (107,383次)', value: 1061.2, color: P.c1 },
+              { series: 'mul_mat_vec_f (123,159次)', value: 877.8, color: P.c1 },
+              { series: 'rms_norm_f32 + quantize_q8_1', value: 245.1, labelText: '126.9 + 118.2 ms', color: P.c5 }
+            ]},
+            { label: 'Strata Top Kernels', bars: [
+              { series: 'native_iq4_xs_mmvq (45,108次)', value: 577.5, color: P.c2 },
+              { series: 'wait_flag_ge 门铃轮询 (36,084次)', value: 421.3, color: P.c3 },
+              { series: 'fetch_blobs 跨PCIE读取 (12,028次)', value: 256.4, color: P.c6 },
+              { series: 'native_gu_swiglu (24,056次)', value: 237.4, color: P.c2 }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: '实机 NInfer + KVMem Nsight：PCIe 拷贝字节对比 (含 FP16 消融)',
+          subtitle: '纯 MiB 单一量纲（与下方毫秒算力图完全分离）',
+          unit: 'MiB',
+          maxVal: 2700,
+          groups: [
+            { label: '8K Prefill (6,860 tok) D2H', bars: [
+              { series: 'no-kvmem (10次 Sync)', value: 146.82, color: P.c1, note: '其中 3,145,728×96 = 288 MiB 属于 D2D 拷贝，非 D2H' },
+              { series: 'kvmem 默认 FP32 (50 Sync)', value: 693.47, color: P.c3, note: '额外 184.9 MiB Packed KV + 432 MiB GDN' },
+              { series: 'kvmem + --gdn-state-fp16', value: 477.47, color: P.c2, note: '精确减少 216.0 MiB (-31.1%)' }
+            ]},
+            { label: '8K Decode 对比', bars: [
+              { series: 'no-kvmem decode_8k 底层事件', value: null, labelText: '事件缺测 (客户端 1,501.48ms)', color: P.c4, missing: true, note: 'generate-prefill 差值近似为 206.67 MiB' },
+              { series: 'kvmem FP32 decode_8k D2H', value: 215.57, color: P.c3, note: '客户端 1,418.84 ms (62 轮)' },
+              { series: 'kvmem FP16 decode_8k D2H', value: 142.56, color: P.c2, note: '客户端 1,392.35 ms (-33.9%)' }
+            ]},
+            { label: '22K T1 驱逐 (19,479 in, B=4K)', bars: [
+              { series: 'FP32 H2D / D2H', value: 2496.22, labelText: 'H2D 2,496.2 / D2H 1,256.0 MiB', color: P.c4, note: '含 1,972 MiB = 2.068 GB 块回填' },
+              { series: 'FP16 H2D / D2H', value: 2424.22, labelText: 'H2D 2,424.2 / D2H 1,040.0 MiB', color: P.c5 }
+            ]},
+            { label: '22K T2 召回 (99.8%命中)', bars: [
+              { series: 'FP32 H2D (D2H 460.2 MiB)', value: 604.71, color: P.c3, note: 'admission_policy 装回 304.60 MiB (26.83 ms)' },
+              { series: 'FP16 H2D (D2H 244.2 MiB)', value: 460.71, color: P.c2, note: 'admission_policy 降至 232.60 MiB (24.03 ms)' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: '实机 NInfer 阶段墙钟、mul_mat_q 算力与 gen_reserve 片段间隔 (纯 ms 量纲)',
+          subtitle: '3,031 total tok (1,431+1,600) > 2,048+512；使用 SSE 非空片段到达间隔',
+          unit: 'ms',
+          maxVal: 12000,
+          groups: [
+            { label: '22K T1 驱逐 vs T2 召回 Prefill', bars: [
+              { series: 'T1 FP32 墙钟 (mul_mat_q 7,713.5 ms)', value: 10827.47, color: P.c4 },
+              { series: 'T2 FP32 召回 (mul_mat_q 55.7 ms)', value: 369.77, color: P.c3, note: '快 29.28×; mul_mat_q 下降 99.3%' },
+              { series: 'T2 FP16 召回 (mul_mat_q 55.7 ms)', value: 335.77, color: P.c2, note: '同轮比 FP32 再省 9.2% (相比 T1 FP16 10,648.9 ms 快 31.7×)' }
+            ]},
+            { label: '1,600 out SSE 片段间隔 (p50 / p95 / p99 / max)', bars: [
+              { series: '--no-kvmem (449 样本, 170.4 tok/s)', value: 32.25, labelText: 'p50:20.1 / p95:30.7 / p99:31.0 / max:32.25 ms', color: P.c1, note: 'Decode Sync 450 次 (并集 8,964.0 ms)' },
+              { series: 'KVMem B=2K R=512 (438 样本, 175.6 tok/s)', value: 58.01, labelText: 'p50:20.7 / p95:31.0 / p99:32.0 / max:58.01 ms', color: P.c3, note: 'Sync 1,616 次 (并集 8,687.5 ms); H2D +70.1 / D2D +82.9 MiB' }
+            ]}
+          ]
+        });
+      }
+
+      if (tab === 'kvmem') {
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4';
+        root.appendChild(grid);
+
+        renderHBarChart(grid, {
+          title: 'PolyStrata 35B-A3B + KVMem (B=8192) 不同长度下的吞吐对照',
+          subtitle: '注: 58K 与 220K 为高度重复合成长文单次对比 (n=1)',
+          unit: 'tok/s',
+          maxVal: 210,
+          groups: [
+            { label: '55 tokens (超短)', bars: [
+              { series: 'PolyStrata 原生', value: 191.1, color: P.c4 },
+              { series: 'PolyStrata + KVMem', value: 173.4, color: P.c2, note: '0.91× (-9%)' }
+            ]},
+            { label: '58,011 tokens (n=1)', bars: [
+              { series: 'PolyStrata 原生 (TTFT 13.924s)', value: 173.6, color: P.c4 },
+              { series: 'PolyStrata + KVMem (TTFT 16.329s)', value: 161.2, color: P.c2, note: '0.93× (-7%); TTFT 慢 1.17×' }
+            ]},
+            { label: '220,529 tokens (n=1)', bars: [
+              { series: 'PolyStrata 原生 (TTFT 94.935s)', value: 58.7, color: P.c4, note: '专家缓存命中 89.8% / E2E 4.94 tok/s' },
+              { series: 'PolyStrata + KVMem (TTFT 61.740s)', value: 165.9, color: P.c2, note: 'Decode 2.83× / 专家命中 100% / E2E 7.90 (1.60×)' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: '27B (Dense FFN · 3:1 GDN混合) vs 35B-A3B MoE：Nsight 12K 搬运',
+          subtitle: '修正标注：27B 主干亦含 GDN/Attention 3:1 混合，非全层 Attention',
+          unit: 'MB',
+          maxVal: 2300,
+          groups: [
+            { label: 'D2H 换出/统计 (12K)', bars: [
+              { series: 'Qwen3.8-27B (IQ3_XXS)', value: 2074.3, color: P.c4, note: '总搬运 4,764.0 MB (5.12×), Sync 5.36s (3,051次)' },
+              { series: 'Qwen3.6-35B-A3B (IQ2_XXS)', value: 358.2, color: P.c2, note: '总搬运 931.1 MB, Sync 1.74s (2,032次)' }
+            ]},
+            { label: 'H2D 召回回填 (12K)', bars: [
+              { series: 'Qwen3.8-27B', value: 1418.1, color: P.c4 },
+              { series: 'Qwen3.6-35B-A3B', value: 566.0, color: P.c2 }
+            ]},
+            { label: 'D2D 槽位整理 (12K)', bars: [
+              { series: 'Qwen3.8-27B', value: 1271.6, color: P.c4 },
+              { series: 'Qwen3.6-35B-A3B', value: 6.9, color: P.c2 }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: '105K/128K Decode 速率与 Prefill 耗时对照 (分轴单量纲)',
+          subtitle: '在 B=4096, R=1024 下节省 3,790 MiB 显存并全对',
+          unit: 'tok/s',
+          maxVal: 70,
+          groups: [
+            { label: '105K Decode 吞吐', bars: [
+              { series: 'llama --no-kvmem', value: 37.70, color: P.c4 },
+              { series: 'llama --kvmem (B=4096)', value: 57.88, color: P.c2 }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: '105K Prefill 与 193K (256K ctx, Beta-3 审计) 两轮耗时与得分',
+          subtitle: '193K no-kvmem 仅 14.65 tok/s 预填充 (外推 3.66 小时); 下图展示可用轮次耗时',
+          unit: 's',
+          maxVal: 400,
+          groups: [
+            { label: '105K Prefill 耗时', bars: [
+              { series: '--no-kvmem', value: 88.76, color: P.c4 },
+              { series: '--kvmem', value: 54.60, color: P.c2 }
+            ]},
+            { label: '193K KVMem+none (T1 2/4 → T2 2/3)', bars: [
+              { series: 'T1 总耗时 (TTFT 96.34s)', value: 114.95, color: P.c1 },
+              { series: 'T2 总耗时 (TTFT 2.44s)', value: 17.96, color: P.c6 }
+            ]},
+            { label: '193K KVMem+medium (T1 2/4 → T2 2/3)', bars: [
+              { series: 'T1 总耗时 (TTFT 96.51s)', value: 121.09, color: P.c1 },
+              { series: 'T2 总耗时 (TTFT 3.70s)', value: 31.89, color: P.c6 }
+            ]},
+            { label: '193K KVMem+xhigh (T1 0/4 length → T2 3/3)', bars: [
+              { series: 'T1 总耗时 (TTFT 94.90s, 16384 tok)', value: 373.50, color: P.c3, note: '53,667 思考字符致 output 上限截断' },
+              { series: 'T2 总耗时 (TTFT 3.38s, 5901思考字符)', value: 53.48, color: P.c2, note: '3/3 (100%)' }
+            ]}
+          ]
+        });
+      }
+
+      if (tab === 'ninfer') {
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4';
+        root.appendChild(grid);
+
+        renderHBarChart(grid, {
+          title: 'Exp 3A & 3B：紧主机池 (HostMiB=2560/1536) 文件层冷回访 TTFT',
+          subtitle: '注：使用实际 TTFT (非请求总 wall_s)；Windows 页缓存仍可参与',
+          unit: 's',
+          maxVal: 70,
+          groups: [
+            { label: 'Exp 3A · 3×66K Session A/B (No SSD)', bars: [
+              { series: 'Session A TTFT (wall 38.86s)', value: 38.7084, color: P.c4, note: 'spill=0, cached=0' },
+              { series: 'Session B TTFT (wall 38.60s)', value: 38.4462, color: P.c4 }
+            ]},
+            { label: 'Exp 3A · 3×66K (+SSD 16 GiB)', bars: [
+              { series: 'Session A TTFT (wall 2.03s)', value: 1.9011, color: P.c2, note: '20.36× | spill 5.52 GiB (5,923,860,480 B)' },
+              { series: 'Session B TTFT (wall 2.15s)', value: 1.9941, color: P.c2, note: '19.28× | cached=65,987/66,018' }
+            ]},
+            { label: 'Exp 3A · 3×66K (16G Ample RAM)', bars: [
+              { series: 'Session A / B TTFT', value: 0.5741, labelText: '0.5741 / 0.5559 s', color: P.c1, note: 'wall 0.71 / 0.69 s' }
+            ]},
+            { label: 'Exp 3B · 单会话 99K (HostMiB=1536)', bars: [
+              { series: '首次入库 99,013 tok 总耗时', value: 65.13, color: P.c4, note: 'spill 2.06 GiB (2,215,133,184 B)' },
+              { series: '5% 锚点回访 TTFT (wall 1.63s)', value: 1.4861, color: P.c2, note: 'cached=99,014/99,042，命中 ORION-5591-DELTA' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'Exp 5 Speculative & Exp 7 PI Agent (各轮实际表现)',
+          subtitle: 'PI :low 共 4 个请求/3 次工具调用；避免人工绘制单一中点',
+          unit: 'tok/s',
+          maxVal: 225,
+          groups: [
+            { label: 'Exp 5 · 散文生成', bars: [
+              { series: 'SD Off', value: 75.75, color: P.c4 },
+              { series: 'MTP-4 Adaptive (45.9% acc)', value: 123.65, color: P.c2, note: '+63.2%' },
+              { series: 'MTP-4 + Ngram31', value: 123.19, color: P.c5 }
+            ]},
+            { label: 'Exp 5 · 代码 / JSON', bars: [
+              { series: 'SD Off', value: 75.25, color: P.c4 },
+              { series: 'MTP-4 Adaptive (65.7% 混合)', value: 204.53, color: P.c2, note: '+171.8%' },
+              { series: 'MTP-4 + Ngram31 (ngram 16/832)', value: 198.13, color: P.c5 }
+            ]},
+            { label: 'Exp 7 · PI (:low) 4 轮实测', bars: [
+              { series: '最低轮 Decode (61.0s 全程)', value: 157.5, color: P.c6, note: '4 请求 TTFT: 1.2s / 203ms / 4.0s / 222ms' },
+              { series: '最高轮 Decode (cache 99.9%)', value: 182.4, color: P.c2, note: '4 轮命中: 0% / 99.7% / 57.9% / 99.9%' }
+            ]},
+            { label: 'Exp 7 · PI (:xhigh) 触上限轮', bars: [
+              { series: '32,768 tokens (240.6s)', value: 141.0, color: P.c3, note: 'mixed accept 48.5%' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'Exp 1 显存准入比较 (MiB) —— 失败样本绝不伪造成实测柱',
+          subtitle: '16,303 MiB = 15.92 GiB; free 为引擎账本值',
+          unit: 'MiB',
+          maxVal: 16500,
+          groups: [
+            { label: '--no-kvmem 200K', bars: [{ series: '启动准入', value: null, labelText: 'FATAL 准入失败 (需8.70 GB > 余7.30 GB)', color: P.c4, missing: true }] },
+            { label: '--no-kvmem 128K', bars: [{ series: '显存占用 (free 1.25 GiB)', value: 14147, color: P.c3 }] },
+            { label: 'KVMem 200K (B=36K,R=16K)', bars: [{ series: '显存占用 (free 4.57 GiB)', value: 10745, color: P.c2, note: '10.493 GiB / 11.267 GB' }] }
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'Exp 2 · 104.5K 五针召回准确率 (%)',
+          subtitle: '32K 滑窗丢弃中段记忆仅 2/5；KVMem 保持 5/5 满分召回',
+          unit: '%',
+          maxVal: 110,
+          groups: [
+            { label: '5-Needle 命中率对比 (0–100%)', bars: [
+              { series: '32K 滑窗', value: 40, labelText: '40% (2/5 · ~15.3s/问)', color: P.c4, note: '注: 仅命中尾端近窗针，长程记忆丢失' },
+              { series: 'KVMem (6,144 物理槽)', value: 100, labelText: '100% (5/5 · 25%/75% 仅 1.67/1.77s)', color: P.c2, note: '5%/50%/95% 问句 cached=0 耗时 62.35–62.99s (部分 chunk 冷重算)' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'Exp 4 · 6,144 物理槽长生成防 OOM / 防崩盘 (tokens)',
+          subtitle: '4K/8K 连续输出突破 6K 物理 KV 容量红线，KVMem 自然完成 stop',
+          unit: 'tokens',
+          maxVal: 9000,
+          groups: [
+            { label: '实际生成输出长度 (B=4K, R=2K)', bars: [
+              { series: '--no-kvmem 硬撞墙', value: 6088, labelText: '6,088 tokens (46.99s)', color: P.c4 },
+              { series: 'KVMem (限额 8,192)', value: 8137, labelText: '8,137 tokens (自然 stop, 63.92s)', color: P.c2 }
+            ]}
+          ]
+        });
+      }
+
+      if (tab === 'tiered') {
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4';
+        root.appendChild(grid);
+
+        renderHBarChart(grid, {
+          title: 'pi-cache-bench (21 请求 SWE-bench): 原生双槽位单次校准反杀',
+          subtitle: '工作集 1,506 MiB < 4 GiB RAM 配额',
+          unit: 's',
+          maxVal: 125,
+          groups: [
+            { label: '单客户端对照', bars: [
+              { series: '无缓存', value: 114.90, color: P.c4 },
+              { series: '槽位 + 检查点', value: 79.47, color: P.c1 },
+              { series: '+ 4 GiB RAM 缓存', value: 79.77, color: P.c5 }
+            ]},
+            { label: '双客户端 · 1 槽受限对照', bars: [
+              { series: '无缓存 (prefill 55.34s)', value: 111.20, color: P.c4 },
+              { series: '1槽 + 检查点 (prefill 25.12s)', value: 87.52, color: P.c1 },
+              { series: '1槽 + 4 GiB RAM (prefill 17.69s, -29.6%)', value: 80.84, color: P.c2, note: 'prefill tokens 40,918→26,523 (-35.18%)' }
+            ]},
+            { label: '双客户端 · 原生双槽位校准 (n=1)', bars: [
+              { series: '-np 2 关闭 RAM 池', value: 58.45, color: P.c6, note: '单次部署校准 | TTFT 中位 0.646s | 输入 token 缓存命中比例 87.4% (13,457 prefill tok)' }
+            ]}
+          ]
+        });
+
+        renderHBarChart(grid, {
+          title: 'prefix-state-bench (固定边界 360 次计时, Logits 零误差)',
+          subtitle: '注：H2D 7.7–7.9 GB/s 为包含状态安装的等效安装速率；使用热文件反复恢复',
+          unit: 'ms',
+          maxVal: 9200,
+          groups: [
+            { label: 'P = 4K tokens (232.5 MB)', bars: [
+              { series: '原生冷重算', value: 2200.1, color: P.c4 },
+              { series: '首次导出+SSD落盘', value: 337.3, color: P.c3 },
+              { series: '无缓冲 SSD 恢复到首字', value: 187.6, color: P.c2, note: '快 11.7×' }
+            ]},
+            { label: 'P = 8K tokens (308.1 MB)', bars: [
+              { series: '原生冷重算', value: 4296.2, color: P.c4 },
+              { series: '首次导出+SSD落盘', value: 422.5, color: P.c3 },
+              { series: '无缓冲 SSD 恢复到首字', value: 219.2, color: P.c2, note: '快 19.6×' }
+            ]},
+            { label: 'P = 16K tokens (459.2 MB)', bars: [
+              { series: '原生冷重算', value: 8718.1, color: P.c4 },
+              { series: '首次导出+SSD落盘', value: 602.2, color: P.c3 },
+              { series: '无缓冲 SSD 恢复到首字', value: 295.6, color: P.c2, note: '快 29.5×' }
+            ]}
+          ]
+        });
+
+        renderLogAxisLineChart(grid, {
+          title: 'Hybrid 27B (q4_0) 分块体积比：Recurrent 状态 (156.9 MB) / KV（对数横轴）',
+          subtitle: '约 8,503 tokens 处状态字节数等于 Attention KV 字节数（纯体积平衡，非经济盈亏点）',
+          xLabels: ['256 tok', '784 tok (vLLM)', '2,048 tok', '8,192 tok'],
+          xPositions: [256, 784, 2048, 8192],
+          yLabel: '倍 (状态/KV)',
+          maxVal: 36,
+          series: [
+            { name: 'Recurrent 体积 / KV 体积', color: P.c3, values: [33.2, 10.8, 4.2, 1.04],
+              notes: ['256-tok 块状态下 33.2×', 'vLLM+LMCache Qwen3.6-27B 块长', 'b9209 检查点周期', '8,192 tok 时 1.04×；约 8,503 tok 达 1:1'] }
+          ]
+        });
+      }
+    }
+
+    let activeTab = 'moe';
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => { activeTab = btn.dataset.tab; renderTab(activeTab); });
+    });
+    window.addEventListener('themechange', () => renderTab(activeTab));
+    renderTab(activeTab);
+  </script>
+</body>
+</html>

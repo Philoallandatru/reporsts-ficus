@@ -1,5 +1,7 @@
 # 实验与评测报告索引
 
+- [本地大模型推理栈终极技术报告：llama.cpp vs Strata、KVMem 实证与源码优化路线](llama-strata-kvmem-master-report.md) — 综合 22 组受控实测、Nsight Systems 显微剖面、ETW/SMART 设备计数与源码锚点，并经 `codex-cli` 交叉审核订正（附 [5-Tab 交互式仪表盘](../assets/llama-strata-kvmem/llama-strata-kvmem-dashboard.html)）。
+- [NInfer + KVMem v0.19.1 (RTX 5080) 实测、PI Agent 闭环与边界总结](ninfer-kvmem-rtx5080-experiments.md) — 7 组 RTX 5080 控制变量实验（准入/5-Needle/SSD 溢出/gen_reserve/MTP4/8K 负税）、PI Agent 闭环与 7 组 Nsight 显微收敛总结。
 - [NVMe 门铃槽位恢复与通知分支回归](ssd-doorbell-regression.md) — 三道合成回归题、可导入报告和 Pi/MCP 复跑命令。
 - [Qwen3.8 超出 RAM + 显存后的 Strata 单卡实测](experiment-report.md) — 实测日期：2026-11-09。工作目录：`C:\Users\Administrator\Documents\Code\tasks\strata-lab`。
 - [公平对比：llama.cpp 的 MoE 缓存到底能补多少（2026-11-11）](fair-compare-report.md) — 同一份 IQ2_XS、同一台 RTX 5080（GPU0）、同一组 4 条请求、16 计算线程与同一 CPU 亲和掩码、

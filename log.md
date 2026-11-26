@@ -2,6 +2,7 @@
 
 ## 2026-11-26
 
+- 归档全栈综合实测与 Codex CLI 审核成果至 `benchmarks/`：新增 [终极技术报告](benchmarks/reports/llama-strata-kvmem-master-report.md) 与 [NInfer + KVMem RTX 5080 对照及 PI Agent 总结](benchmarks/reports/ninfer-kvmem-rtx5080-experiments.md)，配套 5-Tab 交互式仪表盘放入 [benchmarks/assets/llama-strata-kvmem/llama-strata-kvmem-dashboard.html](benchmarks/assets/llama-strata-kvmem/llama-strata-kvmem-dashboard.html)，`Nsight Systems 2026.1.3` 摘要 JSON 与 `codex-cli 0.169.0` 只读交叉审核记录归入 `benchmarks/runs/ninfer-kvmem-20261126/`。
 - 同步 [NVMe 门铃槽位恢复与通知分支回归](benchmarks/reports/ssd-doorbell-regression.md)，收录三道合成题、原答、工作台报告和可独立运行的 Pi/MCP 工具。真实 SD 工单等待工程师签发记录后单独评估。
 
 ## 2026-11-23
