@@ -1,5 +1,6 @@
 # 实验与评测报告索引
 
+- [NVMe 门铃槽位恢复与通知分支回归](ssd-doorbell-regression.md) — 三道合成回归题、可导入报告和 Pi/MCP 复跑命令。
 - [Qwen3.8 超出 RAM + 显存后的 Strata 单卡实测](experiment-report.md) — 实测日期：2026-11-09。工作目录：`C:\Users\Administrator\Documents\Code\tasks\strata-lab`。
 - [公平对比：llama.cpp 的 MoE 缓存到底能补多少（2026-11-11）](fair-compare-report.md) — 同一份 IQ2_XS、同一台 RTX 5080（GPU0）、同一组 4 条请求、16 计算线程与同一 CPU 亲和掩码、
 - [KVMem 实测：提升在哪里（本机，2026-11-11）](kvmem-report.md) — 安装对象：[kvmem/kvmem](https://github.com/kvmem/kvmem) v0.19.1，Windows x64 / RTX 50 统一包。

@@ -1,5 +1,9 @@
 # 变更日志（log.md）
 
+## 2026-11-26
+
+- 同步 [NVMe 门铃槽位恢复与通知分支回归](benchmarks/reports/ssd-doorbell-regression.md)，收录三道合成题、原答、工作台报告和可独立运行的 Pi/MCP 工具。真实 SD 工单等待工程师签发记录后单独评估。
+
 ## 2026-11-23
 
 - **迁移与治理修理**：将 `Code/my-code/nvmespec` 清洁迁移至 `reporsts/nvmespec/`（排除 `node_modules/`、`dist/`、`tmp/`、`__pycache__/`）。

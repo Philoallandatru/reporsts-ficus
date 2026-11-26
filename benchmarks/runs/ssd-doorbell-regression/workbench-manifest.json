@@ -1,0 +1,30 @@
+{
+  "title": "门铃槽位恢复与通知分支 · 3 道合成回归题 · 代理复核",
+  "conditionMetric": {
+    "criterionId": "C2",
+    "label": "处置条件完整 / 计划"
+  },
+  "acceptanceMetric": {
+    "criterionId": "C3",
+    "label": "验收可执行 / 计划"
+  },
+  "latencyMetric": {
+    "label": "交卷耗时中位数",
+    "stages": {
+      "retrieval": "检索",
+      "draft": "独立起草",
+      "review": "签发",
+      "other": "其他"
+    }
+  },
+  "rounds": [
+    {
+      "id": "scoped",
+      "label": "限定门铃验收范围",
+      "config": "单次 Pi 会话 · 8 次取证 · 原答逐条复核",
+      "plan": "questions.jsonl",
+      "reviews": "reviewed.jsonl"
+    }
+  ],
+  "caseBank": "case-bank.jsonl"
+}

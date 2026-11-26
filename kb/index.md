@@ -7,7 +7,7 @@
 - [nvme/](nvme/CONCEPT_INDEX.md) — NVMe Base 2.1 核心概念、队列、命名空间、Sanitize 与 Fabrics
 - [pcie/](pcie/CONCEPT_INDEX.md) — PCIe 协议栈、事务层、链路层、配置空间与电源管理
 - [pci-firmware/](pci-firmware/CONCEPT_INDEX.md) — PCI Firmware 3.3（BIOS、UEFI、ACPI、Expansion ROM，含 [CONTEXT-MAP.md](pci-firmware/CONTEXT-MAP.md)）
-- [ssd-design/](ssd-design/CONCEPT_INDEX.md) — SSD 控制器架构、FTL、NAND 可靠性与 OCP 规范
+- [ssd-design/](ssd-design/index.md) — SSD 控制器架构、FTL、NAND 可靠性与 OCP 规范，含 [NVMe 门铃回归](../benchmarks/reports/ssd-doorbell-regression.md)
 - [storage/](storage/index.md) — NVMe SSD 开关机、启动验签、TPM/Opal 解锁与断电时序实测（来自 Ficus-KB）
 - [specs/](specs/index.md) — OKF 规范、M.2 供电/时钟/复位与 PCIe-NVMe 建链读盘导读（来自 Ficus-KB）
 

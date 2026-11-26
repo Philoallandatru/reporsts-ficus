@@ -1,5 +1,9 @@
 # ssd-design-wiki 索引
 
+## 协议回归
+
+- [NVMe 门铃槽位恢复与通知分支回归](../../benchmarks/reports/ssd-doorbell-regression.md) — 盲题、可导入报告和 Pi/MCP 复跑方法。
+
 ## 补充归档索引（Governance Auto-Synced）
 
 - [控制器硬件模块边界](wiki/concepts/controller-hardware-module-boundaries.md) — SSD 控制器硬件不是一个单一 DMA 加 NAND 控制器。为了让固件可控、性能可预测、错误可恢复，硬件模块之间要有清楚边界和可观测状态。

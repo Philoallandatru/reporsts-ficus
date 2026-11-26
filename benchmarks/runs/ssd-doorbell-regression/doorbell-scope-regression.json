@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "title": "门铃槽位恢复与通知分支 · 3 道合成回归题 · 代理复核",
+  "cases": [
+    {
+      "family": "doorbell-post-reset-same-address-fresh-write-proof",
+      "split": "challenge",
+      "question": "控制器重启后沿用原物理页。本次工单要签最高合法 SQ Tail/CQ Head 的实际快速路径恢复，能验收吗？",
+      "observations": [
+        "发生 Controller Level Reset 后，按当前 MPS 和队列分配重新检查了两页边界、页对齐和所有权。新 Doorbell Buffer Config 的匹配有效 Admin CQE 为 SCT=0、SC=0。",
+        "本代次最高合法 SQ 与 CQ 均为 QID=9。同次两类事件的轨迹分别记录了主机写 PRP1 的对应 Shadow 槽、控制器写 PRP2 的对应 EventIdx 槽，实测地址和条目均与该代次配置及工单值匹配。"
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "text": "签当前实测范围。",
+          "weight": 4,
+          "critical": true,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        },
+        {
+          "id": "C2",
+          "text": "规则是设置不跨重启保留，本次使用新的成功配置和轨迹。",
+          "weight": 3,
+          "critical": true,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        },
+        {
+          "id": "C3",
+          "text": "归档新 Admin SQE/CQE 和 QID=9 的两类实际槽位、值和各写入方。",
+          "weight": 3,
+          "critical": false,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "reject": [
+        "用旧记录解释本轮，或因物理地址沿用直接拒签。"
+      ],
+      "id": "SSD-F15-08",
+      "referenceAnswer": "可验收本代次最高合法 SQ Tail/CQ Head 的快速路径。归档同代次配置和成功 Admin CQE、两页布局、QID=9 两种事件各自的地址和值及方向。过线为新代配置成功和对应 SQ/CQ 的两页同次访问都匹配。",
+      "evidence": [
+        {
+          "id": "P1",
+          "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+          "page": 445,
+          "section": "Doorbell Buffer Config",
+          "anchor": "are not retained across a Controller Level Reset"
+        },
+        {
+          "id": "P2",
+          "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+          "page": 446,
+          "section": "Doorbell Buffer Config",
+          "anchor": "addresses are invalid, then a status code"
+        }
+      ]
+    },
+    {
+      "family": "eventidx-validated-noncrossing-no-required-mmio",
+      "split": "challenge",
+      "question": "同一个 CQ 这次从 4 推到 7，确切 EventIdx 是 9，未写控制器 Doorbell 可以签本次规则符合吗？",
+      "observations": [
+        "当前配置成功，未回绕。比较记录证明同一 CQ 本次实际采用 EventIdx=9，Shadow 更新已捕获。",
+        "工单只验这一次是否有额外 MMIO 义务。"
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "text": "批准本次不需要额外 MMIO。",
+          "weight": 4,
+          "critical": true,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        },
+        {
+          "id": "C2",
+          "text": "用同期同项实际比较值判断，4→7 未从 ≤9 到 >9。",
+          "weight": 3,
+          "critical": true,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        },
+        {
+          "id": "C3",
+          "text": "将比较记录和 Shadow 更新绑定到指定 CQ 与此次操作。",
+          "weight": 3,
+          "critical": false,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "reject": [
+        "把任一 Shadow 更新都当成必须写控制器门铃，或外推别的操作。"
+      ],
+      "id": "SSD-F13-06",
+      "referenceAnswer": "可以签本次没有额外写的义务。4 到 7 没有跨过 9；保留同一 CQ 的旧值、新值及比较用 EventIdx=9 的原始记录，签发只覆盖本次。",
+      "evidence": [
+        {
+          "id": "P1",
+          "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+          "page": 702,
+          "section": "Shadow Doorbell Buffer",
+          "anchor": "the value of the corresponding EventIdx buffer entry"
+        },
+        {
+          "id": "P2",
+          "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+          "page": 702,
+          "section": "Shadow Doorbell Buffer",
+          "anchor": "also update the controller’s corresponding doorbell property"
+        }
+      ]
+    },
+    {
+      "family": "eventidx-cannot-use-post-write-sample",
+      "split": "challenge",
+      "question": "事后读到 EventIdx=12，就能证明旧 Shadow Tail=7 到新值 9 的那次没有漏写吗？",
+      "observations": [
+        "同一 SQ 不回绕，当前配置已成功。只抓到主机写 Shadow Tail=9，随后才取到该项 EventIdx=12。",
+        "控制器可在观察间隔修改 EventIdx，没有二者同次判断所用的比较记录。"
+      ],
+      "criteria": [
+        {
+          "id": "C1",
+          "text": "不能用事后 12 证明当时无需补写。",
+          "weight": 4,
+          "critical": true,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        },
+        {
+          "id": "C2",
+          "text": "控制器会更新 EventIdx，跨越以比较当时的该项值为准。",
+          "weight": 3,
+          "critical": true,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        },
+        {
+          "id": "C3",
+          "text": "取同次比较输入和实际门铃，EventIdx 在 [7,9) 时必须观察该项写 9。",
+          "weight": 3,
+          "critical": false,
+          "evidence": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "reject": [
+        "把事后 12 直接代入并判不用写。"
+      ],
+      "id": "SSD-F12-06",
+      "referenceAnswer": "暂不能判定。控制器可随时更新 EventIdx；以该次比较实际采用的对应条目为准。取旧值、新值、比较时 EventIdx 与对应 MMIO 时间线，只有比较值在 [7,9) 才须写实际门铃为 9。",
+      "evidence": [
+        {
+          "id": "P1",
+          "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+          "page": 702,
+          "section": "Shadow Doorbell Buffer",
+          "anchor": "controller may read from the Shadow Doorbell buffer"
+        },
+        {
+          "id": "P2",
+          "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+          "page": 702,
+          "section": "Shadow Doorbell Buffer",
+          "anchor": "also update the controller’s corresponding doorbell property"
+        }
+      ]
+    }
+  ],
+  "rounds": [
+    {
+      "id": "scoped",
+      "label": "限定门铃验收范围",
+      "config": "单次 Pi 会话 · 8 次取证 · 原答逐条复核",
+      "results": [
+        {
+          "caseId": "SSD-F15-08",
+          "status": "completed",
+          "answer": "**处置** 签发重启后沿用原物理页的快速路径恢复，覆盖最高合法 SQ Tail 和 CQ Head（均为 QID=9）。\n\n**判定条件**\n- NVMe 2.1 PDF 第445–446页规定 Controller Level Reset 不保留配置。两缓冲区各占一个 CC.MPS 物理页并按页对齐，且 (4 << CAP.DSTRD) × (max(NSQA, NCQA)+1) ≤ 2^(12+CC.MPS)。\n\n**现场验收**\n- **本代次重配**。记录为两页复核记录、原始 Admin SQE 及匹配的有效 CQE。通过条件为页界、对齐和所有权复核通过，PRP1/PRP2 指向复用页，SCT=0、SC=0。\n- **两类最高槽位**。记录为同次地址、条目值及写入方轨迹。通过条件为按图486，SQ/CQ 槽偏移为步长的18/19倍，四字节均落页。主机写 PRP1 Shadow，控制器写 PRP2 EventIdx，地址和值均匹配。",
+          "seconds": 13.66,
+          "toolCalls": 2,
+          "review": {
+            "usability": "ready",
+            "reason": "签本代次两个最远槽。记录包括本次 Admin SQE 和匹配成功 CQE，以及两种槽位的地址、条目值和写入方。",
+            "otherError": "",
+            "credits": {
+              "C1": 1,
+              "C2": 1,
+              "C3": 1
+            },
+            "rejectHits": [],
+            "score": 100.0,
+            "passed": true
+          },
+          "phaseSeconds": {
+            "retrieval": 0.181,
+            "draft": 0,
+            "review": 13.476,
+            "other": 0.007
+          },
+          "readPages": [
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 445
+            },
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 446
+            }
+          ]
+        },
+        {
+          "caseId": "SSD-F13-06",
+          "status": "completed",
+          "answer": "**处置** 签发本次 CQ 门铃通知规则符合，省略控制器 Doorbell MMIO 符合要求。\n\n**判定条件**\n- NVMe 2.1 PDF 第 702 页 B.5.1 规定，门铃缓冲区配置成功后，主机更新对应 Shadow 条目。比较须计入队列回绕，旧值≤对应 EventIdx 且新值>该 EventIdx 时，主机须额外写对应控制器 Doorbell，写入值为新值。\n- 当前配置成功。同一 CQ 本次未回绕，Shadow 已从 4 更新为 7，实际比较采用 EventIdx=9。旧值和新值均≤9，未触发额外写入义务。\n\n**现场验收**\n- **同一 CQ 的本次 CQ Head 更新**。记录为留存当次比较记录和 Shadow 更新捕获记录。通过条件为两份记录关联至同一 CQ、同一次更新，且比较采用该次实际 EventIdx。",
+          "seconds": 10.85,
+          "toolCalls": 2,
+          "review": {
+            "usability": "ready",
+            "reason": "核对同一 CQ 及当次 EventIdx，4 到 7 未跨越 9，因此可签本次无需额外 MMIO。",
+            "otherError": "",
+            "credits": {
+              "C1": 1,
+              "C2": 1,
+              "C3": 1
+            },
+            "rejectHits": [],
+            "score": 100.0,
+            "passed": true
+          },
+          "phaseSeconds": {
+            "retrieval": 0.176,
+            "draft": 0,
+            "review": 10.666,
+            "other": 0.007
+          },
+          "readPages": [
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 445
+            },
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 446
+            },
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 702
+            }
+          ]
+        },
+        {
+          "caseId": "SSD-F12-06",
+          "status": "completed",
+          "answer": "**处置** 暂缓签发无漏写结论。事后读到 EventIdx=12，无法证明该次通知合规。\n\n**判定条件**\n- NVMe 2.1 PDF 第 702 页 B.5.1：比较须计入队列回绕。Shadow Doorbell 从小于等于对应 EventIdx 变为大于它时，主机还须将对应 MMIO 门铃写为新值。控制器可随时更新 EventIdx。\n- 当前配置已成功，同一 SQ 的 Tail 从 7 到 9 且无回绕。仅捕获主机写入 Shadow Tail=9，随后读得 EventIdx=12，缺少该次判断实际使用的 EventIdx。\n\n**现场验收**\n- **同一 SQ 的该次 Tail 通知**。记录为同一队列代次的旧值、新值、当次比较所用 EventIdx 和对应 SQ Tail MMIO 原始轨迹。通过条件为当次 EventIdx 为 7 或 8 时，须捕获对应 MMIO 写入 9。其余值下该次无需写 MMIO。",
+          "seconds": 10.49,
+          "toolCalls": 2,
+          "review": {
+            "usability": "ready",
+            "reason": "拒绝由事后读数倒推。指出需取同一 SQ 的当次比较输入和真实 MMIO 记录，并给出写入 9 的条件。",
+            "otherError": "",
+            "credits": {
+              "C1": 1,
+              "C2": 1,
+              "C3": 1
+            },
+            "rejectHits": [],
+            "score": 100.0,
+            "passed": true
+          },
+          "phaseSeconds": {
+            "retrieval": 0.179,
+            "draft": 0,
+            "review": 10.3,
+            "other": 0.007
+          },
+          "readPages": [
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 445
+            },
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 446
+            },
+            {
+              "source": "NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+              "page": 702
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "conditionMetric": {
+    "criterionId": "C2",
+    "label": "处置条件完整 / 计划"
+  },
+  "acceptanceMetric": {
+    "criterionId": "C3",
+    "label": "验收可执行 / 计划"
+  },
+  "latencyMetric": {
+    "label": "交卷耗时中位数",
+    "stages": {
+      "retrieval": "检索",
+      "draft": "独立起草",
+      "review": "签发",
+      "other": "其他"
+    }
+  },
+  "blindContext": {
+    "spec": "PCI Express Base Specification Revision 5.0 Version 1.0 / NVM Express Base Specification, Revision 2.1 (2024-08-05)",
+    "protocol": "both",
+    "observationHeading": "现场观测"
+  }
+}
